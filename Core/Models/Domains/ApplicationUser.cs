@@ -9,12 +9,12 @@ namespace MwProject.Core.Models.Domains
 {
     public class ApplicationUser : IdentityUser
     {
-        /*
+        
         public ApplicationUser()
         {
             Projects = new Collection<Project>();
         }
         public ICollection<Project> Projects;
-        */
+        
     }
 }

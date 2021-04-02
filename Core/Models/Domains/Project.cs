@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace MwProject.Core.Models.Domains
         public DateTime? Term { get; set; }
 
         [Required(ErrorMessage = "Pole wartość est wymagane.")]
+        [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
         public decimal Value { get; set; }
 
