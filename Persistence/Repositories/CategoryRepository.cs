@@ -15,9 +15,10 @@ namespace MwProject.Persistence.Repositories
             _context = context;
         }
 
-        public void AddCategory(Category category)
+        public IEnumerable<Category> GetCategories()
         {
-            _context.Categories.Add(category);
+            return _context.Categories
+                .OrderBy(x => x.Name).ToList();
         }
 
         public Category GetCategory(int id)
@@ -27,16 +28,15 @@ namespace MwProject.Persistence.Repositories
             return category;
         }
 
+        public void AddCategory(Category category)
+        {
+            _context.Categories.Add(category);
+        }
+
         public void DeleteCategory(int id)
         {
             var categoryToDelete = _context.Categories.Single(x => x.Id == id);
             _context.Categories.Remove(categoryToDelete);
-        }
-
-        public IEnumerable<Category> GetCategories()
-        {
-            return _context.Categories
-                .OrderBy(x => x.Name).ToList();
         }
 
         public void UpdateCategory(Category category)
