@@ -1,0 +1,242 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h2>@Model.Heading</h2>
+
+@if (Model.Project.Id != 0)
+{
+    <button class="btn btn-primary mb-3"
+            onclick='window.location.href = "@Url.Action("InvoicePosition","Home",new { invoiceId = Model.Project.Id })"'>
+        Dodaj pozycję
+    </button>
+
+    <button class="btn btn-secondary mb-3"
+            onclick="generatePdf()">
+        Generuj PDF
+    </button>
+
+    <button id="printButton" class="btn btn-secondary mb-3">
+        Drukuj 1
+    </button>
+
+    <button class="btn btn-secondary mb-3" onclick="printInvoice()">
+        Drukuj 2
+    </button>
+}
+
+
+<div class="row">
+    <div class="col-lg-6">
+        @using (Html.BeginForm("Project", "Project"))
+        {
+            @Html.AntiForgeryToken()
+
+            <!-- Wyświetlenie podsumowania walidacji-->
+            @Html.ValidationSummary()
+
+            if (Model.Project.Id == 0)
+            {
+                <p class="alert alert-info mb-4 mt-4">Pola tytuł, klient, sposób płatności i termin są <strong>wymagane</strong> </p>
+            }
+
+            @Html.HiddenFor(x => x.Project.Id)
+            @Html.HiddenFor(x => x.Project.UserId)
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.Title)
+                @Html.TextBoxFor(x => x.Project.Title,
+               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Project.Title)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.CategoryId)
+                @Html.DropDownListFor(x => x.Project.CategoryId,
+               new SelectList(Model.Categories, "Id", "Name"),
+               "--- Wybierz kategorię ---",
+               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Project.CategoryId)
+            </div>
+
+            if (Model.Project.Id != 0)
+            {
+                <div class="form-group mb-3">
+                    @Html.LabelFor(x => x.Project.Value)
+                    @Html.TextBoxFor(x => x.Project.Value,
+                   new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            }
+
+             <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.Term)
+                @Html.TextBoxFor(x => x.Project.Term,
+                 "{0:dd-MM-yyyy}",
+                new
+                {
+                    @class = "form-control",
+                    @id = "Term",
+                    autocomplete = "off"
+                })
+                @Html.ValidationMessageFor(x => x.Project.Term)
+            </div>
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.Description)
+                @Html.TextAreaFor(x => x.Project.Description,
+               new { @class = "form-control" })
+            </div>
+
+            <button class="btn btn-primary btn-lg mb-5" type="submit">
+                Zapisz
+            </button>
+
+
+
+        }
+    </div>
+
+    <div class="col-5 offset-1">
+        @if (Model.Project.Id != 0)
+        {
+            @*
+            @Html.Partial("_InvoicePositions", Model.Invoice.InvoicePositions)
+            *@
+
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+           $("#printButton").click(function () {
+             window.open("@Url.Action("InvoiceTemplate", "Print",new {id = Model.Project.Id })", "_blank",
+            "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=1000, height=800");
+            });
+
+        // ------
+
+        function printInvoice() {
+            var url = '@Url.Action("InvoiceTemplate", "Print")' + '?id=' + '@Model.Project.Id';
+
+            var url = '@Url.Action("InvoiceTemplate", "Print", new { id = Model.Project.Id })';
+
+            var myWindow = window.open(url, '', 'width=800,height=600');
+
+            myWindow.onload = function () {
+                myWindow.print();
+                myWindow.onafterprint = function () {
+                    myWindow.close();
+                };
+            };
+        }
+
+
+        // Generowanie PDF'a
+        function generatePdf() {
+
+            if (!confirm("Czy generujemy PDF ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("InvoiceToPdf", "Print")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.Success) {
+
+                        window.location = '@Url.Action("DownloadInvoicePdf", "Print")'
+                            + '?fileGuid=' + data.FileGuid + '&fileName=' + data.FileName;
+
+                    }
+                    else {
+                        alert(data.Message + ' x');
+                    }
+                },
+                error: function (data) {
+                        alert(data.Message);
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+            // --------------------------------------------
+        }
+
+        // Usuwanie pozycji faktury
+        // funkcja wywoływana z widoku częściowego _InvoicePositions
+        // Ważne aby była właśnie tytaj, czyli w widoku z którego jest
+        // wywoływany widok częściowy
+        function deleteInvoicePosition(positionId, invoiceId, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć pozycję faktury ?"))
+                return;
+
+             $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteInvoicePosition", "Home")",
+                 data: {
+                     positionId: positionId,
+                     invoiceId: invoiceId
+                },
+                success: function (data) {
+                    if (data.Success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                        var invoiceVal = data.InvoiceValue;
+                        $('#Invoice_Value').val(data.InvoiceValue.toFixed(2).replace(".", ","));
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                },
+                error: function (data) {
+                        alert(data.Message);
+                },
+                dataType: 'json'
+
+                });
+            // --------------------------------------------
+        }
+
+        $(document).ready(function () {
+
+            // w formatowaniu ma być precinek, a nie kropka
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+
+            // format daty
+            $.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                var isFirefox = /Firefox/.test(navigator.userAgent);
+                if (isChrome || isFirefox) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            }
+
+
+            $('#PaymentDate').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+        });
+
+    </script>
+}
+

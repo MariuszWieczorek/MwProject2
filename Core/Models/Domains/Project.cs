@@ -19,14 +19,14 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Opis")]
         public string Description { get; set; }
         
-        [Display(Name = "Wyświetlane Od")]
-        public DateTime? StartDate { get; set; }
+        [Display(Name = "Data Utworzenia")]
+        public DateTime? CreatedDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         [Display(Name = "Termin")]
         public DateTime? Term { get; set; }
 
-        [Required(ErrorMessage = "Pole wartość est wymagane.")]
+        [Required(ErrorMessage = "Pole wartość jest wymagane.")]
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
         public decimal Value { get; set; }

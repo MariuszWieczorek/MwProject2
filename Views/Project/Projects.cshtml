@@ -1,0 +1,99 @@
+﻿@model MwProject.Core.ViewModels.ProjectsViewModel
+
+@{
+    ViewBag.Title = "Projekty";
+}
+
+<h1 class="mb-3">Projekty</h1>
+
+<button 
+        class="btn btn-primary mb-3"
+        onclick='window.location.href = "@Url.Action("Project","Project")"'>
+    Dodaj
+</button>
+
+@if (Model != null && Model.Projects.Any())
+{
+<table class="table table-hover table-striped mt-3 mt-5">
+    <thead>
+        <tr>
+            <th scope="col">tytuł</th>
+            <th scope="col">klient</th>
+            <th scope="col">wartość</th>
+            <th scope="col">data</th>
+            <th scope="col">termin</th>
+            <th scope="col"> </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model.Projects)
+        {
+        <tr>
+            <td>
+                <a 
+                   class="font-weight-bold"
+                   href="@Url.Action("Project","Projects", new { id = project.Id })">
+                   @project.Title
+                </a>
+            </td>
+            <td> </td>
+            
+            <td>@project.Value zł</td>
+            <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+            <td>@project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+            <td>
+                <button 
+                        class="btn btn-danger btn-sm"
+                        onclick="deleteProject('@project.Id',this)">
+                Usuń Projekt
+                </button>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+</table>
+
+}
+else
+{
+    <div>
+        Brak projektów do wyświetlenia
+    </div>
+}     
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        // --------------------------------------------
+        function deleteProject(id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć projekt ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteProject","Project")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji DeleteProject w kontrolerze Project');
+                },
+                dataType: 'json'
+                
+                });
+            // --------------------------------------------
+        }
+    </script>
+}

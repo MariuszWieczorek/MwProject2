@@ -83,11 +83,11 @@
                         row.parentNode.removeChild(row);
                     }
                     else {
-                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd' );
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
                     }
                 },
                 error: function (data) {
-                    alert(data.Message + ' Nie znaleziono Akcji ');
+                    alert(data.message + ' Nie znaleziono Akcji ');
                 },
                 dataType: 'json'
 

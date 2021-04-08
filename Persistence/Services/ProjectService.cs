@@ -64,5 +64,14 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.FinishProject(id, userId);
             _unitOfWork.Complete();
         }
+
+        public Project NewProject(string userId)
+        {
+            return new Project()
+            {
+                UserId = userId,
+                CreatedDate = DateTime.Now,
+            };
+        }
     }
 }
