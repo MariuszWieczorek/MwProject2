@@ -114,6 +114,37 @@
 {
     <script type="text/javascript">
 
+        // ----- 
+
+        $(document).ready(function () {
+
+            $('#Term').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+
+
+            // format daty
+            $.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                var isFirefox = /Firefox/.test(navigator.userAgent);
+                if (isChrome || isFirefox) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            }
+
+            alert('doc ready');
+
+        });
+
+        // -----
            $("#printButton").click(function () {
              window.open("@Url.Action("InvoiceTemplate", "Print",new {id = Model.Project.Id })", "_blank",
             "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=1000, height=800");
@@ -207,35 +238,7 @@
             // --------------------------------------------
         }
 
-        $(document).ready(function () {
-
-            // w formatowaniu ma być precinek, a nie kropka
-            $.validator.methods.number = function (value, element) {
-                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
-            }
-
-            // format daty
-            $.validator.methods.date = function (value, element) {
-                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-                var isFirefox = /Firefox/.test(navigator.userAgent);
-                if (isChrome || isFirefox) {
-                    var d = new Date();
-                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
-                } else {
-                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
-                }
-            }
-
-
-            $('#PaymentDate').datepicker({
-                format: "dd-mm-yyyy",
-                language: "pl",
-                multidate: false,
-                autoclose: true,
-                todayHighlight: true,
-                forceParse: false
-            });
-        });
+       
 
     </script>
 }

@@ -101,7 +101,11 @@ namespace MwProject.Persistence.Repositories
 
         public void UpdateProject(Project project, string userId)
         {
-            throw new NotImplementedException();
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id && x.UserId == userId);
+            projectToUpdate.Description = project.Description;
+            projectToUpdate.Title = project.Title;
+            projectToUpdate.CategoryId = project.CategoryId;
+            projectToUpdate.Term = project.Term;
         }
     }
 }
