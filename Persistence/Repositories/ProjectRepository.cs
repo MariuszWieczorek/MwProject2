@@ -106,6 +106,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Title = project.Title;
             projectToUpdate.CategoryId = project.CategoryId;
             projectToUpdate.Term = project.Term;
+            projectToUpdate.Value = project.Value;
         }
     }
 }

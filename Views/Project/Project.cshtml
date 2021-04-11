@@ -30,7 +30,7 @@
 
 <div class="row">
     <div class="col-lg-6">
-        @using (Html.BeginForm("Project", "Project"))
+        @using (Html.BeginForm("Project", "Project", FormMethod.Post, new { id = "myform"}))
         {
             @Html.AntiForgeryToken()
 
@@ -61,49 +61,48 @@
                 @Html.ValidationMessageFor(x => x.Project.CategoryId)
             </div>
 
-            if (Model.Project.Id != 0)
-            {
-                <div class="form-group mb-3">
-                    @Html.LabelFor(x => x.Project.Value)
-                    @Html.TextBoxFor(x => x.Project.Value,
-                   new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            }
-
-             <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.Term)
-                @Html.TextBoxFor(x => x.Project.Term,
-                 "{0:dd-MM-yyyy}",
-                new
-                {
-                    @class = "form-control",
-                    @id = "Term",
-                    autocomplete = "off"
-                })
-                @Html.ValidationMessageFor(x => x.Project.Term)
-            </div>
-
-
             <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.Description)
-                @Html.TextAreaFor(x => x.Project.Description,
-               new { @class = "form-control" })
+                @Html.LabelFor(x => x.Project.Value)
+                @Html.TextBoxFor(x => x.Project.Value,
+                new { @class = "form-control", id="Value", name="Value"})
             </div>
 
-            <button class="btn btn-primary btn-lg mb-5" type="submit">
-                Zapisz
-            </button>
+            @*  , @readonly = "readonly" *@
+
+                     <div class="form-group mb-3">
+                        @Html.LabelFor(x => x.Project.Term)
+                        @Html.TextBoxFor(x => x.Project.Term,
+                         "{0:dd-MM-yyyy}",
+                        new
+                        {
+                            @class = "form-control",
+                            @id = "Term",
+                            autocomplete = "off"
+                        })
+                        @Html.ValidationMessageFor(x => x.Project.Term)
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(x => x.Project.Description)
+                        @Html.TextAreaFor(x => x.Project.Description,
+                       new { @class = "form-control" })
+                    </div>
+
+                    <button class="btn btn-primary btn-lg mb-5" type="submit">
+                        Zapisz
+                    </button>
 
 
 
-        }
-    </div>
+                }
+            </div>
 
-    <div class="col-5 offset-1">
-        @if (Model.Project.Id != 0)
-        {
-            @*
-            @Html.Partial("_InvoicePositions", Model.Invoice.InvoicePositions)
+            <div class="col-5 offset-1">
+                @if (Model.Project.Id != 0)
+                {
+                    @*
+                    @Html.Partial("_InvoicePositions", Model.Invoice.InvoicePositions)
             *@
 
         }
@@ -140,9 +139,27 @@
                 }
             }
 
-            alert('doc ready');
 
+            
+           
         });
+
+
+        $.validator.setDefaults({
+            debug: true,
+            success: "valid"
+        });
+
+
+        $("#myform").validate({
+            rules: {
+                Value: {
+                    required: true,
+                    number: true
+                }
+            }
+        });
+
 
         // -----
            $("#printButton").click(function () {
