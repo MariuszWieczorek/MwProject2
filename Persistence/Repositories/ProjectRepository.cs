@@ -107,6 +107,13 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.CategoryId = project.CategoryId;
             projectToUpdate.Term = project.Term;
             projectToUpdate.Value = project.Value;
+            projectToUpdate.MaterialCosts = project.MaterialCosts;
+            projectToUpdate.LabourCosts = project.LabourCosts;
+            projectToUpdate.PackingCosts = project.PackingCosts;
+            projectToUpdate.Markup = project.Markup;
+            projectToUpdate.GeneralCostsInPercent = project.GeneralCostsInPercent;
+            projectToUpdate.Tkw = project.Tkw;
+            projectToUpdate.Ckw = project.Ckw;
         }
     }
 }

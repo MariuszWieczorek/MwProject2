@@ -21,7 +21,7 @@ namespace MwProject.Controllers
         private readonly IProjectService _projectService;
         private readonly ICategoryService _categoryService;
 
-        private readonly int _itemPerPage = 2;
+        private readonly int _itemPerPage = 10;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public ProjectController(IProjectService projectService, ICategoryService categoryService)
