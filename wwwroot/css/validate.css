@@ -1,0 +1,32 @@
+﻿#field {
+    margin-left: .5em;
+    float: left
+}
+
+#field, label {
+    float: left;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: small
+}
+
+input {
+    border: 1px solid #000;
+    margin-bottom: .5em
+}
+
+    input.error {
+        border: 1px solid red
+    }
+
+label.error {
+    background: url(/images/unchecked.png) no-repeat;
+    padding-left: 16px;
+    margin-left: .3em
+}
+
+label.valid {
+    background: url(/images/checked.png) no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px
+}

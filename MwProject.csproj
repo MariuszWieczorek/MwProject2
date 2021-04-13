@@ -18,6 +18,7 @@
     <Folder Include="Core\Repositories\" />
     <Folder Include="Persistence\Services\" />
     <Folder Include="Persistence\Repositories\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>
