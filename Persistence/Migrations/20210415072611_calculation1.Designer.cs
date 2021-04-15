@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210415072611_calculation1")]
+    partial class calculation1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,7 +379,7 @@ namespace MwProject.Data.Migrations
             modelBuilder.Entity("MwProject.Core.Models.Domains.Calculation", b =>
                 {
                     b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
-                        .WithMany("Calculations")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -400,11 +402,6 @@ namespace MwProject.Data.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.Project", b =>
-                {
-                    b.Navigation("Calculations");
                 });
 #pragma warning restore 612, 618
         }

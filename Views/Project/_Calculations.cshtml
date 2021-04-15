@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MwProject.Core.Models.Domains.Calculation>
+
+@* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+
+<div class="row">
+    <h2>Kalkulacje</h2>
+
+    <table class="table table-hover table-striped mt-3 mb-5">
+        <thead>
+            <tr>
+                <th scope="col">TKW</th>
+                <th scope="col">Material</th>
+                <th scope="col">Labour</th>
+                <th scope="col">Packing</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var position in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                            href="@Url.Action("Calculation", "Project", new { projectId = position.ProjectId, Id = position.Id } )">
+                            @position.Tkw
+                        </a>
+                    </td>
+                    <td>@position.MaterialCosts</td>
+                    <td>@position.LabourCosts</td>
+                    <td>@position.PackingCosts zł</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteCalculation('@position.Id','@position.ProjectId',this)">
+                            Usuń Pozycję
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+      // deleteCalculation()
+    </script>
+}

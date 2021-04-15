@@ -6,6 +6,7 @@ namespace MwProject.Core
     {
         IProjectRepository Project { get; set; }
         ICategoryRepository Category { get; set; }
+        ICalculationRepository Calculation { get; set; }
         void Complete();
     }
 }

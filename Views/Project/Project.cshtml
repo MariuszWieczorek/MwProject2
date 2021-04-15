@@ -9,8 +9,8 @@
 @if (Model.Project.Id != 0)
 {
     <button class="btn btn-primary mb-3"
-            onclick='window.location.href = "@Url.Action("InvoicePosition","Home",new { invoiceId = Model.Project.Id })"'>
-        Dodaj pozycję
+            onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
+        Dodaj kalkulacje
     </button>
 
     <button class="btn btn-secondary mb-3"
@@ -65,6 +65,7 @@
                 @Html.LabelFor(x => x.Project.Value)
                 @Html.TextBoxFor(x => x.Project.Value,
                 new { @class = "form-control", id = "Value", name = "Value" })
+                @Html.ValidationMessageFor(x => x.Project.Value)
             </div>
 
             @*  , @readonly = "readonly" *@
@@ -90,42 +91,7 @@
             </div>
 
 
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.MaterialCosts)
-                @Html.TextBoxFor(x => x.Project.MaterialCosts,
-                new { @class = "form-control" })
-            </div>
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.LabourCosts)
-                @Html.TextBoxFor(x => x.Project.LabourCosts,
-                new { @class = "form-control" })
-            </div>
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.PackingCosts)
-                @Html.TextBoxFor(x => x.Project.PackingCosts,
-                new { @class = "form-control" })
-            </div>
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.Markup)
-                @Html.TextBoxFor(x => x.Project.Markup,
-                new { @class = "form-control" })
-            </div>
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.Tkw)
-                @Html.TextBoxFor(x => x.Project.Tkw,
-                new { @class = "form-control", @readonly = "readonly" })
-            </div>
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.Ckw)
-                @Html.TextBoxFor(x => x.Project.Ckw,
-                new { @class = "form-control", @readonly = "readonly" })
-            </div>
+                    
 
             <button class="btn btn-primary btn-lg mb-5" type="submit">
                 Zapisz
@@ -136,13 +102,11 @@
         }
     </div>
 
-            <div class="col-5 offset-1">
-                @if (Model.Project.Id != 0)
-                {
-                    @*
-                    @Html.Partial("_InvoicePositions", Model.Invoice.InvoicePositions)
-            *@
+    <div class="col-5 offset-1">
+        @if (Model.Project.Id != 0)
+        {
 
+            @await  Html.PartialAsync("_Calculations", Model.Project.Calculations)
         }
     </div>
 </div>
@@ -184,12 +148,12 @@
            
         });
         
-        /*
+       /*
         $.validator.setDefaults({
             debug: true,
             success: "valid"
         });
-
+       */
      
         $("#myform").validate({
             rules: {
@@ -199,7 +163,7 @@
                 }
             }
         });
-        */
+        
    
        
 

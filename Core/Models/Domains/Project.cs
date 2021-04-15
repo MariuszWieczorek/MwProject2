@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,7 +11,12 @@ namespace MwProject.Core.Models.Domains
     public class Project
     {
         public int Id { get; set; }
-       
+
+        public Project()
+        {
+            Calculations = new Collection<Calculation>();
+        }
+
         [MaxLength(50)]
         [Required(ErrorMessage = "Pole tytuł jest wymagane.")]
         [Display(Name = "Tytuł")]
@@ -45,37 +51,6 @@ namespace MwProject.Core.Models.Domains
         public Category Category { get; set; }
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
-
-        // koszty
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Koszt Materiałów PLN")]
-        public decimal MaterialCosts { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Koszt Robocizny PLN")]
-        public decimal LabourCosts { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Koszty Narzutu PLN")]
-        public decimal Markup { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Koszty Pakowania PLN")]
-        public decimal PackingCosts { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Koszty Ogólne [%]")]
-        public decimal GeneralCostsInPercent { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "TKW")]
-        public decimal Tkw { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "CKW")]
-        public decimal Ckw { get; set; }
-
-        [Display(Name = "Komentarz")]
-        public string CommentofCost { get; set; }
+        public ICollection<Calculation> Calculations { get; set; }
     }
 }
