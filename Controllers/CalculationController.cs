@@ -43,7 +43,7 @@ namespace MwProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Calculation(Calculation selectedCalculation)
+        public ActionResult Calculation(CalculationViewModel selectedCalculation)
         {
             var userId = User.GetUserId();
 
@@ -51,21 +51,20 @@ namespace MwProject.Controllers
             {
                 var vm = new CalculationViewModel()
                 {
-                    Calculation = selectedCalculation,
-                    Heading = selectedCalculation.Id == 0 ? "nowa" : "edycja"
+                    Calculation = selectedCalculation.Calculation,
+                    Heading = selectedCalculation.Calculation.Id == 0 ? "nowa" : "edycja"
                 };
 
                 return View("Calculation", vm);
             }
 
-
-            if (selectedCalculation.Id == 0)
-                _calculationService.AddCalculation(selectedCalculation, userId);
+            if (selectedCalculation.Calculation.Id == 0)
+                _calculationService.AddCalculation(selectedCalculation.Calculation, userId);
             else
-                _calculationService.UpdateCalculation(selectedCalculation, userId);
+                _calculationService.UpdateCalculation(selectedCalculation.Calculation, userId);
 
 
-            return RedirectToAction("Project","Project", new { id = selectedCalculation.ProjectId });
+            return RedirectToAction("Project","Project", new { id = selectedCalculation.Calculation.ProjectId });
 
         }
 

@@ -33,6 +33,8 @@ namespace MwProject.Persistence.Repositories
 
         public void AddCalculation(Calculation calculation, string userId)
         {
+            var tkw = calculation.MaterialCosts + calculation.LabourCosts + calculation.PackingCosts + calculation.Markup;
+            calculation.Tkw = tkw;
             _context.Calculations.Add(calculation);
         }
 
