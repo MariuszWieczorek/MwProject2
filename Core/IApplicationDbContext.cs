@@ -12,6 +12,7 @@ namespace MwProject.Core
         DbSet<Project> Projects { get; set; }
         DbSet<Category> Categories { get; set; }
         DbSet<Calculation> Calculations { get; set; }
+        DbSet<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         int SaveChanges();
     }
 }

@@ -13,6 +13,11 @@
         Dodaj kalkulacje
     </button>
 
+    <button class="btn btn-primary mb-3"
+            onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
+        Dodaj Przewidywaną Sprzedaż
+    </button>
+
     <button class="btn btn-secondary mb-3"
             onclick="generatePdf()">
         Generuj PDF
@@ -91,7 +96,7 @@
             </div>
 
 
-                    
+
 
             <button class="btn btn-primary btn-lg mb-5" type="submit">
                 Zapisz
@@ -106,7 +111,8 @@
         @if (Model.Project.Id != 0)
         {
 
-            @await  Html.PartialAsync("_Calculations", Model.Project.Calculations)
+            @await Html.PartialAsync("_Calculations", Model.Project.Calculations)
+            @await Html.PartialAsync("_EstimatedSalesValue", Model.Project.EstimatedSalesValues)
         }
     </div>
 </div>
@@ -115,7 +121,7 @@
 {
     <script type="text/javascript">
 
-        // ----- 
+        // -----
 
         $(document).ready(function () {
 
@@ -143,18 +149,18 @@
 
 
 
-           
-            
-           
+
+
+
         });
-        
+
        /*
         $.validator.setDefaults({
             debug: true,
             success: "valid"
         });
        */
-     
+
         $("#myform").validate({
             rules: {
                 Value: {
@@ -163,9 +169,9 @@
                 }
             }
         });
-        
-   
-       
+
+
+
 
 
         // -----
@@ -262,7 +268,7 @@
             // --------------------------------------------
         }
 
-       
+
 
     </script>
 }

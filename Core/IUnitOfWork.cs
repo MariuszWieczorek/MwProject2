@@ -7,6 +7,7 @@ namespace MwProject.Core
         IProjectRepository Project { get; set; }
         ICategoryRepository Category { get; set; }
         ICalculationRepository Calculation { get; set; }
+        IEstimatedSalesValueRepository EstimatedSalesValue { get; set; }
         void Complete();
     }
 }

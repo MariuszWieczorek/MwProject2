@@ -12,18 +12,25 @@ namespace MwProject.Persistence
         // readonly przy polu oznacza, że jego wartość
         // możemy zmienić tylko w konstruktorze
         private readonly IApplicationDbContext _context;
-        public UnitOfWork(IApplicationDbContext context, IProjectRepository project, ICategoryRepository category, ICalculationRepository calculationRepository)
+        public UnitOfWork(IApplicationDbContext context,
+                            IProjectRepository project,
+                            ICategoryRepository category,
+                            ICalculationRepository calculationRepository,
+                            IEstimatedSalesValueRepository estimatedSalesValueRepository
+                            )
         {
             _context = context;
             Project = project;                      // new AdvertRepository(context);
             Category = category;                    // new CategoryRepository(context);
             Calculation = calculationRepository;
+            EstimatedSalesValue = estimatedSalesValueRepository;
         }
 
         // obiekty repozytoryjne 
         public IProjectRepository Project { get; set; }
         public ICategoryRepository Category { get; set; }
         public ICalculationRepository Calculation { get; set; }
+        public IEstimatedSalesValueRepository EstimatedSalesValue { get; set; }
 
         // na koniec metoda zapisująca zmiany
         public void Complete()

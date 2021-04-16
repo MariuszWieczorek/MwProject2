@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MwProject.Core.Models.Domains.EstimatedSalesValue>
+
+@* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+
+<div class="row">
+    <h2>Przewidywana Sprzedaż</h2>
+
+    <table class="table table-hover table-striped mt-3 mb-5">
+        <thead>
+            <tr>
+                <th scope="col">Rok</th>
+                <th scope="col">Ilość</th>
+                <th scope="col">Cena</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var position in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                            href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id } )">
+                            @position.Year
+                        </a>
+                    </td>
+                    <td>@position.Qty</td>
+                    <td>@position.Price zł</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteEstimatedSalesValue('@position.Id','@position.ProjectId',this)">
+                            Usuń Pozycję
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+      // deleteEstimatedSalesValue()
+    </script>
+}

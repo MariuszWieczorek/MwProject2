@@ -39,6 +39,7 @@ namespace MwProject
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICalculationService, CalculationService>();
+            services.AddScoped<IEstimatedSalesValueService, EstimatedSalesValueService>();
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -46,6 +47,7 @@ namespace MwProject
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICalculationRepository, CalculationRepository>();
+            services.AddScoped<IEstimatedSalesValueRepository, EstimatedSalesValueRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

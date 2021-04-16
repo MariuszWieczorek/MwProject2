@@ -16,6 +16,7 @@ namespace MwProject.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Calculation> Calculations { get; set; }
+        public DbSet<EstimatedSalesValue> EstimatedSalesValues { get; set; }
 
     }
 }

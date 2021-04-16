@@ -15,6 +15,7 @@ namespace MwProject.Core.Models.Domains
         public Project()
         {
             Calculations = new Collection<Calculation>();
+            EstimatedSalesValues = new Collection<EstimatedSalesValue>();
         }
 
         [MaxLength(50)]
@@ -50,7 +51,23 @@ namespace MwProject.Core.Models.Domains
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public string UserId { get; set; }
+
+
+        [Display(Name = "Projekt zaakceptowany przez")]
+        public string confirmedBy { get; set; }
+
+        [Display(Name = "Czas zaakceptowania projektu")]
+        public DateTime ConfirmedDate { get; set; }
+
+
+        [Display(Name = "Projekt zaakceptowany przez")]
+        public string AcceptedBy { get; set; }
+        
+        [Display(Name = "Czas zaakceptowania projektu")]
+        public DateTime acceptedDate { get; set; }
+
         public ApplicationUser User { get; set; }
         public ICollection<Calculation> Calculations { get; set; }
+        public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
     }
 }

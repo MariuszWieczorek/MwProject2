@@ -13,67 +13,74 @@
         <!-- po submit wywoła się metoda Calculation w kontrolerze Calculation typu HttpPost -->
         @using (Html.BeginForm("Calculation", "Calculation"))
         {
-        @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-        <!-- Wyświetlenie podsumowania walidacji-->
-        @Html.ValidationSummary()
+            <!-- Wyświetlenie podsumowania walidacji-->
+            @Html.ValidationSummary()
 
-        if (Model.Calculation.Id == 0)
-        {
-        <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
+            if (Model.Calculation.Id == 0)
+            {
+                <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
+            }
+
+            @Html.HiddenFor(x => x.Calculation.Id)
+            @Html.HiddenFor(x => x.Calculation.ProjectId)
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.MaterialCosts)
+                @Html.TextBoxFor(x => x.Calculation.MaterialCosts,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Calculation.MaterialCosts)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.LabourCosts)
+                @Html.TextBoxFor(x => x.Calculation.LabourCosts,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Calculation.LabourCosts)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.PackingCosts)
+                @Html.TextBoxFor(x => x.Calculation.PackingCosts,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Calculation.PackingCosts)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.Markup)
+                @Html.TextBoxFor(x => x.Calculation.Markup,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Calculation.Markup)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.GeneralCostsInPercent)
+                @Html.TextBoxFor(x => x.Calculation.GeneralCostsInPercent,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Calculation.GeneralCostsInPercent)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.Tkw)
+                @Html.TextBoxFor(x => x.Calculation.Tkw,
+                new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(x => x.Calculation.Tkw)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Calculation.Ckw)
+                @Html.TextBoxFor(x => x.Calculation.Ckw,
+                new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(x => x.Calculation.Ckw)
+            </div>
+
+
+            <button class="btn btn-primary btn-lg mb-5" type="submit">
+                Zapisz
+            </button>
         }
-
-        @Html.HiddenFor(x => x.Calculation.Id)
-        @Html.HiddenFor(x => x.Calculation.ProjectId)
-
-
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.Calculation.MaterialCosts)
-        @Html.TextBoxFor(x => x.Calculation.MaterialCosts,
-        new { @class = "form-control" })
-        @Html.ValidationMessageFor(x => x.Calculation.MaterialCosts)
-    </div>
-
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.Calculation.LabourCosts)
-        @Html.TextBoxFor(x => x.Calculation.LabourCosts,
-        new { @class = "form-control" })
-        @Html.ValidationMessageFor(x => x.Calculation.LabourCosts)
-    </div>
-
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.Calculation.PackingCosts)
-        @Html.TextBoxFor(x => x.Calculation.PackingCosts,
-        new { @class = "form-control" })
-        @Html.ValidationMessageFor(x => x.Calculation.PackingCosts)
-    </div>
-
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.Calculation.Markup)
-        @Html.TextBoxFor(x => x.Calculation.Markup,
-        new { @class = "form-control" })
-        @Html.ValidationMessageFor(x => x.Calculation.Markup)
-    </div>
-
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.Calculation.Tkw)
-        @Html.TextBoxFor(x => x.Calculation.Tkw,
-        new { @class = "form-control", @readonly = "readonly" })
-        @Html.ValidationMessageFor(x => x.Calculation.Tkw)
-    </div>
-
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.Calculation.Ckw)
-        @Html.TextBoxFor(x => x.Calculation.Ckw,
-        new { @class = "form-control", @readonly = "readonly" })
-        @Html.ValidationMessageFor(x => x.Calculation.Ckw)
-    </div>
-
-
-    <button class="btn btn-primary btn-lg mb-5" type="submit">
-        Zapisz
-    </button>
-    }
     </div>
 
  
