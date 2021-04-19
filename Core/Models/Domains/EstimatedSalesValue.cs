@@ -14,7 +14,7 @@ namespace MwProject.Core.Models.Domains
         
         [Display(Name = "rok")]
         [Required(ErrorMessage = "Pole rok jest wymagane.")]
-        [Column(TypeName = "tinyint")]
+        [Column(TypeName = "int")]
         public int Year { get; set; }
         
         [Display(Name = "szacowana ilosc")]

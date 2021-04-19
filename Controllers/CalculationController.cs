@@ -68,5 +68,24 @@ namespace MwProject.Controllers
 
         }
 
+
+        [HttpPost]
+        public IActionResult DeleteCalculation(int projectId, int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _calculationService.DeleteCalculation(projectId, id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
+        }
+
+
     }
 }

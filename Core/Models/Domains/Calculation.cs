@@ -44,11 +44,11 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Komentarz")]
         public string Comment { get; set; }
         [Display(Name = "przygotował dane")]
-        public string createdBy { get; set; }
-        public DateTime createdDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
         [Display(Name = "potwierdził dane")]
-        public string confirmedBy { get; set; }
-        public DateTime confirmedDate { get; set; }
+        public string ConfirmedBy { get; set; }
+        public DateTime ConfirmedDate { get; set; }
         public Project Project { get; set; }
     }
 }

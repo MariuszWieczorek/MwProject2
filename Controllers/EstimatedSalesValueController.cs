@@ -68,5 +68,22 @@ namespace MwProject.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult DeleteEstimatedSalesValue(int projectId, int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _estimatedSalesValueService.DeleteEstimatedSalesValue(projectId,id,userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
+        }
+
     }
 }

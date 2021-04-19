@@ -70,7 +70,7 @@ else
         function deleteProject(id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć projekt ?"))
                 return;
-
+            
             $.ajax({
                 type: 'POST',
                 url: "@Url.Action("DeleteProject","Project")",
@@ -91,9 +91,12 @@ else
                     alert(data.message + ' Nie znaleziono Akcji DeleteProject w kontrolerze Project');
                 },
                 dataType: 'json'
-                
-                });
-            // --------------------------------------------
+
+            });
+            
         }
+       // --------------------------------------------
+
+    
     </script>
 }

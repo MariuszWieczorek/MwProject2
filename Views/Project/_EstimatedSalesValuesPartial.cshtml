@@ -21,7 +21,7 @@
                 <tr>
                     <td>
                         <a class="font-weight-bold"
-                            href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id } )">
+                           href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
                             @position.Year
                         </a>
                     </td>
@@ -29,12 +29,27 @@
                     <td>@position.Price zł</td>
                     <td>
                         <button class="btn btn-danger btn-sm"
-                                onclick="deleteEstimatedSalesValue('@position.Id','@position.ProjectId',this)">
+                                onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
                             Usuń Pozycję
                         </button>
                     </td>
                 </tr>
             }
+
+        <tr>
+            <td>średnia</td>
+            @{decimal averageQty = Math.Round(Model.Average(x => x.Qty),2);}
+            @{decimal totalSales = Math.Round(Model.Sum(x => x.Price * x.Qty),2);}
+            @{decimal averagePrice = 0;}
+            @if (averageQty != 0)
+                {
+                    averagePrice = Math.Round(totalSales / averageQty, 2);
+                }
+
+            <td>@averageQty</td>
+            <td>@averagePrice zł</td>
+            <td> </td>
+        </tr>
 
         </tbody>
     </table>

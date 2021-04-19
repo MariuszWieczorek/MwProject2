@@ -111,8 +111,8 @@
         @if (Model.Project.Id != 0)
         {
 
-            @await Html.PartialAsync("_Calculations", Model.Project.Calculations)
-            @await Html.PartialAsync("_EstimatedSalesValue", Model.Project.EstimatedSalesValues)
+            @await Html.PartialAsync("_CalculationsPartial", Model.Project.Calculations)
+            @await Html.PartialAsync("_EstimatedSalesValuesPartial", Model.Project.EstimatedSalesValues)
         }
     </div>
 </div>
@@ -228,47 +228,81 @@
                 cache: false
 
                 });
-            // --------------------------------------------
+
         }
 
-        // Usuwanie pozycji faktury
-        // funkcja wywoływana z widoku częściowego _InvoicePositions
-        // Ważne aby była właśnie tytaj, czyli w widoku z którego jest
-        // wywoływany widok częściowy
-        function deleteInvoicePosition(positionId, invoiceId, btn) {
-            if (!confirm("Czy na pewno chcesz usunąć pozycję faktury ?"))
+        // ------------------------------------------------------------------------------------------------
+
+        // --------------------------------------------------------------------------------------------
+        // Uwagi dotyczące wywoływania ajax'a
+        // gdy akcja w kontrolerze zwraca błąd sprawdzić wielkość liter w zmiennych success, message
+        // gdy w ogóle nie wykonuje się ajax, nie mamy żadnego z umieszczonych wewnątrz alertów
+        // to sprawdzić parametry przekazywane w sekcji data czy są zgodne z parametrami przekazanymi
+        // do funkcji
+            function deleteEstimatedSalesValue(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć przewidywaną sprzedaż ?"))
                 return;
 
-             $.ajax({
+           $.ajax({
                 type: 'POST',
-                url: "@Url.Action("DeleteInvoicePosition", "Home")",
+                url: "@Url.Action("DeleteEstimatedSalesValue", "EstimatedSalesValue")",
                  data: {
-                     positionId: positionId,
-                     invoiceId: invoiceId
+                     projectId: projectId,
+                     id: id
                 },
                 success: function (data) {
-                    if (data.Success) {
+                    if (data.success) {
                         // usuwanie z tabeli w html'u
                         var row = btn.parentNode.parentNode;
                         row.parentNode.removeChild(row);
 
-                        var invoiceVal = data.InvoiceValue;
-                        $('#Invoice_Value').val(data.InvoiceValue.toFixed(2).replace(".", ","));
                     }
                     else {
-                        alert(data.Message);
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
                     }
                 },
                 error: function (data) {
-                        alert(data.Message);
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
                 },
                 dataType: 'json'
 
                 });
-            // --------------------------------------------
-        }
+
+            }
+         // ------------------------------------------------------------------------------------------------
+        function deleteCalculation(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć kalkulację ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteCalculation", "Calculation")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
 
 
+         // ------------------------------------------------------------------------------------------------
 
     </script>
 }

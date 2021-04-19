@@ -54,7 +54,7 @@ namespace MwProject.Core.Models.Domains
 
 
         [Display(Name = "Projekt zaakceptowany przez")]
-        public string confirmedBy { get; set; }
+        public string ConfirmedBy { get; set; }
 
         [Display(Name = "Czas zaakceptowania projektu")]
         public DateTime ConfirmedDate { get; set; }
@@ -64,7 +64,7 @@ namespace MwProject.Core.Models.Domains
         public string AcceptedBy { get; set; }
         
         [Display(Name = "Czas zaakceptowania projektu")]
-        public DateTime acceptedDate { get; set; }
+        public DateTime AcceptedDate { get; set; }
 
         public ApplicationUser User { get; set; }
         public ICollection<Calculation> Calculations { get; set; }
