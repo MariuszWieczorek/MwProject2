@@ -16,7 +16,7 @@ namespace MwProject.Core.Models.Domains
         {
             Calculations = new Collection<Calculation>();
             EstimatedSalesValues = new Collection<EstimatedSalesValue>();
-            Categories = new Collection<Category>();
+
         }
 
         [MaxLength(50)]
@@ -69,7 +69,6 @@ namespace MwProject.Core.Models.Domains
 
         public ApplicationUser User { get; set; }
         public ICollection<Calculation> Calculations { get; set; }
-        public ICollection<Category> Categories { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
     }
 }

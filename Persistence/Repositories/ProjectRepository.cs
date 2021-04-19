@@ -51,8 +51,9 @@ namespace MwProject.Persistence.Repositories
         {
             var project = _context.Projects
                 .Include(x => x.Calculations)
-                .Include(x => x.Categories)
                 .Include(x => x.EstimatedSalesValues)
+                .Include(x => x.Category)
+                .Include(x => x.User)
                 .Single(x => x.Id == id && x.UserId == userId);
             return project;
         }

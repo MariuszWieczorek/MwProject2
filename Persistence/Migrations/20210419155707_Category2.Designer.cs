@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210419155707_Category2")]
+    partial class Category2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,7 +285,12 @@ namespace MwProject.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Categories");
                 });
@@ -435,6 +442,13 @@ namespace MwProject.Data.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("MwProject.Core.Models.Domains.Category", b =>
+                {
+                    b.HasOne("MwProject.Core.Models.Domains.Project", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ProjectId");
+                });
+
             modelBuilder.Entity("MwProject.Core.Models.Domains.EstimatedSalesValue", b =>
                 {
                     b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
@@ -466,6 +480,8 @@ namespace MwProject.Data.Migrations
             modelBuilder.Entity("MwProject.Core.Models.Domains.Project", b =>
                 {
                     b.Navigation("Calculations");
+
+                    b.Navigation("Categories");
 
                     b.Navigation("EstimatedSalesValues");
                 });

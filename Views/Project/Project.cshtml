@@ -22,9 +22,13 @@
             onclick="generatePdf()">
         Generuj PDF
     </button>
-     
+
     <button class="btn btn-secondary mb-3" onclick="printProject()">
         Drukuj
+    </button>
+
+    <button id="printButton" class="btn btn-secondary mb-3">
+        Drukuj 1
     </button>
 }
 
@@ -142,7 +146,7 @@
                 todayHighlight: true,
                 forceParse: false
             });
-     
+
             $('#CreatedDate').datepicker({
                 format: "dd-mm-yyyy",
                 language: "pl",
@@ -200,8 +204,13 @@
                 };
             };
         }
+        // -------------------------------------------------------------------------------------
+        $("#printButton").click(function () {
+             window.open("@Url.Action("ProjectTemplate", "Print",new {id = Model.Project.Id })", "_blank",
+            "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=1000, height=800");
+        });
 
-
+        // -------------------------------------------------------------------------------------
         // Generowanie PDF'a
         function generatePdf() {
 
