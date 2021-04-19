@@ -46,25 +46,26 @@ namespace MwProject.Controllers
         public ActionResult EstimatedSalesValue(EstimatedSalesValueViewModel estimatedSalesValueViewModel)
         {
             var userId = User.GetUserId();
+            var estimatedSalesValue = estimatedSalesValueViewModel.EstimatedSalesValue;
 
             if (!ModelState.IsValid)
             {
                 var vm = new EstimatedSalesValueViewModel()
                 {
-                    EstimatedSalesValue = estimatedSalesValueViewModel.EstimatedSalesValue,
-                    Heading = estimatedSalesValueViewModel.EstimatedSalesValue.Id == 0 ? $"nowa {estimatedSalesValueViewModel.EstimatedSalesValue.ProjectId}" : $"edycja {estimatedSalesValueViewModel.EstimatedSalesValue.ProjectId}"
+                    EstimatedSalesValue = estimatedSalesValue,
+                    Heading = estimatedSalesValue.Id == 0 ? $"nowa {estimatedSalesValue.ProjectId}" : $"edycja {estimatedSalesValue.ProjectId}"
                 };
 
                 return View("EstimatedSalesValue", vm);
             }
 
             if (estimatedSalesValueViewModel.EstimatedSalesValue.Id == 0)
-                _estimatedSalesValueService.AddEstimatedSalesValue(estimatedSalesValueViewModel.EstimatedSalesValue, userId);
+                _estimatedSalesValueService.AddEstimatedSalesValue(estimatedSalesValue, userId);
             else
-                _estimatedSalesValueService.UpdateEstimatedSalesValue(estimatedSalesValueViewModel.EstimatedSalesValue, userId);
+                _estimatedSalesValueService.UpdateEstimatedSalesValue(estimatedSalesValue, userId);
 
 
-            return RedirectToAction("Project","Project", new { id = estimatedSalesValueViewModel.EstimatedSalesValue.ProjectId });
+            return RedirectToAction("Project","Project", new { id = estimatedSalesValue.ProjectId });
 
         }
 

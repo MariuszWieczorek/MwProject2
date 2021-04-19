@@ -12,6 +12,7 @@
                 <th scope="col">Material</th>
                 <th scope="col">Labour</th>
                 <th scope="col">Packing</th>
+                <th scope="col">Markup</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -19,23 +20,24 @@
 
             @foreach (var position in Model)
             {
-                <tr>
-                    <td>
-                        <a class="font-weight-bold"
-                            href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id } )">
-                            @position.Tkw
-                        </a>
-                    </td>
-                    <td>@position.MaterialCosts</td>
-                    <td>@position.LabourCosts</td>
-                    <td>@position.PackingCosts zł</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm"
-                                onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
-                            Usuń
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <a class="font-weight-bold"
+                       href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id } )">
+                        @position.Tkw.ToString("c")
+                    </a>
+                </td>
+                <td>@position.MaterialCosts.ToString("c")</td>
+                <td>@position.LabourCosts.ToString("c")</td>
+                <td>@position.PackingCosts.ToString("c")</td>
+                <td>@position.Markup.ToString("c")</td>
+                <td>
+                    <button class="btn btn-danger btn-sm"
+                            onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
+                        Usuń
+                    </button>
+                </td>
+            </tr>
             }
 
         </tbody>

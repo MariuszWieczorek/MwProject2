@@ -11,47 +11,63 @@
                 <th scope="col">Rok</th>
                 <th scope="col">Ilość</th>
                 <th scope="col">Cena</th>
+                <th scope="col">Wartość</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-
-            @foreach (var position in Model)
+            @if (Model != null && Model.Any())
             {
+                foreach (var position in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
+                                @position.Year
+                            </a>
+                        </td>
+                        <td>@position.Qty.ToString("N")</td>
+                        <td>@position.Price zł</td>
+                        @{decimal value = Math.Round(position.Qty * position.Price, 2);}
+                        <td>@value.ToString("c")</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                            }
+
                 <tr>
-                    <td>
-                        <a class="font-weight-bold"
-                           href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
-                            @position.Year
-                        </a>
-                    </td>
-                    <td>@position.Qty</td>
-                    <td>@position.Price zł</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm"
-                                onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
-                            Usuń Pozycję
-                        </button>
-                    </td>
+                    <td><strong>średnia</strong></td>
+                    @{decimal averageQty = 0;}
+                    @{decimal averagePrice = 0;}
+                    @{decimal averageValue = 0;}
+
+
+                    @{averageQty = Math.Round(Model.Average(x => x.Qty), 2);}
+
+                    @{decimal totalSales = Math.Round(Model.Sum(x => x.Price * x.Qty), 2);}
+                    @{int numberOfYears = Model.Count();}
+
+                    @if (averageQty != 0)
+                    {
+                        averagePrice = Math.Round(totalSales / averageQty, 2);
+                    }
+
+                    @if (numberOfYears != 0)
+                    {
+                        averageValue = Math.Round(totalSales / numberOfYears, 2);
+                    }
+                    <td>@averageQty</td>
+                    <td> </td>
+                    <td>@averageValue.ToString("c") </td>
+                    <td> </td>
                 </tr>
             }
-
-        <tr>
-            <td>średnia</td>
-            @{decimal averageQty = Math.Round(Model.Average(x => x.Qty),2);}
-            @{decimal totalSales = Math.Round(Model.Sum(x => x.Price * x.Qty),2);}
-            @{decimal averagePrice = 0;}
-            @if (averageQty != 0)
-                {
-                    averagePrice = Math.Round(totalSales / averageQty, 2);
-                }
-
-            <td>@averageQty</td>
-            <td>@averagePrice zł</td>
-            <td> </td>
-        </tr>
-
-        </tbody>
+            </tbody>
     </table>
 </div>
 

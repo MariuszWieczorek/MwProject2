@@ -20,6 +20,15 @@ namespace MwProject.Persistence.Repositories
             _context = context;
         }
 
+        public Project NewProject(string userId)
+        {
+            return new Project()
+            {
+                UserId = userId,
+                CreatedDate = DateTime.Now,
+                Term = DateTime.Now
+            };
+        }
 
         public void AddProject(Project project)
         {
@@ -42,6 +51,7 @@ namespace MwProject.Persistence.Repositories
         {
             var project = _context.Projects
                 .Include(x => x.Calculations)
+                .Include(x => x.Categories)
                 .Include(x => x.EstimatedSalesValues)
                 .Single(x => x.Id == id && x.UserId == userId);
             return project;
@@ -109,6 +119,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Title = project.Title;
             projectToUpdate.CategoryId = project.CategoryId;
             projectToUpdate.Term = project.Term;
+            projectToUpdate.CreatedDate = project.CreatedDate;
             projectToUpdate.Value = project.Value;
         }
     }

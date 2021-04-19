@@ -67,11 +67,7 @@ namespace MwProject.Persistence.Services
 
         public Project NewProject(string userId)
         {
-            return new Project()
-            {
-                UserId = userId,
-                CreatedDate = DateTime.Now,
-            };
+            return _unitOfWork.Project.NewProject(userId);
         }
     }
 }

@@ -22,13 +22,9 @@
             onclick="generatePdf()">
         Generuj PDF
     </button>
-
-    <button id="printButton" class="btn btn-secondary mb-3">
-        Drukuj 1
-    </button>
-
-    <button class="btn btn-secondary mb-3" onclick="printInvoice()">
-        Drukuj 2
+     
+    <button class="btn btn-secondary mb-3" onclick="printProject()">
+        Drukuj
     </button>
 }
 
@@ -44,7 +40,7 @@
 
             if (Model.Project.Id == 0)
             {
-                <p class="alert alert-info mb-4 mt-4">Pola tytuł, klient, sposób płatności i termin są <strong>wymagane</strong> </p>
+                <p class="alert alert-info mb-4 mt-4">Pola tytuł i termin są <strong>wymagane</strong> </p>
             }
 
             @Html.HiddenFor(x => x.Project.Id)
@@ -64,6 +60,19 @@
                "--- Wybierz kategorię ---",
                new { @class = "form-control", autofocus = "autofocus" })
                 @Html.ValidationMessageFor(x => x.Project.CategoryId)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.CreatedDate)
+                @Html.TextBoxFor(x => x.Project.CreatedDate,
+                 "{0:dd-MM-yyyy}",
+                new
+                {
+                    @class = "form-control",
+                    @id = "CreatedDate",
+                    autocomplete = "off"
+                })
+                @Html.ValidationMessageFor(x => x.Project.CreatedDate)
             </div>
 
             <div class="form-group mb-3">
@@ -121,7 +130,7 @@
 {
     <script type="text/javascript">
 
-        // -----
+       // ---------------------------------------------------------------------------------------------
 
         $(document).ready(function () {
 
@@ -133,7 +142,15 @@
                 todayHighlight: true,
                 forceParse: false
             });
-
+     
+            $('#CreatedDate').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
 
             // format daty
             $.validator.methods.date = function (value, element) {
@@ -147,12 +164,9 @@
                 }
             }
 
-
-
-
-
-
         });
+
+        // ---------------------------------------------------------------------------------------------
 
        /*
         $.validator.setDefaults({
@@ -170,22 +184,12 @@
             }
         });
 
-
-
-
-
-        // -----
-           $("#printButton").click(function () {
-             window.open("@Url.Action("InvoiceTemplate", "Print",new {id = Model.Project.Id })", "_blank",
-            "menubar=no, toolbar=no, resizable=no, top=100, left=200, width=1000, height=800");
-            });
-
         // ------
 
-        function printInvoice() {
-            var url = '@Url.Action("InvoiceTemplate", "Print")' + '?id=' + '@Model.Project.Id';
+        function printProject() {
+            var url = '@Url.Action("ProjectTemplate", "Print")' + '?id=' + '@Model.Project.Id';
 
-            var url = '@Url.Action("InvoiceTemplate", "Print", new { id = Model.Project.Id })';
+            var url = '@Url.Action("ProjectTemplate", "Print", new { id = Model.Project.Id })';
 
             var myWindow = window.open(url, '', 'width=800,height=600');
 
