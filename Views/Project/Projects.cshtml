@@ -17,11 +17,11 @@
 <table class="table table-hover table-striped mt-3 mt-5">
     <thead>
         <tr>
+            <th scope="col">numer</th>
             <th scope="col">tytuł</th>
-            <th scope="col">klient</th>
-            <th scope="col">wartość</th>
             <th scope="col">data</th>
             <th scope="col">termin</th>
+            <th scope="col">wartość</th>
             <th scope="col"> </th>
         </tr>
     </thead>
@@ -30,22 +30,25 @@
         {
         <tr>
             <td>
-                <a 
-                   class="font-weight-bold"
+                <a class="font-weight-bold"
                    href="@Url.Action("Project","Project", new { id = project.Id })">
-                   @project.Title
+                    @project.Number
                 </a>
             </td>
-            <td> </td>
-            
-            <td>@project.Value zł</td>
+            <td>@project.Title </td>
             <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
-            <td>@project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
             <td>
-                <button 
-                        class="btn btn-danger btn-sm"
+                @if (project.Term.HasValue)
+                {
+                    @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
+                }
+            </td>
+            <td>@project.Title </td>
+
+            <td>
+                <button class="btn btn-danger btn-sm"
                         onclick="deleteProject('@project.Id',this)">
-                Usuń Projekt
+                    Usuń Projekt
                 </button>
             </td>
         </tr>

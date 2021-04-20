@@ -116,11 +116,14 @@ namespace MwProject.Persistence.Repositories
         public void UpdateProject(Project project, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id && x.UserId == userId);
-            projectToUpdate.Description = project.Description;
+            projectToUpdate.Number = project.Number;
             projectToUpdate.Title = project.Title;
+            projectToUpdate.CreatedDate = project.CreatedDate;
+            projectToUpdate.InitiatedBy = project.InitiatedBy;
+            projectToUpdate.Description = project.Description;
             projectToUpdate.CategoryId = project.CategoryId;
             projectToUpdate.Term = project.Term;
-            projectToUpdate.CreatedDate = project.CreatedDate;
+            projectToUpdate.NewProduct = project.NewProduct;
             projectToUpdate.Value = project.Value;
         }
     }

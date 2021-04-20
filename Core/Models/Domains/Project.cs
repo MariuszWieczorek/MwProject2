@@ -19,11 +19,16 @@ namespace MwProject.Core.Models.Domains
 
         }
 
-        [MaxLength(50)]
+        [MaxLength(255)]
         [Required(ErrorMessage = "Pole tytuł jest wymagane.")]
         [Display(Name = "Tytuł")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "Pole opis jest wymagane.")]
+
+        [MaxLength(50)]
+        [Required(ErrorMessage = "Pole numer jest wymagane.")]
+        [Display(Name = "Numer")]
+        public string Number { get; set; }
+
         [Display(Name = "Opis")]
         public string Description { get; set; }
         
@@ -34,7 +39,12 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Termin")]
         public DateTime? Term { get; set; }
 
-        [Required(ErrorMessage = "Pole wartość jest wymagane.")]
+        [Required(ErrorMessage = "Pole zainicjowane przez jest wymagane.")]
+        [Display(Name = "Zainicjowane przez")]
+        public string InitiatedBy { get; set; }
+        
+
+
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
         public decimal Value { get; set; }
@@ -51,8 +61,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public string UserId { get; set; }
 
+        [Display(Name = "Nowy Produkt")]
+        public bool NewProduct { get; set; }
 
         [Display(Name = "Projekt zaakceptowany przez")]
         public string ConfirmedBy { get; set; }
@@ -60,13 +71,13 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czas zaakceptowania projektu")]
         public DateTime ConfirmedDate { get; set; }
 
-
         [Display(Name = "Projekt zaakceptowany przez")]
         public string AcceptedBy { get; set; }
         
         [Display(Name = "Czas zaakceptowania projektu")]
         public DateTime AcceptedDate { get; set; }
 
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
