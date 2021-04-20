@@ -94,14 +94,11 @@
                 @Html.ValidationMessageFor(x => x.Project.CreatedDate)
             </div>
 
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-            </div>
-
+ 
             <div class="form-check form-switch mt-3 mb-5">
-                @Html.LabelFor(m => m.Project.NewProduct, new { @class = "col-md-2 form-check-label" })
-                @Html.CheckBoxFor(m => m.Project.NewProduct, new { @class = "form-check-input" })
+                @Html.CheckBoxFor(x => x.Project.NewProduct, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.Project.NewProduct, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(x => x.Project.NewProduct)
             </div>
 
             <div class="form-group mb-3">

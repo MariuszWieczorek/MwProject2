@@ -16,7 +16,7 @@ namespace MwProject.Core.Models.Domains
         {
             Calculations = new Collection<Calculation>();
             EstimatedSalesValues = new Collection<EstimatedSalesValue>();
-
+            ProjectRequirements = new Collection<ProjectRequirement>();
         }
 
         [MaxLength(255)]
@@ -65,6 +65,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nowy Produkt")]
         public bool NewProduct { get; set; }
 
+
         [Display(Name = "Projekt zaakceptowany przez")]
         public string ConfirmedBy { get; set; }
 
@@ -81,5 +82,6 @@ namespace MwProject.Core.Models.Domains
         public ApplicationUser User { get; set; }
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
+        public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
     }
 }

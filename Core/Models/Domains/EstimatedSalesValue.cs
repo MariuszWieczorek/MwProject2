@@ -21,10 +21,12 @@ namespace MwProject.Core.Models.Domains
         [Required(ErrorMessage = "Pole szacowana ilość jest wymagane.")]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Qty  { get; set; }
+
         [Display(Name = "szacowana cena")]
         [Required(ErrorMessage = "Pole szacowana cena jest wymagane.")]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
+
         public Project Project { get; set; }
     }
 }
