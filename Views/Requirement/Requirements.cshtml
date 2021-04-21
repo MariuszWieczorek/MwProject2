@@ -1,0 +1,98 @@
+﻿@model IEnumerable<MwProject.Core.Models.Domains.Requirement>
+
+@{
+    ViewData["Title"] = "Wymagania";
+}
+
+<h1>wymagania</h1>
+
+<button class="btn btn-primary mb-3"
+        onclick='window.location.href = "@Url.Action("Requirement","Requirement")"'>
+    Dodaj pozycję
+</button>
+
+
+<div id="reguirementTable">
+    <table class="table mt-3 table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var requirement in Model)
+                {
+                    <tr>
+                        <td>
+
+                                <a href="@Url.Action("Requirement", "Requirement",
+                                    new { id = requirement.Id })"
+                                   class="font-weight-bold">@requirement.Name</a>
+
+                        </td>
+                        <td>
+
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="deleteRequirement('@requirement.Id',this)">
+                                    Usuń
+                                </button>
+
+
+                        </td>
+                    </tr>
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Brak wymagań
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        // Usuwanie wymagania
+        function deleteRequirement(id, btn) {
+            if (!confirm("Czy na pewno chcesz wymaganie ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteRequirement", "Requirement")",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji ');
+                },
+                dataType: 'json'
+
+            });
+        }
+        // --------------------------------------------
+    </script>
+}

@@ -16,7 +16,9 @@ namespace MwProject.Persistence
                             IProjectRepository project,
                             ICategoryRepository category,
                             ICalculationRepository calculationRepository,
-                            IEstimatedSalesValueRepository estimatedSalesValueRepository
+                            IEstimatedSalesValueRepository estimatedSalesValueRepository,
+                            IRequirementRepository requirementRepository,
+                            IProjectRequirementRepository projectRequirementRepository
                             )
         {
             _context = context;
@@ -24,6 +26,8 @@ namespace MwProject.Persistence
             Category = category;                    // new CategoryRepository(context);
             Calculation = calculationRepository;
             EstimatedSalesValue = estimatedSalesValueRepository;
+            Requirement = requirementRepository;
+            ProjectRequirement = projectRequirementRepository;
         }
 
         // obiekty repozytoryjne 
@@ -31,6 +35,8 @@ namespace MwProject.Persistence
         public ICategoryRepository Category { get; set; }
         public ICalculationRepository Calculation { get; set; }
         public IEstimatedSalesValueRepository EstimatedSalesValue { get; set; }
+        public IRequirementRepository Requirement { get; set; }
+        public IProjectRequirementRepository ProjectRequirement { get; set; }
 
         // na koniec metoda zapisująca zmiany
         public void Complete()

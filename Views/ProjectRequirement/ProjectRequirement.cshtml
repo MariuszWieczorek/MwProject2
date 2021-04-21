@@ -1,0 +1,84 @@
+﻿@model MwProject.Core.ViewModels.ProjectRequirementViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h2>@Model.Heading</h2>
+
+<h2>@Model.ProjectRequirement.ProjectId</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <!-- po submit wywoła się metoda Calculation w kontrolerze Calculation typu HttpPost -->
+        @using (Html.BeginForm("ProjectRequirement", "ProjectRequirement"))
+        {
+            @Html.AntiForgeryToken()
+
+            <!-- Wyświetlenie podsumowania walidacji-->
+            @Html.ValidationSummary()
+
+            if (Model.ProjectRequirement.Id == 0)
+            {
+                <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
+            }
+
+            @Html.HiddenFor(x => x.ProjectRequirement.Id)
+            @Html.HiddenFor(x => x.ProjectRequirement.ProjectId)
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectRequirement.RequirementId)
+                @Html.DropDownListFor(x => x.ProjectRequirement.RequirementId,
+               new SelectList(Model.Requirements, "Id", "Name"),
+               "--- Wybierz wymaganie ---",
+               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.ProjectRequirement.RequirementId)
+            </div>
+
+            <div class="form-check form-switch mt-3 mb-5">
+                @Html.CheckBoxFor(x => x.ProjectRequirement.Exist, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.ProjectRequirement.Exist, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(x => x.ProjectRequirement.Exist)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectRequirement.Value)
+                @Html.TextBoxFor(x => x.ProjectRequirement.Value,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ProjectRequirement.Value)
+            </div>
+
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectRequirement.Comment)
+                @Html.TextAreaFor(x => x.ProjectRequirement.Comment,
+               new { @class = "form-control" })
+            </div>
+
+
+            <button class="btn btn-primary btn-lg mb-5" type="submit">
+                Zapisz
+            </button>
+        }
+    </div>
+
+ 
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // w formatowaniu ma być przecinek, a nie kropka
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+        });
+
+    </script>
+}
+

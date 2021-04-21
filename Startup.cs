@@ -36,18 +36,23 @@ namespace MwProject
         {
 
             // dla ka¿dego request'a jedna instancja tej klasy
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICalculationService, CalculationService>();
-            services.AddScoped<IEstimatedSalesValueService, EstimatedSalesValueService>();
-
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
+            // repozytoria
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICalculationRepository, CalculationRepository>();
             services.AddScoped<IEstimatedSalesValueRepository, EstimatedSalesValueRepository>();
+            services.AddScoped<IRequirementRepository, RequirementRepository>();
+            services.AddScoped<IProjectRequirementRepository, ProjectRequirementRepository>();
+            // serwisy
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICalculationService, CalculationService>();
+            services.AddScoped<IEstimatedSalesValueService, EstimatedSalesValueService>();
+            services.AddScoped<IRequirementService, RequirementService>();
+            services.AddScoped<IProjectRequirementService, ProjectRequirementService>();
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

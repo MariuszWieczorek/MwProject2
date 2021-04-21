@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MwProject.Core.Models.Domains.ProjectRequirement>
+
+@* Widok częściowy z wymaganiami powiązanymi z projektem *@
+
+<div class="row">
+    <h2>Wymagania</h2>
+
+    <table class="table table-hover table-striped mt-3 mb-5">
+        <thead>
+            <tr>
+                <th scope="col">Wymaganie</th>
+                <th scope="col"></th>
+                <th scope="col">Wartość</th>
+                <th scope="col">Komentarz</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var position in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, Id = position.Id })">
+                                @position.RequirementId
+                            </a>
+                        </td>
+                        @{ 
+                            var exist = position.Exist == true ? "TAK" : "NIE";
+                        }
+
+                        <td>@exist</td>
+                        <td>@position.Value </td>
+                        <td>@position.Comment</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                            }
+
+                
+            }
+            </tbody>
+    </table>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+      // deleteProjectRequirement()
+    </script>
+}

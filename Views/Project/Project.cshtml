@@ -18,6 +18,11 @@
         Dodaj Przewidywaną Sprzedaż
     </button>
 
+    <button class="btn btn-primary mb-3"
+            onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id })"'>
+        Dodaj Wymaganie
+    </button>
+
     <button class="btn btn-secondary mb-3"
             onclick="generatePdf()">
         Generuj PDF
@@ -94,7 +99,7 @@
                 @Html.ValidationMessageFor(x => x.Project.CreatedDate)
             </div>
 
- 
+
             <div class="form-check form-switch mt-3 mb-5">
                 @Html.CheckBoxFor(x => x.Project.NewProduct, new { @class = "form-check-input" })
                 @Html.LabelFor(x => x.Project.NewProduct, new { @class = "form-check-label" })
@@ -148,6 +153,7 @@
 
             @await Html.PartialAsync("_CalculationsPartial", Model.Project.Calculations)
             @await Html.PartialAsync("_EstimatedSalesValuesPartial", Model.Project.EstimatedSalesValues)
+            @await Html.PartialAsync("_ProjectRequirementsPartial", Model.Project.ProjectRequirements)
         }
     </div>
 </div>
