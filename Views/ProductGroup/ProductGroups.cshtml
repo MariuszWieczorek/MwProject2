@@ -1,13 +1,13 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.Category>
+﻿@model IEnumerable<MwProject.Core.Models.Domains.ProductGroup>
 
 @{
-    ViewData["Title"] = "Kategorie";
+    ViewData["Title"] = "Grupy Produktów";
 }
 
-<h1>kategorie projektów</h1>
+<h1>grupy produktów</h1>
 
 <button class="btn btn-primary btn-lg mt-3 mb-3"
-        onclick='window.location.href = "@Url.Action("Category","Category")"'>
+        onclick='window.location.href = "@Url.Action("ProductGroup","ProductGroup")"'>
     Dodaj pozycję
 </button>
 
@@ -18,8 +18,6 @@
             <tr>
                 <th scope="col">Lp</th>
                 <th scope="col">Nazwa</th>
-                <th scope="col">Opis</th>
-                <th scope="col">Symbol</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -44,8 +42,6 @@
                        class="font-weight-bold">@category.Name</a>
 
                 </td>
-                <td>@category.Description</td>
-                <td>@category.DocumentSymbol</td>
                 <td>
 
                     <button class="btn btn-danger btn-sm"
@@ -63,7 +59,7 @@
             {
                 <tr>
                     <td colspan="5" class="text-center">
-                        Brak kategorii
+                        Brak grup wyrobów
                     </td>
                 </tr>
             }
@@ -79,13 +75,13 @@
     <script type="text/javascript">
 
         // Usuwanie kategorii
-        function deleteCategory(id, btn) {
-            if (!confirm("Czy na pewno chcesz kategorię ?"))
+        function deleteProductGroup(id, btn) {
+            if (!confirm("Czy na pewno chcesz grupę wyrobów ?"))
                 return;
 
             $.ajax({
                 type: 'POST',
-                url: "@Url.Action("DeleteCategory", "Category")",
+                url: "@Url.Action("DeleteProductGroup", "ProductGroup")",
                 data: {
                     Id: id
                 },

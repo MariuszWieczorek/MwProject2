@@ -5,17 +5,15 @@
 }
 
 <h1 class="mb-3">Projekty</h1>
-
-<button 
-        class="btn btn-primary mb-3"
+<button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("Project","Project")"'>
     Dodaj
 </button>
 
 @if (Model != null && Model.Projects.Any())
 {
-<table class="table table-hover table-striped mt-3 mt-5">
-    <thead>
+<table class="table mt-3 table-bordered table-hover table-light">
+    <thead class="table-light">
         <tr>
             <th scope="col">numer</th>
             <th scope="col">tytuł</th>
@@ -28,30 +26,30 @@
     <tbody>
         @foreach (var project in Model.Projects)
         {
-        <tr>
-            <td>
-                <a class="font-weight-bold"
-                   href="@Url.Action("Project","Project", new { id = project.Id })">
-                    @project.Number
-                </a>
-            </td>
-            <td>@project.Title </td>
-            <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
-            <td>
-                @if (project.Term.HasValue)
-                {
-                    @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
-                }
-            </td>
-            <td>@project.Title </td>
+            <tr>
+                <td>
+                    <a class="font-weight-bold"
+                       href="@Url.Action("Project","Project", new { id = project.Id })">
+                        @project.Number
+                    </a>
+                </td>
+                <td>@project.Title </td>
+                <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (project.Term.HasValue)
+                    {
+                        @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
+                    }
+                </td>
+                <td>@project.Title </td>
 
-            <td>
-                <button class="btn btn-danger btn-sm"
-                        onclick="deleteProject('@project.Id',this)">
-                    Usuń Projekt
-                </button>
-            </td>
-        </tr>
+                <td>
+                    <button class="btn btn-danger btn-sm"
+                            onclick="deleteProject('@project.Id',this)">
+                        Usuń Projekt
+                    </button>
+                </td>
+            </tr>
         }
 
     </tbody>
@@ -63,7 +61,7 @@ else
     <div>
         Brak projektów do wyświetlenia
     </div>
-}     
+}
 
 
 @section scripts
@@ -73,7 +71,7 @@ else
         function deleteProject(id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć projekt ?"))
                 return;
-            
+
             $.ajax({
                 type: 'POST',
                 url: "@Url.Action("DeleteProject","Project")",
@@ -96,10 +94,10 @@ else
                 dataType: 'json'
 
             });
-            
+
         }
        // --------------------------------------------
 
-    
+
     </script>
 }

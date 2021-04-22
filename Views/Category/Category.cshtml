@@ -10,18 +10,38 @@
 @using (Html.BeginForm("Category", "Category"))
 {
     <p class="alert alert-info mt-4 mb-4">
-        Pole Nazwa jest <strong>wymagane</strong>
+        Pole Nazwa i Opis jest <strong>wymagane</strong>
     </p>
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Category.Id)
 
+
     @Html.ValidationSummary()
 
-    <div class="form-group">
+    <div class="form-group mb-3">
+        @Html.LabelFor(x => x.Category.OrdinalNumber)
+        @Html.TextBoxFor(x => x.Category.OrdinalNumber, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.Category.OrdinalNumber)
+    </div>
+
+    <div class="form-group mb-3">
         @Html.LabelFor(x => x.Category.Name)
         @Html.TextBoxFor(x => x.Category.Name, new { @class = "form-control", autofocus = "autofocus" })
         @Html.ValidationMessageFor(x => x.Category.Name)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(x => x.Category.DocumentSymbol)
+        @Html.TextBoxFor(x => x.Category.DocumentSymbol, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.Category.DocumentSymbol)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(x => x.Category.Description)
+        @Html.TextAreaFor(x => x.Category.Description,
+       new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Category.Description)
     </div>
 
     <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>

@@ -1,38 +1,57 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.ProjectRequirement>
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
 
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
 
 <div class="row">
-    <h2>Wymagania</h2>
+    
+
+    <table>
+        <tr>
+            <td>
+                <h2>Wymagania Jakościowe</h2>
+            </td>
+            <td align="left" valign="middle">
+                <button class="btn btn-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, Type = 2 })"'>
+                    Dodaj
+                </button>
+            </td>
+        </tr>
+    </table>
+    
+
+    
 
     <table class="table table-hover table-striped mt-3 mb-5">
         <thead>
             <tr>
                 <th scope="col">Wymaganie</th>
                 <th scope="col"></th>
-                <th scope="col">Wartość</th>
                 <th scope="col">Komentarz</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @{ 
+                var QualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
+            }
+
+            @if (QualityRequirements != null && QualityRequirements.Any())
             {
-                foreach (var position in Model)
+                foreach (var position in QualityRequirements)
                 {
                     <tr>
                         <td>
                             <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, Id = position.Id })">
-                                @position.RequirementId
+                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
+                                @position.Requirement.Name
                             </a>
                         </td>
-                        @{ 
+                        @{
                             var exist = position.Exist == true ? "TAK" : "NIE";
                         }
 
                         <td>@exist</td>
-                        <td>@position.Value </td>
                         <td>@position.Comment</td>
                         <td>
                             <button class="btn btn-danger btn-sm"
@@ -41,11 +60,11 @@
                             </button>
                         </td>
                     </tr>
-                            }
+                }
 
-                
+
             }
-            </tbody>
+        </tbody>
     </table>
 </div>
 

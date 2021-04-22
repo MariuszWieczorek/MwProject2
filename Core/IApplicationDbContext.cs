@@ -15,6 +15,7 @@ namespace MwProject.Core
         DbSet<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         DbSet<Requirement> Requirements { get; set; }
         DbSet<ProjectRequirement> ProjectRequirements { get; set; }
+        DbSet<ProductGroup> ProductGroups { get; set; }
         int SaveChanges();
     }
 }

@@ -45,6 +45,7 @@ namespace MwProject
             services.AddScoped<IEstimatedSalesValueRepository, EstimatedSalesValueRepository>();
             services.AddScoped<IRequirementRepository, RequirementRepository>();
             services.AddScoped<IProjectRequirementRepository, ProjectRequirementRepository>();
+            services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -52,6 +53,7 @@ namespace MwProject
             services.AddScoped<IEstimatedSalesValueService, EstimatedSalesValueService>();
             services.AddScoped<IRequirementService, RequirementService>();
             services.AddScoped<IProjectRequirementService, ProjectRequirementService>();
+            services.AddScoped<IProductGroupService, ProductGroupService>();
 
 
             services.AddDbContext<ApplicationDbContext>(options =>

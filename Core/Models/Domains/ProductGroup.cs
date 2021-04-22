@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MwProject.Core.Models.Domains
 {
-    public class Category
+    public class ProductGroup
     {
-        public Category()
+        public ProductGroup()
         {
             Projects = new Collection<Project>();
         }
@@ -20,16 +20,8 @@ namespace MwProject.Core.Models.Domains
         public int OrdinalNumber { get; set; }
 
         [Required]
-        [Display(Name = "Nazwa kategorii")]
+        [Display(Name = "Nazwa Grupy")]
         public string Name { get; set; }
-
-        [Required]
-        [Display(Name = "Symbol Dokumentu")]
-        public string DocumentSymbol { get; set; }
-
-        [Required]
-        [Display(Name = "Opis")]
-        public string Description { get; set; }
 
         public ICollection<Project> Projects;
 

@@ -18,11 +18,7 @@
         Dodaj Przewidywaną Sprzedaż
     </button>
 
-    <button class="btn btn-primary mb-3"
-            onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id })"'>
-        Dodaj Wymaganie
-    </button>
-
+ 
     <button class="btn btn-secondary mb-3"
             onclick="generatePdf()">
         Generuj PDF
@@ -153,7 +149,8 @@
 
             @await Html.PartialAsync("_CalculationsPartial", Model.Project.Calculations)
             @await Html.PartialAsync("_EstimatedSalesValuesPartial", Model.Project.EstimatedSalesValues)
-            @await Html.PartialAsync("_ProjectRequirementsPartial", Model.Project.ProjectRequirements)
+            @await Html.PartialAsync("_ProjectEconomicRequirementsPartial", Model)
+            @await Html.PartialAsync("_ProjectQualityRequirementsPartial", Model)
         }
     </div>
 </div>
@@ -318,6 +315,40 @@
            $.ajax({
                 type: 'POST',
                 url: "@Url.Action("DeleteCalculation", "Calculation")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+
+
+         // ------------------------------------------------------------------------------------------------
+
+        function deleteProjectRequirement(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz wymaganie ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteProjectRequirement", "ProjectRequirement")",
                  data: {
                      projectId: projectId,
                      id: id

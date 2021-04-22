@@ -47,16 +47,18 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsExecuted = true;
         }
 
+
         public Project GetProject(int id, string userId)
         {
             var project = _context.Projects
                 .Include(x => x.Calculations)
                 .Include(x => x.EstimatedSalesValues)
                 .Include(x => x.ProjectRequirements)
-                .Include(x => x.ProjectRequirements.Select(y => y.Requirement))
+                .ThenInclude(x => x.Requirement)
                 .Include(x => x.Category)
                 .Include(x => x.User)
                 .Single(x => x.Id == id && x.UserId == userId);
+ 
             return project;
         }
 

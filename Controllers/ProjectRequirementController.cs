@@ -28,19 +28,24 @@ namespace MwProject.Controllers
         }
 
         // wyświetlamy wybraną kalkulację lub pusty objekt
-        public IActionResult ProjectRequirement(int projectId, int id)
+        public IActionResult ProjectRequirement(int projectId, int id, int type)
         {
             var userId = User.GetUserId();
             var selectedProjectRequirement = id == 0 ?
                 _projectRequirementService.NewProjectRequirement(projectId,userId) :
                 _projectRequirementService.GetProjectRequirement(projectId,id,userId);
-
+            
             var vm = new ProjectRequirementViewModel()
             {
                 ProjectRequirement = selectedProjectRequirement,
                 Heading = id == 0 ? $"nowa {projectId}" : $"edycja {projectId}",
                 Requirements = _requirementService.GetRequirements()
             };
+            
+            if(type != 0)
+            {
+                vm.Requirements = _requirementService.GetRequirements().Where(x => x.Type == type);
+            }
 
             return View(vm);
         }

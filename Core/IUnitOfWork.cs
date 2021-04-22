@@ -10,6 +10,7 @@ namespace MwProject.Core
         IEstimatedSalesValueRepository EstimatedSalesValue { get; set; }
         IRequirementRepository Requirement { get; set; }
         IProjectRequirementRepository ProjectRequirement { get; set; }
+        IProductGroupRepository ProductGroupRepository { get; set; }
         void Complete();
     }
 }

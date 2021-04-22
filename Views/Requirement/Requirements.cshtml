@@ -4,17 +4,17 @@
     ViewData["Title"] = "Wymagania";
 }
 
-<h1>wymagania</h1>
+<h1>słownik wymagań</h1>
 
-<button class="btn btn-primary mb-3"
+<button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("Requirement","Requirement")"'>
     Dodaj pozycję
 </button>
 
 
 <div id="reguirementTable">
-    <table class="table mt-3 table-bordered">
-        <thead class="thead-dark">
+    <table class="table mt-3 table-bordered table-hover">
+        <thead class="table-light">
             <tr>
                 <th scope="col">Nazwa</th>
                 <th scope="col"></th>
@@ -28,17 +28,17 @@
                     <tr>
                         <td>
 
-                                <a href="@Url.Action("Requirement", "Requirement",
+                            <a href="@Url.Action("Requirement", "Requirement",
                                     new { id = requirement.Id })"
-                                   class="font-weight-bold">@requirement.Name</a>
+                               class="font-weight-bold">@requirement.Name</a>
 
                         </td>
                         <td>
 
-                                <button class="btn btn-danger btn-sm"
-                                        onclick="deleteRequirement('@requirement.Id',this)">
-                                    Usuń
-                                </button>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteRequirement('@requirement.Id',this)">
+                                Usuń
+                            </button>
 
 
                         </td>

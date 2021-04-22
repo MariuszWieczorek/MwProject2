@@ -1,0 +1,39 @@
+﻿@model MwProject.Core.ViewModels.ProductGroupViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h1>@Model.Heading</h1>
+
+
+@using (Html.BeginForm("ProductGroup", "ProductGroup"))
+{
+    <p class="alert alert-info mt-4 mb-4">
+        Pole Nazwa i Opis jest <strong>wymagane</strong>
+    </p>
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.ProductGroup.Id)
+
+
+    @Html.ValidationSummary()
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(x => x.ProductGroup.OrdinalNumber)
+        @Html.TextBoxFor(x => x.ProductGroup.OrdinalNumber, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.ProductGroup.OrdinalNumber)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(x => x.ProductGroup.Name)
+        @Html.TextBoxFor(x => x.ProductGroup.Name, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.ProductGroup.Name)
+    </div>
+
+      <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+
+}
+
+
+

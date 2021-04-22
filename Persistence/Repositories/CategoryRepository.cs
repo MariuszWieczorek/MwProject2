@@ -18,7 +18,7 @@ namespace MwProject.Persistence.Repositories
         public IEnumerable<Category> GetCategories()
         {
             return _context.Categories
-                .OrderBy(x => x.Name).ToList();
+                .OrderBy(x => x.OrdinalNumber).ToList();
         }
 
         public Category GetCategory(int id)
@@ -43,6 +43,9 @@ namespace MwProject.Persistence.Repositories
         {
             var categoryToUpdate = _context.Categories.Single(x => x.Id == category.Id);
             categoryToUpdate.Name = category.Name;
+            categoryToUpdate.OrdinalNumber = category.OrdinalNumber;
+            categoryToUpdate.Description = category.Description;
+            categoryToUpdate.DocumentSymbol = category.DocumentSymbol;
         }
     }
 }
