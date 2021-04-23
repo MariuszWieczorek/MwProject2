@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
-namespace MwProject.Data.Migrations
+namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210419155707_Category2")]
-    partial class Category2
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,16 +279,22 @@ namespace MwProject.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DocumentSymbol")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProjectId")
+                    b.Property<int>("OrdinalNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("Categories");
                 });
@@ -321,6 +325,25 @@ namespace MwProject.Data.Migrations
                     b.ToTable("EstimatedSalesValues");
                 });
 
+            modelBuilder.Entity("MwProject.Core.Models.Domains.ProductGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrdinalNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductGroups");
+                });
+
             modelBuilder.Entity("MwProject.Core.Models.Domains.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -347,23 +370,37 @@ namespace MwProject.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InitiatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsExecuted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("NewProduct")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("Picture")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("ProductGroupId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("Term")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -375,9 +412,61 @@ namespace MwProject.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("ProductGroupId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectRequirement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Exist")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequirementId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("RequirementId");
+
+                    b.ToTable("ProjectRequirements");
+                });
+
+            modelBuilder.Entity("MwProject.Core.Models.Domains.Requirement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Requirements");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,13 +531,6 @@ namespace MwProject.Data.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("MwProject.Core.Models.Domains.Category", b =>
-                {
-                    b.HasOne("MwProject.Core.Models.Domains.Project", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("ProjectId");
-                });
-
             modelBuilder.Entity("MwProject.Core.Models.Domains.EstimatedSalesValue", b =>
                 {
                     b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
@@ -468,22 +550,49 @@ namespace MwProject.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MwProject.Core.Models.Domains.ProductGroup", "ProductGroup")
+                        .WithMany()
+                        .HasForeignKey("ProductGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MwProject.Core.Models.Domains.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
+                    b.Navigation("ProductGroup");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectRequirement", b =>
+                {
+                    b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
+                        .WithMany("ProjectRequirements")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MwProject.Core.Models.Domains.Requirement", "Requirement")
+                        .WithMany()
+                        .HasForeignKey("RequirementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Requirement");
                 });
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.Project", b =>
                 {
                     b.Navigation("Calculations");
 
-                    b.Navigation("Categories");
-
                     b.Navigation("EstimatedSalesValues");
+
+                    b.Navigation("ProjectRequirements");
                 });
 #pragma warning restore 612, 618
         }

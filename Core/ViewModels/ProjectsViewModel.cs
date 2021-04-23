@@ -13,5 +13,6 @@ namespace MwProject.Core.ViewModels
         public IEnumerable<Category> Categories { get; set; }
         public ProjectsFilter ProjectsFilter { get; set; }
         public PagingInfo PagingInfo { get; set; }
+        public IEnumerable<ProductGroup> ProductGroups { get; set; }
     }
 }

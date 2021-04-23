@@ -24,28 +24,28 @@
         <tbody>
             @if (Model != null && Model.Any())
             {
-                foreach (var category in Model)
+                foreach (var productNumber in Model)
                 {
             <tr>
 
                 <td>
 
-                    <a href="@Url.Action("Category", "Category",
-                                    new { id = category.Id })"
-                       class="font-weight-bold">@category.OrdinalNumber</a>
+                    <a href="@Url.Action("ProductGroup", "ProductGroup",
+                                    new { id = productNumber.Id })"
+                       class="font-weight-bold">@productNumber.OrdinalNumber</a>
                 </td>
 
                 <td>
 
-                    <a href="@Url.Action("Category", "Category",
-                                    new { id = category.Id })"
-                       class="font-weight-bold">@category.Name</a>
+                    <a href="@Url.Action("ProductGroup", "ProductGroup",
+                                    new { id = productNumber.Id })"
+                       class="font-weight-bold">@productNumber.Name</a>
 
                 </td>
                 <td>
 
                     <button class="btn btn-danger btn-sm"
-                            onclick="deleteCategory('@category.Id',this)">
+                            onclick="deleteProductGroup('@productNumber.Id',this)">
                         Usuń
                     </button>
 

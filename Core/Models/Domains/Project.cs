@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -57,6 +58,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Zrealizowane")]
         public bool IsExecuted { get; set; }
 
+        
+        
         [Required(ErrorMessage = "Pole kategoria jest wymagane.")]
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
@@ -64,6 +67,11 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Nowy Produkt")]
         public bool NewProduct { get; set; }
+
+        
+        [Display(Name = "Grupa Produktu")]
+        public int ProductGroupId { get; set; }
+        public ProductGroup ProductGroup { get; set; }
 
 
         [Display(Name = "Projekt zaakceptowany przez")]

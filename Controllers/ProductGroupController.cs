@@ -76,14 +76,14 @@ namespace MwProject.Controllers
             if (productGroup.Id == 0)
                 _productGroupService.AddProductGroup(productGroup);
             else
-                _productGroupService.AddProductGroup(productGroup);
+                _productGroupService.UpdateProductGroup(productGroup);
 
 
             return RedirectToAction("ProductGroups", "ProductGroup");
         }
 
         [HttpPost]
-        public IActionResult DeleteCategory(int id)
+        public IActionResult DeleteProductGroup(int id)
         {
             try
             {

@@ -10,6 +10,8 @@ namespace MwProject.Core.ViewModels
     {
         public string Heading { get; set; }
         public IEnumerable<Category> Categories { get; set; }
+        
+        public IEnumerable<ProductGroup> ProductGroups { get; set; }
         public Project Project { get; set; }
 
     }
