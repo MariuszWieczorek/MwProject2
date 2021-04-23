@@ -3,7 +3,6 @@
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
 
 <div class="row">
-    
 
     <table>
         <tr>
@@ -18,54 +17,53 @@
             </td>
         </tr>
     </table>
-    
 
-    
-
-    <table class="table table-hover table-striped mt-3 mb-5">
-        <thead>
-            <tr>
-                <th scope="col">Wymaganie</th>
-                <th scope="col"></th>
-                <th scope="col">Komentarz</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @{ 
-                var QualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
-            }
-
-            @if (QualityRequirements != null && QualityRequirements.Any())
-            {
-                foreach (var position in QualityRequirements)
-                {
-                    <tr>
-                        <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
-                                @position.Requirement.Name
-                            </a>
-                        </td>
-                        @{
-                            var exist = position.Exist == true ? "TAK" : "NIE";
-                        }
-
-                        <td>@exist</td>
-                        <td>@position.Comment</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm"
-                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
-                        </td>
-                    </tr>
-                }
+    @{
+        var QualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
+    }
 
 
-            }
-        </tbody>
-    </table>
+    @if (QualityRequirements != null && QualityRequirements.Any())
+    {
+        <table class="table table-hover table-striped mt-3 mb-5">
+            <thead>
+                <tr>
+                    <th scope="col">Wymaganie</th>
+                    <th scope="col"></th>
+                    <th scope="col">Komentarz</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                    @foreach (var position in QualityRequirements)
+                    {
+                        <tr>
+                            <td>
+                                <a class="font-weight-bold"
+                                   href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
+                                    @position.Requirement.Name
+                                </a>
+                            </td>
+                            @{
+                                var exist = position.Exist == true ? "TAK" : "NIE";
+                            }
+
+                            <td>@exist</td>
+                            <td>@position.Comment</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            </td>
+                        </tr>
+                     }
+                
+            </tbody>
+        </table>
+     }
 </div>
 
 @section scripts

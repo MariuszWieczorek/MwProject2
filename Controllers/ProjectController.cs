@@ -20,14 +20,16 @@ namespace MwProject.Controllers
 
         private readonly IProjectService _projectService;
         private readonly ICategoryService _categoryService;
+        private readonly IProductGroupService _productGroupService;
 
         private readonly int _itemPerPage = 10;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public ProjectController(IProjectService projectService, ICategoryService categoryService)
+        public ProjectController(IProjectService projectService, ICategoryService categoryService,IProductGroupService productGroupService)
         {
             _projectService = projectService;
             _categoryService = categoryService;
+            _productGroupService = productGroupService;
         }
 
         #region Lista projektów, pojedynczy projekt
@@ -64,6 +66,7 @@ namespace MwProject.Controllers
             var vm = new ProjectViewModel()
             {
                 Project = selectedProject,
+                ProductGroups = _productGroupService.GetProductGroups(),
                 Categories = _categoryService.GetCategories(),
                 Heading = ""
             };
@@ -86,6 +89,7 @@ namespace MwProject.Controllers
                 {
                     Project = project,
                     Categories = _categoryService.GetCategories(),
+                    ProductGroups = _productGroupService.GetProductGroups(),
                     Heading = project.Id == 0 ?
                      "nowy projekt" :
                      "edycja projektu"

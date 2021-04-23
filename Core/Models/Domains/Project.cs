@@ -68,7 +68,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nowy Produkt")]
         public bool NewProduct { get; set; }
 
-        
+
+        [Required(ErrorMessage = "Pole grupa produktu jest wymagane.")]
         [Display(Name = "Grupa Produktu")]
         public int ProductGroupId { get; set; }
         public ProductGroup ProductGroup { get; set; }

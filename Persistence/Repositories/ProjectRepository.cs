@@ -55,6 +55,7 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.EstimatedSalesValues)
                 .Include(x => x.ProjectRequirements)
                 .ThenInclude(x => x.Requirement)
+                .Include(x => x.ProductGroup)
                 .Include(x => x.Category)
                 .Include(x => x.User)
                 .Single(x => x.Id == id && x.UserId == userId);
@@ -125,10 +126,16 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.CreatedDate = project.CreatedDate;
             projectToUpdate.InitiatedBy = project.InitiatedBy;
             projectToUpdate.Description = project.Description;
-            projectToUpdate.CategoryId = project.CategoryId;
+            
+            if(project.CategoryId != 0) 
+                projectToUpdate.CategoryId = project.CategoryId;
+
             projectToUpdate.Term = project.Term;
             projectToUpdate.NewProduct = project.NewProduct;
             projectToUpdate.Value = project.Value;
+
+            if (project.ProductGroupId != 0)
+                projectToUpdate.ProductGroupId = project.ProductGroupId;
         }
     }
 }

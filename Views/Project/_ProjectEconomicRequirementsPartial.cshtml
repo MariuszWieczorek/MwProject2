@@ -3,7 +3,7 @@
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
 
 <div class="row">
-    
+
 
     <table>
         <tr>
@@ -18,29 +18,26 @@
             </td>
         </tr>
     </table>
-    
 
-    
+    @{
+        var economicRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1);
+    }
 
-    <table class="table table-hover table-striped mt-3 mb-5">
-        <thead>
-            <tr>
-                <th scope="col">Wymaganie</th>
-                <th scope="col"></th>
-                <th scope="col">Wartość</th>
-                <th scope="col">Komentarz</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
+    @if (economicRequirements != null && economicRequirements.Any())
+    {
 
-            @{
-                var economicRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1);
-            }
-
-            @if (economicRequirements != null && economicRequirements.Any())
-            {
-                foreach (var position in economicRequirements)
+        <table class="table table-hover table-striped mt-3 mb-5">
+            <thead>
+                <tr>
+                    <th scope="col">Wymaganie</th>
+                    <th scope="col"></th>
+                    <th scope="col">Wartość</th>
+                    <th scope="col">Komentarz</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var position in economicRequirements)
                 {
                     <tr>
                         <td>
@@ -63,13 +60,12 @@
                             </button>
                         </td>
                     </tr>
-                }
+               }
 
-
-            }
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+     }
+    </div>
 
 @section scripts
 {

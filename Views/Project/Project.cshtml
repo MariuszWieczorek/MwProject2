@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = Model.Heading;
+    bool NewProject = (Model.Project.Id == 0);
 }
 
 <h2>@Model.Heading</h2>
@@ -51,7 +52,53 @@
             @Html.HiddenFor(x => x.Project.Id)
             @Html.HiddenFor(x => x.Project.UserId)
 
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.CategoryId)
 
+
+                @if (NewProject == false)
+                {
+                    @Html.DropDownListFor(x => x.Project.CategoryId,
+                            new SelectList(Model.Categories, "Id", "Name"),
+                            "--- Wybierz kategorię projektu ---",
+                            new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Project.CategoryId,
+                        new SelectList(Model.Categories, "Id", "Name"),
+                        "--- Wybierz kategorię projektu ---",
+                        new { @class = "form-control", autofocus = "autofocus" })
+                }
+
+                @Html.ValidationMessageFor(x => x.Project.CategoryId)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Project.ProductGroupId)
+
+
+                @if (NewProject == false)
+                {
+                    @Html.DropDownListFor(x => x.Project.ProductGroupId,
+                                    new SelectList(Model.ProductGroups, "Id", "Name"),
+                                    "--- Wybierz kategorię ---",
+                                    new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.Project.ProductGroupId,
+                                   new SelectList(Model.ProductGroups, "Id", "Name"),
+                                   "--- Wybierz kategorię ---",
+                                   new { @class = "form-control", autofocus = "autofocus" })
+                }
+
+                @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
+            </div>
+
+            @*  , @readonly = "readonly" *@
+
+        
             <div class="form-group mb-3">
                 @Html.LabelFor(x => x.Project.Number)
                 @Html.TextBoxFor(x => x.Project.Number,
@@ -61,8 +108,8 @@
 
             <div class="form-group mb-3">
                 @Html.LabelFor(x => x.Project.Title)
-                @Html.TextBoxFor(x => x.Project.Title,
-               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.TextAreaFor(x => x.Project.Title,
+               new { @class = "form-control" })
                 @Html.ValidationMessageFor(x => x.Project.Title)
             </div>
 
@@ -73,14 +120,6 @@
                 @Html.ValidationMessageFor(x => x.Project.InitiatedBy)
             </div>
 
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.Project.CategoryId)
-                @Html.DropDownListFor(x => x.Project.CategoryId,
-               new SelectList(Model.Categories, "Id", "Name"),
-               "--- Wybierz kategorię ---",
-               new { @class = "form-control", autofocus = "autofocus" })
-                @Html.ValidationMessageFor(x => x.Project.CategoryId)
-            </div>
 
             <div class="form-group mb-3">
                 @Html.LabelFor(x => x.Project.CreatedDate)
