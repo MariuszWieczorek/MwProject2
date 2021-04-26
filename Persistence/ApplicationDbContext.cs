@@ -20,6 +20,6 @@ namespace MwProject.Data
         public DbSet<ProjectRequirement> ProjectRequirements { get; set; }
         public DbSet<Requirement> Requirements { get; set; }
         public DbSet<ProductGroup> ProductGroups { get; set; }
-
+        public DbSet<TechnicalProperty> TechnicalProperties { get; set; }
     }
 }

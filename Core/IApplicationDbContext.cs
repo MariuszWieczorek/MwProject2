@@ -16,6 +16,7 @@ namespace MwProject.Core
         DbSet<Requirement> Requirements { get; set; }
         DbSet<ProjectRequirement> ProjectRequirements { get; set; }
         DbSet<ProductGroup> ProductGroups { get; set; }
+        DbSet<TechnicalProperty> TechnicalProperties { get; set; }   
         int SaveChanges();
     }
 }

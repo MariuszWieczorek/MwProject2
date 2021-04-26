@@ -1,0 +1,107 @@
+﻿@model IEnumerable<MwProject.Core.Models.Domains.TechnicalProperty>
+
+@{
+    ViewData["Title"] = "Cechy Techniczne";
+}
+
+<h1>Cechy Techniczne</h1>
+
+<button class="btn btn-primary btn-lg mt-3 mb-3"
+        onclick='window.location.href = "@Url.Action("TechnicalProperty","TechnicalProperty")"'>
+    Dodaj pozycję
+</button>
+
+
+<div id="categoriesTable">
+    <table class="table mt-3 table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">Lp</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var technicalProperty in Model)
+                {
+            <tr>
+
+                <td>
+
+                    <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
+                                    new { id = technicalProperty.Id })"
+                       class="font-weight-bold">@technicalProperty.OrdinalNumber</a>
+                </td>
+
+                <td>
+
+                    <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
+                                    new { id = technicalProperty.Id })"
+                       class="font-weight-bold">@technicalProperty.Name</a>
+
+                </td>
+                <td>
+
+                    <button class="btn btn-danger btn-sm"
+                            onclick="deleteTechnicalProperty('@technicalProperty.Id',this)">
+                        Usuń
+                    </button>
+
+
+                </td>
+            </tr>
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Brak grup wyrobów
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        // Usuwanie kategorii
+        function deleteTechnicalProperty(id, btn) {
+            if (!confirm("Czy na pewno chcesz grupę wyrobów ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteTechnicalProperty", "TechnicalProperty")",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji ');
+                },
+                dataType: 'json'
+
+            });
+        }
+        // --------------------------------------------
+    </script>
+}

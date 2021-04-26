@@ -19,7 +19,8 @@ namespace MwProject.Persistence
                             IEstimatedSalesValueRepository estimatedSalesValueRepository,
                             IRequirementRepository requirementRepository,
                             IProjectRequirementRepository projectRequirementRepository,
-                            IProductGroupRepository productGroupRepository
+                            IProductGroupRepository productGroupRepository,
+                            ITechnicalPropertyRepository technicalPropertyRepository
                             )
         {
             _context = context;
@@ -30,6 +31,7 @@ namespace MwProject.Persistence
             Requirement = requirementRepository;
             ProjectRequirement = projectRequirementRepository;
             ProductGroupRepository = productGroupRepository;
+            TechnicalPropertyRepository = technicalPropertyRepository;
         }
 
         // obiekty repozytoryjne 
@@ -40,7 +42,7 @@ namespace MwProject.Persistence
         public IRequirementRepository Requirement { get; set; }
         public IProjectRequirementRepository ProjectRequirement { get; set; }
         public IProductGroupRepository ProductGroupRepository { get; set; }
-
+        public ITechnicalPropertyRepository TechnicalPropertyRepository { get; set; }
         // na koniec metoda zapisująca zmiany
         public void Complete()
         {
