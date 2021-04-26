@@ -38,7 +38,7 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             var selectedRequirement = id == 0 ?
-                new Requirement { Id = 0, Name = string.Empty } :
+                _requirementService.NewRequirement() :
                 _requirementService.GetRequirement(id);
 
             var vm = new RequirementViewModel()

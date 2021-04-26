@@ -18,6 +18,7 @@ namespace MwProject.Core.Models.Domains
             Calculations = new Collection<Calculation>();
             EstimatedSalesValues = new Collection<EstimatedSalesValue>();
             ProjectRequirements = new Collection<ProjectRequirement>();
+            ProjectTechnicalProperties = new Collection<ProjectTechnicalProperty>();
         }
 
         [MaxLength(255)]
@@ -92,5 +93,6 @@ namespace MwProject.Core.Models.Domains
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
+        public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
     }
 }

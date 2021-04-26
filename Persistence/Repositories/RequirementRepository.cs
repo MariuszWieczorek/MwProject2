@@ -34,10 +34,18 @@ namespace MwProject.Persistence.Repositories
                 .Single(x => x.Id == id);
         }
 
+        public Requirement NewRequirement()
+        {
+            return new Requirement
+            {
+                OrdinalNumber = _context.Requirements.Max(x=>x.OrdinalNumber)+1
+            };
+        }
+
         public IEnumerable<Requirement> GetRequirements()
         {
             return _context.Requirements
-                .OrderBy(x=>x.Name).ToList();
+                .OrderBy(x=>x.OrdinalNumber).ThenBy(x=>x.Name).ToList();
         }
 
         public void UpdateRequirement(Requirement requirement)
@@ -45,6 +53,7 @@ namespace MwProject.Persistence.Repositories
             var requirementToUpdate = _context.Requirements.Single(x => x.Id == requirement.Id);
             requirementToUpdate.Name = requirement.Name;
             requirementToUpdate.Type = requirement.Type;
+            requirementToUpdate.OrdinalNumber = requirement.OrdinalNumber;
         }
     }
 }

@@ -1,9 +1,21 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.EstimatedSalesValue>
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
 
 @* Widok częściowy z kalkulacjami powiązanymi z projektem *@
 
 <div class="row">
-    <h2>Przewidywana Sprzedaż</h2>
+
+
+    <div class="row g-0">
+        <div class="col-11">
+            <h2>Przewidywana Sprzedaż</h2>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
+                Dodaj
+            </button>
+        </div>
+    </div>
 
     <table class="table table-hover table-striped mt-3 mb-5">
         <thead>
@@ -16,9 +28,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @if (Model != null && Model.Project.EstimatedSalesValues.Any())
             {
-                foreach (var position in Model)
+                foreach (var position in Model.Project.EstimatedSalesValues)
                 {
                     <tr>
                         <td>
@@ -38,7 +50,7 @@
                             </button>
                         </td>
                     </tr>
-                            }
+                }
 
                 <tr>
                     <td><strong>średnia</strong></td>
@@ -47,10 +59,10 @@
                     @{decimal averageValue = 0;}
 
 
-                    @{averageQty = Math.Round(Model.Average(x => x.Qty), 2);}
+                    @{averageQty = Math.Round(Model.Project.EstimatedSalesValues.Average(x => x.Qty), 2);}
 
-                    @{decimal totalSales = Math.Round(Model.Sum(x => x.Price * x.Qty), 2);}
-                    @{int numberOfYears = Model.Count();}
+                    @{decimal totalSales = Math.Round(Model.Project.EstimatedSalesValues.Sum(x => x.Price * x.Qty), 2);}
+                    @{int numberOfYears = Model.Project.EstimatedSalesValues.Count();}
 
                     @if (averageQty != 0)
                     {
@@ -67,14 +79,14 @@
                     <td> </td>
                 </tr>
             }
-            </tbody>
+        </tbody>
     </table>
 </div>
 
 @section scripts
 {
     <script type="text/javascript">
-      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-      // deleteEstimatedSalesValue()
+          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+          // deleteEstimatedSalesValue()
     </script>
 }

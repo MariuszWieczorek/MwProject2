@@ -16,6 +16,7 @@
     <table class="table mt-3 table-bordered table-hover">
         <thead class="table-light">
             <tr>
+                <th scope="col">Lp</th>
                 <th scope="col">Nazwa</th>
                 <th scope="col"></th>
             </tr>
@@ -26,6 +27,11 @@
                 foreach (var requirement in Model)
                 {
                     <tr>
+                        <td>
+                            <a href="@Url.Action("Requirement", "Requirement",
+                                    new { id = requirement.Id })"
+                               class="font-weight-bold">@requirement.OrdinalNumber</a>
+                        </td>
                         <td>
 
                             <a href="@Url.Action("Requirement", "Requirement",

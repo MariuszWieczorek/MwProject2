@@ -5,19 +5,18 @@
 <div class="row">
 
 
-    <table>
-        <tr>
-            <td>
-                <h2>Wymagania Ekonomiczne</h2>
-            </td>
-            <td align="left" valign="middle">
-                <button class="btn btn-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 1 })"'>
-                    Dodaj
-                </button>
-            </td>
-        </tr>
-    </table>
+    <div class="row g-0">
+        <div class="col-11">
+            <h2>Wymagania Ekonomiczne</h2> 
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 1 })"'>
+                Dodaj
+            </button>
+        </div>
+    </div>
+
 
     @{
         var economicRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1);
@@ -27,6 +26,7 @@
     {
 
         <table class="table table-hover table-striped mt-3 mb-5">
+            @*
             <thead>
                 <tr>
                     <th scope="col">Wymaganie</th>
@@ -36,8 +36,9 @@
                     <th scope="col"></th>
                 </tr>
             </thead>
+            *@
             <tbody>
-            @foreach (var position in economicRequirements)
+                @foreach (var position in economicRequirements)
                 {
                     <tr>
                         <td>
@@ -60,12 +61,12 @@
                             </button>
                         </td>
                     </tr>
-               }
+                }
 
             </tbody>
         </table>
-     }
-    </div>
+    }
+</div>
 
 @section scripts
 {

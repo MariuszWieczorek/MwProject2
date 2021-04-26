@@ -4,19 +4,17 @@
 
 <div class="row">
 
-    <table>
-        <tr>
-            <td>
-                <h2>Wymagania Jakościowe</h2>
-            </td>
-            <td align="left" valign="middle">
-                <button class="btn btn-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, Type = 2 })"'>
-                    Dodaj
-                </button>
-            </td>
-        </tr>
-    </table>
+    <div class="row g-0">
+        <div class="col-11">
+            <h2>Wymagania Jakościowe</h2>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 2 })"'>
+                Dodaj
+            </button>
+        </div>
+    </div>
 
     @{
         var QualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
@@ -26,6 +24,8 @@
     @if (QualityRequirements != null && QualityRequirements.Any())
     {
         <table class="table table-hover table-striped mt-3 mb-5">
+           @*
+           
             <thead>
                 <tr>
                     <th scope="col">Wymaganie</th>
@@ -34,36 +34,37 @@
                     <th scope="col"></th>
                 </tr>
             </thead>
+           *@
             <tbody>
 
 
-                    @foreach (var position in QualityRequirements)
-                    {
-                        <tr>
-                            <td>
-                                <a class="font-weight-bold"
-                                   href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
-                                    @position.Requirement.Name
-                                </a>
-                            </td>
-                            @{
-                                var exist = position.Exist == true ? "TAK" : "NIE";
-                            }
+                @foreach (var position in QualityRequirements)
+                {
+                    <tr>
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
+                                @position.Requirement.Name
+                            </a>
+                        </td>
+                        @{
+                            var exist = position.Exist == true ? "TAK" : "NIE";
+                        }
 
-                            <td>@exist</td>
-                            <td>@position.Comment</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm"
-                                        onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                    Usuń
-                                </button>
-                            </td>
-                        </tr>
-                     }
-                
+                        <td>@exist</td>
+                        <td>@position.Comment</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                }
+
             </tbody>
         </table>
-     }
+    }
 </div>
 
 @section scripts

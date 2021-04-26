@@ -12,6 +12,7 @@ namespace MwProject.Core
         IProjectRequirementRepository ProjectRequirement { get; set; }
         IProductGroupRepository ProductGroupRepository { get; set; }
         ITechnicalPropertyRepository TechnicalPropertyRepository { get; set; }
+        IProjectTechnicalPropertyRepository ProjectTechnicalPropertyRepository { get; set; }
         void Complete();
     }
 }

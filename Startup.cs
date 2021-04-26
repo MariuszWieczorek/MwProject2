@@ -47,6 +47,7 @@ namespace MwProject
             services.AddScoped<IProjectRequirementRepository, ProjectRequirementRepository>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
             services.AddScoped<ITechnicalPropertyRepository, TechnicalPropertyRepository>();
+            services.AddScoped<IProjectTechnicalPropertyRepository, ProjectTechnicalPropertyRepository>();
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICategoryService, CategoryService>();

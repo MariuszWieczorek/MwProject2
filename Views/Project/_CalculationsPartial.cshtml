@@ -1,9 +1,21 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.Calculation>
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
 
 @* Widok częściowy z kalkulacjami powiązanymi z projektem *@
 
 <div class="row">
-    <h2>Kalkulacje</h2>
+
+
+    <div class="row g-0">
+        <div class="col-11">
+            <h2>Kalkulacje</h2>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
+                Dodaj
+            </button>
+        </div>
+    </div>
 
     <table class="table table-hover table-striped mt-3 mb-5">
         <thead>
@@ -18,26 +30,26 @@
         </thead>
         <tbody>
 
-            @foreach (var position in Model)
+            @foreach (var position in Model.Project.Calculations)
             {
-            <tr>
-                <td>
-                    <a class="font-weight-bold"
-                       href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id } )">
-                        @position.Tkw.ToString("c")
-                    </a>
-                </td>
-                <td>@position.MaterialCosts.ToString("c")</td>
-                <td>@position.LabourCosts.ToString("c")</td>
-                <td>@position.PackingCosts.ToString("c")</td>
-                <td>@position.Markup.ToString("c")</td>
-                <td>
-                    <button class="btn btn-danger btn-sm"
-                            onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
-                        Usuń
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                           href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id } )">
+                            @position.Tkw.ToString("c")
+                        </a>
+                    </td>
+                    <td>@position.MaterialCosts.ToString("c")</td>
+                    <td>@position.LabourCosts.ToString("c")</td>
+                    <td>@position.PackingCosts.ToString("c")</td>
+                    <td>@position.Markup.ToString("c")</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
+                            Usuń
+                        </button>
+                    </td>
+                </tr>
             }
 
         </tbody>
@@ -47,7 +59,7 @@
 @section scripts
 {
     <script type="text/javascript">
-      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-      // deleteCalculation()
+          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+          // deleteCalculation()
     </script>
 }

@@ -11,6 +11,7 @@ namespace MwProject.Core.Services
         IEnumerable<Requirement> GetRequirements();
         void AddRequirement(Requirement requirement);
         Requirement GetRequirement(int id);
+        Requirement NewRequirement();
         void UpdateRequirement(Requirement requirement);
         void DeleteRequirement(int id);
     }

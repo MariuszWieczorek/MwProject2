@@ -16,6 +16,10 @@ namespace MwProject.Core.Models.Domains
 
         public int Id { get; set; }
 
+        [Required]
+        [Display(Name = "Lp")]
+        public int OrdinalNumber { get; set; }
+
         [Required(ErrorMessage = "Pole nazwa jest wymagane.")]
         [Display(Name = "Nazwa")]
         public string Name { get; set; }

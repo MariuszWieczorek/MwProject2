@@ -9,17 +9,7 @@
 
 @if (Model.Project.Id != 0)
 {
-    <button class="btn btn-primary mb-3"
-            onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
-        Dodaj kalkulacje
-    </button>
-
-    <button class="btn btn-primary mb-3"
-            onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
-        Dodaj Przewidywaną Sprzedaż
-    </button>
-
- 
+    
     <button class="btn btn-secondary mb-3"
             onclick="generatePdf()">
         Generuj PDF
@@ -185,14 +175,23 @@
     <div class="col-5 offset-1">
         @if (Model.Project.Id != 0)
         {
+                <div class="mt-3 mb-5">
+                    @await Html.PartialAsync("_CalculationsPartial", Model)
+                </div>
+                <div class="mt-3 mb-5">
+                    @await Html.PartialAsync("_EstimatedSalesValuesPartial", Model)
+                </div>
 
-            @await Html.PartialAsync("_CalculationsPartial", Model.Project.Calculations)
-            @await Html.PartialAsync("_EstimatedSalesValuesPartial", Model.Project.EstimatedSalesValues)
-            @await Html.PartialAsync("_ProjectEconomicRequirementsPartial", Model)
-            @await Html.PartialAsync("_ProjectQualityRequirementsPartial", Model)
-        }
-    </div>
-</div>
+                <div class="mt-3 mb-5">
+                    @await Html.PartialAsync("_ProjectEconomicRequirementsPartial", Model)
+                </div>
+
+                <div class="mt-3 mb-5">
+                    @await Html.PartialAsync("_ProjectQualityRequirementsPartial", Model)
+                </div>
+                }
+            </div>
+        </div>
 
 @section scripts
 {

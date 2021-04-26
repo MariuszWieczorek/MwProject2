@@ -43,5 +43,10 @@ namespace MwProject.Persistence.Services
         {
             return _unitOfWork.Requirement.GetRequirement(id);
         }
+
+        public Requirement NewRequirement()
+        {
+            return _unitOfWork.Requirement.NewRequirement();
+        }
     }
 }
