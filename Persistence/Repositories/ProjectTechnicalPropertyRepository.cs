@@ -51,6 +51,8 @@ namespace MwProject.Persistence.Repositories
             projectTechnicalPropertyToUpdate.Exist = projectTechnicalProperty.Exist;
             projectTechnicalPropertyToUpdate.Value = projectTechnicalProperty.Value;
             projectTechnicalPropertyToUpdate.Comment = projectTechnicalProperty.Comment;
+            projectTechnicalPropertyToUpdate.YesNo = projectTechnicalProperty.YesNo;
+            projectTechnicalPropertyToUpdate.ShowValue = projectTechnicalProperty.ShowValue;
         }
     }
 }

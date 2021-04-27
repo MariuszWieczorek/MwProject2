@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427163035_YesNoProjectTechnicalProperty")]
+    partial class YesNoProjectTechnicalProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,17 +320,11 @@ namespace MwProject.Migrations
                     b.Property<int>("OrdinalNumber")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ShowValue")
-                        .HasColumnType("bit");
-
                     b.Property<int>("TechnicalPropertyId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<byte>("YesNo")
-                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -505,9 +501,6 @@ namespace MwProject.Migrations
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("ShowValue")
-                        .HasColumnType("bit");
 
                     b.Property<int>("TechnicalPropertyId")
                         .HasColumnType("int");

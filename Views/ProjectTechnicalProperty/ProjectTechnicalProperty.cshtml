@@ -37,9 +37,9 @@
             </div>
 
             <div class="form-check form-switch mt-3 mb-5">
-                @Html.CheckBoxFor(x => x.ProjectTechnicalProperty.Exist, new { @class = "form-check-input" })
-                @Html.LabelFor(x => x.ProjectTechnicalProperty.Exist, new { @class = "form-check-label" })
-                @Html.ValidationMessageFor(x => x.ProjectTechnicalProperty.Exist)
+                @Html.CheckBoxFor(x => x.ProjectTechnicalProperty.ShowValue, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.ProjectTechnicalProperty.ShowValue, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(x => x.ProjectTechnicalProperty.ShowValue)
             </div>
 
             <div class="form-group mb-3">
@@ -49,14 +49,34 @@
                 @Html.ValidationMessageFor(x => x.ProjectTechnicalProperty.Value)
             </div>
 
-
-
             <div class="form-group mb-3">
                 @Html.LabelFor(x => x.ProjectTechnicalProperty.Comment)
                 @Html.TextAreaFor(x => x.ProjectTechnicalProperty.Comment,
                new { @class = "form-control" })
             </div>
 
+            <div class="form-check form-switch mt-3 mb-5">
+                <div class="form-check">
+                    @Html.RadioButtonFor(x => x.ProjectTechnicalProperty.YesNo, "0",
+                   new { @class = "form-check-input" })
+
+                    <label class="form-check-label" for="exampleRadios1"> Ukryj </label>
+                </div>
+
+                <div class="form-check">
+                    @Html.RadioButtonFor(x => x.ProjectTechnicalProperty.YesNo, "1",
+                   new { @class = "form-check-input" })
+
+                    <label class="form-check-label" for="exampleRadios1"> Tak </label>
+                </div>
+
+                <div class="form-check">
+                    @Html.RadioButtonFor(x => x.ProjectTechnicalProperty.YesNo, "2",
+                   new { @class = "form-check-input" })
+
+                    <label class="form-check-label" for="exampleRadios1"> Nie </label>
+                </div>
+            </div>
 
             <button class="btn btn-primary btn-lg mb-5" type="submit">
                 Zapisz

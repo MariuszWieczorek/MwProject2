@@ -14,9 +14,16 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Lp")]
         public int OrdinalNumber { get; set; }
 
+        [Column(TypeName = "tinyint")]
+        [Display(Name = "Tak/Nie/")]
+        public int YesNo { get; set; }
+
         [Display(Name = "Czy występuje?")]
         public bool Exist { get; set; }
-        
+
+        [Display(Name = "Pokaż Wartość")]
+        public bool ShowValue { get; set; }
+
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
         public decimal Value { get; set; }

@@ -56,12 +56,27 @@
                                 @position.TechnicalProperty.Name
                             </a>
                         </td>
+                        
                         @{
-                            var exist = position.Exist == true ? "TAK" : "NIE";
+                            string exist;
+                            switch (position.YesNo)
+                            {
+                                case 1:
+                                    exist = "TAK";
+                                    break;
+                                case 2:
+                                    exist = "NIE";
+                                    break;
+                                default:
+                                    exist = "";
+                                    break;
+                            }
+
+                            string value = position.ShowValue == true ? position.Value.ToString() : "";
                         }
 
                         <td>@exist</td>
-                        <td>@position.Value </td>
+                        <td>@value</td>
                         <td>@position.Comment</td>
                         <td align="right">
                             <button class="btn btn-outline-danger btn-sm"

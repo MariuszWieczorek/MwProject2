@@ -55,6 +55,8 @@ namespace MwProject.Persistence.Repositories
             categoryTechnicalPropertyToUpdate.Value = categoryTechnicalProperty.Value;
             categoryTechnicalPropertyToUpdate.Comment = categoryTechnicalProperty.Comment;
             categoryTechnicalPropertyToUpdate.OrdinalNumber = categoryTechnicalProperty.OrdinalNumber;
+            categoryTechnicalPropertyToUpdate.YesNo = categoryTechnicalProperty.YesNo;
+            categoryTechnicalPropertyToUpdate.ShowValue = categoryTechnicalProperty.ShowValue;
         }
 
     }
