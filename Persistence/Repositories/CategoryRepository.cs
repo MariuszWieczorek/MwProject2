@@ -1,4 +1,5 @@
-﻿using MwProject.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using MwProject.Core;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Repositories;
 using System;
@@ -24,7 +25,10 @@ namespace MwProject.Persistence.Repositories
         public Category GetCategory(int id)
         {
             var category = _context.Categories
+                .Include(x => x.CategoryTechnicalProperties)
+                .ThenInclude(x => x.TechnicalProperty)
                 .Single(x => x.Id == id);
+                    
             return category;
         }
 

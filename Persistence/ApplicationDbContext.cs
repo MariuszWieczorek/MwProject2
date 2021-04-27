@@ -22,5 +22,6 @@ namespace MwProject.Data
         public DbSet<ProductGroup> ProductGroups { get; set; }
         public DbSet<TechnicalProperty> TechnicalProperties { get; set; }
         public DbSet<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
+        public DbSet<CategoryTechnicalProperty> CategoryTechnicalProperties { get ; set; }
     }
 }

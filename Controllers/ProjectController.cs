@@ -68,7 +68,9 @@ namespace MwProject.Controllers
                 Project = selectedProject,
                 ProductGroups = _productGroupService.GetProductGroups(),
                 Categories = _categoryService.GetCategories(),
-                Heading = ""
+                Heading = selectedProject.Id == 0 ?
+                      "Nowy Projekt" :
+                     $"Edycja Projektu: {selectedProject.Number}"
             };
 
             return View(vm);
@@ -91,8 +93,8 @@ namespace MwProject.Controllers
                     Categories = _categoryService.GetCategories(),
                     ProductGroups = _productGroupService.GetProductGroups(),
                     Heading = project.Id == 0 ?
-                     "nowy projekt" :
-                     "edycja projektu"
+                      "Nowy Projekt" :
+                     $"Edycja Projektu: {project.Number}"
                 };
 
                 return View("Project", vm);

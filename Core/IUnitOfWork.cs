@@ -13,6 +13,7 @@ namespace MwProject.Core
         IProductGroupRepository ProductGroupRepository { get; set; }
         ITechnicalPropertyRepository TechnicalPropertyRepository { get; set; }
         IProjectTechnicalPropertyRepository ProjectTechnicalPropertyRepository { get; set; }
+        ICategoryTechnicalPropertyRepository CategoryTechnicalPropertyRepository { get; set; }
         void Complete();
     }
 }

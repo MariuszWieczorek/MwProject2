@@ -1,76 +1,91 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
+
+@{
+    var qualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
+}
 
 <div class="row">
 
     <div class="row g-0">
-        <div class="col-11">
-            <h2>Wymagania Jakościowe</h2>
+        <div class="col-9">
+            <h4>Wymagania Jakościowe</h4>
         </div>
+
         <div class="col-1">
             <button class="btn btn-success btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 2 })"'>
                 Dodaj
             </button>
         </div>
+
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-warning btn-sm"
+                    onclick='window.location.href = "@Url.Action("ConfirmProjectRequirements","ProjectRequirement",new { projectId = Model.Project.Id})"'>
+                Akceptuj
+            </button>
+        </div>
     </div>
 
-    @{
-        var QualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
-    }
 
 
-    @if (QualityRequirements != null && QualityRequirements.Any())
+    @if (qualityRequirements != null && qualityRequirements.Any())
     {
-        <table class="table table-hover table-striped mt-3 mb-5">
-           @*
-           
-            <thead>
-                <tr>
-                    <th scope="col">Wymaganie</th>
-                    <th scope="col"></th>
-                    <th scope="col">Komentarz</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-           *@
+
+        <table class="table table-hover table-striped table-info mt-3 mb-5">
+            @*
+
+                <thead>
+                    <tr>
+                        <th scope="col">Wymaganie</th>
+                        <th scope="col"></th>
+                        <th scope="col">Komentarz</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            *@
             <tbody>
 
-
-                @foreach (var position in QualityRequirements)
+                @if (qualityRequirements != null && qualityRequirements.Any())
                 {
-                    <tr>
-                        <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
-                                @position.Requirement.Name
-                            </a>
-                        </td>
-                        @{
-                            var exist = position.Exist == true ? "TAK" : "NIE";
-                        }
+                    @foreach (var position in qualityRequirements)
+                    {
+                        <tr>
+                            <td>
+                                <a class="font-weight-bold"
+                                   href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
+                                    @position.Requirement.Name
+                                </a>
+                            </td>
+                            @{
+                                var exist = position.Exist == true ? "TAK" : "NIE";
+                            }
 
-                        <td>@exist</td>
-                        <td>@position.Comment</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm"
-                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
-                        </td>
-                    </tr>
-                }
+                            <td>@exist</td>
+                            <td>@position.Comment</td>
+                            <td align="right">
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            </td>
+                        </tr>
+                                }
+                                }
 
             </tbody>
         </table>
-    }
-</div>
+     }
+    </div>
 
 @section scripts
 {
     <script type="text/javascript">
-      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-      // deleteProjectRequirement()
+          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+          // deleteProjectRequirement()
     </script>
 }

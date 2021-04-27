@@ -1,0 +1,93 @@
+﻿@model MwProject.Core.ViewModels.CategoryViewModel
+@* Widok częściowy z wymaganiami powiązanymi z projektem *@
+
+@{
+    var technicalProperties = Model.Category.CategoryTechnicalProperties.OrderBy(x=>x.OrdinalNumber);
+}
+
+<div class="row">
+    <div class="row g-0">
+        <div class="col-9">
+            <h4>Parametry Techniczne</h4>
+        </div>
+
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("CategoryTechnicalProperty","CategoryTechnicalProperty",new { categoryId = Model.Category.Id})"'>
+                Dodaj
+            </button>
+        </div>
+
+    </div>
+
+
+    @if (technicalProperties != null && technicalProperties.Any())
+    {
+
+        <table class="table table-hover table-striped table-primary mt-3 mb-5">
+            @*
+                <thead>
+                    <tr>
+                        <th scope="col">Wymaganie</th>
+                        <th scope="col"></th>
+                        <th scope="col">Wartość</th>
+                        <th scope="col">Komentarz</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            *@
+            <tbody>
+                @foreach (var position in technicalProperties)
+                {
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                           href="@Url.Action("CategoryTechnicalProperty", "CategoryTechnicalProperty", new { categoryId = position.CategoryId, id = position.Id})">
+                            @position.OrdinalNumber
+                        </a>
+                    </td>
+
+                    <td>
+                        <a class="font-weight-bold"
+                           href="@Url.Action("CategoryTechnicalProperty", "CategoryTechnicalProperty", new { categoryId = position.CategoryId, id = position.Id})">
+                            @position.TechnicalProperty.Name
+                        </a>
+                    </td>
+
+                    @{
+                        var exist = position.Exist == true ? "TAK" : "NIE";
+                    }
+
+                    <td>@exist</td>
+                    <td>@position.Value </td>
+                    <td>@position.Comment</td>
+                    
+                    <td align="right">
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="deleteCategoryTechnicalProperty('@position.CategoryId','@position.Id',this)">
+                            Usuń
+                        </button>
+                    </td>
+                </tr>
+                }
+
+              </tbody>
+        </table>
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+          // deleteProjectRequirement()
+    </script>
+}

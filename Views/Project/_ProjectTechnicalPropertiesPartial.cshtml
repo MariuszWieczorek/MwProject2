@@ -1,39 +1,50 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
+
+@{
+    var technicalProperties = Model.Project.ProjectTechnicalProperties;
+}
 
 <div class="row">
     <div class="row g-0">
-        <div class="col-11">
-            <h3>Parametry Techniczne</h3> 
+        <div class="col-9">
+            <h4>Parametry Techniczne</h4>
         </div>
+
         <div class="col-1">
             <button class="btn btn-success btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
                 Dodaj
             </button>
         </div>
+
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-warning btn-sm"
+                    onclick='window.location.href = "@Url.Action("ProjectTechnicalPropertiesConfim","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
+                Akceptuj
+            </button>
+        </div>
     </div>
 
-
-    @{
-        var technicalProperties = Model.Project.ProjectTechnicalProperties;
-    }
 
     @if (technicalProperties != null && technicalProperties.Any())
     {
 
-        <table class="table table-hover table-striped mt-3 mb-5">
+        <table class="table table-hover table-striped table-primary mt-3 mb-5">
             @*
-            <thead>
-                <tr>
-                    <th scope="col">Wymaganie</th>
-                    <th scope="col"></th>
-                    <th scope="col">Wartość</th>
-                    <th scope="col">Komentarz</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th scope="col">Wymaganie</th>
+                        <th scope="col"></th>
+                        <th scope="col">Wartość</th>
+                        <th scope="col">Komentarz</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
             *@
             <tbody>
                 @foreach (var position in technicalProperties)
@@ -41,7 +52,7 @@
                     <tr>
                         <td>
                             <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                               href="@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
                                 @position.TechnicalProperty.Name
                             </a>
                         </td>
@@ -52,16 +63,16 @@
                         <td>@exist</td>
                         <td>@position.Value </td>
                         <td>@position.Comment</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm"
-                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                        <td align="right">
+                            <button class="btn btn-outline-danger btn-sm"
+                                    onclick="deleteProjectTechnicalProperty('@position.ProjectId','@position.Id',this)">
                                 Usuń
                             </button>
                         </td>
                     </tr>
                 }
 
-            </tbody>
+              </tbody>
         </table>
     }
 </div>
@@ -69,7 +80,7 @@
 @section scripts
 {
     <script type="text/javascript">
-      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-      // deleteProjectRequirement()
+          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+          // deleteProjectRequirement()
     </script>
 }

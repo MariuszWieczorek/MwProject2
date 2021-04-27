@@ -48,6 +48,7 @@ namespace MwProject
             services.AddScoped<IProductGroupRepository, ProductGroupRepository>();
             services.AddScoped<ITechnicalPropertyRepository, TechnicalPropertyRepository>();
             services.AddScoped<IProjectTechnicalPropertyRepository, ProjectTechnicalPropertyRepository>();
+            services.AddScoped<ICategoryTechnicalPropertyRepository, CategoryTechnicalPropertyRepository>();
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -58,6 +59,7 @@ namespace MwProject
             services.AddScoped<IProductGroupService, ProductGroupService>();
             services.AddScoped<ITechnicalPropertyService, TechnicalPropertyService>();
             services.AddScoped<IProjectTechnicalPropertyService, ProjectTechnicalPropertyService>();
+            services.AddScoped<ICategoryTechnicalPropertyService, CategoryTechnicalPropertyService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

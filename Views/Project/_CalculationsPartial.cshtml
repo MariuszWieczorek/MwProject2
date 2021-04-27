@@ -1,65 +1,84 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-
 @* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+
+@{
+    var projectCalculations = Model.Project.Calculations;
+}
 
 <div class="row">
 
 
     <div class="row g-0">
-        <div class="col-11">
-            <h2>Kalkulacje</h2>
+        <div class="col-9">
+            <h4>Kalkulacje</h4>
         </div>
+
         <div class="col-1">
             <button class="btn btn-success btn-sm"
                     onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
                 Dodaj
             </button>
         </div>
+
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-warning btn-sm"
+                    onclick='window.location.href = "@Url.Action("CalculationsConfirm","Calculation",new { projectId = Model.Project.Id })"'>
+                Akceptuj
+            </button>
+        </div>
     </div>
 
-    <table class="table table-hover table-striped mt-3 mb-5">
-        <thead>
-            <tr>
-                <th scope="col">TKW</th>
-                <th scope="col">Material</th>
-                <th scope="col">Labour</th>
-                <th scope="col">Packing</th>
-                <th scope="col">Markup</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
+    @if (projectCalculations != null && projectCalculations.Any())
+    {
 
-            @foreach (var position in Model.Project.Calculations)
-            {
+        <table class="table table-hover table-striped mt-3 mb-5">
+            <thead>
                 <tr>
-                    <td>
-                        <a class="font-weight-bold"
-                           href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id } )">
-                            @position.Tkw.ToString("c")
-                        </a>
-                    </td>
-                    <td>@position.MaterialCosts.ToString("c")</td>
-                    <td>@position.LabourCosts.ToString("c")</td>
-                    <td>@position.PackingCosts.ToString("c")</td>
-                    <td>@position.Markup.ToString("c")</td>
-                    <td>
-                        <button class="btn btn-danger btn-sm"
-                                onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
-                            Usuń
-                        </button>
-                    </td>
+                    <th scope="col">TKW</th>
+                    <th scope="col">Material</th>
+                    <th scope="col">Labour</th>
+                    <th scope="col">Packing</th>
+                    <th scope="col">Markup</th>
+                    <th scope="col"></th>
                 </tr>
-            }
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
-</div>
+                @foreach (var position in projectCalculations)
+                {
+                    <tr>
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
+                                @position.Tkw.ToString("c")
+                            </a>
+                        </td>
+                        <td>@position.MaterialCosts.ToString("c")</td>
+                        <td>@position.LabourCosts.ToString("c")</td>
+                        <td>@position.PackingCosts.ToString("c")</td>
+                        <td>@position.Markup.ToString("c")</td>
+                        <td align="right">
+                            <button class="btn btn-outline-danger btn-sm"
+                                    onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    </div>
 
 @section scripts
 {
     <script type="text/javascript">
-          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-          // deleteCalculation()
+              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+              // deleteCalculation()
     </script>
 }

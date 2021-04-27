@@ -1,36 +1,52 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@* Widok częściowy z przewidywaną sprzedażą powiązaną z projektem *@
 
-@* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+@{
+    var estimatedSalesValues = Model.Project.EstimatedSalesValues;
+}
 
 <div class="row">
 
-
     <div class="row g-0">
-        <div class="col-11">
-            <h2>Przewidywana Sprzedaż</h2>
+        <div class="col-9">
+            <h4>Przewidywana Sprzedaż</h4>
         </div>
+
         <div class="col-1">
             <button class="btn btn-success btn-sm"
                     onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
                 Dodaj
             </button>
         </div>
+
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-1">
+            <button class="btn btn-warning btn-sm me-5"
+                    onclick='window.location.href = "@Url.Action("EstimatedSalesValuesConfirm","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
+                Akceptuj
+            </button>
+        </div>
+
     </div>
 
-    <table class="table table-hover table-striped mt-3 mb-5">
-        <thead>
-            <tr>
-                <th scope="col">Rok</th>
-                <th scope="col">Ilość</th>
-                <th scope="col">Cena</th>
-                <th scope="col">Wartość</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Project.EstimatedSalesValues.Any())
-            {
-                foreach (var position in Model.Project.EstimatedSalesValues)
+    @if (estimatedSalesValues != null && estimatedSalesValues.Any())
+    {
+        <table class="table table-hover table-striped mt-3 mb-5">
+            <thead>
+                <tr>
+                    <th scope="col">Rok</th>
+                    <th scope="col">Ilość</th>
+                    <th scope="col">Cena</th>
+                    <th scope="col">Wartość</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var position in estimatedSalesValues)
                 {
                     <tr>
                         <td>
@@ -43,14 +59,14 @@
                         <td>@position.Price zł</td>
                         @{decimal value = Math.Round(position.Qty * position.Price, 2);}
                         <td>@value.ToString("c")</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm"
+                        <td align="right">
+                            <button class="btn btn-outline-danger btn-sm"
                                     onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
                                 Usuń
                             </button>
                         </td>
                     </tr>
-                }
+                            }
 
                 <tr>
                     <td><strong>średnia</strong></td>
@@ -59,10 +75,10 @@
                     @{decimal averageValue = 0;}
 
 
-                    @{averageQty = Math.Round(Model.Project.EstimatedSalesValues.Average(x => x.Qty), 2);}
+                    @{averageQty = Math.Round(estimatedSalesValues.Average(x => x.Qty), 2);}
 
-                    @{decimal totalSales = Math.Round(Model.Project.EstimatedSalesValues.Sum(x => x.Price * x.Qty), 2);}
-                    @{int numberOfYears = Model.Project.EstimatedSalesValues.Count();}
+                    @{decimal totalSales = Math.Round(estimatedSalesValues.Sum(x => x.Price * x.Qty), 2);}
+                    @{int numberOfYears = estimatedSalesValues.Count();}
 
                     @if (averageQty != 0)
                     {
@@ -78,15 +94,16 @@
                     <td>@averageValue.ToString("c") </td>
                     <td> </td>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                
+            </tbody>
+        </table>
+      }
+    </div>
 
 @section scripts
 {
     <script type="text/javascript">
-          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-          // deleteEstimatedSalesValue()
+              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+              // deleteEstimatedSalesValue()
     </script>
 }
