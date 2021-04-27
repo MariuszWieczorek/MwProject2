@@ -12,6 +12,7 @@ namespace MwProject.Core.Models.Domains
         public Category()
         {
             Projects = new Collection<Project>();
+            CategoryTechnicalProperties = new Collection<CategoryTechnicalProperty>();
         }
         public int Id { get; set; }
 
@@ -32,6 +33,8 @@ namespace MwProject.Core.Models.Domains
         public string Description { get; set; }
 
         public ICollection<Project> Projects;
+
+        public ICollection<CategoryTechnicalProperty> CategoryTechnicalProperties { get; set; }
 
     }
 }

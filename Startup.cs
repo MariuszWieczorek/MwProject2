@@ -57,6 +57,7 @@ namespace MwProject
             services.AddScoped<IProjectRequirementService, ProjectRequirementService>();
             services.AddScoped<IProductGroupService, ProductGroupService>();
             services.AddScoped<ITechnicalPropertyService, TechnicalPropertyService>();
+            services.AddScoped<IProjectTechnicalPropertyService, ProjectTechnicalPropertyService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

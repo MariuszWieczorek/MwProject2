@@ -1,0 +1,84 @@
+﻿@model MwProject.Core.ViewModels.ProjectTechnicalPropertyViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h2>@Model.Heading</h2>
+
+<h2>@Model.ProjectTechnicalProperty.ProjectId</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <!-- po submit wywoła się metoda Calculation w kontrolerze Calculation typu HttpPost -->
+        @using (Html.BeginForm("ProjectTechnicalProperty", "ProjectTechnicalProperty"))
+        {
+            @Html.AntiForgeryToken()
+
+            <!-- Wyświetlenie podsumowania walidacji-->
+            @Html.ValidationSummary()
+
+            if (Model.ProjectTechnicalProperty.Id == 0)
+            {
+                <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
+            }
+
+            @Html.HiddenFor(x => x.ProjectTechnicalProperty.Id)
+            @Html.HiddenFor(x => x.ProjectTechnicalProperty.ProjectId)
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectTechnicalProperty.TechnicalPropertyId)
+                @Html.DropDownListFor(x => x.ProjectTechnicalProperty.TechnicalPropertyId,
+               new SelectList(Model.TechnicalProperties, "Id", "Name"),
+               "--- Wybierz parametr techniczny ---",
+               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.ProjectTechnicalProperty.TechnicalPropertyId)
+            </div>
+
+            <div class="form-check form-switch mt-3 mb-5">
+                @Html.CheckBoxFor(x => x.ProjectTechnicalProperty.Exist, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.ProjectTechnicalProperty.Exist, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(x => x.ProjectTechnicalProperty.Exist)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectTechnicalProperty.Value)
+                @Html.TextBoxFor(x => x.ProjectTechnicalProperty.Value,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ProjectTechnicalProperty.Value)
+            </div>
+
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectTechnicalProperty.Comment)
+                @Html.TextAreaFor(x => x.ProjectTechnicalProperty.Comment,
+               new { @class = "form-control" })
+            </div>
+
+
+            <button class="btn btn-primary btn-lg mb-5" type="submit">
+                Zapisz
+            </button>
+        }
+    </div>
+
+ 
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // w formatowaniu ma być przecinek, a nie kropka
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+        });
+
+    </script>
+}
+

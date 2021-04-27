@@ -55,6 +55,8 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.EstimatedSalesValues)
                 .Include(x => x.ProjectRequirements)
                 .ThenInclude(x => x.Requirement)
+                .Include(x => x.ProjectTechnicalProperties)
+                .ThenInclude(x => x.TechnicalProperty)
                 .Include(x => x.ProductGroup)
                 .Include(x => x.Category)
                 .Include(x => x.User)
