@@ -38,7 +38,7 @@ namespace MwProject.Controllers
             var vm = new CategoryTechnicalPropertyViewModel()
             {
                 CategoryTechnicalProperty = selectedCategoryTechnicalProperty,
-                Heading = id == 0 ? $"nowa {categoryId}" : $"edycja {categoryId}",
+                Heading = id == 0 ? $"nowy parametr" : $"edycja parametru",
                 TechnicalProperties = _technicalPropertyService.GetTechnicalProperties()
             };
             
@@ -56,7 +56,7 @@ namespace MwProject.Controllers
                 var vm = new CategoryTechnicalPropertyViewModel()
                 {
                     CategoryTechnicalProperty = selectedCategoryTechnicalProperty.CategoryTechnicalProperty,
-                    Heading = selectedCategoryTechnicalProperty.CategoryTechnicalProperty.Id == 0 ? "nowa" : "edycja",
+                    Heading = selectedCategoryTechnicalProperty.CategoryTechnicalProperty.Id == 0 ? "nowy parametr" : "edycja parametru",
                     TechnicalProperties = _technicalPropertyService.GetTechnicalProperties()
                 };
 

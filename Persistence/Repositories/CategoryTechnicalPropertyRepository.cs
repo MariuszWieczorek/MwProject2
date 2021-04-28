@@ -37,10 +37,16 @@ namespace MwProject.Persistence.Repositories
 
         public CategoryTechnicalProperty NewCategoryTechnicalProperty(int categoryId, string userId)
         {
+            int ordinalNumber = 1;
+            if(_context.CategoryTechnicalProperties.Where(x => x.CategoryId == categoryId).Any())
+            {
+                ordinalNumber = _context.CategoryTechnicalProperties.Where(x => x.CategoryId == categoryId).Max(x => x.OrdinalNumber) + 1;
+            }
+
             return new CategoryTechnicalProperty
             {
                 CategoryId = categoryId,
-                OrdinalNumber = _context.CategoryTechnicalProperties.Where(x=>x.CategoryId==categoryId).Max(x => x.OrdinalNumber) + 1,
+                OrdinalNumber = ordinalNumber,
                 Exist = true
             };
         }

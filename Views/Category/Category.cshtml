@@ -15,9 +15,7 @@
 
         @using (Html.BeginForm("Category", "Category"))
         {
-            <p class="alert alert-info mt-4 mb-4">
-                Pole Nazwa i Opis jest <strong>wymagane</strong>
-            </p>
+            <h3>Kategoria Projektu</h3>
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(x => x.Category.Id)

@@ -15,17 +15,14 @@ namespace MwProject.Persistence.Repositories
             _context = context;
         }
 
-        public IEnumerable<Category> GetCategories()
-        {
-            return _context.Categories
-                .OrderBy(x => x.OrdinalNumber).ToList();
-        }
-
-        
+         
         public IEnumerable<TechnicalProperty> GetTechnicalProperties()
         {
             var technicalProperities = _context.TechnicalProperties
-                        .OrderBy(x => x.OrdinalNumber).ToList();
+                        .OrderBy(x => x.OrdinalNumber)
+                        .ThenBy(x => x.Name)
+                        .ToList();
+                            
             return technicalProperities;
         }
 

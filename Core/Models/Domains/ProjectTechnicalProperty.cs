@@ -32,6 +32,8 @@ namespace MwProject.Core.Models.Domains
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
+
+        [Display(Name = "Parametr")]
         public int TechnicalPropertyId { get; set; }
         public TechnicalProperty TechnicalProperty { get; set; }
     }

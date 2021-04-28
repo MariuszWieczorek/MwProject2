@@ -32,18 +32,19 @@
     @if (technicalProperties != null && technicalProperties.Any())
     {
 
-        <table class="table table-hover table-striped table-primary mt-3 mb-5">
-            @*
+        <table class="table table-hover table-striped  mt-3 mb-5">
+            
                 <thead>
                     <tr>
-                        <th scope="col">Wymaganie</th>
-                        <th scope="col"></th>
-                        <th scope="col">Wartość</th>
+                        <th scope="col">Lp</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Tak/Nie</th>
                         <th scope="col">Komentarz</th>
+                        <th scope="col">Wartość</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
-            *@
+            
             <tbody>
                 @foreach (var position in technicalProperties)
                 {
@@ -81,8 +82,8 @@
                     }
 
                     <td>@exist</td>
-                    <td>@value </td>
                     <td>@position.Comment</td>
+                    <td>@value </td>
 
                     <td align="right">
                         <button class="btn btn-outline-danger btn-sm"
