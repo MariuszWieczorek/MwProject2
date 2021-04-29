@@ -42,6 +42,8 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.AddProject(project);
             _unitOfWork.Complete();
+            _unitOfWork.Project.AddTechnicalPropertiesToProject(project);
+            _unitOfWork.Complete();
         }
 
         public void UpdateProject(Project project, string userId)
@@ -68,6 +70,12 @@ namespace MwProject.Persistence.Services
         public Project NewProject(string userId)
         {
             return _unitOfWork.Project.NewProject(userId);
+        }
+
+        public void AddTechnicalPropertiesToProject(Project project)
+        {
+            _unitOfWork.Project.AddTechnicalPropertiesToProject(project);
+            _unitOfWork.Complete();
         }
     }
 }

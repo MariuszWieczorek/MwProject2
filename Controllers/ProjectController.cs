@@ -105,6 +105,10 @@ namespace MwProject.Controllers
             else
                 _projectService.UpdateProject(project,userId);
 
+            if (project.Id == 0)
+            {
+
+            }
 
             return RedirectToAction("Projects", "Project");
         }
@@ -125,6 +129,15 @@ namespace MwProject.Controllers
             }
 
             return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddTechnicalProperties(Project project)
+        {
+            _projectService.AddTechnicalPropertiesToProject(project);
+            return RedirectToAction("Projects", "Project");
         }
 
         #endregion

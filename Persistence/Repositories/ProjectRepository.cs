@@ -35,6 +35,26 @@ namespace MwProject.Persistence.Repositories
             _context.Projects.Add(project);
         }
 
+        public void AddTechnicalPropertiesToProject(Project project)
+        {
+
+            var category = _context.Categories
+                .Include(x => x.CategoryTechnicalProperties)
+                .ThenInclude(x => x.TechnicalProperty)
+                .Single(x => x.Id == project.CategoryId);
+
+            foreach (var technicalProperty in category.CategoryTechnicalProperties)
+            {
+                var projectTechnicalProperty = new ProjectTechnicalProperty()
+                {
+                    ProjectId = project.Id,
+                    TechnicalPropertyId = technicalProperty.TechnicalPropertyId,
+                };
+                
+                _context.ProjectTechnicalProperties.Add(projectTechnicalProperty);
+            }
+        }
+
         public void DeleteProject(int id, string userId)
         {
             var projectToDelete = _context.Projects.Single(x => x.Id == id && x.UserId == userId);

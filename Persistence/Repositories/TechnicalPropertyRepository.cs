@@ -1,4 +1,5 @@
-﻿using MwProject.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using MwProject.Core;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Repositories;
 using System;
@@ -29,6 +30,9 @@ namespace MwProject.Persistence.Repositories
         public void AddTechnicalProperty(TechnicalProperty technicalProperty)
         {
             _context.TechnicalProperties.Add(technicalProperty);
+            //var sql = string.Format(@"SELECT IDENT_CURRENT ('{0}') AS Current_Identity", "TechnicalProperties");
+            //var id = _context.TechnicalProperties.FromSqlRaw(sql).First();
+            int id = _context.TechnicalProperties.Max(x => x.Id);
         }
 
         public TechnicalProperty GetTechnicalProperty(int id)
