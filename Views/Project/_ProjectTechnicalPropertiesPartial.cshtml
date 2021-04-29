@@ -7,22 +7,25 @@
 
 <div class="row">
     <div class="row g-0">
-        <div class="col-9">
-            <h4>Parametry Techniczne</h4>
+        <div class="col-6">
+            <h4>Parametry Techniczne </h4>
         </div>
 
-        <div class="col-1">
+        <div class="col-2">
             <button class="btn btn-success btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
                 Dodaj
             </button>
         </div>
 
-        <div class="col-1">
-  
+        <div class="col-2">
+            <button class="btn btn-outline-primary btn-sm"
+                    onclick="addProjectTechnicalProperties('@Model.Project.Id',this)">
+                Wczytaj
+            </button>
         </div>
 
-        <div class="col-1">
+        <div class="col-2">
             <button class="btn btn-warning btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectTechnicalPropertiesConfim","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
                 Akceptuj

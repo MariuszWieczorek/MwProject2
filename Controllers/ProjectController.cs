@@ -133,14 +133,23 @@ namespace MwProject.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddTechnicalProperties(Project project)
+        public IActionResult AddTechnicalProperties(int projectId)
         {
-            _projectService.AddTechnicalPropertiesToProject(project);
-            return RedirectToAction("Projects", "Project");
+            try
+            {
+                var userId = User.GetUserId();
+                var project = _projectService.GetProject(projectId, userId);
+                _projectService.AddTechnicalPropertiesToProject(project);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
         }
+            #endregion
 
-        #endregion
-
-    }
+        }
 }
