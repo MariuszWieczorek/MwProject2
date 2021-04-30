@@ -7,48 +7,46 @@
 
 <div class="row">
     <div class="row g-0">
-        <div class="col-6">
-            <h4>Parametry Techniczne </h4>
+        <div class="col-12 mb-2">
+            <h2>Parametry Techniczne </h2>
         </div>
 
-        <div class="col-2">
-            <button class="btn btn-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
-                Dodaj
-            </button>
-        </div>
-
-        <div class="col-2">
-            <button class="btn btn-outline-primary btn-sm"
+        <div class="col-12">
+            <button class="btn btn-outline-primary btn-sm "
                     onclick="addProjectTechnicalProperties('@Model.Project.Id',this)">
                 Wczytaj
             </button>
-        </div>
 
-        <div class="col-2">
-            <button class="btn btn-warning btn-sm"
+            <button class="btn btn-outline-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
+                Dodaj
+            </button>
+
+            <button class="btn btn-outline-warning btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectTechnicalPropertiesConfim","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
                 Akceptuj
             </button>
+
         </div>
+
     </div>
 
 
     @if (technicalProperties != null && technicalProperties.Any())
     {
 
-        <table class="table table-hover table-striped  mt-3 mb-5">
-            @*
-                <thead>
+        <table class="table mt-3 table-hover table-striped table-light">
+
+                <thead class="table-primary">
                     <tr>
-                        <th scope="col">Wymaganie</th>
+                        <th scope="col">parametr</th>
                         <th scope="col"></th>
-                        <th scope="col">Wartość</th>
-                        <th scope="col">Komentarz</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
-            *@
+
             <tbody>
                 @foreach (var position in technicalProperties)
                 {
@@ -56,10 +54,12 @@
                         <td>
                             <a class="font-weight-bold"
                                href="@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
-                                @position.TechnicalProperty.Name
+                                <strong>
+                                    @position.TechnicalProperty.Name
+                                </strong>
                             </a>
                         </td>
-                        
+
                         @{
                             string exist;
                             switch (position.YesNo)
@@ -90,7 +90,7 @@
                     </tr>
                 }
 
-              </tbody>
+            </tbody>
         </table>
     }
 </div>
@@ -98,7 +98,7 @@
 @section scripts
 {
     <script type="text/javascript">
-          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-          // deleteProjectRequirement()
+              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+              // deleteProjectRequirement()
     </script>
 }

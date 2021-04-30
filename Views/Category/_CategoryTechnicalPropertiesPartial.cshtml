@@ -7,19 +7,11 @@
 
 <div class="row">
     <div class="row g-0">
-        <div class="col-9">
+        <div class="col-12">
             <h4>Parametry Techniczne</h4>
         </div>
 
-        <div class="col-1">
-
-        </div>
-
-        <div class="col-1">
-
-        </div>
-
-        <div class="col-1">
+        <div class="col-12">
             <button class="btn btn-success btn-sm"
                     onclick='window.location.href = "@Url.Action("CategoryTechnicalProperty","CategoryTechnicalProperty",new { categoryId = Model.Category.Id})"'>
                 Dodaj
@@ -34,7 +26,7 @@
 
         <table class="table table-hover table-striped  mt-3 mb-5">
             
-                <thead>
+                <thead class="table-primary">
                     <tr>
                         <th scope="col">Lp</th>
                         <th scope="col">Nazwa</th>
@@ -52,14 +44,18 @@
                     <td>
                         <a class="font-weight-bold"
                            href="@Url.Action("CategoryTechnicalProperty", "CategoryTechnicalProperty", new { categoryId = position.CategoryId, id = position.Id})">
-                            @position.OrdinalNumber
+                            <strong>
+                                @position.OrdinalNumber
+                            </strong>
                         </a>
                     </td>
 
                     <td>
                         <a class="font-weight-bold"
                            href="@Url.Action("CategoryTechnicalProperty", "CategoryTechnicalProperty", new { categoryId = position.CategoryId, id = position.Id})">
-                            @position.TechnicalProperty.Name
+                            <strong>
+                                @position.TechnicalProperty.Name
+                            </strong>
                         </a>
                     </td>
 

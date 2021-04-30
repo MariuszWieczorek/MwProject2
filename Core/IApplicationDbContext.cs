@@ -19,6 +19,7 @@ namespace MwProject.Core
         DbSet<TechnicalProperty> TechnicalProperties { get; set; }   
         DbSet<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
         DbSet<CategoryTechnicalProperty> CategoryTechnicalProperties { get; set; }
+        DbSet<CategoryRequirement> CategoryRequirements { get; set; }
         int SaveChanges();
     }
 }

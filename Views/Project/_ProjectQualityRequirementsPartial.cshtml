@@ -8,84 +8,89 @@
 <div class="row">
 
     <div class="row g-0">
-        <div class="col-9">
-            <h4>Wymagania Jakościowe</h4>
+        <div class="col-12 mb-2">
+            <h2>Wymagania Jakościowe</h2>
         </div>
 
-        <div class="col-1">
-            <button class="btn btn-success btn-sm"
+        <div class="col-12">
+            <button class="btn btn-outline-success btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 2 })"'>
                 Dodaj
             </button>
-        </div>
-
-        <div class="col-1">
-
-        </div>
-
-        <div class="col-1">
-            <button class="btn btn-warning btn-sm"
+            <button class="btn btn-outline-warning btn-sm"
                     onclick='window.location.href = "@Url.Action("ConfirmProjectRequirements","ProjectRequirement",new { projectId = Model.Project.Id})"'>
                 Akceptuj
             </button>
         </div>
     </div>
 
-
-
     @if (qualityRequirements != null && qualityRequirements.Any())
     {
 
-        <table class="table table-hover table-striped table-info mt-3 mb-5">
-            @*
+        <table class="table mt-3 table-hover table-striped table-light">
 
-                <thead>
-                    <tr>
-                        <th scope="col">Wymaganie</th>
-                        <th scope="col"></th>
-                        <th scope="col">Komentarz</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-            *@
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">parametr</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+
             <tbody>
-
-                @if (qualityRequirements != null && qualityRequirements.Any())
+                @foreach (var position in qualityRequirements)
                 {
-                    @foreach (var position in qualityRequirements)
-                    {
-                        <tr>
-                            <td>
-                                <a class="font-weight-bold"
-                                   href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, Type = 2 })">
+                    <tr>
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                                <strong>
                                     @position.Requirement.Name
-                                </a>
-                            </td>
-                            @{
-                                var exist = position.Exist == true ? "TAK" : "NIE";
+                                </strong>
+                            </a>
+                        </td>
+
+                        @{
+                            string exist;
+                            switch (position.YesNo)
+                            {
+                                case 1:
+                                    exist = "TAK";
+                                    break;
+                                case 2:
+                                    exist = "NIE";
+                                    break;
+                                default:
+                                    exist = "";
+                                    break;
                             }
 
-                            <td>@exist</td>
-                            <td>@position.Comment</td>
-                            <td align="right">
-                                <button class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                    Usuń
-                                </button>
-                            </td>
-                        </tr>
-                                }
-                                }
+                            string value = position.ShowValue == true ? position.Value.ToString() : "";
+                        }
+
+                        <td>@exist</td>
+                        <td>@value</td>
+                        <td>@position.Comment</td>
+                        <td align="right">
+                            <button class="btn btn-outline-danger btn-sm"
+                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                }
 
             </tbody>
         </table>
-     }
-    </div>
+    }
+</div>
 
 @section scripts
 {
     <script type="text/javascript">
-          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-          // deleteProjectRequirement()
+              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+              // deleteProjectRequirement()
     </script>
 }

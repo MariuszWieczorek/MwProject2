@@ -1,4 +1,4 @@
-﻿@model MwProject.Core.ViewModels.ProjectRequirementViewModel
+﻿@model MwProject.Core.ViewModels.CategoryRequirementViewModel
 
 @{
     ViewBag.Title = Model.Heading;
@@ -9,72 +9,70 @@
 <div class="row">
     <div class="col-lg-6">
         <!-- po submit wywoła się metoda Calculation w kontrolerze Calculation typu HttpPost -->
-        @using (Html.BeginForm("ProjectRequirement", "ProjectRequirement"))
+        @using (Html.BeginForm("CategoryRequirement", "CategoryRequirement"))
         {
             @Html.AntiForgeryToken()
 
             <!-- Wyświetlenie podsumowania walidacji-->
             @Html.ValidationSummary()
-
-            if (Model.ProjectRequirement.Id == 0)
-            {
-                <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
-            }
-
-            @Html.HiddenFor(x => x.ProjectRequirement.Id)
-            @Html.HiddenFor(x => x.ProjectRequirement.ProjectId)
-
+       
+            @Html.HiddenFor(x => x.CategoryRequirement.Id)
+            @Html.HiddenFor(x => x.CategoryRequirement.CategoryId)
 
             <div class="form-group mb-3">
-                @Html.LabelFor(x => x.ProjectRequirement.RequirementId)
-                @Html.DropDownListFor(x => x.ProjectRequirement.RequirementId,
+                @Html.LabelFor(x => x.CategoryRequirement.OrdinalNumber, new { @class = "form-check-label" })
+                @Html.TextBoxFor(x => x.CategoryRequirement.OrdinalNumber,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.CategoryRequirement.OrdinalNumber)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.CategoryRequirement.RequirementId)
+                @Html.DropDownListFor(x => x.CategoryRequirement.RequirementId,
                new SelectList(Model.Requirements, "Id", "Name"),
                "--- Wybierz parametr techniczny ---",
                new { @class = "form-control", autofocus = "autofocus" })
-                @Html.ValidationMessageFor(x => x.ProjectRequirement.RequirementId)
+                @Html.ValidationMessageFor(x => x.CategoryRequirement.RequirementId)
+            </div>
+
+            <div class="form-check form-switch mt-3 mb-5">
+                @Html.CheckBoxFor(x => x.CategoryRequirement.ShowValue, new { @class = "form-check-input" })
+                @Html.LabelFor(x => x.CategoryRequirement.ShowValue, new { @class = "form-check-label" })
+                @Html.ValidationMessageFor(x => x.CategoryRequirement.ShowValue)
             </div>
 
             <div class="form-group mb-3">
-                @Html.LabelFor(x => x.ProjectRequirement.Comment)
-                @Html.TextAreaFor(x => x.ProjectRequirement.Comment,
+                @Html.LabelFor(x => x.CategoryRequirement.Value)
+                @Html.TextBoxFor(x => x.CategoryRequirement.Value,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.CategoryRequirement.Value)
+            </div>
+
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.CategoryRequirement.Comment)
+                @Html.TextAreaFor(x => x.CategoryRequirement.Comment,
                new { @class = "form-control" })
             </div>
 
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.ProjectRequirement.Value)
-                @Html.TextBoxFor(x => x.ProjectRequirement.Value,
-                new { @class = "form-control" })
-                @Html.ValidationMessageFor(x => x.ProjectRequirement.Value)
-            </div>
-
-            <div class="form-check form-switch mb-5">
-                @Html.CheckBoxFor(x => x.ProjectRequirement.ShowValue, new { @class = "form-check-input" })
-                @Html.LabelFor(x => x.ProjectRequirement.ShowValue, new { @class = "form-check-label" })
-                @Html.ValidationMessageFor(x => x.ProjectRequirement.ShowValue)
-            </div>
-
-            <div class="form-group mb-3">
-                @Html.LabelFor(x => x.ProjectRequirement.YesNo, new { @class = "form-check-label" })
-            </div>
-
-            <div class="form-check form-switch mb-3">
-
+            <div class="form-check form-switch mt-3 mb-5">
                 <div class="form-check">
-                    @Html.RadioButtonFor(x => x.ProjectRequirement.YesNo, "0",
+                    @Html.RadioButtonFor(x => x.CategoryRequirement.YesNo, "0",
                    new { @class = "form-check-input" })
 
                     <label class="form-check-label" for="exampleRadios1"> Ukryj </label>
                 </div>
 
                 <div class="form-check">
-                    @Html.RadioButtonFor(x => x.ProjectRequirement.YesNo, "1",
+                    @Html.RadioButtonFor(x => x.CategoryRequirement.YesNo, "1",
                    new { @class = "form-check-input" })
 
                     <label class="form-check-label" for="exampleRadios1"> Tak </label>
                 </div>
 
                 <div class="form-check">
-                    @Html.RadioButtonFor(x => x.ProjectRequirement.YesNo, "2",
+                    @Html.RadioButtonFor(x => x.CategoryRequirement.YesNo, "2",
                    new { @class = "form-check-input" })
 
                     <label class="form-check-label" for="exampleRadios1"> Nie </label>
@@ -87,7 +85,7 @@
         }
     </div>
 
-
+ 
 </div>
 
 @section scripts

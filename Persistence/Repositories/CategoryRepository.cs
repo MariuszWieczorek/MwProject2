@@ -27,6 +27,8 @@ namespace MwProject.Persistence.Repositories
             var category = _context.Categories
                 .Include(x => x.CategoryTechnicalProperties)
                 .ThenInclude(x => x.TechnicalProperty)
+                .Include(x => x.CategoryRequirements)
+                .ThenInclude(x => x.Requirement)
                 .Single(x => x.Id == id);
                     
             return category;

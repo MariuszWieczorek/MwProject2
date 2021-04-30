@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace MwProject.Core.Models.Domains
 {
-    public class ProjectRequirement
+    public class CategoryRequirement
     {
         public int Id { get; set; }
+
+        [Display(Name = "Lp")]
+        public int OrdinalNumber { get; set; }
 
         [Column(TypeName = "tinyint")]
         [Display(Name = "Pokaż tekst: Tak/Nie")]
@@ -29,8 +32,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Opis")]
         public string Comment { get; set; }
 
-        public int ProjectId { get; set; }
-        public Project Project { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
 
 
         [Display(Name = "Parametr")]

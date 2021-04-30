@@ -22,7 +22,8 @@ namespace MwProject.Persistence
                             IProductGroupRepository productGroupRepository,
                             ITechnicalPropertyRepository technicalPropertyRepository,
                             IProjectTechnicalPropertyRepository projectTechnicalPropertyRepository,
-                            ICategoryTechnicalPropertyRepository categoryTechnicalPropertyRepository
+                            ICategoryTechnicalPropertyRepository categoryTechnicalPropertyRepository,
+                            ICategoryRequirementRepository categoryRequirementRepository
                             )
         {
             _context = context;
@@ -36,6 +37,7 @@ namespace MwProject.Persistence
             TechnicalPropertyRepository = technicalPropertyRepository;
             ProjectTechnicalPropertyRepository = projectTechnicalPropertyRepository;
             CategoryTechnicalPropertyRepository = categoryTechnicalPropertyRepository;
+            CategoryRequirementRepository = categoryRequirementRepository;
         }
 
         // obiekty repozytoryjne 
@@ -49,7 +51,8 @@ namespace MwProject.Persistence
         public ITechnicalPropertyRepository TechnicalPropertyRepository { get; set; }
         public IProjectTechnicalPropertyRepository ProjectTechnicalPropertyRepository { get; set; }
         public ICategoryTechnicalPropertyRepository CategoryTechnicalPropertyRepository { get; set; }
-        
+        public ICategoryRequirementRepository CategoryRequirementRepository { get; set; }
+
         // na koniec metoda zapisująca zmiany
         public void Complete()
         {

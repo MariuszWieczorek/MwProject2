@@ -38,14 +38,13 @@ namespace MwProject.Core.Models.Domains
         public DateTime? CreatedDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        [Display(Name = "Termin")]
+        [Display(Name = "Oczekiwany Termin Realizacji")]
         public DateTime? Term { get; set; }
 
         [Required(ErrorMessage = "Pole zainicjowane przez jest wymagane.")]
-        [Display(Name = "Zainicjowane przez")]
+        [Display(Name = "Wniosek zainicjowany przez")]
         public string InitiatedBy { get; set; }
         
-
 
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]

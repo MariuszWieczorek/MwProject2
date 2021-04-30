@@ -23,5 +23,6 @@ namespace MwProject.Data
         public DbSet<TechnicalProperty> TechnicalProperties { get; set; }
         public DbSet<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
         public DbSet<CategoryTechnicalProperty> CategoryTechnicalProperties { get ; set; }
+        public DbSet<CategoryRequirement> CategoryRequirements { get; set; }
     }
 }

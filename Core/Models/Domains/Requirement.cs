@@ -12,6 +12,7 @@ namespace MwProject.Core.Models.Domains
         public Requirement()
         {
             ProjectRequirements = new Collection<ProjectRequirement>();
+            CategoryRequirements = new Collection<CategoryRequirement>();
         }
 
         public int Id { get; set; }
@@ -26,6 +27,8 @@ namespace MwProject.Core.Models.Domains
         public int Type { get; set; }
 
         public ICollection<ProjectRequirement> ProjectRequirements;
+        
+        public ICollection<CategoryRequirement> CategoryRequirements;
     }
 
 }

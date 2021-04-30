@@ -33,6 +33,7 @@ namespace MwProject.Core.Models.Domains
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
         public int TechnicalPropertyId { get; set; }
         public TechnicalProperty TechnicalProperty { get; set; }
     }

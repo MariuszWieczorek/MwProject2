@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210430103257_CategoryRequirements")]
+    partial class CategoryRequirements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,16 +308,13 @@ namespace MwProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Exist")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrdinalNumber")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<int>("RequirementId")
@@ -332,7 +331,7 @@ namespace MwProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("RequirementId");
 
@@ -678,9 +677,9 @@ namespace MwProject.Migrations
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.CategoryRequirement", b =>
                 {
-                    b.HasOne("MwProject.Core.Models.Domains.Category", "Category")
+                    b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -690,7 +689,7 @@ namespace MwProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Project");
 
                     b.Navigation("Requirement");
                 });

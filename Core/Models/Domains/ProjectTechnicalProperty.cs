@@ -12,9 +12,8 @@ namespace MwProject.Core.Models.Domains
         public int Id { get; set; }
 
 
-
         [Column(TypeName = "tinyint")]
-        [Display(Name = "Tak/Nie/")]
+        [Display(Name = "Pokaż tekst: Tak/Nie")]
         public int YesNo { get; set; }
 
         [Display(Name = "Czy występuje?")]
@@ -27,12 +26,13 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Wartość")]
         public decimal Value { get; set; }
 
-        [Display(Name = "Komentarz")]
+        [Display(Name = "Opis")]
         public string Comment { get; set; }
 
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 
+        
         [Display(Name = "Parametr")]
         public int TechnicalPropertyId { get; set; }
         public TechnicalProperty TechnicalProperty { get; set; }

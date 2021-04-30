@@ -9,23 +9,17 @@
 
 
     <div class="row g-0">
-        <div class="col-9">
-            <h4>Kalkulacje</h4>
+        <div class="col-12 mb-2">
+            <h2>Kalkulacje</h2>
         </div>
 
-        <div class="col-1">
-            <button class="btn btn-success btn-sm"
+        <div class="col-12">
+            <button class="btn btn-outline-success btn-sm"
                     onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
                 Dodaj
             </button>
-        </div>
 
-        <div class="col-1">
-
-        </div>
-
-        <div class="col-1">
-            <button class="btn btn-warning btn-sm"
+            <button class="btn btn-outline-warning btn-sm"
                     onclick='window.location.href = "@Url.Action("CalculationsConfirm","Calculation",new { projectId = Model.Project.Id })"'>
                 Akceptuj
             </button>
@@ -36,13 +30,15 @@
     {
 
         <table class="table table-hover table-striped mt-3 mb-5">
-            <thead>
+            <thead class="table-success">
                 <tr>
                     <th scope="col">TKW</th>
-                    <th scope="col">Material</th>
-                    <th scope="col">Labour</th>
-                    <th scope="col">Packing</th>
-                    <th scope="col">Markup</th>
+                    <th scope="col">CKW</th>
+                    <th scope="col">Koszty Materiałów</th>
+                    <th scope="col">Koszty Robocizny</th>
+                    <th scope="col">Koszty Pakowania</th>
+                    <th scope="col">Narzut</th>
+                    <th scope="col">Koszty Ogólne %</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -50,24 +46,26 @@
 
                 @foreach (var position in projectCalculations)
                 {
-                    <tr>
-                        <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
-                                @position.Tkw.ToString("c")
-                            </a>
-                        </td>
-                        <td>@position.MaterialCosts.ToString("c")</td>
-                        <td>@position.LabourCosts.ToString("c")</td>
-                        <td>@position.PackingCosts.ToString("c")</td>
-                        <td>@position.Markup.ToString("c")</td>
-                        <td align="right">
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                           href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
+                            @position.Tkw.ToString("c")
+                        </a>
+                    </td>
+                    <td>@position.Ckw.ToString("c")</td>
+                    <td>@position.MaterialCosts.ToString("c")</td>
+                    <td>@position.LabourCosts.ToString("c")</td>
+                    <td>@position.PackingCosts.ToString("c")</td>
+                    <td>@position.Markup.ToString("c")</td>
+                    <td>@position.GeneralCostsInPercent.ToString("n")</td>
+                    <td align="right">
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
+                            Usuń
+                        </button>
+                    </td>
+                </tr>
                 }
 
             </tbody>

@@ -1,55 +1,58 @@
-﻿@model MwProject.Core.ViewModels.ProjectViewModel
+﻿@model MwProject.Core.ViewModels.CategoryViewModel
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
 
 @{
-    var economicRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1);
+    var requirements = Model.Category.CategoryRequirements.Where(x => x.Requirement.Type == 1).OrderBy(x => x.OrdinalNumber);
 }
 
 <div class="row">
-
-
     <div class="row g-0">
-        <div class="col-12 mb-2">
-            <h2>Wymagania Ekonomiczne</h2>
+        <div class="col-12">
+            <h4>Wymagania Ekonomiczne</h4>
         </div>
 
         <div class="col-12">
-            <button class="btn btn-outline-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 1 })"'>
+            <button class="btn btn-success btn-sm"
+                    onclick='window.location.href = "@Url.Action("CategoryRequirement","CategoryRequirement",new { categoryId = Model.Category.Id, type = 1})"'>
                 Dodaj
-            </button>
-
-            <button class="btn btn-outline-warning btn-sm"
-                    onclick='window.location.href = "@Url.Action("ConfirmProjectRequirements","ProjectRequirement",new { projectId = Model.Project.Id})"'>
-                Akceptuj
             </button>
         </div>
 
     </div>
 
 
-    @if (economicRequirements != null && economicRequirements.Any())
+    @if (requirements != null && requirements.Any())
     {
 
-        <table class="table mt-3 table-hover table-striped table-light">
+        <table class="table table-hover table-striped  mt-3 mb-5">
 
             <thead class="table-primary">
                 <tr>
-                    <th scope="col">parametr</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col">Lp</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Tak/Nie</th>
+                    <th scope="col">Komentarz</th>
+                    <th scope="col">Wartość</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach (var position in economicRequirements)
+                @foreach (var position in requirements)
                 {
                     <tr>
                         <td>
                             <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                               href="@Url.Action("CategoryRequirement", "CategoryRequirement", new { categoryId = position.CategoryId, id = position.Id, type = 1})">
+                                <strong>
+                                    @position.OrdinalNumber
+                                </strong>
+                            </a>
+                        </td>
+
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("CategoryRequirement", "CategoryRequirement", new { categoryId = position.CategoryId, id = position.Id, type = 1})">
                                 <strong>
                                     @position.Requirement.Name
                                 </strong>
@@ -75,11 +78,12 @@
                         }
 
                         <td>@exist</td>
-                        <td>@value</td>
                         <td>@position.Comment</td>
+                        <td>@value </td>
+
                         <td align="right">
                             <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                    onclick="deleteCategoryRequirement('@position.CategoryId','@position.Id',this)">
                                 Usuń
                             </button>
                         </td>
@@ -94,7 +98,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                  // deleteProjectRequirement()
+              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+              // deleteProjectRequirement()
     </script>
 }

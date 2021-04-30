@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210430093332_NewFieldsInProjectRequirement")]
+    partial class NewFieldsInProjectRequirement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,46 +299,6 @@ namespace MwProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.CategoryRequirement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Exist")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("OrdinalNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RequirementId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("ShowValue")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("Value")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<byte>("YesNo")
-                        .HasColumnType("tinyint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("RequirementId");
-
-                    b.ToTable("CategoryRequirements");
                 });
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.CategoryTechnicalProperty", b =>
@@ -674,25 +636,6 @@ namespace MwProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.CategoryRequirement", b =>
-                {
-                    b.HasOne("MwProject.Core.Models.Domains.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MwProject.Core.Models.Domains.Requirement", "Requirement")
-                        .WithMany()
-                        .HasForeignKey("RequirementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Requirement");
                 });
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.CategoryTechnicalProperty", b =>

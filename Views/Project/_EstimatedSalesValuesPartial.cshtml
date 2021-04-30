@@ -8,34 +8,27 @@
 <div class="row">
 
     <div class="row g-0">
-        <div class="col-9">
-            <h4>Przewidywana Sprzedaż</h4>
+        <div class="col-12 mb-2">
+            <h2>Przewidywana Sprzedaż</h2>
         </div>
 
-        <div class="col-1">
-            <button class="btn btn-success btn-sm"
+        <div class="col-12">
+            <button class="btn btn-outline-success btn-sm"
                     onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
                 Dodaj
             </button>
-        </div>
 
-        <div class="col-1">
-
-        </div>
-
-        <div class="col-1">
-            <button class="btn btn-warning btn-sm me-5"
+            <button class="btn btn-outline-warning btn-sm"
                     onclick='window.location.href = "@Url.Action("EstimatedSalesValuesConfirm","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
                 Akceptuj
             </button>
         </div>
-
     </div>
 
     @if (estimatedSalesValues != null && estimatedSalesValues.Any())
     {
         <table class="table table-hover table-striped mt-3 mb-5">
-            <thead>
+            <thead class="table-success">
                 <tr>
                     <th scope="col">Rok</th>
                     <th scope="col">Ilość</th>
