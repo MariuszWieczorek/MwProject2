@@ -499,6 +499,66 @@
 
             }
 
+        // ------------------------------------------------------------------------------------------------
+            //addProjectTechnicalProperties
+            function addProjectQualityRequirements(projectId, btn) {
+            if (!confirm("Czy na pewno wczytać wymagania jakościowe ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("AddQualityRequirements", "Project")",
+                 data: {
+                     projectId: projectId
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        alert('odśwież stronę');
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+                // ------------------------------------------------------------------------------------------------
+            //addProjectTechnicalProperties
+            function addProjectEconomicRequirements(projectId, btn) {
+            if (!confirm("Czy na pewno wczytać wymagania ekonomiczne ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("AddEconomicRequirements", "Project")",
+                 data: {
+                     projectId: projectId
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        alert('odśwież stronę');
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
 
          // ------------------------------------------------------------------------------------------------
     </script>

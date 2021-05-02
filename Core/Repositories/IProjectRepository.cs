@@ -19,6 +19,8 @@ namespace MwProject.Core.Repositories
         void DeleteProject(int id, string userId);
         int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId);
         void AddTechnicalPropertiesToProject(Project project);
+        void AddQualityRequirementsToProject(Project project);
+        void AddEconomicRequirementsToProject(Project project);
         IEnumerable<Category> GetUsedCategories();
     }
 }

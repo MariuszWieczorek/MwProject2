@@ -77,5 +77,17 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.AddTechnicalPropertiesToProject(project);
             _unitOfWork.Complete();
         }
+
+        public void AddQualityRequirementsToProject(Project project)
+        {
+            _unitOfWork.Project.AddQualityRequirementsToProject(project);
+            _unitOfWork.Complete();
+        }
+
+        public void AddEconomicRequirementsToProject(Project project)
+        {
+            _unitOfWork.Project.AddEconomicRequirementsToProject(project);
+            _unitOfWork.Complete();
+        }
     }
 }

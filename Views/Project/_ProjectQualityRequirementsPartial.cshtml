@@ -13,6 +13,11 @@
         </div>
 
         <div class="col-12">
+            <button class="btn btn-outline-primary btn-sm "
+                    onclick="addProjectQualityRequirements('@Model.Project.Id',this)">
+                Wczytaj
+            </button>
+
             <button class="btn btn-outline-success btn-sm"
                     onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 2 })"'>
                 Dodaj

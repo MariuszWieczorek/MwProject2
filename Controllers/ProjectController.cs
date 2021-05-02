@@ -149,7 +149,44 @@ namespace MwProject.Controllers
 
             return Json(new { success = true });
         }
-            #endregion
 
+        [HttpPost]
+        public IActionResult AddQualityRequirements(int projectId)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var project = _projectService.GetProject(projectId, userId);
+                _projectService.AddQualityRequirementsToProject(project);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
         }
+
+        [HttpPost]
+        public IActionResult AddEconomicRequirements(int projectId)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var project = _projectService.GetProject(projectId, userId);
+                _projectService.AddEconomicRequirementsToProject(project);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
+        }
+
+        #endregion
+
+    }
 }

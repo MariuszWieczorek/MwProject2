@@ -159,5 +159,47 @@ namespace MwProject.Persistence.Repositories
             if (project.ProductGroupId != 0)
                 projectToUpdate.ProductGroupId = project.ProductGroupId;
         }
+
+        public void AddQualityRequirementsToProject(Project project)
+        {
+            var category = _context.Categories
+                .Include(x => x.CategoryRequirements)
+                .ThenInclude(x => x.Requirement)
+                .Single(x => x.Id == project.CategoryId);
+
+            var categoryRequirements = category.CategoryRequirements.Where(x=>x.Requirement.Type==2);
+
+            foreach (var requirement in categoryRequirements)
+            {
+                var projectRequitement = new ProjectRequirement()
+                {
+                    ProjectId = project.Id,
+                    RequirementId = requirement.RequirementId,
+                };
+
+                _context.ProjectRequirements.Add(projectRequitement);
+            }
+        }
+
+        public void AddEconomicRequirementsToProject(Project project)
+        {
+            var category = _context.Categories
+                .Include(x => x.CategoryRequirements)
+                .ThenInclude(x => x.Requirement)
+                .Single(x => x.Id == project.CategoryId);
+
+            var categoryRequirements = category.CategoryRequirements.Where(x => x.Requirement.Type == 1);
+
+            foreach (var requirement in categoryRequirements)
+            {
+                var projectRequitement = new ProjectRequirement()
+                {
+                    ProjectId = project.Id,
+                    RequirementId = requirement.RequirementId,
+                };
+
+                _context.ProjectRequirements.Add(projectRequitement);
+            }
+        }
     }
 }
