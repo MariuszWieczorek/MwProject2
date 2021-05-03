@@ -26,7 +26,8 @@ namespace MwProject.Persistence.Repositories
             {
                 UserId = userId,
                 CreatedDate = DateTime.Now,
-                Term = DateTime.Now
+                Term = DateTime.Now,
+                Value = 0
             };
         }
 

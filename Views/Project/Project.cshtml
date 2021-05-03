@@ -482,8 +482,8 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        // usuwanie z tabeli w html'u
-                        alert('odśwież stronę');
+                        // odświeżenie strony
+                        location.reload(true); 
 
                     }
                     else {
@@ -513,8 +513,8 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        // usuwanie z tabeli w html'u
-                        alert('odśwież stronę');
+                        // odświeżenie strony
+                        location.reload(true); 
 
                     }
                     else {
@@ -543,9 +543,8 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        // usuwanie z tabeli w html'u
-                        alert('odśwież stronę');
-
+                        // odświeżenie strony
+                        location.reload(true); 
                     }
                     else {
                         alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
