@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210504071115_ProjectAccepted1")]
+    partial class ProjectAccepted1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,10 +205,6 @@ namespace MwProject.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Possition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -449,19 +447,13 @@ namespace MwProject.Migrations
                     b.Property<DateTime?>("AcceptedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CalculationConfirmedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CalculationConfirmedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConfirmedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ConfirmedDate")
+                    b.Property<DateTime>("ConfirmedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("CreatedDate")
@@ -470,26 +462,11 @@ namespace MwProject.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EstimatedSalesConfirmedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("EstimatedSalesConfirmedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("InitiatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAccepted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsCalculationConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEstimatedSalesConfirmed")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsExecuted")

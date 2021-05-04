@@ -19,10 +19,23 @@
                 Dodaj
             </button>
 
-            <button class="btn btn-outline-warning btn-sm"
-                    onclick='window.location.href = "@Url.Action("CalculationsConfirm","Calculation",new { projectId = Model.Project.Id })"'>
-                Akceptuj
-            </button>
+            @if (Model.Project.IsCalculationConfirmed == false)
+            {
+
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="confirmCalculation('@Model.Project.Id',this)">
+                    Akceptuj
+                </button>
+
+            }
+            else
+            {
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
+                    Wycofaj Akceptację
+                </button>
+            }
+
         </div>
     </div>
 

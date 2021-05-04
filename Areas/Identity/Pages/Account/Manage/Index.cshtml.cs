@@ -49,6 +49,10 @@ namespace MwProject.Areas.Identity.Pages.Account.Manage
             [Required]
             [Display(Name = "Nazwisko")]
             public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Stanowisko")]
+            public string Possition { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -62,7 +66,8 @@ namespace MwProject.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Possition = user.Possition
             };
         }
 
@@ -103,10 +108,11 @@ namespace MwProject.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            if ((Input.FirstName != user.FirstName) || (Input.LastName != user.LastName))
+            if ((Input.FirstName != user.FirstName) || (Input.LastName != user.LastName) || (Input.Possition != user.Possition))
             {
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+                user.Possition = Input.Possition;
                 await _userManager.UpdateAsync(user);
             }
 

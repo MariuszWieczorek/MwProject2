@@ -70,6 +70,11 @@ namespace MwProject.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Nazwisko")]
             public string LastName { get; set; }
+
+
+            [Required]
+            [Display(Name = "Stanowisko")]
+            public string Possition { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -88,8 +93,10 @@ namespace MwProject.Areas.Identity.Pages.Account
                 {   UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    Possition = Input.Possition
                 };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

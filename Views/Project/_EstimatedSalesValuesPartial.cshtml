@@ -11,17 +11,29 @@
         <div class="col-12 mb-2">
             <h2>Przewidywana Sprzedaż</h2>
         </div>
-
+        
         <div class="col-12">
             <button class="btn btn-outline-success btn-sm"
                     onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
                 Dodaj
             </button>
 
-            <button class="btn btn-outline-warning btn-sm"
-                    onclick='window.location.href = "@Url.Action("EstimatedSalesValuesConfirm","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
-                Akceptuj
-            </button>
+            @if (Model.Project.IsEstimatedSalesConfirmed == false)
+            {
+
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="confirmEstimatedSales('@Model.Project.Id',this)">
+                    Akceptuj
+                </button>
+
+            }
+            else
+            {
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
+                    Wycofaj Akceptację
+                </button>
+            }
         </div>
     </div>
 

@@ -22,15 +22,38 @@
     <button id="printButton" class="btn btn-secondary mb-3">
         Drukuj 1
     </button>
+
+    @if (Model.Project.IsAccepted == false)
+    {
+        <button class="btn btn-warning mb-3" onclick="acceptProject()">
+            Akceptuj
+        </button>
+    }
+    else
+    {
+        <button class="btn btn-warning mb-3" onclick="withdrawProjectAcceptance()">
+            Wycofaj Akceptacje
+        </button>
+    }
 }
 
 
-<div class="row">
+<div class="col-12">
+    @if (Model.Project.Id != 0)
+    {
+        <div class="mt-3 mb-5">
+            @await Html.PartialAsync("_ConfirmationsPartial", Model)
+        </div>
+    }
+</div>
 
-    <div class="col-12">
+
+<div class="row ">
+
+    <div class="col-12 border rounded bg-light">
 
         <div class="row g-0">
-            <div class="col-12">
+            <div class="col-12 mt-1">
                 <h4>Dane podstawowe</h4>
             </div>
         </div>
@@ -216,6 +239,11 @@
 @section scripts
 {
     <script type="text/javascript">
+       // Uwagi dotyczące wywoływania ajax'a
+       // gdy akcja w kontrolerze zwraca błąd sprawdzić wielkość liter w zmiennych success, message
+       // gdy w ogóle nie wykonuje się ajax, nie mamy żadnego z umieszczonych wewnątrz alertów
+       // to sprawdzić parametry przekazywane w sekcji data czy są zgodne z parametrami przekazanymi
+       // do funkcji
 
        // ---------------------------------------------------------------------------------------------
 
@@ -328,13 +356,72 @@
         }
 
         // ------------------------------------------------------------------------------------------------
+        // Akceptacja Projektu
+        function acceptProject() {
+
+            if (!confirm("Czy zaakceptować projekt ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("AcceptProject", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // --------------------------------------------------------------------------------------------
+        // WithdrawProjectAcceptance
+        function withdrawProjectAcceptance() {
+
+            if (!confirm("Czy wycofać akceptację projektu ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawProjectAcceptance", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
 
         // --------------------------------------------------------------------------------------------
-        // Uwagi dotyczące wywoływania ajax'a
-        // gdy akcja w kontrolerze zwraca błąd sprawdzić wielkość liter w zmiennych success, message
-        // gdy w ogóle nie wykonuje się ajax, nie mamy żadnego z umieszczonych wewnątrz alertów
-        // to sprawdzić parametry przekazywane w sekcji data czy są zgodne z parametrami przekazanymi
-        // do funkcji
+
             function deleteEstimatedSalesValue(projectId,id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć przewidywaną sprzedaż ?"))
                 return;
@@ -483,7 +570,7 @@
                 success: function (data) {
                     if (data.success) {
                         // odświeżenie strony
-                        location.reload(true); 
+                        location.reload(true);
 
                     }
                     else {
@@ -514,7 +601,7 @@
                 success: function (data) {
                     if (data.success) {
                         // odświeżenie strony
-                        location.reload(true); 
+                        location.reload(true);
 
                     }
                     else {
@@ -544,7 +631,7 @@
                 success: function (data) {
                     if (data.success) {
                         // odświeżenie strony
-                        location.reload(true); 
+                        location.reload(true);
                     }
                     else {
                         alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
@@ -560,6 +647,136 @@
             }
 
          // ------------------------------------------------------------------------------------------------
+         // withdrawConfirmationOfCalculation
+        function withdrawConfirmationOfCalculation() {
+
+            if (!confirm("Czy wycofać potwierdzenie kalkulacji ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawConfirmationOfCalculation", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+
+        // ------------------------------------------------------------------------------------------------
+         // confirmCalculation
+        function confirmCalculation() {
+
+            if (!confirm("Czy potwierdzić kalkulację ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmCalculation", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+         // confirmEstimatedSales
+        function confirmEstimatedSales() {
+
+            if (!confirm("Czy potwierdzić przewidywaną sprzedaż ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmEstimatedSales", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // withdrawConfirmationOfCalculation
+        function withdrawConfirmationOfEstimatedSales() {
+
+            if (!confirm("Czy wycofać potwierdzenie przewidywanej sprzedaży ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawConfirmationOfEstimatedSales", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------
     </script>
 }
 

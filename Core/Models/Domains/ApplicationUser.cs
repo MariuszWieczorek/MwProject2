@@ -19,6 +19,11 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
+
+        [Required]
+        [Display(Name = "Stanowisko")]
+        public string Possition { get; set; }
+
         public ApplicationUser()
         {
             Projects = new Collection<Project>();

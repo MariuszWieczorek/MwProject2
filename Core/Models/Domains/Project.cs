@@ -74,24 +74,61 @@ namespace MwProject.Core.Models.Domains
         public int ProductGroupId { get; set; }
         public ProductGroup ProductGroup { get; set; }
 
+        // kalkulacja
 
-        [Display(Name = "Projekt zaakceptowany przez")]
+        [Display(Name = "Kalkulacja potwierdzona przez")]
+        public string CalculationConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia kalkulacji")]
+        public DateTime? CalculationConfirmedDate { get; set; }
+
+        [Display(Name = "Czy kalkulacja potwierdzona")]
+        public bool IsCalculationConfirmed { get; set; }
+
+        // przewidywana sprzedaż
+
+        [Display(Name = "Przewidywana sprzedaż potwierdzona przez")]
+        public string EstimatedSalesConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia przewidywanej sprzedaży")]
+        public DateTime? EstimatedSalesConfirmedDate { get; set; }
+
+        [Display(Name = "Czy zatwierdzona przewidywana sprzedaż")]
+        public bool IsEstimatedSalesConfirmed { get; set; }
+
+
+        // potwierdzenie projektu
+
+        [Display(Name = "Projekt potwierdzony przez")]
         public string ConfirmedBy { get; set; }
 
-        [Display(Name = "Czas zaakceptowania projektu")]
-        public DateTime ConfirmedDate { get; set; }
+        [Display(Name = "Czas potwierdzenia projektu")]
+        public DateTime? ConfirmedDate { get; set; }
+        
+        [Display(Name = "Czy projekt został potwierdzony")]
+        public bool IsConfirmed { get; set; }
+
+
+        // akceptacja projektu przez prezesa
 
         [Display(Name = "Projekt zaakceptowany przez")]
         public string AcceptedBy { get; set; }
         
         [Display(Name = "Czas zaakceptowania projektu")]
-        public DateTime AcceptedDate { get; set; }
+        public DateTime? AcceptedDate { get; set; }
 
+        [Display(Name = "Czy projekt został zaakceptowany")]
+        public bool IsAccepted { get; set; }
+        
+        
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
+
+
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
         public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
+
     }
 }

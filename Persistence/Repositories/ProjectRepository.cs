@@ -202,5 +202,53 @@ namespace MwProject.Persistence.Repositories
                 _context.ProjectRequirements.Add(projectRequitement);
             }
         }
+
+        public void AcceptProject(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsAccepted = true;
+            projectToUpdate.AcceptedDate = DateTime.Now;
+            projectToUpdate.AcceptedBy = userId;
+        }
+
+        public void WithdrawProjectAcceptance(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsAccepted = false;
+            projectToUpdate.AcceptedDate = null;
+            projectToUpdate.AcceptedBy = null;
+        }
+
+        public void ConfirmCalculation(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsCalculationConfirmed = true;
+            projectToUpdate.CalculationConfirmedDate = DateTime.Now;
+            projectToUpdate.CalculationConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfCalculation(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsCalculationConfirmed = false;
+            projectToUpdate.CalculationConfirmedDate = null;
+            projectToUpdate.CalculationConfirmedBy = null;
+        }
+
+        public void ConfirmEstimatedSales(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsEstimatedSalesConfirmed = true;
+            projectToUpdate.EstimatedSalesConfirmedDate = DateTime.Now;
+            projectToUpdate.EstimatedSalesConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfEstimatedSales(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsEstimatedSalesConfirmed = false;
+            projectToUpdate.EstimatedSalesConfirmedDate = null;
+            projectToUpdate.EstimatedSalesConfirmedBy = null;
+        }
     }
 }

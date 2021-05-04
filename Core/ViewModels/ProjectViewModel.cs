@@ -13,6 +13,9 @@ namespace MwProject.Core.ViewModels
         
         public IEnumerable<ProductGroup> ProductGroups { get; set; }
         public Project Project { get; set; }
+        public ApplicationUser AcceptedBy { get; set; }
+        public ApplicationUser CalculationConfirmedBy { get; set; }
 
+        public ApplicationUser EstimatedSalesConfirmedBy { get; set; }
     }
 }

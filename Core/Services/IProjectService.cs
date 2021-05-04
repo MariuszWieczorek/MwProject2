@@ -21,6 +21,12 @@ namespace MwProject.Core.Services
         void AddTechnicalPropertiesToProject(Project project);
         void AddQualityRequirementsToProject(Project project);
         void AddEconomicRequirementsToProject(Project project);
+        void AcceptProject(int id, string userId);
+        void WithdrawProjectAcceptance(int id, string userId);
+        void ConfirmCalculation(int id, string userId);
+        void WithdrawConfirmationOfCalculation(int id, string userId);
+        void ConfirmEstimatedSales(int id, string userId);
+        void WithdrawConfirmationOfEstimatedSales(int id, string userId);
         IEnumerable<Category> GetUsedCategories();
 
     }

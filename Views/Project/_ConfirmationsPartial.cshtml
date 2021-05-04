@@ -1,0 +1,67 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+
+@{
+    var projectCalculations = Model.Project.Calculations;
+}
+
+<div class="row">
+
+
+
+    @if (Model.Project.IsAccepted || Model.Project.IsCalculationConfirmed)
+    {
+
+        <table class="table table-hover table-striped mt-3 mb-5">
+            <thead class="table-success">
+                <tr>
+                    <th scope="col">status projektu</th>
+                    <th scope="col">kto</th>
+                    <th scope="col">stanowisko</th>
+                    <th scope="col">kiedy</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Project.IsAccepted)
+                {
+                    <tr>
+                        <td> <strong>projekt zaakceptowany</strong> </td>
+                        <td>@Model.AcceptedBy.FirstName @Model.AcceptedBy.LastName</td>
+                        <td>@Model.AcceptedBy.Possition</td>
+                        <td>@Model.Project.AcceptedDate</td>
+                    </tr>
+                }
+
+                @if (Model.Project.IsCalculationConfirmed)
+                {
+                    <tr>
+                        <td> <strong>kalkulacja potwierdzona</strong></td>
+                        <td>@Model.CalculationConfirmedBy.FirstName @Model.CalculationConfirmedBy.LastName</td>
+                        <td>@Model.CalculationConfirmedBy.Possition</td>
+                        <td>@Model.Project.CalculationConfirmedDate</td>
+                    </tr>
+                }
+
+                @if (Model.Project.IsEstimatedSalesConfirmed)
+                {
+                    <tr>
+                        <td> <strong>prognoza sprzedaży potwierdzona</strong></td>
+                        <td>@Model.EstimatedSalesConfirmedBy.FirstName @Model.CalculationConfirmedBy.LastName</td>
+                        <td>@Model.EstimatedSalesConfirmedBy.Possition</td>
+                        <td>@Model.Project.EstimatedSalesConfirmedDate</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                      // deleteCalculation()
+    </script>
+}

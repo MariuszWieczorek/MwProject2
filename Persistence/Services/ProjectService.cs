@@ -89,5 +89,41 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.AddEconomicRequirementsToProject(project);
             _unitOfWork.Complete();
         }
+
+        public void AcceptProject(int id, string userId)
+        {
+            _unitOfWork.Project.AcceptProject(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawProjectAcceptance(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawProjectAcceptance(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void ConfirmCalculation(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmCalculation(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfCalculation(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfCalculation(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void ConfirmEstimatedSales(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmEstimatedSales(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfEstimatedSales(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfEstimatedSales(id, userId);
+            _unitOfWork.Complete();
+        }
     }
 }

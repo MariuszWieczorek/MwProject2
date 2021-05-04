@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MwProject.Persistence.Extensions
 {
+    // Metoda rozszerzająca klasę ClaimsPrincipal
     public static class ClaimsPrincipalExtensions
     {
         public static string GetUserId(this ClaimsPrincipal model)
@@ -13,5 +14,4 @@ namespace MwProject.Persistence.Extensions
             return model.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
-
 }
