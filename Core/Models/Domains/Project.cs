@@ -119,8 +119,44 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Czy projekt został zaakceptowany")]
         public bool IsAccepted { get; set; }
-        
-        
+
+
+        // potwierdzenie informacji jakościowych
+
+        [Display(Name = "Wymagania jakościowe potwierdzone przez")]
+        public string QualityRequirementsConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia wymagań jakościowych")]
+        public DateTime? QualityRequirementsConfirmedDate { get; set; }
+
+        [Display(Name = "Czy wymagania jakościowe zostały potwierdzone")]
+        public bool IsQualityRequirementsConfirmed { get; set; }
+
+
+        // potwierdzenie informacji ekonomicznych
+
+        [Display(Name = "Wymagania ekonomiczne potwierdzone przez")]
+        public string EconomicRequirementsConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia wymagań ekonomicznych")]
+        public DateTime? EconomicRequirementsConfirmedDate { get; set; }
+
+        [Display(Name = "Czy wymagania ekonomiczne zostały potwierdzone")]
+        public bool IsEconomicRequirementsConfirmed { get; set; }
+
+
+        // potwierdzenie informacji technicznych
+
+        [Display(Name = "Cechy techniczne potwierdzone przez")]
+        public string TechnicalProportiesConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia cech technicznych")]
+        public DateTime? TechnicalProportiesConfirmedDate { get; set; }
+
+        [Display(Name = "Czy cechy techniczne zostały potwierdzone")]
+        public bool IsTechnicalProportiesConfirmed { get; set; }
+
+
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 

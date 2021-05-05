@@ -10,25 +10,37 @@
 
     <div class="row g-0">
         <div class="col-12 mb-2">
-            <h2>Wymagania Ekonomiczne</h2>
+            <h4>Informacje Ekonomiczne</h4>
         </div>
 
         <div class="col-12">
+            @if (Model.Project.IsEconomicRequirementsConfirmed == false)
+            {
+                <button class="btn btn-outline-primary btn-sm "
+                        onclick="addProjectEconomicRequirements('@Model.Project.Id',this)">
+                    Wczytaj
+                </button>
 
-            <button class="btn btn-outline-primary btn-sm "
-                    onclick="addProjectEconomicRequirements('@Model.Project.Id',this)">
-                Wczytaj
-            </button>
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = Model.Project.Id, type = 1 })"'>
+                    Dodaj
+                </button>
 
-            <button class="btn btn-outline-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 1 })"'>
-                Dodaj
-            </button>
-
-            <button class="btn btn-outline-warning btn-sm"
-                    onclick='window.location.href = "@Url.Action("ConfirmProjectRequirements","ProjectRequirement",new { projectId = Model.Project.Id})"'>
-                Akceptuj
-            </button>
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="confirmEconomicRequirements('@Model.Project.Id',this)">
+                    Potwierdź
+                </button>
+            }
+            else
+            {
+                @if (Model.Project.IsAccepted == false)
+                {
+                    <button class="btn btn-outline-warning btn-sm"
+                            onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
+                        Wycofaj Potwierdzenie
+                    </button>
+                }
+            }
         </div>
 
     </div>
@@ -54,12 +66,21 @@
                 {
                     <tr>
                         <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                            @if (Model.Project.IsQualityRequirementsConfirmed == false)
+                            {
+                                <a class="font-weight-bold"
+                                   href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                                    <strong>
+                                        @position.Requirement.Name
+                                    </strong>
+                                </a>
+                            }
+                            else
+                            {
                                 <strong>
                                     @position.Requirement.Name
                                 </strong>
-                            </a>
+                            }
                         </td>
 
                         @{
@@ -84,10 +105,13 @@
                         <td>@value</td>
                         <td>@position.Comment</td>
                         <td align="right">
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
+                            @if (Model.Project.IsQualityRequirementsConfirmed == false)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            }
                         </td>
                     </tr>
                 }
@@ -100,7 +124,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                  // deleteProjectRequirement()
+                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                          // deleteProjectRequirement()
     </script>
 }

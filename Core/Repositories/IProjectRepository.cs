@@ -23,10 +23,18 @@ namespace MwProject.Core.Repositories
         void AddEconomicRequirementsToProject(Project project);
         void AcceptProject(int id, string userId);
         void WithdrawProjectAcceptance(int id, string userId);
+        void ConfirmProject(int id, string userId);
+        void WithdrawProjectConfimration(int id, string userId);
         void ConfirmCalculation(int id, string userId);
         void WithdrawConfirmationOfCalculation(int id, string userId);
         void ConfirmEstimatedSales(int id, string userId);
         void WithdrawConfirmationOfEstimatedSales(int id, string userId);
+        void ConfirmQualityRequirements(int id, string userId);
+        void WithdrawConfirmationOfQualityRequirements(int id, string userId);
+        void ConfirmEconomicRequirements(int id, string userId);
+        void WithdrawConfirmationOfEconomicRequirements(int id, string userId);
+        void ConfirmTechnicalProperties(int id, string userId);
+        void WithdrawConfirmationOfTechnicalProperties(int id, string userId);
 
         IEnumerable<Category> GetUsedCategories();
     }

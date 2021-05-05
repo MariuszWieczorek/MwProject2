@@ -23,7 +23,7 @@ namespace MwProject.Controllers
         private readonly IProductGroupService _productGroupService;
         private readonly IUserService _userService;
 
-        private readonly int _itemPerPage = 10;
+        private readonly int _itemPerPage = 3;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public ProjectController(IProjectService projectService,
@@ -70,12 +70,21 @@ namespace MwProject.Controllers
                 _projectService.GetProject(id,userId);
 
             ApplicationUser acceptedBy = new();
+            ApplicationUser confirmedBy = new();
             ApplicationUser calculationConfirmedBy = new();
             ApplicationUser estiamtedSalesConfirmedBy = new();
+            ApplicationUser qualityRequirementsConfirmedBy = new();
+            ApplicationUser economicRequirementsConfirmedBy = new();
+            ApplicationUser technicalPropertiesConfirmedBy = new();
 
             if (selectedProject.AcceptedBy != null)
             {
                 acceptedBy = _userService.GetUser(selectedProject.AcceptedBy);
+            }
+
+            if (selectedProject.ConfirmedBy != null)
+            {
+                confirmedBy = _userService.GetUser(selectedProject.ConfirmedBy);
             }
 
             if (selectedProject.CalculationConfirmedBy != null)
@@ -88,6 +97,21 @@ namespace MwProject.Controllers
                 estiamtedSalesConfirmedBy = _userService.GetUser(selectedProject.EstimatedSalesConfirmedBy);
             }
 
+            if (selectedProject.QualityRequirementsConfirmedBy != null)
+            {
+                qualityRequirementsConfirmedBy = _userService.GetUser(selectedProject.QualityRequirementsConfirmedBy);
+            }
+
+            if (selectedProject.EconomicRequirementsConfirmedBy != null)
+            {
+                economicRequirementsConfirmedBy = _userService.GetUser(selectedProject.EconomicRequirementsConfirmedBy);
+            }
+
+            if (selectedProject.TechnicalProportiesConfirmedBy != null)
+            {
+                technicalPropertiesConfirmedBy = _userService.GetUser(selectedProject.TechnicalProportiesConfirmedBy);
+            }
+
             var vm = new ProjectViewModel()
             {
                 Project = selectedProject,
@@ -97,8 +121,12 @@ namespace MwProject.Controllers
                       "Nowy Projekt" :
                      $"Edycja Projektu: {selectedProject.Number}",
                 AcceptedBy = acceptedBy,
+                ConfirmedBy = confirmedBy,
                 CalculationConfirmedBy = calculationConfirmedBy,
-                EstimatedSalesConfirmedBy = estiamtedSalesConfirmedBy
+                EstimatedSalesConfirmedBy = estiamtedSalesConfirmedBy,
+                QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
+                EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
+                TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy
             };
 
             return View(vm);
@@ -194,6 +222,42 @@ namespace MwProject.Controllers
 
             return Json(new { success = true });
         }
+
+
+        public IActionResult ConfirmProject(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.ConfirmProject(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public IActionResult WithdrawProjectConfimration(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.WithdrawProjectConfimration(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
 
         [HttpPost]
         public IActionResult AddTechnicalProperties(int projectId)
@@ -318,6 +382,111 @@ namespace MwProject.Controllers
 
             return Json(new { success = true });
         }
+
+
+        [HttpPost]
+        public IActionResult ConfirmQualityRequirements(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.ConfirmQualityRequirements(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult WithdrawConfirmationOfQualityRequirements(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.WithdrawConfirmationOfQualityRequirements(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public IActionResult ConfirmEconomicRequirements(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.ConfirmEconomicRequirements(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult WithdrawConfirmationOfEconomicRequirements(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.WithdrawConfirmationOfEconomicRequirements(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmTechnicalProperties(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.ConfirmTechnicalProperties(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult WithdrawConfirmationOfTechnicalProperties(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.WithdrawConfirmationOfTechnicalProperties(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
         #endregion
 
     }

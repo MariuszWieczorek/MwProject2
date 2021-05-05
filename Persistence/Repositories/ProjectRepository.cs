@@ -250,5 +250,69 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.EstimatedSalesConfirmedDate = null;
             projectToUpdate.EstimatedSalesConfirmedBy = null;
         }
+
+        public void ConfirmProject(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsConfirmed = true;
+            projectToUpdate.ConfirmedDate = DateTime.Now;
+            projectToUpdate.ConfirmedBy = userId;
+        }
+
+        public void WithdrawProjectConfimration(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsConfirmed = false;
+            projectToUpdate.ConfirmedDate = null;
+            projectToUpdate.ConfirmedBy = null;
+        }
+
+        public void ConfirmQualityRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsQualityRequirementsConfirmed = true;
+            projectToUpdate.QualityRequirementsConfirmedDate = DateTime.Now;
+            projectToUpdate.QualityRequirementsConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfQualityRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsQualityRequirementsConfirmed = false;
+            projectToUpdate.QualityRequirementsConfirmedDate = null;
+            projectToUpdate.QualityRequirementsConfirmedBy = null;
+        }
+
+        public void ConfirmEconomicRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsEconomicRequirementsConfirmed = true;
+            projectToUpdate.EconomicRequirementsConfirmedDate = DateTime.Now;
+            projectToUpdate.EconomicRequirementsConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfEconomicRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsEconomicRequirementsConfirmed = false;
+            projectToUpdate.EconomicRequirementsConfirmedDate = null;
+            projectToUpdate.EconomicRequirementsConfirmedBy = null;
+        }
+
+        public void ConfirmTechnicalProperties(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsTechnicalProportiesConfirmed = true;
+            projectToUpdate.TechnicalProportiesConfirmedDate = DateTime.Now;
+            projectToUpdate.TechnicalProportiesConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfTechnicalProperties(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsTechnicalProportiesConfirmed = false;
+            projectToUpdate.TechnicalProportiesConfirmedDate = null;
+            projectToUpdate.TechnicalProportiesConfirmedBy = null;
+        }
     }
 }

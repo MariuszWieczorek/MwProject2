@@ -8,25 +8,38 @@
 <div class="row">
     <div class="row g-0">
         <div class="col-12 mb-2">
-            <h2>Parametry Techniczne </h2>
+            <h4>Informacje Techniczne</h4>
         </div>
 
         <div class="col-12">
-            <button class="btn btn-outline-primary btn-sm "
-                    onclick="addProjectTechnicalProperties('@Model.Project.Id',this)">
-                Wczytaj
-            </button>
 
-            <button class="btn btn-outline-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
-                Dodaj
-            </button>
+            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+            {
+                <button class="btn btn-outline-primary btn-sm "
+                        onclick="addProjectTechnicalProperties('@Model.Project.Id',this)">
+                    Wczytaj
+                </button>
 
-            <button class="btn btn-outline-warning btn-sm"
-                    onclick='window.location.href = "@Url.Action("ProjectTechnicalPropertiesConfim","ProjectTechnicalProperty",new { projectId = Model.Project.Id})"'>
-                Akceptuj
-            </button>
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = Model.Project.Id })"'>
+                    Dodaj
+                </button>
 
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="confirmTechnicalProperties('@Model.Project.Id',this)">
+                    Potwierdź
+                </button>
+            }
+            else
+            {
+                @if (Model.Project.IsAccepted == false)
+                {
+                    <button class="btn btn-outline-warning btn-sm"
+                            onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
+                        Wycofaj Potwierdzenie
+                    </button>
+                }
+            }
         </div>
 
     </div>
@@ -37,27 +50,36 @@
 
         <table class="table mt-3 table-hover table-striped table-light">
 
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col">parametr</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">parametr</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
 
             <tbody>
                 @foreach (var position in technicalProperties)
                 {
                     <tr>
                         <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+                            {
+                                <a class="font-weight-bold"
+                                   href="@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                                    <strong>
+                                        @position.TechnicalProperty.Name
+                                    </strong>
+                                </a>
+                            }
+                            else
+                            {
                                 <strong>
                                     @position.TechnicalProperty.Name
                                 </strong>
-                            </a>
+                            }
                         </td>
 
                         @{
@@ -82,10 +104,13 @@
                         <td>@value</td>
                         <td>@position.Comment</td>
                         <td align="right">
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteProjectTechnicalProperty('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
+                            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteProjectTechnicalProperty('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            }
                         </td>
                     </tr>
                 }
@@ -98,7 +123,7 @@
 @section scripts
 {
     <script type="text/javascript">
-              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-              // deleteProjectRequirement()
+                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                      // deleteProjectRequirement()
     </script>
 }

@@ -9,30 +9,32 @@
 
     <div class="row g-0">
         <div class="col-12 mb-2">
-            <h2>Przewidywana Sprzedaż</h2>
+            <h4>Przewidywana Sprzedaż</h4>
         </div>
-        
-        <div class="col-12">
-            <button class="btn btn-outline-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
-                Dodaj
-            </button>
 
+        <div class="col-12">
             @if (Model.Project.IsEstimatedSalesConfirmed == false)
             {
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
+                    Dodaj
+                </button>
 
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmEstimatedSales('@Model.Project.Id',this)">
                     Akceptuj
                 </button>
-
             }
             else
             {
-                <button class="btn btn-outline-warning btn-sm"
-                        onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
-                    Wycofaj Akceptację
-                </button>
+
+                @if (Model.Project.IsAccepted == false)
+                {
+                    <button class="btn btn-outline-warning btn-sm"
+                            onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
+                        Wycofaj Potwierdzenie
+                    </button>
+                }
             }
         </div>
     </div>
@@ -55,23 +57,33 @@
                 {
                     <tr>
                         <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
+                            @if (Model.Project.IsEstimatedSalesConfirmed == false)
+                            {
+                                <a class="font-weight-bold"
+                                   href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
+                                    @position.Year
+                                </a>
+                            }
+                            else
+                            {
                                 @position.Year
-                            </a>
+                            }
                         </td>
                         <td>@position.Qty.ToString("N")</td>
                         <td>@position.Price zł</td>
                         @{decimal value = Math.Round(position.Qty * position.Price, 2);}
                         <td>@value.ToString("c")</td>
                         <td align="right">
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
+                            @if (Model.Project.IsEstimatedSalesConfirmed == false)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            }
                         </td>
                     </tr>
-                            }
+                }
 
                 <tr>
                     <td><strong>średnia</strong></td>
@@ -99,16 +111,16 @@
                     <td>@averageValue.ToString("c") </td>
                     <td> </td>
                 </tr>
-                
+
             </tbody>
         </table>
-      }
-    </div>
+    }
+</div>
 
 @section scripts
 {
     <script type="text/javascript">
-              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-              // deleteEstimatedSalesValue()
+                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                      // deleteEstimatedSalesValue()
     </script>
 }

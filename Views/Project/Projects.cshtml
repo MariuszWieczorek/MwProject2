@@ -5,6 +5,41 @@
 }
 
 <h1 class="mb-3">Projekty</h1>
+
+@* Formularz filtrowania *@
+
+<form id="filterForm">
+    <div class="form-row align-items-center">
+
+        <div class="col-auto">
+            @Html.TextBoxFor(x => x.ProjectsFilter.Title,
+           new { @class = "form-control mb-2", placeholder = "Tytuł" })
+        </div>
+
+        <div class="col-auto">
+            @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
+           new SelectList(Model.Categories, "Id", "Name"),
+           " -- Wybierz kategorię --",
+           new { @class = "form-control mb-2" }
+           )
+        </div>
+
+        <div class="col-auto">
+            <div class="form-check mb-2">
+                @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted,
+               new { @class = "form-check-label" }
+               )
+                @Html.LabelFor(x => x.ProjectsFilter.IsExecuted)
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
+        </div>
+    </div>
+</form>
+
+
 <button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("Project","Project")"'>
     Dodaj
@@ -12,46 +47,46 @@
 
 @if (Model != null && Model.Projects.Any())
 {
-<table class="table mt-3 table-bordered table-hover table-light">
-    <thead class="table-light">
-        <tr>
-            <th scope="col">numer</th>
-            <th scope="col">tytuł</th>
-            <th scope="col">data</th>
-            <th scope="col">termin</th>
-            <th scope="col"> </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var project in Model.Projects)
-        {
+    <table class="table mt-3 table-bordered table-hover table-light">
+        <thead class="table-light">
             <tr>
-                <td>
-                    <a class="font-weight-bold"
-                       href="@Url.Action("Project","Project", new { id = project.Id })">
-                        @project.Number
-                    </a>
-                </td>
-                <td>@project.Title </td>
-                <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
-                <td>
-                    @if (project.Term.HasValue)
-                    {
-                        @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
-                    }
-                </td>
-
-                <td>
-                    <button class="btn btn-danger btn-sm"
-                            onclick="deleteProject('@project.Id',this)">
-                        Usuń Projekt
-                    </button>
-                </td>
+                <th scope="col">numer</th>
+                <th scope="col">tytuł</th>
+                <th scope="col">data</th>
+                <th scope="col">termin</th>
+                <th scope="col"> </th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var project in Model.Projects)
+            {
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                           href="@Url.Action("Project","Project", new { id = project.Id })">
+                            @project.Number
+                        </a>
+                    </td>
+                    <td>@project.Title </td>
+                    <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+                    <td>
+                        @if (project.Term.HasValue)
+                        {
+                            @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
+                        }
+                    </td>
 
-    </tbody>
-</table>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteProject('@project.Id',this)">
+                            Usuń Projekt
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
 
 }
 else
@@ -61,11 +96,48 @@ else
     </div>
 }
 
+@* Stronicowanie *@
+<div page-model="@Model.PagingInfo" page-action="Projects" page-classes-enabled="true"
+     page-class="btn"
+     page-class-normal="btn-secondary"
+     page-class-selected="btn-primary"
+     class="btn-group btn-group-sm m-1">
+</div>
 
 @section scripts
 {
     <script type="text/javascript">
-        // --------------------------------------------
+        // ------------------------------------------------------------------------------------------------------
+        // funkcja zostanie wywołana gdy zostanie załadowany już cały widok
+
+        $(document).ready(function () {
+        // najpierw zaznaczamy formularz o id = filterForm
+        // chcemy aby po kliknięci przycisku zostałą wywołana taka funkcja
+        // a chcemy, żeby za pomocą ajax'a została wywołana odpowiednia funkcja z kontrolera
+        // przesyłamy zserializowane dane z tego formularza
+        // jeżeli zakończone sukcesem, to zostanie zwrócona tabelka z widoku częściowego
+
+            $('#filterForm').submit(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("Adverts","Advert")",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#tasksTable').html(data);
+                    },
+                    error: function (data) {
+                        alert(data.message + ' filter ')
+                    },
+                    dataType: "html"
+                });
+
+                // return false konieczne aby nie wykonał się jeszcze raz submit
+                return false;
+            });
+        });
+
+        // ------------------------------------------------------------------------------------------------------
+
         function deleteProject(id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć projekt ?"))
                 return;
@@ -92,9 +164,8 @@ else
                 dataType: 'json'
 
             });
-
         }
-       // --------------------------------------------
+       // ------------------------------------------------------------------------------------------------------
 
 
     </script>

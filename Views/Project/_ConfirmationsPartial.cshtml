@@ -7,18 +7,15 @@
 
 <div class="row">
 
-
-
-    @if (Model.Project.IsAccepted || Model.Project.IsCalculationConfirmed)
-    {
-
         <table class="table table-hover table-striped mt-3 mb-5">
             <thead class="table-success">
                 <tr>
-                    <th scope="col">status projektu</th>
+                    <th scope="col">sekcja</th>
+                    <th scope="col">status</th>
                     <th scope="col">kto</th>
                     <th scope="col">stanowisko</th>
                     <th scope="col">kiedy</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,41 +24,158 @@
                 {
                     <tr>
                         <td> <strong>projekt zaakceptowany</strong> </td>
+                        <td>
+                            @if (Model.Project.IsAccepted)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </td>
                         <td>@Model.AcceptedBy.FirstName @Model.AcceptedBy.LastName</td>
                         <td>@Model.AcceptedBy.Possition</td>
                         <td>@Model.Project.AcceptedDate</td>
+                        <td> </td>
                     </tr>
                 }
 
-                @if (Model.Project.IsCalculationConfirmed)
-                {
-                    <tr>
-                        <td> <strong>kalkulacja potwierdzona</strong></td>
-                        <td>@Model.CalculationConfirmedBy.FirstName @Model.CalculationConfirmedBy.LastName</td>
-                        <td>@Model.CalculationConfirmedBy.Possition</td>
-                        <td>@Model.Project.CalculationConfirmedDate</td>
-                    </tr>
-                }
 
-                @if (Model.Project.IsEstimatedSalesConfirmed)
-                {
-                    <tr>
-                        <td> <strong>prognoza sprzedaży potwierdzona</strong></td>
-                        <td>@Model.EstimatedSalesConfirmedBy.FirstName @Model.CalculationConfirmedBy.LastName</td>
-                        <td>@Model.EstimatedSalesConfirmedBy.Possition</td>
-                        <td>@Model.Project.EstimatedSalesConfirmedDate</td>
-                    </tr>
-                }
+                <tr>
+                    <td> <strong>kalkulacja kosztów TKW</strong></td>
+                    <td>
+                        @if (Model.Project.IsCalculationConfirmed)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+                    <td>@Model.CalculationConfirmedBy.FirstName @Model.CalculationConfirmedBy.LastName</td>
+                    <td>@Model.CalculationConfirmedBy.Possition</td>
+                    <td>@Model.Project.CalculationConfirmedDate</td>
+                    <td>
+                        @if (Model.Project.IsAccepted == false && Model.Project.IsCalculationConfirmed)
+                        {
+                            <button class="btn btn-outline-warning btn-sm"
+                                    onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
+                                Wycofaj
+                            </button>
+                        }
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <td> <strong>prognoza sprzedaży</strong></td>
+                    <td>
+                        @if (Model.Project.IsEstimatedSalesConfirmed)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+                    <td>@Model.EstimatedSalesConfirmedBy.FirstName @Model.EstimatedSalesConfirmedBy.LastName</td>
+                    <td>@Model.EstimatedSalesConfirmedBy.Possition</td>
+                    <td>@Model.Project.EstimatedSalesConfirmedDate</td>
+                    <td>
+                        @if (Model.Project.IsAccepted == false && Model.Project.IsEstimatedSalesConfirmed)
+                        {
+                            <button class="btn btn-outline-warning btn-sm"
+                                    onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
+                                Wycofaj
+                            </button>
+                        }
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td> <strong>wymagania jakościowe</strong></td>
+                    <td>
+                        @if (Model.Project.IsQualityRequirementsConfirmed)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+                    <td>@Model.QualityRequirementsConfirmedBy.FirstName @Model.QualityRequirementsConfirmedBy.LastName</td>
+                    <td>@Model.QualityRequirementsConfirmedBy.Possition</td>
+                    <td>@Model.Project.QualityRequirementsConfirmedDate</td>
+                    <td>
+                        @if (Model.Project.IsAccepted == false && Model.Project.IsQualityRequirementsConfirmed)
+                        {
+                            <button class="btn btn-outline-warning btn-sm"
+                                    onclick="withdrawConfirmationOfQualityRequirements('@Model.Project.Id',this)">
+                                Wycofaj
+                            </button>
+                        }
+                    </td>
+                </tr>
+
+                
+                
+                <tr>
+                    <td> <strong>informacje ekonomiczne</strong></td>
+                    <td>
+                        @if (Model.Project.IsEconomicRequirementsConfirmed)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+                    <td>@Model.EconomicRequirementsConfirmedBy.FirstName @Model.EconomicRequirementsConfirmedBy.LastName</td>
+                    <td>@Model.EconomicRequirementsConfirmedBy.Possition</td>
+                    <td>@Model.Project.EconomicRequirementsConfirmedDate</td>
+                    <td>
+                        @if (Model.Project.IsAccepted == false && Model.Project.IsEconomicRequirementsConfirmed)
+                        {
+                            <button class="btn btn-outline-warning btn-sm"
+                                    onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
+                                Wycofaj
+                            </button>
+                        }
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td> <strong>informacje techniczne </strong></td>
+                    <td>
+                        @if (Model.Project.IsTechnicalProportiesConfirmed)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+                    <td>@Model.TechnicalPropertiesConfirmedBy.FirstName @Model.TechnicalPropertiesConfirmedBy.LastName</td>
+                    <td>@Model.TechnicalPropertiesConfirmedBy.Possition</td>
+                    <td>@Model.Project.TechnicalProportiesConfirmedDate</td>
+                    <td>
+                        @if (Model.Project.IsAccepted == false && Model.Project.IsTechnicalProportiesConfirmed)
+                        {
+                            <button class="btn btn-outline-warning btn-sm"
+                                    onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
+                                Wycofaj
+                            </button>
+                        }
+                    </td>
+                </tr>
+
 
             </tbody>
         </table>
-    }
+    
 </div>
 
 @section scripts
 {
     <script type="text/javascript">
-                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                      // deleteCalculation()
+                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                          // deleteCalculation()
     </script>
 }

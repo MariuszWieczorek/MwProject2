@@ -125,5 +125,54 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.WithdrawConfirmationOfEstimatedSales(id, userId);
             _unitOfWork.Complete();
         }
+
+        public void ConfirmProject(int id, string userId)
+        {
+
+            _unitOfWork.Project.ConfirmProject(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawProjectConfimration(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawProjectConfimration(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void ConfirmQualityRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmQualityRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfQualityRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfQualityRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void ConfirmEconomicRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmEconomicRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfEconomicRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfEconomicRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void ConfirmTechnicalProperties(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmTechnicalProperties(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfTechnicalProperties(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfTechnicalProperties(id, userId);
+            _unitOfWork.Complete();
+        }
     }
 }

@@ -9,31 +9,34 @@
 
 @if (Model.Project.Id != 0)
 {
+    <!--
+        <button class="btn btn-secondary mb-3"
+                onclick="generatePdf()">
+            Generuj PDF
+        </button>
 
-    <button class="btn btn-secondary mb-3"
-            onclick="generatePdf()">
-        Generuj PDF
-    </button>
-
-    <button class="btn btn-secondary mb-3" onclick="printProject()">
+        <button class="btn btn-secondary mb-3" onclick="printProject()">
+            Drukuj
+        </button>
+     -->
+    <button id="printButton" class="btn btn-secondary mb-3">
         Drukuj
     </button>
 
-    <button id="printButton" class="btn btn-secondary mb-3">
-        Drukuj 1
-    </button>
-
-    @if (Model.Project.IsAccepted == false)
+    @if (Model.Project.IsCalculationConfirmed && Model.Project.IsEstimatedSalesConfirmed)
     {
-        <button class="btn btn-warning mb-3" onclick="acceptProject()">
-            Akceptuj
-        </button>
-    }
-    else
-    {
-        <button class="btn btn-warning mb-3" onclick="withdrawProjectAcceptance()">
-            Wycofaj Akceptacje
-        </button>
+        @if (Model.Project.IsAccepted == false)
+        {
+            <button class="btn btn-lg btn-warning mb-3" onclick="acceptProject()">
+                <strong>Akceptuj Projekt</strong>
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-warning mb-3" onclick="withdrawProjectAcceptance()">
+                Wycofaj Akceptacje 
+            </button>
+        }
     }
 }
 
@@ -41,9 +44,11 @@
 <div class="col-12">
     @if (Model.Project.Id != 0)
     {
+        
         <div class="mt-3 mb-5">
             @await Html.PartialAsync("_ConfirmationsPartial", Model)
         </div>
+        
     }
 </div>
 
@@ -197,9 +202,12 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary btn-lg mb-5" type="submit">
-                Zapisz
-            </button>
+            @if (Model.Project.IsAccepted == false)
+            {
+                <button class="btn btn-primary btn-lg mb-5" type="submit">
+                    Zapisz
+                </button>
+            }
 
 
 
@@ -753,6 +761,263 @@
             $.ajax({
                 type: 'POST',
                 url: "@Url.Action("WithdrawConfirmationOfEstimatedSales", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // ConfirmProject
+        function confirmProject() {
+
+            if (!confirm("Czy potwierdzić projekt ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmProject", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // WithdrawProjectConfimration
+        function WithdrawProjectConfimration() {
+
+            if (!confirm("Czy wycofać potwierdzenie projektu ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawProjectConfimration", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // ConfirmQualityRequirements
+        function confirmQualityRequirements() {
+
+            if (!confirm("Czy potwierdzić wymagania jakościowe ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmQualityRequirements", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // WithdrawConfirmationOfQualityRequirements
+        function withdrawConfirmationOfQualityRequirements() {
+
+            if (!confirm("Czy wycofać potwierdzenie wymagań jakościowych ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawConfirmationOfQualityRequirements", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // ConfirmEconomicRequirements
+        function confirmEconomicRequirements() {
+
+            if (!confirm("Czy potwierdzić wymagania ekonomiczne ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmEconomicRequirements", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // WithdrawConfirmationOfEconomicRequirements
+        function withdrawConfirmationOfEconomicRequirements() {
+
+            if (!confirm("Czy wycofać potwierdzenie wymagań ekonomicznych ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawConfirmationOfEconomicRequirements", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // ConfirmTechnicalProperties
+        function confirmTechnicalProperties() {
+
+            if (!confirm("Czy potwierdzić informacje techniczne ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmTechnicalProperties", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+        // WithdrawConfirmationOfTechnicalProperties
+        function withdrawConfirmationOfTechnicalProperties() {
+
+            if (!confirm("Czy wycofać potwierdzenie informacji technicznych ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawConfirmationOfTechnicalProperties", "Project")",
                  data: {
                      id: '@Model.Project.Id'
                 },

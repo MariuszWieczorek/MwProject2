@@ -10,17 +10,18 @@
 
     <div class="row g-0">
         <div class="col-12 mb-2">
-            <h2>Kalkulacje</h2>
+            <h4>Kalkulacja Kosztów TKW</h4>
         </div>
 
         <div class="col-12">
-            <button class="btn btn-outline-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
-                Dodaj
-            </button>
-
             @if (Model.Project.IsCalculationConfirmed == false)
             {
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
+                    Dodaj
+                </button>
+
+
 
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmCalculation('@Model.Project.Id',this)">
@@ -30,10 +31,13 @@
             }
             else
             {
-                <button class="btn btn-outline-warning btn-sm"
-                        onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
-                    Wycofaj Akceptację
-                </button>
+                @if (Model.Project.IsAccepted == false)
+                {
+                    <button class="btn btn-outline-warning btn-sm"
+                            onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
+                        Wycofaj Potwierdzenie
+                    </button>
+                }
             }
 
         </div>
@@ -59,37 +63,47 @@
 
                 @foreach (var position in projectCalculations)
                 {
-                <tr>
-                    <td>
-                        <a class="font-weight-bold"
-                           href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
-                            @position.Tkw.ToString("c")
-                        </a>
-                    </td>
-                    <td>@position.Ckw.ToString("c")</td>
-                    <td>@position.MaterialCosts.ToString("c")</td>
-                    <td>@position.LabourCosts.ToString("c")</td>
-                    <td>@position.PackingCosts.ToString("c")</td>
-                    <td>@position.Markup.ToString("c")</td>
-                    <td>@position.GeneralCostsInPercent.ToString("n")</td>
-                    <td align="right">
-                        <button class="btn btn-outline-danger btn-sm"
-                                onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
-                            Usuń
-                        </button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @if (Model.Project.IsCalculationConfirmed == false)
+                            {
+                                <a class="font-weight-bold"
+                                   href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
+                                    @position.Tkw.ToString("c")
+                                </a>
+                            }
+                            else
+                            {
+                                @position.Tkw.ToString("c")
+                            }
+                        </td>
+                        <td>@position.Ckw.ToString("c")</td>
+                        <td>@position.MaterialCosts.ToString("c")</td>
+                        <td>@position.LabourCosts.ToString("c")</td>
+                        <td>@position.PackingCosts.ToString("c")</td>
+                        <td>@position.Markup.ToString("c")</td>
+                        <td>@position.GeneralCostsInPercent.ToString("n")</td>
+                        <td align="right">
+                            @if (Model.Project.IsCalculationConfirmed == false)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            }
+                        </td>
+                    </tr>
                 }
 
             </tbody>
         </table>
     }
-    </div>
+</div>
 
 @section scripts
 {
     <script type="text/javascript">
-              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-              // deleteCalculation()
+                              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                              // deleteCalculation()
     </script>
 }
