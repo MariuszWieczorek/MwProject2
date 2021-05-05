@@ -45,65 +45,67 @@
     Dodaj
 </button>
 
-@if (Model != null && Model.Projects.Any())
-{
-    <table class="table mt-3 table-bordered table-hover table-light">
-        <thead class="table-light">
-            <tr>
-                <th scope="col">numer</th>
-                <th scope="col">tytuł</th>
-                <th scope="col">data</th>
-                <th scope="col">termin</th>
-                <th scope="col"> </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var project in Model.Projects)
-            {
+<div id="projectsTable">
+    @if (Model != null && Model.Projects.Any())
+    {
+        <table class="table mt-3 table-bordered table-hover table-light">
+            <thead class="table-light">
                 <tr>
-                    <td>
-                        <a class="font-weight-bold"
-                           href="@Url.Action("Project","Project", new { id = project.Id })">
-                            @project.Number
-                        </a>
-                    </td>
-                    <td>@project.Title </td>
-                    <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
-                    <td>
-                        @if (project.Term.HasValue)
-                        {
-                            @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
-                        }
-                    </td>
-
-                    <td>
-                        <button class="btn btn-danger btn-sm"
-                                onclick="deleteProject('@project.Id',this)">
-                            Usuń Projekt
-                        </button>
-                    </td>
+                    <th scope="col">numer</th>
+                    <th scope="col">tytuł</th>
+                    <th scope="col">data</th>
+                    <th scope="col">termin</th>
+                    <th scope="col"> </th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var project in Model.Projects)
+                {
+                    <tr>
+                        <td>
+                            <a class="font-weight-bold"
+                               href="@Url.Action("Project","Project", new { id = project.Id })">
+                                @project.Number
+                            </a>
+                        </td>
+                        <td>@project.Title </td>
+                        <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (project.Term.HasValue)
+                            {
+                                @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
+                            }
+                        </td>
 
-        </tbody>
-    </table>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteProject('@project.Id',this)">
+                                Usuń Projekt
+                            </button>
+                        </td>
+                    </tr>
+                }
 
-}
-else
-{
-    <div>
-        Brak projektów do wyświetlenia
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <div>
+            Brak projektów do wyświetlenia
+        </div>
+    }
+
+    @* Stronicowanie *@
+    <div page-model="@Model.PagingInfo" page-action="Projects" page-classes-enabled="true"
+         page-class="btn"
+         page-class-normal="btn-secondary"
+         page-class-selected="btn-primary"
+         class="btn-group btn-group-sm m-1">
     </div>
-}
 
-@* Stronicowanie *@
-<div page-model="@Model.PagingInfo" page-action="Projects" page-classes-enabled="true"
-     page-class="btn"
-     page-class-normal="btn-secondary"
-     page-class-selected="btn-primary"
-     class="btn-group btn-group-sm m-1">
 </div>
-
 @section scripts
 {
     <script type="text/javascript">
@@ -120,10 +122,10 @@ else
             $('#filterForm').submit(function () {
                 $.ajax({
                     type: 'POST',
-                    url: "@Url.Action("Adverts","Advert")",
+                    url: "@Url.Action("Projects","Project")",
                     data: $(this).serialize(),
                     success: function (data) {
-                        $('#tasksTable').html(data);
+                        $('#projectsTable').html(data);
                     },
                     error: function (data) {
                         alert(data.message + ' filter ')
