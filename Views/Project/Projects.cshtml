@@ -4,108 +4,61 @@
     ViewBag.Title = "Projekty";
 }
 
-<h1 class="mb-3">Projekty</h1>
-
-@* Formularz filtrowania *@
-
-<form id="filterForm">
-    <div class="form-row align-items-center">
-
-        <div class="col-auto">
-            @Html.TextBoxFor(x => x.ProjectsFilter.Title,
-           new { @class = "form-control mb-2", placeholder = "Tytuł" })
-        </div>
-
-        <div class="col-auto">
-            @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
-           new SelectList(Model.Categories, "Id", "Name"),
-           " -- Wybierz kategorię --",
-           new { @class = "form-control mb-2" }
-           )
-        </div>
-
-        <div class="col-auto">
-            <div class="form-check mb-2">
-                @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted,
-               new { @class = "form-check-label" }
-               )
-                @Html.LabelFor(x => x.ProjectsFilter.IsExecuted)
-            </div>
-        </div>
-
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-        </div>
-    </div>
-</form>
-
+<h1 class="mb-3 mt-2">Lista Projektów</h1>
 
 <button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("Project","Project")"'>
     Dodaj
 </button>
 
-<div id="projectsTable">
-    @if (Model != null && Model.Projects.Any())
-    {
-        <table class="table mt-3 table-bordered table-hover table-light">
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">numer</th>
-                    <th scope="col">tytuł</th>
-                    <th scope="col">data</th>
-                    <th scope="col">termin</th>
-                    <th scope="col"> </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var project in Model.Projects)
-                {
-                    <tr>
-                        <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("Project","Project", new { id = project.Id })">
-                                @project.Number
-                            </a>
-                        </td>
-                        <td>@project.Title </td>
-                        <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
-                        <td>
-                            @if (project.Term.HasValue)
-                            {
-                                @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
-                            }
-                        </td>
+<i class="bi-github" role="img" aria-label="GitHub" co></i>
+<i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
 
-                        <td>
-                            <button class="btn btn-danger btn-sm"
-                                    onclick="deleteProject('@project.Id',this)">
-                                Usuń Projekt
-                            </button>
-                        </td>
-                    </tr>
-                }
+<div class="container">
+    początek
+    <svg class="bi bi-alert-triangle text-success" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        ala ma kota
+    </svg>
+    koniec
+</div>
 
-            </tbody>
-        </table>
-
-    }
-    else
-    {
-        <div>
-            Brak projektów do wyświetlenia
-        </div>
-    }
-
-    @* Stronicowanie *@
-    <div page-model="@Model.PagingInfo" page-action="Projects" page-classes-enabled="true"
-         page-class="btn"
-         page-class-normal="btn-secondary"
-         page-class-selected="btn-primary"
-         class="btn-group btn-group-sm m-1">
+@*  Formularz zgodny z bootstrap 5.0
+    Formularz bez helpera beginform
+    ponieważ ten formularz będziemy submit’ować w inny sposób.
+    Tak, aby po kliknięci przycisku submit
+    nie przeładowywała się strona, tylko odświeżała tabelka z projektami.
+*@
+<form id="filterForm" class="row gy-2 gx-3 align-items-center bg-light p-2">
+    <div class="col-auto ">
+        @Html.TextBoxFor(x => x.ProjectsFilter.Title,
+          new { @class = "form-control", placeholder = "Tytuł" })
     </div>
 
+    <div class="col-auto">
+        @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
+           new SelectList(Model.Categories, "Id", "Name"),
+           " -- wybierz kategorię -- ",
+           new { @class = "form-control" })
+    </div>
+    <div class="col-auto">
+        <div class="form-check">
+            @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted,
+               new { @class = "form-check-label" }
+               )
+            @Html.LabelFor(x => x.ProjectsFilter.IsExecuted)
+        </div>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-warning">Filtruj</button>
+    </div>
+</form>
+
+@* tabela z listą projektów *@
+<div>
+    @await Html.PartialAsync("_ProjectsTablePartial.cshtml", Model)
 </div>
+
+
 @section scripts
 {
     <script type="text/javascript">
@@ -132,7 +85,6 @@
                     },
                     dataType: "html"
                 });
-
                 // return false konieczne aby nie wykonał się jeszcze raz submit
                 return false;
             });

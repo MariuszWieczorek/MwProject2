@@ -18,6 +18,8 @@ namespace MwProject.Controllers
 
         /* Konwencja ( Views \ nazwa_kontrolera \ nazwa_akcji.cshtml ) */
 
+        #region konstruktor, mechanizm DI 
+
         private readonly IProjectService _projectService;
         private readonly ICategoryService _categoryService;
         private readonly IProductGroupService _productGroupService;
@@ -38,14 +40,17 @@ namespace MwProject.Controllers
             _userService = userService;
         }
 
-        #region Lista projektów, pojedynczy projekt
+        #endregion
+
+        #region Lista projektów, pełen widok, widok częściowy tylko z tabelką
         public IActionResult Projects(int currentPage = 1, int categoryId = 0)
         {
             var userId = User.GetUserId();
             
             int numberOfRecords = _projectService.GetNumberOfRecords(new ProjectsFilter(), categoryId);
             
-            var projects = _projectService.GetProjects(new ProjectsFilter(),
+            var projects = _projectService.GetProjects(
+                new ProjectsFilter(),
                 new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage },
                 categoryId,
                 userId
@@ -62,6 +67,38 @@ namespace MwProject.Controllers
             return View(vm);
         }
 
+        // akcja wywoływana w widoku Projects po kliknięciu na submit służącym do filtrowania zadań
+        // wersja bez przeładowywania strony
+
+        [HttpPost]
+        public IActionResult Projects(ProjectsViewModel viewModel)
+        {
+            var userId = User.GetUserId();
+
+            int numberOfRecords = _projectService.GetNumberOfRecords(viewModel.ProjectsFilter, 0);
+
+            var projects = _projectService.GetProjects(
+                viewModel.ProjectsFilter,
+                viewModel.PagingInfo,
+                0,
+                userId
+               );
+          
+
+            var vm = new ProjectsViewModel()
+            {
+                ProjectsFilter = new ProjectsFilter(),
+                Categories = _categoryService.GetCategories(),
+                Projects = projects,
+                PagingInfo = new PagingInfo() { CurrentPage = 1, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords }
+            };
+
+            return PartialView("_ProjectsTablePartial", vm);
+        }
+
+        #endregion
+
+        #region Pojedynczy projekt
         public IActionResult Project(int id)
         {
             var userId = User.GetUserId();
