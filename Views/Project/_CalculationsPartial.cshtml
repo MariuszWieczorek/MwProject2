@@ -49,11 +49,13 @@
         <table class="table table-hover table-striped mt-3 mb-5">
             <thead class="table-success">
                 <tr>
+                    <th scope="col">Lp</th>
+                    <th scope="col">Tytuł</th>
                     <th scope="col">TKW</th>
                     <th scope="col">CKW</th>
-                    <th scope="col">Koszty Materiałów</th>
-                    <th scope="col">Koszty Robocizny</th>
-                    <th scope="col">Koszty Pakowania</th>
+                    <th scope="col">Materiały</th>
+                    <th scope="col">Robocizna</th>
+                    <th scope="col">Pakowanie</th>
                     <th scope="col">Narzut</th>
                     <th scope="col">Koszty Ogólne %</th>
                     <th scope="col"></th>
@@ -63,36 +65,39 @@
 
                 @foreach (var position in projectCalculations)
                 {
-                    <tr>
-                        <td>
-                            @if (Model.Project.IsCalculationConfirmed == false)
-                            {
-                                <a class="font-weight-bold"
-                                   href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
-                                    @position.Tkw.ToString("c")
-                                </a>
-                            }
-                            else
-                            {
-                                @position.Tkw.ToString("c")
-                            }
-                        </td>
-                        <td>@position.Ckw.ToString("c")</td>
-                        <td>@position.MaterialCosts.ToString("c")</td>
-                        <td>@position.LabourCosts.ToString("c")</td>
-                        <td>@position.PackingCosts.ToString("c")</td>
-                        <td>@position.Markup.ToString("c")</td>
-                        <td>@position.GeneralCostsInPercent.ToString("n")</td>
-                        <td align="right">
-                            @if (Model.Project.IsCalculationConfirmed == false)
-                            {
-                                <button class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
-                                    Usuń
-                                </button>
-                            }
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @if (Model.Project.IsCalculationConfirmed == false)
+                        {
+                            <a class="font-weight-bold"
+                               href="@Url.Action("Calculation", "Calculation", new { projectId = position.ProjectId, Id = position.Id })">
+                                @position.OrdinalNumber
+                            </a>
+                        }
+                        else
+                        {
+                            @position.OrdinalNumber
+                        }
+                    </td>
+
+                    <td>@position.Title</td>
+                    <td><strong>@position.Tkw.ToString("c")</strong></td>
+                    <td><strong>@position.Ckw.ToString("c")</strong></td>
+                    <td><strong>@position.MaterialCosts.ToString("c")</strong></td>
+                    <td><strong>@position.LabourCosts.ToString("c")</strong></td>
+                    <td><strong>@position.PackingCosts.ToString("c")</strong></td>
+                    <td><strong>@position.Markup.ToString("c")</strong></td>
+                    <td><strong>@position.GeneralCostsInPercent.ToString("n")</strong></td>
+                    <td align="right">
+                        @if (Model.Project.IsCalculationConfirmed == false)
+                        {
+                            <button class="btn btn-outline-danger btn-sm"
+                                    onclick="deleteCalculation('@position.ProjectId','@position.Id',this)">
+                                Usuń
+                            </button>
+                        }
+                    </td>
+                </tr>
                 }
 
             </tbody>

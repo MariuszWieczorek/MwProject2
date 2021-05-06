@@ -16,7 +16,13 @@ namespace MwProject.Persistence.Services
             _unitOfWork = unitOfWork;
         }
 
-          public ApplicationUser GetUser(string id)
+        public void DeleteUser(string id)
+        {
+            _unitOfWork.UserRepository.DeleteUser(id);
+            _unitOfWork.Complete();
+        }
+
+        public ApplicationUser GetUser(string id)
         {
             return _unitOfWork.UserRepository.GetUser(id);
         }
@@ -24,6 +30,12 @@ namespace MwProject.Persistence.Services
         public IEnumerable<ApplicationUser> GetUsers()
         {
             return _unitOfWork.UserRepository.GetUsers();
+        }
+
+        public void UpdateUser(ApplicationUser user)
+        {
+            _unitOfWork.UserRepository.UpdateUser(user);
+            _unitOfWork.Complete();
         }
     }
 }

@@ -25,8 +25,15 @@ namespace MwProject.Persistence.Repositories
 
         public Calculation NewCalculation(int projectId, string userId)
         {
+            int ordinalNumber = 1;
+            if (_context.Calculations.Where(x => x.ProjectId == projectId).Any())
+            {
+                ordinalNumber = _context.Calculations.Where(x => x.ProjectId == projectId).Max(x => x.OrdinalNumber) + 1;
+            }
+
             return new Calculation
-            { 
+            {
+                OrdinalNumber = ordinalNumber,
                 ProjectId = projectId,
             };
         }
@@ -52,6 +59,8 @@ namespace MwProject.Persistence.Repositories
             calculationToUpdate.GeneralCostsInPercent = calculation.GeneralCostsInPercent;
             calculationToUpdate.Tkw = tkw;
             calculationToUpdate.Ckw = ckw;
+            calculationToUpdate.Title = calculation.Title;
+            calculationToUpdate.OrdinalNumber = calculation.OrdinalNumber;
         }
 
         public void DeleteCalculation(int projectId, int id, string userId)

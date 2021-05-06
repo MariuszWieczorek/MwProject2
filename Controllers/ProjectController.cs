@@ -25,7 +25,7 @@ namespace MwProject.Controllers
         private readonly IProductGroupService _productGroupService;
         private readonly IUserService _userService;
 
-        private readonly int _itemPerPage = 3;
+        private readonly int _itemPerPage = 30;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public ProjectController(IProjectService projectService,

@@ -35,7 +35,7 @@ namespace MwProject.Controllers
             var vm = new CalculationViewModel()
             {
                 Calculation = selectedCalculation,
-                Heading = id == 0 ? $"nowa {projectId}" : $"edycja {projectId}"
+                Heading = id == 0 ? $"nowa kalkulacja kosztów" : $"edycja kalkulacji kosztów"
             };
 
             return View(vm);
@@ -52,7 +52,7 @@ namespace MwProject.Controllers
                 var vm = new CalculationViewModel()
                 {
                     Calculation = selectedCalculation.Calculation,
-                    Heading = selectedCalculation.Calculation.Id == 0 ? "nowa" : "edycja"
+                    Heading = selectedCalculation.Calculation.Id == 0 ? "nowa kalkulacja kosztów" : "edycja kalkulacji kosztów"
                 };
 
                 return View("Calculation", vm);

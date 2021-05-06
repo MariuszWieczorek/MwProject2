@@ -11,6 +11,8 @@ namespace MwProject.Core.Repositories
     public interface IUserRepository
     {
         ApplicationUser GetUser(string id);
+        void UpdateUser(ApplicationUser user);
+        void DeleteUser(string id);
         IEnumerable<ApplicationUser> GetUsers();
     }
 }

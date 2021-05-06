@@ -12,6 +12,14 @@ namespace MwProject.Core.Models.Domains
         public int Id { get; set; }
         public int ProjectId { get; set; }
 
+
+        [Required]
+        [Display(Name = "Lp")]
+        public int OrdinalNumber { get; set; }
+
+        [Display(Name = "Tytuł")]
+        public string Title { get; set; }
+
         // koszty
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Koszt Materiałów PLN")]
@@ -43,12 +51,12 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Komentarz")]
         public string Comment { get; set; }
+        
         [Display(Name = "przygotował dane")]
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         [Display(Name = "potwierdził dane")]
-        public string ConfirmedBy { get; set; }
-        public DateTime ConfirmedDate { get; set; }
+
         public Project Project { get; set; }
     }
 }

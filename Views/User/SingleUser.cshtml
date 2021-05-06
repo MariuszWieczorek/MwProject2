@@ -1,0 +1,98 @@
+﻿@model MwProject.Core.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h1>@Model.Heading</h1>
+
+
+@using (Html.BeginForm("SingleUser", "User"))
+{
+
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.User.Id)
+
+    @Html.ValidationSummary()
+
+    <div class="form-group mb-2">
+        @Html.LabelFor(x => x.User.FirstName)
+        @Html.TextBoxFor(x => x.User.FirstName, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.User.FirstName)
+    </div>
+
+    <div class="form-group mb-2">
+        @Html.LabelFor(x => x.User.LastName)
+        @Html.TextBoxFor(x => x.User.LastName, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.User.LastName)
+    </div>
+
+    <div class="form-group mb-2">
+        @Html.LabelFor(x => x.User.Possition)
+        @Html.TextBoxFor(x => x.User.Possition, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.User.Possition)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.AdminRights, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.AdminRights, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.AdminRights)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanModifyProject, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanModifyProject, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanModifyProject)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanAcceptProject, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanAcceptProject, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanAcceptProject)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmProject, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmProject, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmProject)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmCalculations)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmEconomicRequirements)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmQualityRequirements)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmTechnicalProperties)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmEstimatedSales)
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+
+}
+
+
+

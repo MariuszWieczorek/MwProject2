@@ -24,6 +24,34 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Stanowisko")]
         public string Possition { get; set; }
 
+
+        [Display(Name = "może potwierdzać koszty")]
+        public bool CanConfirmCalculations { get; set; }
+
+        [Display(Name = "może potwierdzać prognozowaną sprzedaż")]
+        public bool CanConfirmEstimatedSales { get; set; }
+
+        [Display(Name = "może potwierdzać dane techniczne")]
+        public bool CanConfirmTechnicalProperties { get; set; }
+
+        [Display(Name = "może potwierdzać wymagania jakościowe")]
+        public bool CanConfirmQualityRequirements { get; set; }
+
+        [Display(Name = "może potwierdzać wymagania ekonomiczne")]
+        public bool CanConfirmEconomicRequirements { get; set; }
+
+        [Display(Name = "może akceptować projekt")]
+        public bool CanAcceptProject { get; set; }
+        
+        [Display(Name = "może potwierdzać projekt")]
+        public bool CanConfirmProject { get; set; }
+
+        [Display(Name = "uprawnienia administratora")]
+        public bool AdminRights { get; set; }
+
+        [Display(Name = "może edytować dane")]
+        public bool CanModifyProject { get; set; }
+
         public ApplicationUser()
         {
             Projects = new Collection<Project>();

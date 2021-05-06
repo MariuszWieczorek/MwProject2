@@ -1,12 +1,22 @@
 ﻿@model MwProject.Core.ViewModels.ProjectsViewModel
 
+@{ 
+    int numberOfProjects = Model.Projects.Count();
+}
+
 <div id="projectsTable">
+
+    <div>
+        <span class="badge rounded-pill bg-warning">razem @numberOfProjects</span>
+    </div>
+
     @if (Model != null && Model.Projects.Any())
     {
-        <table class="table mt-3 table-bordered table-hover table-light">
+        <table class="table mt-3  table-hover table-sm table-striped">
             <thead class="table-light">
                 <tr>
                     <th scope="col">numer</th>
+                    <th scope="col">kategoria</th>
                     <th scope="col">tytuł</th>
                     <th scope="col">data</th>
                     <th scope="col">termin</th>
@@ -16,29 +26,30 @@
             <tbody>
                 @foreach (var project in Model.Projects)
                 {
-                    <tr>
-                        <td>
-                            <a class="font-weight-bold"
-                               href="@Url.Action("Project","Project", new { id = project.Id })">
-                                @project.Number
-                            </a>
-                        </td>
-                        <td>@project.Title </td>
-                        <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
-                        <td>
-                            @if (project.Term.HasValue)
-                            {
-                                @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
-                            }
-                        </td>
+                <tr>
+                    <td>
+                        <a class="font-weight-bold"
+                           href="@Url.Action("Project","Project", new { id = project.Id })">
+                            @project.Number
+                        </a>
+                    </td>
+                    <td>@project.Category.Name</td>
+                    <td>@project.Title </td>
+                    <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+                    <td>
+                        @if (project.Term.HasValue)
+                        {
+                            @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
+                        }
+                    </td>
 
-                        <td>
-                            <button class="btn btn-danger btn-sm"
-                                    onclick="deleteProject('@project.Id',this)">
-                                Usuń Projekt
-                            </button>
-                        </td>
-                    </tr>
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                onclick="deleteProject('@project.Id',this)">
+                            Usuń Projekt
+                        </button>
+                    </td>
+                </tr>
                 }
 
             </tbody>

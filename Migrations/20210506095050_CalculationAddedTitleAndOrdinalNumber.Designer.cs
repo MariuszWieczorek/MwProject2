@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210506095050_CalculationAddedTitleAndOrdinalNumber")]
+    partial class CalculationAddedTitleAndOrdinalNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,33 +163,6 @@ namespace MwProject.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<bool>("AdminRights")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanAcceptProject")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanConfirmCalculations")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanConfirmEconomicRequirements")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanConfirmEstimatedSales")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanConfirmProject")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanConfirmQualityRequirements")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanConfirmTechnicalProperties")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanModifyProject")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
