@@ -14,29 +14,41 @@ namespace MwProject.Controllers
     [Authorize]
     public class CategoryController : Controller
     {
-        
-        /* Konwencja ( Views \ nazwa_kontrolera \ nazwa_akcji.cshtml ) */
 
+        #region konstruktor, DI
         private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, IUserService userService)
         {
             _categoryService = categoryService;
+            _userService = userService;
         }
 
-        #region Kategorie: przeglądanie lista kategorii, pojedyncza kategoria ---
+        #endregion
+
+        #region przeglądanie lista kategorii, pojedyncza kategoria ---
         public IActionResult Categories()
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
             var categories = _categoryService.GetCategories();
 
-            return View(categories);
+            var vm = new CategoriesViewModel()
+            {
+                Categories = categories,
+                CurrentUser = currentUser
+            };
+
+            return View(vm);
         }
 
         public IActionResult Category(int id)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+
             var selectedCategory = id == 0 ?
                 new Category { Id = 0, Name = string.Empty } :
                 _categoryService.GetCategory(id);
@@ -44,7 +56,8 @@ namespace MwProject.Controllers
             var vm = new CategoryViewModel()
             {
                 Category = selectedCategory,
-                Heading = ""
+                Heading = "",
+                CurrentUser = currentUser
             };
 
             return View(vm);
@@ -52,13 +65,14 @@ namespace MwProject.Controllers
 
         #endregion
 
-        #region Kategorie: edycja/dodawanie/usuwanie kategorii ------------------
+        #region edycja/dodawanie/usuwanie kategorii ------------------
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Category(Category category)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
 
             if (!ModelState.IsValid)
             {
@@ -67,7 +81,8 @@ namespace MwProject.Controllers
                     Category = category,
                     Heading = category.Id == 0 ?
                      "nowa kategoria" :
-                     "edycja kategorii"
+                     "edycja kategorii",
+                    CurrentUser = currentUser
                 };
 
                 return View("Category", vm);
@@ -88,6 +103,7 @@ namespace MwProject.Controllers
             try
             {
                 var userId = User.GetUserId();
+                var currentUser = _userService.GetUser(userId);
                 _categoryService.DeleteCategory(id);
             }
             catch (Exception ex)

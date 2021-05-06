@@ -52,6 +52,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "może edytować dane")]
         public bool CanModifyProject { get; set; }
 
+        [Display(Name = "widzi wszystkie projekty")]
+        public bool CanSeeAllProject { get; set; }
+
         public ApplicationUser()
         {
             Projects = new Collection<Project>();

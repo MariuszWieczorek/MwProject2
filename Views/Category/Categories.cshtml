@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.Category>
+﻿@model MwProject.Core.ViewModels.CategoriesViewModel
 
 @{
     ViewData["Title"] = "Kategorie";
@@ -24,9 +24,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @if (Model != null && Model.Categories.Any())
             {
-                foreach (var category in Model)
+                foreach (var category in Model.Categories)
                 {
             <tr>
 
@@ -47,12 +47,13 @@
                 <td>@category.Description</td>
                 <td>@category.DocumentSymbol</td>
                 <td>
-
-                    <button class="btn btn-danger btn-sm"
+                    @if (Model.CurrentUser.AdminRights)
+                    {
+                    <button class="btn btn-outline-danger btn-sm"
                             onclick="deleteCategory('@category.Id',this)">
                         Usuń
                     </button>
-
+                    }
 
                 </td>
             </tr>

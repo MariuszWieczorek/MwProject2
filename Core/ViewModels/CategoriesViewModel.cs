@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MwProject.Core.ViewModels
 {
-    public class UserViewModel
+    public class CategoriesViewModel
     {
-        public string Heading { get; set; }
-        public ApplicationUser User { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
         public ApplicationUser CurrentUser { get; set; }
     }
 }

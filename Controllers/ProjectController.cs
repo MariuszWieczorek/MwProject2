@@ -46,7 +46,7 @@ namespace MwProject.Controllers
         public IActionResult Projects(int currentPage = 1, int categoryId = 0)
         {
             var userId = User.GetUserId();
-            
+            var currentUser = _userService.GetUser(userId);
             int numberOfRecords = _projectService.GetNumberOfRecords(new ProjectsFilter(), categoryId);
             
             var projects = _projectService.GetProjects(
@@ -61,7 +61,8 @@ namespace MwProject.Controllers
                 ProjectsFilter = new ProjectsFilter(),
                 Categories = _categoryService.GetCategories(),
                 Projects = projects,
-                PagingInfo = new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords }
+                PagingInfo = new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
+                CurrentUser = currentUser
             };
 
             return View(vm);
@@ -74,6 +75,7 @@ namespace MwProject.Controllers
         public IActionResult Projects(ProjectsViewModel viewModel)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
 
             int numberOfRecords = _projectService.GetNumberOfRecords(viewModel.ProjectsFilter, 0);
 
@@ -90,7 +92,8 @@ namespace MwProject.Controllers
                 ProjectsFilter = new ProjectsFilter(),
                 Categories = _categoryService.GetCategories(),
                 Projects = projects,
-                PagingInfo = new PagingInfo() { CurrentPage = 1, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords }
+                PagingInfo = new PagingInfo() { CurrentPage = 1, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
+                CurrentUser = currentUser
             };
 
             return PartialView("_ProjectsTablePartial", vm);
@@ -102,6 +105,9 @@ namespace MwProject.Controllers
         public IActionResult Project(int id)
         {
             var userId = User.GetUserId();
+            
+            var currentUser = _userService.GetUser(userId);
+
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
                 _projectService.GetProject(id,userId);
@@ -163,7 +169,8 @@ namespace MwProject.Controllers
                 EstimatedSalesConfirmedBy = estiamtedSalesConfirmedBy,
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
-                TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy
+                TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
+                CurrentUser = currentUser
             };
 
             return View(vm);

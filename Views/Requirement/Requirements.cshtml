@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.Requirement>
+﻿@model MwProject.Core.ViewModels.RequirementsViewModel
 
 @{
     ViewData["Title"] = "Wymagania";
@@ -22,9 +22,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @if (Model != null && Model.Requirements.Any())
             {
-                foreach (var requirement in Model)
+                foreach (var requirement in Model.Requirements)
                 {
                     <tr>
                         <td>
@@ -40,12 +40,13 @@
 
                         </td>
                         <td>
-
-                            <button class="btn btn-danger btn-sm"
+                            @if (Model.CurrentUser.AdminRights)
+                            {
+                            <button class="btn btn-outline-danger btn-sm"
                                     onclick="deleteRequirement('@requirement.Id',this)">
                                 Usuń
                             </button>
-
+                            }
 
                         </td>
                     </tr>

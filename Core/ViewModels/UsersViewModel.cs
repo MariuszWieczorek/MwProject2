@@ -10,5 +10,6 @@ namespace MwProject.Core.ViewModels
     public class UsersViewModel
     {
         public IEnumerable<ApplicationUser> Users { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
     }
 }

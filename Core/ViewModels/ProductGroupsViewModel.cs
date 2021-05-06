@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MwProject.Core.ViewModels
 {
-    public class UserViewModel
+    public class ProductGroupsViewModel
     {
-        public string Heading { get; set; }
-        public ApplicationUser User { get; set; }
+        public IEnumerable<ProductGroup> ProductGroups { get; set; }
         public ApplicationUser CurrentUser { get; set; }
     }
 }

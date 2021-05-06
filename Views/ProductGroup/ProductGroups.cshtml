@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.ProductGroup>
+﻿@model MwProject.Core.ViewModels.ProductGroupsViewModel
 
 @{
     ViewData["Title"] = "Grupy Produktów";
@@ -22,9 +22,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @if (Model != null && Model.ProductGroups.Any())
             {
-                foreach (var productNumber in Model)
+                foreach (var productNumber in Model.ProductGroups)
                 {
             <tr>
 
@@ -43,12 +43,13 @@
 
                 </td>
                 <td>
-
-                    <button class="btn btn-danger btn-sm"
+                    @if (Model.CurrentUser.AdminRights)
+                    {
+                    <button class="btn btn-outline-danger btn-sm"
                             onclick="deleteProductGroup('@productNumber.Id',this)">
                         Usuń
                     </button>
-
+                    }
 
                 </td>
             </tr>

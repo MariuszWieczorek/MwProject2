@@ -47,6 +47,12 @@
     </div>
 
     <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanSeeAllProject, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanSeeAllProject, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanSeeAllProject)
+    </div>
+
+    <div class="form-check form-switch mt-3 mb-2">
         @Html.CheckBoxFor(x => x.User.CanAcceptProject, new { @class = "form-check-input" })
         @Html.LabelFor(x => x.User.CanAcceptProject, new { @class = "form-check-label" })
         @Html.ValidationMessageFor(x => x.User.CanAcceptProject)

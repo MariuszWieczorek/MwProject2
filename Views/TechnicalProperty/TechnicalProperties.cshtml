@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MwProject.Core.Models.Domains.TechnicalProperty>
+﻿@model MwProject.Core.ViewModels.TechnicalPropertiesViewModel
 
 @{
     ViewData["Title"] = "Cechy Techniczne";
@@ -22,36 +22,37 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
+            @if (Model != null && Model.TechnicalProperties.Any())
             {
-                foreach (var technicalProperty in Model)
+                foreach (var technicalProperty in Model.TechnicalProperties)
                 {
-            <tr>
+                    <tr>
 
-                <td>
+                        <td>
 
-                    <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
+                            <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
                                     new { id = technicalProperty.Id })"
-                       class="font-weight-bold">@technicalProperty.OrdinalNumber</a>
-                </td>
+                               class="font-weight-bold">@technicalProperty.OrdinalNumber</a>
+                        </td>
 
-                <td>
+                        <td>
 
-                    <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
+                            <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
                                     new { id = technicalProperty.Id })"
-                       class="font-weight-bold">@technicalProperty.Name</a>
+                               class="font-weight-bold">@technicalProperty.Name</a>
 
-                </td>
-                <td>
+                        </td>
+                        <td>
+                            @if (Model.CurrentUser.AdminRights)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteTechnicalProperty('@technicalProperty.Id',this)">
+                                    Usuń
+                                </button>
+                            }
 
-                    <button class="btn btn-danger btn-sm"
-                            onclick="deleteTechnicalProperty('@technicalProperty.Id',this)">
-                        Usuń
-                    </button>
-
-
-                </td>
-            </tr>
+                        </td>
+                    </tr>
                 }
 
             }

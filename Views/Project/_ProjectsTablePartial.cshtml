@@ -44,10 +44,13 @@
                     </td>
 
                     <td>
-                        <button class="btn btn-danger btn-sm"
+                        @if (Model.CurrentUser.AdminRights)
+                        {
+                        <button class="btn btn-outline-danger btn-sm"
                                 onclick="deleteProject('@project.Id',this)">
                             Usuń Projekt
                         </button>
+                        }
                     </td>
                 </tr>
                 }

@@ -11,5 +11,6 @@ namespace MwProject.Core.ViewModels
         public string Heading { get; set; }
         public ProjectTechnicalProperty ProjectTechnicalProperty { get; set; }
         public IEnumerable<TechnicalProperty> TechnicalProperties { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
     }
 }

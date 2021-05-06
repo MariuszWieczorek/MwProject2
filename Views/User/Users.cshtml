@@ -15,14 +15,16 @@
                 <th scope="col">Imię</th>
                 <th scope="col">Nazwisko</th>
                 <th scope="col">Stanowisko</th>
-                <th scope="col">Adm</th>
+                <th scope="col">Admin</th>
                 <th scope="col">Edit</th>
-                <th scope="col">Akcept</th>
-                <th scope="col">Potw</th>
+                <th scope="col">All</th>
+                <th scope="col">Accept</th>
+                <th scope="col">Confirm</th>
                 <th scope="col">Tkw</th>
-                <th scope="col">Sprz</th>
-                <th scope="col">Jakość</th>
-                <th scope="col">Eko</th>
+                <th scope="col">Sales</th>
+                <th scope="col">Qual</th>
+                <th scope="col">Econ</th>
+                <th scope="col">Tech</th>
             </tr>
         </thead>
         <tbody>
@@ -55,6 +57,15 @@
 
                 <td>
                     @if (user.CanModifyProject)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
+
+                <td>
+                    @if (user.CanSeeAllProject)
                     {
                         <div>
                             <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
@@ -109,6 +120,15 @@
 
                 <td>
                     @if (user.CanConfirmEconomicRequirements)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
+
+                <td>
+                    @if (user.CanConfirmTechnicalProperties)
                     {
                         <div>
                             <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />

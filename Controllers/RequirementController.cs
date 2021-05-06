@@ -14,29 +14,38 @@ namespace MwProject.Controllers
     [Authorize]
     public class RequirementController : Controller
     {
-        
-        /* Konwencja ( Views \ nazwa_kontrolera \ nazwa_akcji.cshtml ) */
 
+        #region kontstruktor, DI
         private readonly IRequirementService _requirementService;
+        private readonly IUserService _userService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public RequirementController(IRequirementService requirementService)
+        public RequirementController(IRequirementService requirementService, IUserService userService)
         {
             _requirementService = requirementService;
+            _userService = userService;
         }
+        #endregion
 
         #region Wymagania: przeglądanie listy wymagań, pojedyncze wymaganie ---
         public IActionResult Requirements()
         {
             var userId = User.GetUserId();
-            var requirement = _requirementService.GetRequirements();
+            var currentUser = _userService.GetUser(userId);
+            var requirements = _requirementService.GetRequirements();
+            var vm = new RequirementsViewModel()
+            {
+                Requirements = requirements,
+                CurrentUser = currentUser
+            };
 
-            return View(requirement);
+            return View(vm);
         }
 
         public IActionResult Requirement(int id)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
             var selectedRequirement = id == 0 ?
                 _requirementService.NewRequirement() :
                 _requirementService.GetRequirement(id);
@@ -44,7 +53,8 @@ namespace MwProject.Controllers
             var vm = new RequirementViewModel()
             {
                 Requirement = selectedRequirement,
-                Heading = ""
+                Heading = "",
+                CurrentUser = currentUser
             };
 
             return View(vm);
@@ -59,6 +69,7 @@ namespace MwProject.Controllers
         public IActionResult Requirement(Requirement requirement)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
 
             if (!ModelState.IsValid)
             {
@@ -67,7 +78,8 @@ namespace MwProject.Controllers
                     Requirement = requirement,
                     Heading = requirement.Id == 0 ?
                      "nowe wymaganie" :
-                     "edycja wymagania"
+                     "edycja wymagania",
+                    CurrentUser = currentUser
                 };
 
                 return View("Requirement", vm);
@@ -88,6 +100,7 @@ namespace MwProject.Controllers
             try
             {
                 var userId = User.GetUserId();
+                var currentUser = _userService.GetUser(userId);
                 _requirementService.DeleteRequirement(id);
             }
             catch (Exception ex)

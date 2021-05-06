@@ -10,5 +10,6 @@ namespace MwProject.Core.ViewModels
     {
         public string Heading { get; set; }
         public Requirement Requirement { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
     }
 }

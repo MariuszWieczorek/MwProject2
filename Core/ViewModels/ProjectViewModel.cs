@@ -19,5 +19,6 @@ namespace MwProject.Core.ViewModels
         public ApplicationUser QualityRequirementsConfirmedBy { get; set; }
         public ApplicationUser EconomicRequirementsConfirmedBy { get; set; }
         public ApplicationUser TechnicalPropertiesConfirmedBy { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
     }
 }

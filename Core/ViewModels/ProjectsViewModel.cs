@@ -14,5 +14,6 @@ namespace MwProject.Core.ViewModels
         public ProjectsFilter ProjectsFilter { get; set; }
         public PagingInfo PagingInfo { get; set; }
         public IEnumerable<ProductGroup> ProductGroups { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
     }
 }

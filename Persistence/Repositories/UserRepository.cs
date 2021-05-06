@@ -53,6 +53,7 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.CanConfirmTechnicalProperties = user.CanConfirmTechnicalProperties;
             userToUpdate.AdminRights = user.AdminRights;
             userToUpdate.CanModifyProject = user.CanModifyProject;
+            userToUpdate.CanSeeAllProject = user.CanSeeAllProject;
 
         }
     }

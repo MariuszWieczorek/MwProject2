@@ -28,7 +28,7 @@
         <div class="col-auto">
             @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
                new SelectList(Model.Categories, "Id", "Name"),
-               " -- wybierz kategorię -- ",
+               " -- wszystkie kategorie -- ",
                new { @class = "form-control" })
         </div>
         <div class="col-auto">

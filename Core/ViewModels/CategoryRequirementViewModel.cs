@@ -11,5 +11,6 @@ namespace MwProject.Core.ViewModels
         public string Heading { get; set; }
         public CategoryRequirement    CategoryRequirement{ get; set; }
         public IEnumerable<Requirement> Requirements { get; set; }
+        public ApplicationUser CurrentUser { get; set; }
     }
 }

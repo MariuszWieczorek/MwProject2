@@ -14,29 +14,40 @@ namespace MwProject.Controllers
     [Authorize]
     public class ProductGroupController : Controller
     {
-        
-        /* Konwencja ( Views \ nazwa_kontrolera \ nazwa_akcji.cshtml ) */
 
+        #region konstruktor, DI
         private readonly IProductGroupService _productGroupService;
+        private readonly IUserService _userService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public ProductGroupController(IProductGroupService productGroupService)
+        public ProductGroupController(IProductGroupService productGroupService, IUserService userService)
         {
             _productGroupService = productGroupService;
+            _userService = userService;
         }
+        #endregion
 
-        #region Kategorie: przeglądanie lista kategorii, pojedyncza kategoria ---
+        #region przeglądanie lista kategorii, pojedyncza kategoria ---
         public IActionResult ProductGroups()
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
             var productGroups = _productGroupService.GetProductGroups();
 
-            return View(productGroups);
+            var vm = new ProductGroupsViewModel()
+            {
+                ProductGroups = productGroups,
+                CurrentUser = currentUser
+            };
+            
+            return View(vm);
         }
 
         public IActionResult ProductGroup(int id)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+
             var selectedproductGroup = id == 0 ?
                 new ProductGroup { Id = 0, Name = string.Empty } :
                 _productGroupService.GetProductGroup(id);
@@ -44,7 +55,8 @@ namespace MwProject.Controllers
             var vm = new ProductGroupViewModel()
             {
                 ProductGroup = selectedproductGroup,
-                Heading = ""
+                Heading = "",
+                CurrentUser = currentUser
             };
 
             return View(vm);
@@ -52,13 +64,14 @@ namespace MwProject.Controllers
 
         #endregion
 
-        #region Kategorie: edycja/dodawanie/usuwanie kategorii ------------------
+        #region edycja/dodawanie/usuwanie kategorii ------------------
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ProductGroup(ProductGroup productGroup)
         {
             var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
 
             if (!ModelState.IsValid)
             {
@@ -67,7 +80,8 @@ namespace MwProject.Controllers
                     ProductGroup = productGroup,
                     Heading = productGroup.Id == 0 ?
                      "nowa grupa wyrobów" :
-                     "edycja grupy wyrobów"
+                     "edycja grupy wyrobów",
+                    CurrentUser = currentUser
                 };
 
                 return View("ProductGroup", vm);
@@ -88,6 +102,7 @@ namespace MwProject.Controllers
             try
             {
                 var userId = User.GetUserId();
+                var currentUser = _userService.GetUser(userId);
                 _productGroupService.DeleteProductGroup(id);
             }
             catch (Exception ex)

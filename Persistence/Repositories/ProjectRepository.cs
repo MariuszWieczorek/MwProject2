@@ -71,6 +71,8 @@ namespace MwProject.Persistence.Repositories
 
         public Project GetProject(int id, string userId)
         {
+            var user = _context.Users.Single(x => x.Id == userId);
+
             var project = _context.Projects
                 .Include(x => x.Calculations)
                 .Include(x => x.EstimatedSalesValues)
@@ -81,16 +83,24 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProductGroup)
                 .Include(x => x.Category)
                 .Include(x => x.User)
-                .Single(x => x.Id == id && x.UserId == userId);
- 
+                .Single(x => x.Id == id);
+
+            if (user.CanSeeAllProject == false && user.Id != userId)
+                project = new Project();
+
             return project;
         }
 
         public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
         {
+            var user = _context.Users.Single(x => x.Id == userId);
+
             var projects = _context.Projects
                 .Include(x => x.Category)
-                .Where(x => x.UserId == userId && x.IsExecuted == projectsFilter.IsExecuted);
+                .Where(x => x.IsExecuted == projectsFilter.IsExecuted);
+
+            if(user.CanSeeAllProject == false)
+                projects = projects.Where(x => x.UserId == userId);
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
