@@ -43,6 +43,7 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.FirstName = user.FirstName;
             userToUpdate.LastName = user.LastName;
             userToUpdate.Possition = user.Possition;
+            userToUpdate.PhoneNumber = user.PhoneNumber;
 
             userToUpdate.CanAcceptProject = user.CanAcceptProject;
             userToUpdate.CanConfirmProject = user.CanConfirmProject;
@@ -54,6 +55,14 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.AdminRights = user.AdminRights;
             userToUpdate.CanModifyProject = user.CanModifyProject;
             userToUpdate.CanSeeAllProject = user.CanSeeAllProject;
+
+            userToUpdate.CanEditCalculations = user.CanEditCalculations;
+            userToUpdate.CanEditEstimatedSales = user.CanEditEstimatedSales;
+            userToUpdate.CanEditQualityRequirements = user.CanEditQualityRequirements;
+            userToUpdate.CanEditEconomicRequirements = user.CanEditEconomicRequirements;
+            userToUpdate.CanEditTechnicalProperties = user.CanEditTechnicalProperties;
+
+            userToUpdate.EmailConfirmed = user.EmailConfirmed;
 
         }
     }

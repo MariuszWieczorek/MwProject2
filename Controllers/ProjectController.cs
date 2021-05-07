@@ -178,7 +178,7 @@ namespace MwProject.Controllers
 
         #endregion
 
-        #region zapis
+        #region update-project, delete-project
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Project(Project project)
@@ -231,7 +231,9 @@ namespace MwProject.Controllers
             return Json(new { success = true });
         }
 
+        #endregion
 
+        #region akceptacja, potwierdzenia, wycofywanie potwierdzeń
         [HttpPost]
         public IActionResult AcceptProject(int id)
         {

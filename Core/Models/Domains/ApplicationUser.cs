@@ -55,6 +55,24 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "widzi wszystkie projekty")]
         public bool CanSeeAllProject { get; set; }
 
+
+
+        [Display(Name = "może edytować koszty")]
+        public bool CanEditCalculations { get; set; }
+
+        [Display(Name = "może edytować prognozowaną sprzedaż")]
+        public bool CanEditEstimatedSales { get; set; }
+
+        [Display(Name = "może edytować dane techniczne")]
+        public bool CanEditTechnicalProperties { get; set; }
+
+        [Display(Name = "może edytować wymagania jakościowe")]
+        public bool CanEditQualityRequirements { get; set; }
+
+        [Display(Name = "może edytować wymagania ekonomiczne")]
+        public bool CanEditEconomicRequirements { get; set; }
+
+
         public ApplicationUser()
         {
             Projects = new Collection<Project>();

@@ -1,8 +1,8 @@
 ﻿@model MwProject.Core.ViewModels.ProjectTechnicalPropertyViewModel
 
-@*
+@* 
     Okno do edycji informacji technicznych przypisanych do projektu
-    Wywołane z okna projektu
+    Wywołane z osobnego okna z samą tabelką z informacjami technicznymi
 *@
 
 @{
@@ -11,10 +11,10 @@
 
 <h2>@Model.Heading</h2>
 
-<div class="row">
+<div class="row bg-light bg-gradient">
     <div class="col-lg-6">
-        <!-- po submit wywoła się metoda Calculation w kontrolerze Calculation typu HttpPost -->
-        @using (Html.BeginForm("ProjectTechnicalProperty", "ProjectTechnicalProperty"))
+        <!-- po submit wywoła się metode ProjectTechnicalProperty2 w kontrolerze ProjectTechnicalProperty typu HttpPost -->
+        @using (Html.BeginForm("ProjectTechnicalProperty2", "ProjectTechnicalProperty"))
         {
             @Html.AntiForgeryToken()
 

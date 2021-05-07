@@ -1,0 +1,73 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@* Widok do edycji danych technicznych na osobnym widoku *@
+
+@{
+    ViewBag.Title = Model.Heading;
+    bool NewProject = (Model.Project.Id == 0);
+}
+
+<h2>@Model.Heading</h2>
+
+
+<button class="btn btn-primary btn-lg mt-3 mb-3"
+        onclick='window.location.href = "@Url.Action("Project","Project", new { id = Model.Project.Id })"'>
+    Wróć do projektu
+</button>
+
+<div class="row ">
+
+    <div class="col-12">
+        <div class="col-12">
+            @if (Model.Project.Id != 0)
+            {
+
+                <div class="mt-3 mb-5">
+                    @await Html.PartialAsync("~/Views/ProjectTechnicalProperty/_ProjectTechnicalPropertiesPartial2.cshtml", Model)
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        // ------------------------------------------------------------------------------------------------
+        function deleteProjectTechnicalProperty(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć parametr techniczny ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteProjectTechnicalProperty", "ProjectTechnicalProperty")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+
+
+         // ------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------
+    </script>
+}
+
