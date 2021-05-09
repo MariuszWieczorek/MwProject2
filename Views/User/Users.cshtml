@@ -107,18 +107,20 @@
                         </td>
 
                         <td>
-                            @if (user.CanConfirmEstimatedSales)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                            @if (user.CanEditEstimatedSales)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
+                            <div class="row">
+                                @if (user.CanConfirmEstimatedSales)
+                                {
+                                    <div class="col-6">
+                                        <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                    </div>
+                                }
+                                @if (user.CanEditEstimatedSales)
+                                {
+                                    <div class="col-6">
+                                        <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                    </div>
+                                }
+                            </div>
                         </td>
 
                         <td>

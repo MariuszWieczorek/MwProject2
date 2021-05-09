@@ -1,12 +1,17 @@
-﻿@page{
+﻿
+
+@page{
     size: auto;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
+
 nav, footer{
     display: none !important;
 }
+
+
 
 .row {
     display: -webkit-box;
@@ -14,17 +19,24 @@ nav, footer{
     display: flex !important;
 }
 
+
+
 .row > div{
     -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
+/*    -webkit-flex: 1; */
+/*    flex: 1; */
 }
+
+
+
 
 tr, td, th, thead, thead tr th, tfoot {
     page-break-inside: avoid !important;
     page-break-before: auto !important;
     page-break-after: auto !important;
 } 
+
+
 
 .invoice-font {
     text-align: center;
@@ -39,6 +51,7 @@ tr, td, th, thead, thead tr th, tfoot {
     color: black !important;
     font-weight: bold;
 }
+
 
 .top-line {
     border-top: 1px solid black;
