@@ -1,0 +1,65 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami ekonomicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var economicRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1);
+}
+
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Informacje Ekonomiczne</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @if (economicRequirements != null && economicRequirements.Any())
+            {
+
+                <table class="table table-sm table-borderless">
+                    <tbody>
+                        @foreach (var position in economicRequirements)
+                        {
+                            <tr>
+                                <td class="table-success" style="width: 300px;">
+                                    <strong>
+                                        @position.Requirement.Name
+                                    </strong>
+                                </td>
+
+                                @{
+                                    string exist;
+                                    switch (position.YesNo)
+                                    {
+                                        case 1:
+                                            exist = "TAK";
+                                            break;
+                                        case 2:
+                                            exist = "NIE";
+                                            break;
+                                        default:
+                                            exist = "";
+                                            break;
+                                    }
+
+                                    string value = position.ShowValue == true ? position.Value.ToString() : "";
+                                }
+
+                                <td class="bg-white">@exist</td>
+                                <td class="bg-white">@value</td>
+                                <td class="bg-white">@position.Comment</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

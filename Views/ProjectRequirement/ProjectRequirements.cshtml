@@ -1,6 +1,5 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-
-@* Widok do edycji wymagań na osobnym ekranie *@
+@* Widok do edycji wymagań na osobnym widoku *@
 
 @{
     ViewBag.Title = Model.Heading;
@@ -10,27 +9,23 @@
 <h2>@Model.Heading</h2>
 
 
+<button class="btn btn-primary btn-lg mt-3 mb-3"
+        onclick='window.location.href = "@Url.Action("Project","Project", new { id = Model.Project.Id })"'>
+    Wróć do projektu
+</button>
 
 <div class="row ">
 
-    <div class="col-12 border rounded bg-light">
-
-        <div class="row g-0">
-            <div class="col-12 mt-1">
-                <h4>Edycja Informacji Technicznych</h4>
-            </div>
-        </div>
 
         <div class="col-12">
             @if (Model.Project.Id != 0)
             {
 
                 <div class="mt-3 mb-5">
-                    @await Html.PartialAsync("_ProjectTechnicalPropertiesPartial", Model)
+                    @await Html.PartialAsync("~/Views/ProjectRequirement/_ProjectRequirementsPartial2.cshtml", Model)
                 </div>
 
             }
-        </div>
     </div>
 </div>
 
@@ -38,6 +33,39 @@
 {
     <script type="text/javascript">
         // ------------------------------------------------------------------------------------------------
+        function deleteProjectTechnicalProperty(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć parametr techniczny ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteProjectTechnicalProperty", "ProjectTechnicalProperty")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+
+
+         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
     </script>
 }

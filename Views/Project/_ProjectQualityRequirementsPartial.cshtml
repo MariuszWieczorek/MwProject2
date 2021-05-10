@@ -31,6 +31,11 @@
                         onclick="confirmQualityRequirements('@Model.Project.Id',this)">
                     Potwierdź
                 </button>
+
+                <button class="btn btn-outline-primary btn-sm mt-3 mb-3"
+                        onclick='window.location.href = "@Url.Action("ProjectRequirements","ProjectRequirement", new { projectId = Model.Project.Id, type = 2 })"'>
+                    Edytuj w osobnym oknie
+                </button>
             }
             else
             {

@@ -4,35 +4,44 @@
     ViewBag.Title = "Projekty";
 }
 
-<h1 class="mb-3 mt-2 display-4">Lista Projektów</h1>
-
-<button class="btn btn-primary btn-lg mt-3 mb-3"
-        onclick='window.location.href = "@Url.Action("Project","Project")"'>
-    Dodaj
-</button>
-
-    @*  Formularz zgodny z bootstrap 5.0
-        Formularz bez helpera beginform
-        ponieważ ten formularz będziemy submit’ować w inny sposób.
-        Tak, aby po kliknięci przycisku submit
-        nie przeładowywała się strona, tylko odświeżała tabelka z projektami.
-    *@
+<div class="row">
+    <div class="col-11">
+        <h1 class="mb-3 mt-2 display-5">Projekty</h1>
+    </div>
+    <div class="col-1">
+        <button class="btn btn-outline-primary btn mt-4"
+                onclick='window.location.href = "@Url.Action("Project","Project")"'>
+            Dodaj
+        </button>
+    </div>
+</div>
 
 
-<div class="shadow-sm p-3 mb-5 bg-body rounded">
+
+@*  Formularz zgodny z bootstrap 5.0
+    Formularz bez helpera beginform
+    ponieważ ten formularz będziemy submit’ować w inny sposób.
+    Tak, aby po kliknięci przycisku submit
+    nie przeładowywała się strona, tylko odświeżała tabelka z projektami.
+*@
+
+
+<div class="p-3 mb-2 bg-light border rounded">
     <form id="filterForm" class="row gy-2 gx-3 align-items-center">
-        <div class="col-auto ">
+
+        <div class="col-5">
             @Html.TextBoxFor(x => x.ProjectsFilter.Title,
               new { @class = "form-control", placeholder = "Tytuł" })
         </div>
 
-        <div class="col-auto">
+        <div class="col-3">
             @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
                new SelectList(Model.Categories, "Id", "Name"),
                " -- wszystkie kategorie -- ",
                new { @class = "form-control" })
         </div>
-        <div class="col-auto">
+
+        <div class="col-3">
             <div class="form-check">
                 @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted,
                    new { @class = "form-check-label" }
@@ -40,20 +49,25 @@
                 @Html.LabelFor(x => x.ProjectsFilter.IsExecuted)
             </div>
         </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-warning">Filtruj</button>
+
+        <div class="col-1">
+            <button type="submit" class="btn btn-outline-success">Filtruj</button>
         </div>
+
     </form>
 </div>
-    @* tabela z listą projektów *@
-    <div>
+
+@* tabela z listą projektów *@
+<div class="row">
+    <div class="col-12">
         @await Html.PartialAsync("_ProjectsTablePartial.cshtml", Model)
     </div>
+</div>
 
 
-    @section scripts
+@section scripts
 {
-        <script type="text/javascript">
+    <script type="text/javascript">
         // ------------------------------------------------------------------------------------------------------
         // funkcja zostanie wywołana gdy zostanie załadowany już cały widok
 
@@ -114,5 +128,5 @@
        // ------------------------------------------------------------------------------------------------------
 
 
-        </script>
-    }
+    </script>
+}

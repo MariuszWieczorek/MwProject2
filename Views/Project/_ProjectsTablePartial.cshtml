@@ -6,13 +6,15 @@
 
 <div id="projectsTable">
 
-    <div>
-        <span class="badge rounded-pill bg-warning">razem @numberOfProjects</span>
+    <div class="row my-2 mx-1">
+        <div class="col-12">
+            ilość projektów: <span class="badge rounded-pill bg-warning">@numberOfProjects</span>
+        </div>
     </div>
 
     @if (Model != null && Model.Projects.Any())
     {
-        <table class="table mt-3  table-hover table-sm table-striped">
+        <table class="table mt-3  table-hover table-sm table-borderless ">
             <thead class="table-light">
                 <tr>
                     <th scope="col">numer</th>
@@ -48,7 +50,7 @@
                         {
                         <button class="btn btn-outline-danger btn-sm"
                                 onclick="deleteProject('@project.Id',this)">
-                            Usuń Projekt
+                            Usuń
                         </button>
                         }
                     </td>

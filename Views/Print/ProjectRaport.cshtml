@@ -1,159 +1,58 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
 
 @{
-    // Layout = null;
+    Layout = null;
     ViewBag.Title = "ProjectTemplate";
 }
 
-    
+<link href="@Url.Content("~/lib/bootstrap/dist/css/bootstrap.min.css")" rel="stylesheet" />
 <link href="@Url.Content("~/css/PrintProject.css")" rel="stylesheet" type="text/css" />
 
-<div class="container">
+<div class="container" style="width: 800px;">
     <!-- Nagłówek Wydruku -->
-    <div class="row" >
-
+    <div class="row">
         <div class="col-3 border-start border-top border-bottom border-3 border-dark">
             <div class="row align-items-center" style="height: 100px;">
-                <div class="col-12">
-                    <img src="@Url.Content("~/images/logo_kabat.png")" class="align-self-center" style="width: 200px;" />
+                <div>
+                    <img src="@Url.Content("~/images/logo_kabat.png")" style="width: 200px;" />
                 </div>
             </div>
         </div>
+
         <div class="col-6  border border-3 border-dark">
-            @Model.Project.Category.Description
+            <div class="row align-items-center" style="height: 100px;">
+                <div>
+                    @Model.Project.Category.Description
+                </div>
+            </div>
         </div>
+
         <div class="col-3 border-end border-top border-bottom border-3 border-dark">
-            @Model.Project.Category.DocumentSymbol
+            <div class="row align-items-center" style="height: 100px;">
+                <div>
+                    @Model.Project.Category.DocumentSymbol
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container invoice-font">
+
     <div class="row ">
-        <div class="col-12 mt-3 mb-2 border rounded bg-light">
-            @await Html.PartialAsync("~/Views/Project/_ProjectTechnicalPropertiesPartial.cshtml", Model)
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Project/_ProjectTechnicalPropertiesOnReportPartial.cshtml", Model)
         </div>
-
-        <div class="col-12 mt-3 mb-2 border rounded bg-light">
-            @await Html.PartialAsync("~/Views/Project/_ProjectEconomicRequirementsPartial.cshtml", Model)
+    </div>
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Project/_ProjectEconomicRequirementsOnReportPartial.cshtml", Model)
         </div>
-
-        <div class="col-12 mt-3 mb-2 border rounded bg-light">
-            @await Html.PartialAsync("~/Views/Project/_ProjectQualityRequirementsPartial.cshtml", Model)
-        </div>
-
-        <div class="col-12 mt-3 mb-2 border rounded bg-light">
-            @await Html.PartialAsync("~/Views/Project/_CalculationsPartial.cshtml", Model)
-        </div>
-
-        <div class="col-12 mt-3 mb-2 border rounded bg-light">
-            @await Html.PartialAsync("~/Views/Project/_EstimatedSalesValuesPartial.cshtml", Model)
+    </div>
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Project/_ProjectQualityRequirementsOnReportPartial.cshtml", Model)
         </div>
     </div>
 
-    <div class="row mt-5">
-
-        <div class="col-4 offset-3">
-            <div class="top-line">
-                <div class="top-small-caption">
-                    Data Utworzenia
-                </div>
-                <div>
-                    @Model.Project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
-                </div>
-            </div>
-
-            <div class="top-line">
-                <div class="top-small-caption">
-                    Termin Wykonania
-                </div>
-                <div>
-                    @Model.Project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
-                </div>
-            </div>
-
-            <div class="top-line">
-                <div class="top-small-caption">
-                    Sposób Zapłaty
-                </div>
-                <div>
-                    @Model.Project.Category.Name
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-5">
-            <div class="top-line">
-                <div class="top-small-caption">
-                    Sprzedawca:
-                </div>
-                <div> </div>
-                <div> </div>
-                <div> </div>
-                <div> </div>
-            </div>
-        </div>
-
-        <div class="col-5 offset-2">
-            <div class="top-line">
-                <div class="top-small-caption">
-                    Nabywca:
-                </div>
-                <div> </div>
-                <div> </div>
-                <div> </div>
-                <div> </div>
-            </div>
-        </div>
-    </div>
-
-    <table class="table table-bordered mt-5">
-        <thead>
-            <tr>
-                <th>Lp</th>
-                <th>Produkt</th>
-                <th>Ilość</th>
-                <th>Wartość</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var position in Model.Project.EstimatedSalesValues)
-            {
-                <tr>
-                    <td>@position.Year</td>
-                    <td>@position.Qty</td>
-                    <td>@position.Price</td>
-                    <td>@position.Price</td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
-
-    <div class="row">
-        <div class="col-12">
-            @if (!string.IsNullOrWhiteSpace(Model.Project.Description))
-            {
-                <div class="text-left">Uwagi: @Model.Project.Description</div>
-            }
-        </div>
-    </div>
-
-    <div class="row mt-5">
-        <div class="col-6">
-            <div>Wystawił:</div>
-            <div>@Model.Project.User.Email</div>
-            <div>............................</div>
-        </div>
-        <div class="col-6">
-            <div>Odebrał:</div>
-            <div> </div>
-            <div>............................</div>
-        </div>
-    </div>
 </div>
 
 

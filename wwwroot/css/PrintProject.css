@@ -23,11 +23,10 @@ nav, footer{
 
 .row > div{
     -webkit-box-flex: 1;
-/*    -webkit-flex: 1; */
-/*    flex: 1; */
+   -webkit-flex: 1;
+    flex: 1;
+
 }
-
-
 
 
 tr, td, th, thead, thead tr th, tfoot {

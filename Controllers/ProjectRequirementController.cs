@@ -16,18 +16,28 @@ namespace MwProject.Controllers
     {
         /* Konwencja ( Views \ nazwa_kontrolera \ nazwa_akcji.cshtml ) */
 
+        #region konstruktor, DI
         private readonly IProjectRequirementService _projectRequirementService;
         private readonly IRequirementService _requirementService;
+        private readonly IProjectService _projectService;
+        private readonly IUserService _userService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public ProjectRequirementController(IProjectRequirementService projectRequirementService,
-                                            IRequirementService requirementService)
+                                            IRequirementService requirementService,
+                                            IProjectService projectService,
+                                            IUserService userService)
         {
             _projectRequirementService = projectRequirementService;
             _requirementService = requirementService;
+            _projectService = projectService;
+            _userService = userService;
         }
 
-        // wyświetlamy wybraną kalkulację lub pusty objekt
+        #endregion 
+
+        #region odczyt z okna projektu
+        // wyświetlamy wybrane wymaganie lub pusty objekt
         public IActionResult ProjectRequirement(int projectId, int id, int type)
         {
             var userId = User.GetUserId();
@@ -49,7 +59,9 @@ namespace MwProject.Controllers
 
             return View(vm);
         }
+        #endregion
 
+        #region edycja, usuwanie z okna projektu
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ProjectRequirement(ProjectRequirementViewModel selectedProjectRequirement)
@@ -97,6 +109,69 @@ namespace MwProject.Controllers
             return Json(new { success = true });
         }
 
+        #endregion
+
+        #region odczyt z osobnego okna listy informacji i pojedynczej informacji
+
+        // wyświetlamy listę wymagań przypisaną do projektu do edycji z osobnego okna
+        public IActionResult ProjectRequirements(int projectId, int typ)
+        {
+            var userId = User.GetUserId();
+
+            var currentUser = _userService.GetUser(userId);
+
+            var selectedProject = projectId == 0 ?
+                _projectService.NewProject(userId) :
+                _projectService.GetProject(projectId, userId);
+
+
+            ApplicationUser qualityRequirementsConfirmedBy = new();
+            ApplicationUser economicRequirementsConfirmedBy = new();
+
+            if (selectedProject.QualityRequirementsConfirmedBy != null)
+            {
+                qualityRequirementsConfirmedBy = _userService.GetUser(selectedProject.QualityRequirementsConfirmedBy);
+            }
+
+            if (selectedProject.EconomicRequirementsConfirmedBy != null)
+            {
+                economicRequirementsConfirmedBy = _userService.GetUser(selectedProject.EconomicRequirementsConfirmedBy);
+            }
+
+            var vm = new ProjectViewModel()
+            {
+                Project = selectedProject,
+                Heading = selectedProject.Id == 0 ?
+                      "Nowy Projekt" :
+                     $"Edycja Projektu: {selectedProject.Number}",
+                QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
+                EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
+                CurrentUser = currentUser
+            };
+
+            return View(vm);
+        }
+
+        // wyświetlamy wybraną cechę przypisaną do projektu z osobnego okna
+        /*
+        public IActionResult ProjectTechnicalProperty2(int projectId, int id)
+        {
+            var userId = User.GetUserId();
+            var selectedProjectTechnicalProperty = id == 0 ?
+                _projectTechnicalPropertyService.NewProjectTechnicalProperty(projectId, userId) :
+                _projectTechnicalPropertyService.GetProjectTechnicalProperty(projectId, id, userId);
+
+            var vm = new ProjectTechnicalPropertyViewModel()
+            {
+                ProjectTechnicalProperty = selectedProjectTechnicalProperty,
+                Heading = id == 0 ? $"nowa {projectId}" : $"edycja informacji technicznej",
+                TechnicalProperties = _technicalPropertyService.GetTechnicalProperties()
+            };
+
+            return View(vm);
+        }
+        */
+        #endregion
 
     }
 }
