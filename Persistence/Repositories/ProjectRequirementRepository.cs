@@ -1,4 +1,5 @@
-﻿using MwProject.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using MwProject.Core;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Repositories;
 using System;
@@ -31,7 +32,11 @@ namespace MwProject.Persistence.Repositories
 
         public ProjectRequirement GetProjectRequirement(int projectId, int id, string userId)
         {
-            return _context.ProjectRequirements.Single(x => x.ProjectId == projectId && x.Id == id);
+            var projectRequirement = _context.ProjectRequirements
+                .Include(x => x.Requirement)
+                .Single(x => x.ProjectId == projectId && x.Id == id);
+            
+            return projectRequirement;
         }
 
         public ProjectRequirement NewProjectRequirement(int projectId, string userId)

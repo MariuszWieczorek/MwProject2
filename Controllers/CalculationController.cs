@@ -64,7 +64,7 @@ namespace MwProject.Controllers
                 _calculationService.UpdateCalculation(selectedCalculation.Calculation, userId);
 
 
-            return RedirectToAction("Project","Project", new { id = selectedCalculation.Calculation.ProjectId });
+            return RedirectToAction("Project","Project", new { id = selectedCalculation.Calculation.ProjectId, tab = "calculation" });
 
         }
 

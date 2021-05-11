@@ -65,7 +65,7 @@ namespace MwProject.Controllers
                 _estimatedSalesValueService.UpdateEstimatedSalesValue(estimatedSalesValue, userId);
 
 
-            return RedirectToAction("Project","Project", new { id = estimatedSalesValue.ProjectId });
+            return RedirectToAction("Project","Project", new { id = estimatedSalesValue.ProjectId, tab = "sales" });
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Services;
 using MwProject.Core.ViewModels;
@@ -36,7 +37,7 @@ namespace MwProject.Controllers
 
         #endregion 
 
-        #region ekran edycji wymagania dla projektu - wywołany z okna projektu
+        #region ekran edycji wymagania na liście wymagań dla projektu - wywołany z okna projektu
         // wyświetlamy widok do edycji wymagania dla projektu
         // wspólny dla wymagań ekonomicznych (type == 1) i jakościowych (type == 2)
         public IActionResult ProjectRequirement(int projectId, int id, int type)
@@ -44,17 +45,17 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             string typeOfRequirement = type == 1 ? "ekonomiczna" : "jakościowa";
             var selectedProjectRequirement = id == 0 ?
-                _projectRequirementService.NewProjectRequirement(projectId,userId) :
-                _projectRequirementService.GetProjectRequirement(projectId,id,userId);
-            
+                _projectRequirementService.NewProjectRequirement(projectId, userId) :
+                _projectRequirementService.GetProjectRequirement(projectId, id, userId);
+
             var vm = new ProjectRequirementViewModel()
             {
                 ProjectRequirement = selectedProjectRequirement,
                 Heading = id == 0 ? $"nowa: informacja {typeOfRequirement}" : $"edycja: informacja {typeOfRequirement}",
                 Requirements = _requirementService.GetRequirements()
             };
-            
-            if(type != 0)
+
+            if (type != 0)
             {
                 vm.Requirements = _requirementService.GetRequirements().Where(x => x.Type == type);
             }
@@ -63,7 +64,7 @@ namespace MwProject.Controllers
         }
         #endregion
 
-        #region edycja, usuwanie z okna projektu
+        #region zapis - wymaganie na liście wymagań na projekcie - wywołany z okna projektu
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ProjectRequirement(ProjectRequirementViewModel selectedProjectRequirement)
@@ -88,11 +89,35 @@ namespace MwProject.Controllers
                 _projectRequirementService.UpdateProjectRequirement(selectedProjectRequirement.ProjectRequirement, userId);
 
 
+            var requirementId = selectedProjectRequirement.ProjectRequirement.RequirementId;
+            var requirement = _requirementService.GetRequirement(requirementId);
+
+            string tabName = "";
+            if (requirement != null)
+            {
+                switch (requirement.Type)
+                {
+                    case 1:
+                        tabName = "economic";
+                        break;
+                    case 2:
+                        tabName = "quality";
+                        break;
+                    default:
+                        tabName = "";
+                        break;
+                }
+            }
+
+
+
             return RedirectToAction("Project", "Project",
-                new { id = selectedProjectRequirement.ProjectRequirement.ProjectId });
+                new { id = selectedProjectRequirement.ProjectRequirement.ProjectId, tab = tabName });
 
         }
+        #endregion
 
+        #region usuwanie wymagania z listy wymagań dla projektu
 
         [HttpPost]
         public IActionResult DeleteProjectRequirement(int projectId, int id)
@@ -113,7 +138,7 @@ namespace MwProject.Controllers
 
         #endregion
 
-        #region odczyt z osobnego okna listy informacji i pojedynczej informacji
+        #region odczyt listy wymagań dla dla projektu - wywołany z osobnego okna
 
         // wyświetlamy listę wymagań przypisaną do projektu do edycji w osobnym oknie
         public IActionResult ProjectRequirements(int projectId, int type)
@@ -126,7 +151,7 @@ namespace MwProject.Controllers
                 _projectService.NewProject(userId) :
                 _projectService.GetProject(projectId, userId);
 
-   
+
             string nameOfRequirement = type == 1 ? " informacje ekonomiczne" : " informacje jakościowe";
 
             ApplicationUser qualityRequirementsConfirmedBy = new();
@@ -146,7 +171,7 @@ namespace MwProject.Controllers
             {
                 Project = selectedProject,
                 Heading = selectedProject.Id == 0 ?
-                     $"Nowy Projekt / {nameOfRequirement}":
+                     $"Nowy Projekt / {nameOfRequirement}" :
                      $"Edycja Projektu: {selectedProject.Number} / {nameOfRequirement}",
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
@@ -157,8 +182,11 @@ namespace MwProject.Controllers
             return View(vm);
         }
 
+        #endregion
+
+        #region ekran edycji wymagania na liście wymagań dla projektu - wywołany z osobnego okna
         // wyświetlamy wybraną cechę przypisaną do projektu z osobnego okna
-       
+
         public IActionResult ProjectRequirement2(int projectId, int id, int type)
         {
             var userId = User.GetUserId();
@@ -180,8 +208,12 @@ namespace MwProject.Controllers
 
         #endregion
 
-        #region zapis - wywołany z osobnego okna
+        #region zapis - wymaganie na liście wymagań na projekcie - wywołany z osobnego okna
+
         // Zapis wywołany z osobnego okna
+        // po zapisie wracamy właśnie do tego osobnego okna
+        // a nie do okna projektu
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ProjectRequirement2(ProjectRequirementViewModel selectedProjectRequirement)
@@ -197,21 +229,26 @@ namespace MwProject.Controllers
                     Requirements = _requirementService.GetRequirements()
                 };
 
-                return View("ProjectTechnicalProperty2", vm);
+                return View("ProjectRequirement2", vm);
             }
 
-            if (selectedProjectTechnicalProperty.ProjectTechnicalProperty.Id == 0)
-                _projectTechnicalPropertyService.AddProjectTechnicalProperty(selectedProjectTechnicalProperty.ProjectTechnicalProperty, userId);
+            if (selectedProjectRequirement.ProjectRequirement.Id == 0)
+                _projectRequirementService.AddProjectRequirement(selectedProjectRequirement.ProjectRequirement, userId);
             else
-                _projectTechnicalPropertyService.UpdateProjectTechnicalProperty(selectedProjectTechnicalProperty.ProjectTechnicalProperty, userId);
+                _projectRequirementService.UpdateProjectRequirement(selectedProjectRequirement.ProjectRequirement, userId);
 
+            // ekran z listą wymagań dla projektu wspólny więc musimy podać parametr type
+            // aby wyświetlić odpowiednie parametry
 
-            return RedirectToAction("ProjectTechnicalProperties", "ProjectTechnicalProperty",
-                new { projectId = selectedProjectTechnicalProperty.ProjectTechnicalProperty.ProjectId });
+            return RedirectToAction("ProjectRequirements", "ProjectRequirement",
+                new
+                {
+                    projectId = selectedProjectRequirement.ProjectRequirement.ProjectId,
+                    type = selectedProjectRequirement.ProjectRequirement.Requirement.Type
+                });
 
         }
 
         #endregion
-
     }
 }

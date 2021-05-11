@@ -3,18 +3,23 @@
 
 @{
     var estimatedSalesValues = Model.Project.EstimatedSalesValues;
+    bool canEdit = !Model.Project.IsEstimatedSalesConfirmed;
+    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 
 <div class="m-2">
 
-    <div class="col-12">
-
-        <div class="col-12 mt-2 mb-4">
-            <h4>Przewidywana Sprzedaż</h4>
-        </div>
-
+    <div class="row">
         <div class="col-12">
-            @if (Model.Project.IsEstimatedSalesConfirmed == false)
+            <div class="mt-2 mb-4 text-muted" >
+                <h4>Przewidywana sprzedaż</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (canEdit)
             {
                 <button class="btn btn-outline-success btn-sm"
                         onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
@@ -29,7 +34,7 @@
             else
             {
 
-                @if (Model.Project.IsAccepted == false)
+                @if (canWithdrawAcceptation)
                 {
                     <button class="btn btn-outline-warning btn-sm"
                             onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
@@ -59,7 +64,7 @@
                     {
                         <tr>
                             <td>
-                                @if (Model.Project.IsEstimatedSalesConfirmed == false)
+                                @if (canEdit)
                                 {
                                     <a class="font-weight-bold"
                                        href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
@@ -76,7 +81,7 @@
                             @{decimal value = Math.Round(position.Qty * position.Price, 2);}
                             <td>@value.ToString("c")</td>
                             <td align="right">
-                                @if (Model.Project.IsEstimatedSalesConfirmed == false)
+                                @if (canEdit)
                                 {
                                     <button class="btn btn-outline-danger btn-sm"
                                             onclick="deleteEstimatedSalesValue('@position.ProjectId','@position.Id',this)">
@@ -123,7 +128,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                  // deleteEstimatedSalesValue()
+                                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                      // deleteEstimatedSalesValue()
     </script>
 }

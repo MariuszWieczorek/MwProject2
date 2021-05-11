@@ -6,19 +6,23 @@
 
 @{
     var technicalProperties = Model.Project.ProjectTechnicalProperties;
+    bool canEdit = !Model.Project.IsTechnicalProportiesConfirmed;
+    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 
 <div class="m-2">
 
-    <div class="col-12">
-
-        <div class="col-12 mt-2 mb-4">
-            <h4>Informacje Techniczne</h4>
-        </div>
-
+    <div class="row">
         <div class="col-12">
+            <div class="mt-2 mb-4 text-muted">
+                <h4>Informacje Techniczne</h4>
+            </div>
+        </div>
+    </div>
 
-            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+    <div class="row">
+        <div class="col-12">
+            @if (canEdit)
             {
                 <button class="btn btn-outline-primary btn-sm "
                         onclick="addProjectTechnicalProperties('@Model.Project.Id',this)">
@@ -42,7 +46,7 @@
             }
             else
             {
-                @if (Model.Project.IsAccepted == false)
+                @if (canWithdrawAcceptation)
                 {
                     <button class="btn btn-outline-warning btn-sm"
                             onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
@@ -57,8 +61,8 @@
         @if (technicalProperties != null && technicalProperties.Any())
         {
 
-            <table class="table table-sm table-hover table-striped mt-3 mb-5">
-                <thead class="table-secondary">
+            <table class="table table-sm table-hover  mt-3 mb-5">
+                <thead class="table-secondary" style="display:none;" >
                     <tr>
                         <th scope="col">parametr</th>
                         <th scope="col"></th>
@@ -72,8 +76,8 @@
                     @foreach (var position in technicalProperties)
                     {
                         <tr>
-                            <td>
-                                @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+                            <td class="text-muted">
+                                @if (canEdit)
                                 {
                                     <a class="font-weight-bold"
                                        href="@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
@@ -112,7 +116,7 @@
                             <td>@value</td>
                             <td>@position.Comment</td>
                             <td align="right">
-                                @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+                                @if (canEdit)
                                 {
                                     <button class="btn btn-outline-danger btn-sm"
                                             onclick="deleteProjectTechnicalProperty('@position.ProjectId','@position.Id',this)">

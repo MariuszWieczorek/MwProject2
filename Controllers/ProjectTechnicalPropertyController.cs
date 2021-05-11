@@ -85,7 +85,7 @@ namespace MwProject.Controllers
 
 
             return RedirectToAction("Project", "Project",
-                new { id = selectedProjectTechnicalProperty.ProjectTechnicalProperty.ProjectId });
+                new { id = selectedProjectTechnicalProperty.ProjectTechnicalProperty.ProjectId, tab = "technical" });
 
         }
 

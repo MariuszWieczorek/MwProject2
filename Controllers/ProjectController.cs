@@ -102,7 +102,7 @@ namespace MwProject.Controllers
         #endregion
 
         #region Pojedynczy projekt
-        public IActionResult Project(int id)
+        public IActionResult Project(int id, string tab)
         {
             var userId = User.GetUserId();
             
@@ -111,6 +111,8 @@ namespace MwProject.Controllers
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
                 _projectService.GetProject(id,userId);
+
+            ViewBag.Tab = tab != null ? tab : string.Empty;
 
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();
@@ -172,6 +174,8 @@ namespace MwProject.Controllers
                 TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
                 CurrentUser = currentUser
             };
+
+            ViewBag.Tab = tab != null ? tab : string.Empty;
 
             return View(vm);
         }

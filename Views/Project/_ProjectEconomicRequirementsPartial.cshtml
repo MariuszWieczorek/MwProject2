@@ -1,5 +1,4 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-
 @*
     Widok częściowy z listą wymagań Economic powiązanych z projektem
     do umieszczenia na widoku projektu
@@ -8,18 +7,23 @@
 @{
     int typeOfRequirement = 1;
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
+    bool canEdit = !Model.Project.IsEconomicRequirementsConfirmed;
+    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 
 <div class="m-2">
 
-    <div class="col-12">
-
-        <div class="col-12 mt-2 mb-4">
-            <h4>Informacje Ekonomiczne</h4>
-        </div>
-
+    <div class="row">
         <div class="col-12">
-            @if (Model.Project.IsEconomicRequirementsConfirmed == false)
+            <div class="mt-2 mb-4 text-muted">
+                <h4>Informacje Ekonomiczne</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (canEdit)
             {
                 <button class="btn btn-outline-primary btn-sm "
                         onclick="addProjectEconomicRequirements('@Model.Project.Id',this)">
@@ -43,7 +47,7 @@
             }
             else
             {
-                @if (Model.Project.IsAccepted == false)
+                @if (canWithdrawAcceptation)
                 {
                     <button class="btn btn-outline-warning btn-sm"
                             onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
@@ -52,89 +56,92 @@
                 }
             }
         </div>
-
     </div>
 
-    <div class="col-12 mt-2">
-        @if (requirements != null && requirements.Any())
-        {
+    <div class="row">
+        <div class="col-12 mt-2">
+            @if (requirements != null && requirements.Any())
+            {
 
-            <table class="table table-sm table-hover table-striped mt-3 mb-5">
-                <thead class="table-secondary">
-                    <tr>
-                        <th scope="col">parametr</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var position in requirements)
-                    {
+                <table class="table table-sm table-hover  mt-3 mb-5">
+                    
+                    <thead class="table-secondary" style="display:none;">
                         <tr>
-                            <td>
-                                @if (Model.Project.IsQualityRequirementsConfirmed == false)
-                                {
-                                    <a class="font-weight-bold"
-                                       href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = typeOfRequirement })">
+                            <th scope="col">parametr</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var position in requirements)
+                        {
+                            <tr>
+                                <td class="text-muted" style="width:300px">
+                                    @if (canEdit)
+                                    {
+                                        <a class="font-weight-bold"
+                                           href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = typeOfRequirement })">
+                                            <strong>
+                                                @position.Requirement.Name
+                                            </strong>
+                                        </a>
+                                    }
+                                    else
+                                    {
                                         <strong>
                                             @position.Requirement.Name
                                         </strong>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <strong>
-                                        @position.Requirement.Name
-                                    </strong>
-                                }
-                            </td>
+                                    }
+                                </td>
 
-                            @{
-                                string exist;
-                                switch (position.YesNo)
-                                {
-                                    case 1:
-                                        exist = "TAK";
-                                        break;
-                                    case 2:
-                                        exist = "NIE";
-                                        break;
-                                    default:
-                                        exist = "";
-                                        break;
+                                @{
+                                    string exist;
+                                    switch (position.YesNo)
+                                    {
+                                        case 1:
+                                            exist = "TAK";
+                                            break;
+                                        case 2:
+                                            exist = "NIE";
+                                            break;
+                                        default:
+                                            exist = "";
+                                            break;
+                                    }
+
+                                    string value = position.ShowValue == true ? position.Value.ToString() : "";
                                 }
 
-                                string value = position.ShowValue == true ? position.Value.ToString() : "";
-                            }
+                                <td>@exist</td>
+                                <td>@value</td>
+                                <td>@position.Comment</td>
+                                <td align="right">
+                                    @if (canEdit)
+                                    {
+                                        <button class="btn btn-outline-danger btn-sm"
+                                                onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                            Usuń
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
 
-                            <td>@exist</td>
-                            <td>@value</td>
-                            <td>@position.Comment</td>
-                            <td align="right">
-                                @if (Model.Project.IsQualityRequirementsConfirmed == false)
-                                {
-                                    <button class="btn btn-outline-danger btn-sm"
-                                            onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                        Usuń
-                                    </button>
-                                }
-                            </td>
-                        </tr>
-                    }
+                    </tbody>
+                </table>
+            }
 
-                </tbody>
-            </table>
-        }
+        </div>
     </div>
 </div>
 
 @section scripts
 {
     <script type="text/javascript">
-                                              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                              // deleteProjectRequirement()
+                                                                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                                      // deleteProjectRequirement()
     </script>
 }
