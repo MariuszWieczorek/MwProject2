@@ -6,26 +6,25 @@
 *@
 
 @{
-    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
+    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == Model.TypeOfRequirement);
+    bool canEditList = true;  
 }
 
 <div class="row">
     <div class="row g-0">
-        <div class="col-12 mb-2">
-            <h4>Wymagania</h4>
-        </div>
 
         <div class="col-12">
 
-            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
-            {
-
+            @* if (Model.Project.IsTechnicalProportiesConfirmed == false) *@
+            
+                @if (canEditList)
+                {
                 <button class="btn btn-outline-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty2", "ProjectTechnicalProperty", new { projectId = Model.Project.Id })"'>
+                        onclick='window.location.href = "@Url.Action("ProjectRequirement2", "ProjectRequirement", new { projectId = Model.Project.Id, type = Model.TypeOfRequirement })"'>
                     Dodaj
                 </button>
-
-            }
+                }
+            
 
         </div>
 
@@ -52,10 +51,10 @@
                 {
                     <tr>
                         <td>
-                            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+                            @if (canEditList)
                             {
                                 <a class="font-weight-bold"
-                                   href="@Url.Action("ProjectTechnicalProperty2", "ProjectTechnicalProperty", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                                   href="@Url.Action("ProjectRequirement2", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = Model.TypeOfRequirement })">
                                     <strong>
                                         @position.Requirement.Name
                                     </strong>
@@ -91,10 +90,10 @@
                         <td>@value</td>
                         <td>@position.Comment</td>
                         <td align="right">
-                            @if (Model.Project.IsTechnicalProportiesConfirmed == false)
+                            @if (canEditList)
                             {
                                 <button class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteProjectTechnicalProperty('@position.ProjectId','@position.Id',this)">
+                                        onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
                                     Usuń
                                 </button>
                             }

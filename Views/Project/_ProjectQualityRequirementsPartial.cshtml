@@ -1,8 +1,13 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-@* Widok częściowy z wymaganiami powiązanymi z projektem *@
+
+@* 
+    Widok częściowy z listą wymagań Quality powiązanych z projektem
+    do umieszczenia na widoku projektu
+*@
 
 @{
-    var qualityRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 2);
+    int typeOfRequirement = 2;
+    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
 }
 
 <div class="m-2">
@@ -23,7 +28,7 @@
                 </button>
 
                 <button class="btn btn-outline-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = 2 })"'>
+                        onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
                     Dodaj
                 </button>
 
@@ -33,7 +38,7 @@
                 </button>
 
                 <button class="btn btn-outline-primary btn-sm mt-3 mb-3"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirements","ProjectRequirement", new { projectId = Model.Project.Id, type = 2 })"'>
+                        onclick='window.location.href = "@Url.Action("ProjectRequirements","ProjectRequirement", new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
                     Edytuj w osobnym oknie
                 </button>
             }
@@ -53,7 +58,7 @@
     </div>
 
     <div class="col-12 mt-2">
-        @if (qualityRequirements != null && qualityRequirements.Any())
+        @if (requirements != null && requirements.Any())
         {
 
             <table class="table table-sm table-hover table-striped mt-3 mb-5">
@@ -68,14 +73,14 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var position in qualityRequirements)
+                    @foreach (var position in requirements)
                     {
                         <tr>
                             <td>
                                 @if (Model.Project.IsQualityRequirementsConfirmed == false)
                                 {
                                     <a class="font-weight-bold"
-                                       href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = 1 })">
+                                       href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = typeOfRequirement })">
                                         <strong>
                                             @position.Requirement.Name
                                         </strong>

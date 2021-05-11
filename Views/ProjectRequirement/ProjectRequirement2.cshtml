@@ -1,6 +1,9 @@
 ﻿@model MwProject.Core.ViewModels.ProjectRequirementViewModel
 
-@* okno edycji wymagania dla projektu *@
+@* 
+    Okno do edycji informacji jakościowych i ekonomicznych przypisanych do projektu
+    Wywołane z osobnego okna z samą tabelką
+*@
 
 @{
     ViewBag.Title = Model.Heading;
@@ -8,10 +11,10 @@
 
 <h2>@Model.Heading</h2>
 
-<div class="row">
+<div class="row bg-light bg-gradient">
     <div class="col-lg-6">
-        <!-- po submit wywoła się metoda ProjectRequirement w kontrolerze ProjectRequirement typu HttpPost -->
-        @using (Html.BeginForm("ProjectRequirement", "ProjectRequirement"))
+        <!-- po submit wywoła się metode ProjectRequirement2 w kontrolerze ProjectRequirement typu HttpPost -->
+        @using (Html.BeginForm("ProjectRequirement2", "ProjectRequirement"))
         {
             @Html.AntiForgeryToken()
 
@@ -31,7 +34,7 @@
                 @Html.LabelFor(x => x.ProjectRequirement.RequirementId)
                 @Html.DropDownListFor(x => x.ProjectRequirement.RequirementId,
                new SelectList(Model.Requirements, "Id", "Name"),
-               "--- Wybierz parametr ---",
+               "--- Wybierz parametr techniczny ---",
                new { @class = "form-control", autofocus = "autofocus" })
                 @Html.ValidationMessageFor(x => x.ProjectRequirement.RequirementId)
             </div>

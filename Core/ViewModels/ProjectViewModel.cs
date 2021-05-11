@@ -20,5 +20,9 @@ namespace MwProject.Core.ViewModels
         public ApplicationUser EconomicRequirementsConfirmedBy { get; set; }
         public ApplicationUser TechnicalPropertiesConfirmedBy { get; set; }
         public ApplicationUser CurrentUser { get; set; }
+        
+        // 0 - wszystkie dla okna projektu
+        // 1 - ekonomiczne, 2 - jakościowe - dla osobnego okna
+        public int TypeOfRequirement { get; set; }
     }
 }

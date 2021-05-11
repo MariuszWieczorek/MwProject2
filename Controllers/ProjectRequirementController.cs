@@ -36,11 +36,13 @@ namespace MwProject.Controllers
 
         #endregion 
 
-        #region odczyt z okna projektu
-        // wyświetlamy wybrane wymaganie lub pusty objekt
+        #region ekran edycji wymagania dla projektu - wywołany z okna projektu
+        // wyświetlamy widok do edycji wymagania dla projektu
+        // wspólny dla wymagań ekonomicznych (type == 1) i jakościowych (type == 2)
         public IActionResult ProjectRequirement(int projectId, int id, int type)
         {
             var userId = User.GetUserId();
+            string typeOfRequirement = type == 1 ? "ekonomiczna" : "jakościowa";
             var selectedProjectRequirement = id == 0 ?
                 _projectRequirementService.NewProjectRequirement(projectId,userId) :
                 _projectRequirementService.GetProjectRequirement(projectId,id,userId);
@@ -48,7 +50,7 @@ namespace MwProject.Controllers
             var vm = new ProjectRequirementViewModel()
             {
                 ProjectRequirement = selectedProjectRequirement,
-                Heading = id == 0 ? $"nowa {projectId}" : $"edycja {projectId}",
+                Heading = id == 0 ? $"nowa: informacja {typeOfRequirement}" : $"edycja: informacja {typeOfRequirement}",
                 Requirements = _requirementService.GetRequirements()
             };
             
@@ -113,8 +115,8 @@ namespace MwProject.Controllers
 
         #region odczyt z osobnego okna listy informacji i pojedynczej informacji
 
-        // wyświetlamy listę wymagań przypisaną do projektu do edycji z osobnego okna
-        public IActionResult ProjectRequirements(int projectId, int typ)
+        // wyświetlamy listę wymagań przypisaną do projektu do edycji w osobnym oknie
+        public IActionResult ProjectRequirements(int projectId, int type)
         {
             var userId = User.GetUserId();
 
@@ -124,6 +126,8 @@ namespace MwProject.Controllers
                 _projectService.NewProject(userId) :
                 _projectService.GetProject(projectId, userId);
 
+   
+            string nameOfRequirement = type == 1 ? " informacje ekonomiczne" : " informacje jakościowe";
 
             ApplicationUser qualityRequirementsConfirmedBy = new();
             ApplicationUser economicRequirementsConfirmedBy = new();
@@ -142,35 +146,71 @@ namespace MwProject.Controllers
             {
                 Project = selectedProject,
                 Heading = selectedProject.Id == 0 ?
-                      "Nowy Projekt" :
-                     $"Edycja Projektu: {selectedProject.Number}",
+                     $"Nowy Projekt / {nameOfRequirement}":
+                     $"Edycja Projektu: {selectedProject.Number} / {nameOfRequirement}",
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                TypeOfRequirement = type
             };
 
             return View(vm);
         }
 
         // wyświetlamy wybraną cechę przypisaną do projektu z osobnego okna
-        /*
-        public IActionResult ProjectTechnicalProperty2(int projectId, int id)
+       
+        public IActionResult ProjectRequirement2(int projectId, int id, int type)
         {
             var userId = User.GetUserId();
-            var selectedProjectTechnicalProperty = id == 0 ?
-                _projectTechnicalPropertyService.NewProjectTechnicalProperty(projectId, userId) :
-                _projectTechnicalPropertyService.GetProjectTechnicalProperty(projectId, id, userId);
+            var selectedProjectRequirement = id == 0 ?
+                _projectRequirementService.NewProjectRequirement(projectId, userId) :
+                _projectRequirementService.GetProjectRequirement(projectId, id, userId);
 
-            var vm = new ProjectTechnicalPropertyViewModel()
+            string nameOfRequirement = type == 1 ? " informacja ekonomiczna" : " informacja jakościowa";
+
+            var vm = new ProjectRequirementViewModel()
             {
-                ProjectTechnicalProperty = selectedProjectTechnicalProperty,
-                Heading = id == 0 ? $"nowa {projectId}" : $"edycja informacji technicznej",
-                TechnicalProperties = _technicalPropertyService.GetTechnicalProperties()
+                ProjectRequirement = selectedProjectRequirement,
+                Heading = id == 0 ? $"nowa {nameOfRequirement}" : $"edycja {nameOfRequirement}",
+                Requirements = _requirementService.GetRequirements().Where(x => x.Type == type)
             };
 
             return View(vm);
         }
-        */
+
+        #endregion
+
+        #region zapis - wywołany z osobnego okna
+        // Zapis wywołany z osobnego okna
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProjectRequirement2(ProjectRequirementViewModel selectedProjectRequirement)
+        {
+            var userId = User.GetUserId();
+
+            if (!ModelState.IsValid)
+            {
+                var vm = new ProjectRequirementViewModel()
+                {
+                    ProjectRequirement = selectedProjectRequirement.ProjectRequirement,
+                    Heading = selectedProjectRequirement.ProjectRequirement.Id == 0 ? "nowa" : "edycja",
+                    Requirements = _requirementService.GetRequirements()
+                };
+
+                return View("ProjectTechnicalProperty2", vm);
+            }
+
+            if (selectedProjectTechnicalProperty.ProjectTechnicalProperty.Id == 0)
+                _projectTechnicalPropertyService.AddProjectTechnicalProperty(selectedProjectTechnicalProperty.ProjectTechnicalProperty, userId);
+            else
+                _projectTechnicalPropertyService.UpdateProjectTechnicalProperty(selectedProjectTechnicalProperty.ProjectTechnicalProperty, userId);
+
+
+            return RedirectToAction("ProjectTechnicalProperties", "ProjectTechnicalProperty",
+                new { projectId = selectedProjectTechnicalProperty.ProjectTechnicalProperty.ProjectId });
+
+        }
+
         #endregion
 
     }
