@@ -32,7 +32,7 @@
 
     <div class="form-group">
         @Html.LabelFor(x => x.Requirement.Type)
-        @Html.TextBoxFor(x => x.Requirement.Type, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.TextBoxFor(x => x.Requirement.Type, new { @class = "form-control", autofocus = "autofocus", @readonly="readonly"  })
         @Html.ValidationMessageFor(x => x.Requirement.Type)
     </div>
 

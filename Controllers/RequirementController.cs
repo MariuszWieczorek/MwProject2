@@ -28,21 +28,22 @@ namespace MwProject.Controllers
         #endregion
 
         #region Wymagania: przeglądanie listy wymagań, pojedyncze wymaganie ---
-        public IActionResult Requirements()
+        public IActionResult Requirements(int type = 1)
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
-            var requirements = _requirementService.GetRequirements();
+            var requirements = _requirementService.GetRequirements().Where(x=>x.Type == type);
             var vm = new RequirementsViewModel()
             {
                 Requirements = requirements,
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                Type = type
             };
 
             return View(vm);
         }
 
-        public IActionResult Requirement(int id)
+        public IActionResult Requirement(int id, int type)
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
@@ -56,6 +57,11 @@ namespace MwProject.Controllers
                 Heading = "",
                 CurrentUser = currentUser
             };
+
+            if (id == 0)
+            {
+                vm.Requirement.Type = type;
+            }
 
             return View(vm);
         }
@@ -91,7 +97,7 @@ namespace MwProject.Controllers
                 _requirementService.UpdateRequirement(requirement);
 
 
-            return RedirectToAction("Requirements", "Requirement");
+            return RedirectToAction("Requirements", "Requirement", new { type = requirement.Type });
         }
 
         [HttpPost]

@@ -11,7 +11,9 @@
 <!-- Nagłówek -->
 <div class="row">
     <div class="col-10">
-        <h1 class="mb-3 mt-4 display-4">@Model.Heading</h1>
+        <h1 class="mb-3 mt-4 display-4">
+            @Model.Heading
+        </h1>
     </div>
 
     <div class="col-2">
@@ -555,7 +557,7 @@
                         // usuwanie z tabeli w html'u
                         var row = btn.parentNode.parentNode;
                         row.parentNode.removeChild(row);
-
+                        
                     }
                     else {
                         alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
@@ -621,8 +623,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        // odświeżenie strony
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "technical" })";
 
                     }
                     else {
@@ -652,9 +653,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        // odświeżenie strony
-                        location.reload(true);
-
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "quality" })";
                     }
                     else {
                         alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
@@ -682,8 +681,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        // odświeżenie strony
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "economic" })";
                     }
                     else {
                         alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
@@ -713,9 +711,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-
-                    // akceptacja - zmiany w widoku
-                        location.reload(true);
+                      window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "calculation" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -747,8 +743,7 @@
                 success: function (data) {
                     if (data.success) {
 
-                    // akceptacja - zmiany w widoku
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "calculation" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -778,9 +773,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-
-                    // akceptacja - zmiany w widoku
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "sales" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -811,8 +804,7 @@
                 success: function (data) {
                     if (data.success) {
 
-                    // akceptacja - zmiany w widoku
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "sales" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -907,9 +899,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-
-                    // akceptacja - zmiany w widoku
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "quality" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -939,9 +929,7 @@
                 },
                 success: function (data) {
                     if (data.success) {
-
-                    // akceptacja - zmiany w widoku
-                        location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "quality" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -973,7 +961,8 @@
                     if (data.success) {
 
                     // akceptacja - zmiany w widoku
-                        location.reload(true);
+                    // location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "economic" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -1005,7 +994,8 @@
                     if (data.success) {
 
                     // akceptacja - zmiany w widoku
-                        location.reload(true);
+                    // location.reload(true);
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "economic" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -1037,7 +1027,8 @@
                     if (data.success) {
 
                     // akceptacja - zmiany w widoku
-                        location.reload(true);
+                    // location.reload(true);
+                     window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "technical" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -1069,7 +1060,9 @@
                     if (data.success) {
 
                     // akceptacja - zmiany w widoku
-                        location.reload(true);
+                    // location.reload(true);
+                    window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "technical" })";
+
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
@@ -1085,6 +1078,11 @@
 
         }
         // ------------------------------------------------------------------------------------------------
+        $('#results').on('click', '.item', function () {
+            var NestId = $(this).data('id');
+            var url = '@Url.Action("Details, Artists")';
+            window.location.href = url;
+        });
         // ------------------------------------------------------------------------------------------------
     </script>
 }

@@ -10,5 +10,6 @@ namespace MwProject.Core.ViewModels
     {
         public IEnumerable<Requirement> Requirements { get; set; }
         public ApplicationUser CurrentUser { get; set; }
+        public int Type { get; set; }
     }
 }
