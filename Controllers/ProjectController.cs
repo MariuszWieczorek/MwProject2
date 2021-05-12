@@ -164,7 +164,7 @@ namespace MwProject.Controllers
                 Categories = _categoryService.GetCategories(),
                 Heading = selectedProject.Id == 0 ?
                       "Nowy Projekt" :
-                     $"Edycja Projektu: {selectedProject.Number}",
+                     $"Projekt: {selectedProject.Number}",
                 AcceptedBy = acceptedBy,
                 ConfirmedBy = confirmedBy,
                 CalculationConfirmedBy = calculationConfirmedBy,

@@ -61,6 +61,7 @@ namespace MwProject.Persistence.Repositories
             calculationToUpdate.Ckw = ckw;
             calculationToUpdate.Title = calculation.Title;
             calculationToUpdate.OrdinalNumber = calculation.OrdinalNumber;
+            calculationToUpdate.Comment = calculation.Comment;
         }
 
         public void DeleteCalculation(int projectId, int id, string userId)

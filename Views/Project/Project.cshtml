@@ -3,12 +3,21 @@
 @{
     ViewBag.Title = Model.Heading;
     bool NewProject = (Model.Project.Id == 0);
+    bool canAccept = !Model.Project.IsAccepted 
+                   && Model.Project.IsCalculationConfirmed;
+    bool canWithdrawAcceptation = Model.Project.IsAccepted;
 }
 
 <!-- Nagłówek -->
 <div class="row">
-    <div class="col-12">
-        <h1 class="mb-3 mt-2 display-5">@Model.Heading</h1>
+    <div class="col-10">
+        <h1 class="mb-3 mt-4 display-4">@Model.Heading</h1>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/single-document.webp")" style="width: 100px;" />
+        </div>
     </div>
 </div>
 
@@ -19,34 +28,34 @@
         <div class="col-12">
 
             <!--
-               <button class="btn btn-secondary mb-3"
-                       onclick="generatePdf()">
-                   Generuj PDF
-               </button>
+       <button class="btn btn-secondary mb-3"
+               onclick="generatePdf()">
+           Generuj PDF
+       </button>
 
-               <button class="btn btn-secondary mb-3" onclick="printProject()">
-                   Drukuj
-               </button>
-            -->
+       <button class="btn btn-secondary mb-3" onclick="printProject()">
+           Drukuj
+       </button>
+    -->
             <button id="printButton" class="btn btn-secondary mb-3">
                 Drukuj
             </button>
 
-            @if (Model.Project.IsCalculationConfirmed && Model.Project.IsEstimatedSalesConfirmed)
+
+            @if (canAccept)
             {
-                @if (Model.Project.IsAccepted == false)
-                {
-                    <button class="btn btn-lg btn-warning mb-3" onclick="acceptProject()">
-                        <strong>Akceptuj Projekt</strong>
-                    </button>
-                }
-                else
-                {
-                    <button class="btn btn-warning mb-3" onclick="withdrawProjectAcceptance()">
-                        Wycofaj Akceptacje
-                    </button>
-                }
+                <button class="btn btn-lg btn-warning mb-3" onclick="acceptProject()">
+                    <strong>Akceptuj Projekt</strong>
+                </button>
             }
+            
+            @if (canWithdrawAcceptation)
+            {
+                <button class="btn btn-warning mb-3" onclick="withdrawProjectAcceptance()">
+                    Wycofaj Akceptacje
+                </button>
+            }
+
 
         </div>
     </div>
@@ -214,7 +223,7 @@
                 @if (Model.Project.Id != 0)
                 {
                     <div class="col-12 mt-3 mb-2 border rounded bg-light">
-                        @await Html.PartialAsync("_CalculationsPartial", Model)
+                        @await Html.PartialAsync("_CalculationsVerticalPartial", Model)
                     </div>
                 }
             </div>
@@ -496,6 +505,37 @@
 
             }
 
+         // ------------------------------------------------------------------------------------------------
+        function deleteCalculation2(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć kalkulację ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteCalculation", "Calculation")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
 
          // ------------------------------------------------------------------------------------------------
 

@@ -6,16 +6,18 @@
 
 <div id="projectsTable">
 
+    @*
     <div class="row my-2 mx-1">
         <div class="col-12">
             ilość projektów: <span class="badge rounded-pill bg-warning">@numberOfProjects</span>
         </div>
     </div>
+    *@
 
     @if (Model != null && Model.Projects.Any())
     {
-        <table class="table mt-3  table-hover table-sm table-borderless ">
-            <thead class="table-light">
+        <table class="table mt-3  table-hover table-borderless ">
+            <thead class="table-light text-muted">
                 <tr>
                     <th scope="col">numer</th>
                     <th scope="col">kategoria</th>
@@ -30,12 +32,14 @@
                 {
                 <tr>
                     <td>
-                        <a class="font-weight-bold"
-                           href="@Url.Action("Project","Project", new { id = project.Id })">
-                            @project.Number
-                        </a>
+                        <strong>
+                            <a class="font-weight-bold text-muted"
+                               href="@Url.Action("Project","Project", new { id = project.Id })">
+                                @project.Number
+                            </a>
+                        </strong>
                     </td>
-                    <td>@project.Category.Name</td>
+                    <td class="text-muted font-weight-bold">@project.Category.Name</td>
                     <td>@project.Title </td>
                     <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
                     <td>

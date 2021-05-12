@@ -5,17 +5,16 @@
 }
 
 <div class="row">
-    <div class="col-11">
-        <h1 class="mb-3 mt-2 display-5">Projekty</h1>
+    <div class="col-10">
+        <h1 class="mb-3 mt-4 display-4">Projekty</h1>
     </div>
-    <div class="col-1">
-        <button class="btn btn-outline-primary btn mt-4"
-                onclick='window.location.href = "@Url.Action("Project","Project")"'>
-            Dodaj
-        </button>
+    
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/documents.png")" style="width: 100px;" />
+        </div>
     </div>
 </div>
-
 
 
 @*  Formularz zgodny z bootstrap 5.0
@@ -24,7 +23,6 @@
     Tak, aby po kliknięci przycisku submit
     nie przeładowywała się strona, tylko odświeżała tabelka z projektami.
 *@
-
 
 <div class="p-3 mb-2 bg-light border rounded">
     <form id="filterForm" class="row gy-2 gx-3 align-items-center">
@@ -55,6 +53,15 @@
         </div>
 
     </form>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary btn mt-4"
+                onclick='window.location.href = "@Url.Action("Project","Project")"'>
+            Dodaj
+        </button>
+    </div>
 </div>
 
 @* tabela z listą projektów *@

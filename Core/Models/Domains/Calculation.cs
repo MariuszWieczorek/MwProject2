@@ -49,13 +49,14 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "CKW")]
         public decimal Ckw { get; set; }
 
+
         [Display(Name = "Komentarz")]
         public string Comment { get; set; }
         
+
         [Display(Name = "przygotował dane")]
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        [Display(Name = "potwierdził dane")]
 
         public Project Project { get; set; }
     }

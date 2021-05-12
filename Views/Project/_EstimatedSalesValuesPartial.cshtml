@@ -7,14 +7,21 @@
     bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 
-<div class="m-2">
+<div class="m-2 ps-2">
 
     <div class="row">
-        <div class="col-12">
-            <div class="mt-2 mb-4 text-muted" >
+        <div class="col-11">
+            <div class="mt-2 mb-4 text-muted">
                 <h4>Przewidywana sprzedaż</h4>
             </div>
         </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/bagofmoney.png")" style="width: 50px;" />
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
@@ -48,8 +55,8 @@
     <div class="col-12 mt-2">
         @if (estimatedSalesValues != null && estimatedSalesValues.Any())
         {
-            <table class="table table-sm table-hover table-striped mt-3 mb-5">
-                <thead class="table-secondary">
+            <table class="table table-sm table-hover  mt-3 mb-5">
+                <thead class="text-muted">
                     <tr>
                         <th scope="col">Rok</th>
                         <th scope="col">Ilość</th>
@@ -63,17 +70,21 @@
                     @foreach (var position in estimatedSalesValues)
                     {
                         <tr>
-                            <td>
+                            <td class="font-weight-bold text-muted">
                                 @if (canEdit)
                                 {
-                                    <a class="font-weight-bold"
-                                       href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
-                                        @position.Year
-                                    </a>
+                                    <strong>
+                                        <a
+                                            href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
+                                            @position.Year
+                                        </a>
+                                    </strong>
                                 }
                                 else
                                 {
-                                    @position.Year
+                                    <strong>
+                                        @position.Year
+                                    </strong>
                                 }
                             </td>
                             <td>@position.Qty.ToString("N")</td>
@@ -93,7 +104,7 @@
                     }
 
                     <tr>
-                        <td><strong>średnia</strong></td>
+                        <td class="text-muted"><strong>średnia</strong></td>
                         @{decimal averageQty = 0;}
                         @{decimal averagePrice = 0;}
                         @{decimal averageValue = 0;}
@@ -113,7 +124,8 @@
                         {
                             averageValue = Math.Round(totalSales / numberOfYears, 2);
                         }
-                        <td>@averageQty</td>
+
+                        <td>@averageQty.ToString("N")</td>
                         <td> </td>
                         <td>@averageValue.ToString("c") </td>
                         <td> </td>
@@ -128,7 +140,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                      // deleteEstimatedSalesValue()
+                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                          // deleteEstimatedSalesValue()
     </script>
 }

@@ -3,16 +3,30 @@
 
 @{
     var projectCalculations = Model.Project.Calculations;
+    bool canEdit = !Model.Project.IsQualityRequirementsConfirmed;
+    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
+    bool canWithdrawConfirmationOfCalculation = !Model.Project.IsAccepted && Model.Project.IsCalculationConfirmed;
+    bool canWithdrawConfirmationOfEstimatedSales = !Model.Project.IsAccepted && Model.Project.IsEstimatedSalesConfirmed;
+    bool canWithdrawConfirmationOfQualityRequirement = !Model.Project.IsAccepted && Model.Project.IsQualityRequirementsConfirmed;
+    bool canWithdrawConfirmationOfEconomicRequirement = !Model.Project.IsAccepted && Model.Project.IsEconomicRequirementsConfirmed;
+    bool canWithdrawConfirmationOfTechnicalProperties = !Model.Project.IsAccepted && Model.Project.IsTechnicalProportiesConfirmed;
 }
 
-<div class="m-2">
+<div class="m-2 ps-2">
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-11">
             <div class="mt-2 mb-4 text-muted">
-                <h4>Status Projektu</h4>
+                <h4>Status</h4>
             </div>
         </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/check-box-512.png")" style="width: 50px;" />
+            </div>
+        </div>
+
     </div>
 
     <div class="row">
@@ -64,7 +78,7 @@
                         <td>@Model.CalculationConfirmedBy.Possition</td>
                         <td>@Model.Project.CalculationConfirmedDate</td>
                         <td>
-                            @if (Model.Project.IsAccepted == false && Model.Project.IsCalculationConfirmed)
+                            @if (canWithdrawConfirmationOfCalculation)
                             {
                                 <button class="btn btn-outline-warning btn-sm"
                                         onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
@@ -90,7 +104,7 @@
                         <td>@Model.EstimatedSalesConfirmedBy.Possition</td>
                         <td>@Model.Project.EstimatedSalesConfirmedDate</td>
                         <td>
-                            @if (Model.Project.IsAccepted == false && Model.Project.IsEstimatedSalesConfirmed)
+                            @if (canWithdrawConfirmationOfEstimatedSales)
                             {
                                 <button class="btn btn-outline-warning btn-sm"
                                         onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
@@ -115,7 +129,7 @@
                         <td>@Model.QualityRequirementsConfirmedBy.Possition</td>
                         <td>@Model.Project.QualityRequirementsConfirmedDate</td>
                         <td>
-                            @if (Model.Project.IsAccepted == false && Model.Project.IsQualityRequirementsConfirmed)
+                            @if (canWithdrawConfirmationOfQualityRequirement)
                             {
                                 <button class="btn btn-outline-warning btn-sm"
                                         onclick="withdrawConfirmationOfQualityRequirements('@Model.Project.Id',this)">
@@ -141,7 +155,7 @@
                         <td>@Model.EconomicRequirementsConfirmedBy.Possition</td>
                         <td>@Model.Project.EconomicRequirementsConfirmedDate</td>
                         <td>
-                            @if (Model.Project.IsAccepted == false && Model.Project.IsEconomicRequirementsConfirmed)
+                            @if (canWithdrawConfirmationOfEconomicRequirement)
                             {
                                 <button class="btn btn-outline-warning btn-sm"
                                         onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
@@ -166,7 +180,7 @@
                         <td>@Model.TechnicalPropertiesConfirmedBy.Possition</td>
                         <td>@Model.Project.TechnicalProportiesConfirmedDate</td>
                         <td>
-                            @if (Model.Project.IsAccepted == false && Model.Project.IsTechnicalProportiesConfirmed)
+                            @if (canWithdrawConfirmationOfTechnicalProperties)
                             {
                                 <button class="btn btn-outline-warning btn-sm"
                                         onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
@@ -193,7 +207,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                              // deleteCalculation()
+                                                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                      // deleteCalculation()
     </script>
 }

@@ -1,0 +1,216 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+
+@{
+    var projectCalculations = Model.Project.Calculations;
+    bool canEdit = !Model.Project.IsCalculationConfirmed;
+    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
+}
+
+<div class="m-2 ps-2">
+
+    <div class="row">
+        <div class="col-10">
+            <div class="mt-2 mb-4 text-muted">
+                <h4>Kalkulacja TKW</h4>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/calculation.png")" style="width: 50px;" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-12">
+
+            @if (canEdit)
+            {
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id })"'>
+                    Dodaj
+                </button>
+
+
+
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="confirmCalculation('@Model.Project.Id',this)">
+                    Akceptuj
+                </button>
+
+            }
+            else
+            {
+                @if (canWithdrawAcceptation)
+                {
+                    <button class="btn btn-outline-warning btn-sm"
+                            onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
+                        Wycofaj Potwierdzenie
+                    </button>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        @if (projectCalculations != null && projectCalculations.Any())
+        {
+
+            <table class="table table-sm table-hover table-striped mt-2 mb-4">
+
+                <tbody>
+
+                    @foreach (var position in projectCalculations)
+                    {
+                        <tr>
+                            <td>
+                                <div class="row mt-2">
+                                    <div class="col-4 text-muted">
+                                        <strong>lp</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <strong>
+                                            @position.OrdinalNumber
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>tytuł kalkulacji</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <strong>
+                                            @position.Title
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>koszt materiałów</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        @position.MaterialCosts.ToString("c")
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>koszt robocizny</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        @position.LabourCosts.ToString("c")
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>koszt pakowania</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        @position.PackingCosts.ToString("c")
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>koszt narzutu</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        @position.Markup.ToString("c")
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-4 text-muted">
+                                        <strong>TKW</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <strong>
+                                            @position.Tkw.ToString("c")
+                                        </strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>koszty ogólne [%]</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        @position.GeneralCostsInPercent.ToString("n")
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 text-muted">
+                                        <strong>CKW</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <strong>
+                                            @position.Ckw.ToString("c")
+                                        </strong>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt-2">
+                                    <div class="col-4 text-muted">
+                                        <strong>komentarz</strong>
+                                    </div>
+
+                                    <div class="col-8">
+                                            @position.Comment
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3 mb-2">
+                                    <div class="col-12">
+
+                                        @if (canEdit)
+                                        {
+                                            <button class="btn btn-outline-danger btn-sm"
+                                                    onclick="deleteCalculation2('@position.ProjectId','@position.Id',this)">
+                                                Usuń
+                                            </button>
+
+                                            <button class="btn btn-outline-success btn-sm"
+                                                    onclick='window.location.href = "@Url.Action("Calculation","Calculation",new { projectId = Model.Project.Id, Id = position.Id })"'>
+                                                Edytuj
+                                            </button>
+
+                                        }
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+                                                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                  // deleteCalculation()
+    </script>
+}

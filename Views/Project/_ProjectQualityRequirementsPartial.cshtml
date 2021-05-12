@@ -14,11 +14,20 @@
 <div class="m-2">
 
     <div class="row">
-        <div class="col-12">
+
+        <div class="col-11">
             <div class="mt-2 mb-4 text-muted">
                 <h4>Informacje Jakościowe</h4>
             </div>
         </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/quality.png")" style="width: 50px;" />
+            </div>
+        </div>
+
+
     </div>
 
     <div class="row">
@@ -79,7 +88,7 @@
                     @foreach (var position in requirements)
                     {
                         <tr>
-                            <td class="text-muted">
+                            <td class="text-muted" style="width:400px">
                                 @if (canEdit)
                                 {
                                     <a class="font-weight-bold"
@@ -115,7 +124,7 @@
                                 string value = position.ShowValue == true ? position.Value.ToString() : "";
                             }
 
-                            <td>@exist</td>
+                            <td class="text-muted"><strong>@exist</strong></td>
                             <td>@value</td>
                             <td>@position.Comment</td>
                             <td align="right">
