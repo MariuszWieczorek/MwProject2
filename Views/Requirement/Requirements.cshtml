@@ -1,10 +1,42 @@
 ﻿@model MwProject.Core.ViewModels.RequirementsViewModel
 
 @{
-    ViewData["Title"] = "Wymagania";
+
+    string title;
+
+    switch (Model.Type)
+    {
+        case 1:
+            title = "Słownik Informacji Ekonomicznych";
+            break;
+        case 2:
+            title = "Słownik Informacji Jakościowych";
+            break;
+        case 3:
+            title = "Słownik Informacji Ogólnych";
+            break;
+        default:
+            title = "Słownik Informacji";
+            break;
+    }
+
+    ViewData["Title"] = title;
 }
 
-<h1>słownik wymagań</h1>
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h2 class="mb-3 mt-4 display-4">
+            @title
+        </h2>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/dictionary.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
 
 <button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("Requirement","Requirement", new {id = 0, type = Model.Type})"'>
@@ -14,7 +46,7 @@
 
 <div id="reguirementTable">
     <table class="table mt-3 table-bordered table-hover">
-        <thead class="table-light">
+        <thead class="table-secondary">
             <tr>
                 <th scope="col">Lp</th>
                 <th scope="col">Nazwa</th>
@@ -28,24 +60,26 @@
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("Requirement", "Requirement",
+                            <strong>
+                                <a href="@Url.Action("Requirement", "Requirement",
                                     new { id = requirement.Id, type = Model.Type })"
-                               class="font-weight-bold">@requirement.OrdinalNumber</a>
+                                   class="font-weight-bold">@requirement.OrdinalNumber</a>
+                            </strong>
                         </td>
                         <td>
-
-                            <a href="@Url.Action("Requirement", "Requirement",
+                            <strong>
+                                <a href="@Url.Action("Requirement", "Requirement",
                                     new { id = requirement.Id, type = Model.Type  })"
-                               class="font-weight-bold">@requirement.Name</a>
-
+                                   class="font-weight-bold">@requirement.Name</a>
+                            </strong>
                         </td>
                         <td>
                             @if (Model.CurrentUser.AdminRights)
                             {
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteRequirement('@requirement.Id',this)">
-                                Usuń
-                            </button>
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteRequirement('@requirement.Id',this)">
+                                    Usuń
+                                </button>
                             }
 
                         </td>

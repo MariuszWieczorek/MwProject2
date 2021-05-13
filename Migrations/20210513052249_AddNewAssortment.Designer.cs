@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210513052249_AddNewAssortment")]
+    partial class AddNewAssortment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -503,17 +505,11 @@ namespace MwProject.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConfirmedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ConfirmedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Coordinator")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -531,9 +527,6 @@ namespace MwProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EstimatedSalesConfirmedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FinishedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InitiatedBy")

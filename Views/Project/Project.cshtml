@@ -225,7 +225,7 @@
                 @if (Model.Project.Id != 0)
                 {
                     <div class="col-12 mt-3 mb-2 border rounded bg-light">
-                        @await Html.PartialAsync("_CalculationsVerticalPartial", Model)
+                        @await Html.PartialAsync("_CalculationsPartial", Model)
                     </div>
                 }
             </div>
@@ -279,7 +279,16 @@
                 forceParse: false
             });
 
-            //
+            $('#FinishedDate').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+            
+
 
             $('#@ViewBag.Tab-tab').click();
 

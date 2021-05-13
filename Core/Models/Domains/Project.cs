@@ -31,9 +31,12 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Numer")]
         public string Number { get; set; }
 
-        [Display(Name = "Opis")]
+        [Display(Name = "Cel projektu")]
         public string Description { get; set; }
-        
+
+        [Display(Name = "Uwagi")]
+        public string Comment { get; set; }
+
         [Display(Name = "Data Utworzenia")]
         public DateTime? CreatedDate { get; set; }
 
@@ -41,10 +44,19 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Oczekiwany Termin Realizacji")]
         public DateTime? Term { get; set; }
 
+        [Display(Name = "Data Ukończenia")]
+        public DateTime? FinishedDate { get; set; }
+
+        [Display(Name = "Zrealizowane")]
+        public bool IsExecuted { get; set; }
+
+
         [Required(ErrorMessage = "Pole zainicjowane przez jest wymagane.")]
         [Display(Name = "Wniosek zainicjowany przez")]
         public string InitiatedBy { get; set; }
-        
+
+        [Display(Name = "Koordynator")]
+        public string Coordinator { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
@@ -55,8 +67,7 @@ namespace MwProject.Core.Models.Domains
         public string Picture { get; set; }
 
 
-        [Display(Name = "Zrealizowane")]
-        public bool IsExecuted { get; set; }
+        
 
         
         
@@ -68,6 +79,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nowy Produkt")]
         public bool NewProduct { get; set; }
 
+        [Display(Name = "Nowy Asortyment")]
+        public bool NewAssortment { get; set; }
 
         [Required(ErrorMessage = "Pole grupa produktu jest wymagane.")]
         [Display(Name = "Grupa Produktu")]

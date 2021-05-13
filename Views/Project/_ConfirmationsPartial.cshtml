@@ -1,5 +1,5 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-@* Widok częściowy z kalkulacjami powiązanymi z projektem *@
+@* Widok częściowy z kalkulacjami powiązanymi z projektem 186 *@
 
 @{
     var projectCalculations = Model.Project.Calculations;
@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-11">
             <div class="mt-2 mb-4 text-muted">
-                <h4>Status</h4>
+                <h2>Status Projektu</h2>
             </div>
         </div>
 
@@ -32,13 +32,13 @@
     <div class="row">
         <div class="col-12">
             <table class="table table-hover ">
-                <thead>
-                    <tr class="text-muted">
-                        <th scope="col">sekcja</th>
-                        <th scope="col">status</th>
-                        <th scope="col">kto</th>
-                        <th scope="col">stanowisko</th>
-                        <th scope="col">kiedy</th>
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">T/N</th>
+                        <th scope="col">Kto</th>
+                        <th scope="col">Stanowisko</th>
+                        <th scope="col">Kiedy</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -65,7 +65,22 @@
 
 
                     <tr>
-                        <td> <strong>kalkulacja kosztów TKW</strong></td>
+                        <td class="text-muted"> <strong>utworzony</strong> </td>
+                        <td>
+                     
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                     
+                        </td>
+                        <td>@Model.Project.User.FirstName @Model.Project.User.LastName</td>
+                        <td>@Model.Project.User.Possition</td>
+                        <td>@Model.Project.CreatedDate</td>
+                        <td> </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-muted"> <strong> potwierdzona kalkulacja TKW</strong></td>
                         <td>
                             @if (Model.Project.IsCalculationConfirmed)
                             {
@@ -91,7 +106,7 @@
 
 
                     <tr>
-                        <td> <strong>prognoza sprzedaży</strong></td>
+                        <td class="text-muted"> <strong>potwierdzona prognoza sprzedaży</strong></td>
                         <td>
                             @if (Model.Project.IsEstimatedSalesConfirmed)
                             {
@@ -116,7 +131,7 @@
 
 
                     <tr>
-                        <td> <strong>wymagania jakościowe</strong></td>
+                        <td class="text-muted"> <strong>potwierdzone wymagania jakościowe</strong></td>
                         <td>
                             @if (Model.Project.IsQualityRequirementsConfirmed)
                             {
@@ -142,7 +157,7 @@
 
 
                     <tr>
-                        <td> <strong>informacje ekonomiczne</strong></td>
+                        <td class="text-muted"> <strong>potwierdzone informacje ekonomiczne</strong></td>
                         <td>
                             @if (Model.Project.IsEconomicRequirementsConfirmed)
                             {
@@ -167,7 +182,7 @@
 
 
                     <tr>
-                        <td> <strong>informacje techniczne </strong></td>
+                        <td class="text-muted"> <strong>potwierdzone informacje techniczne </strong></td>
                         <td>
                             @if (Model.Project.IsTechnicalProportiesConfirmed)
                             {

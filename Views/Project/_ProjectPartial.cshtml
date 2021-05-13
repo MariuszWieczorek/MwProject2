@@ -40,7 +40,8 @@
 
                 @Html.HiddenFor(x => x.Project.Id)
                 @Html.HiddenFor(x => x.Project.UserId)
-
+                @Html.HiddenFor(x => x.Project.Coordinator)
+                
                 <!--Podział głównych danych formularza na dwie kolumny-->
                 <div class="row g-0">
                     <!-- Pierwsza kolumna formularza -->
@@ -154,13 +155,45 @@
                             @Html.LabelFor(x => x.Project.NewProduct, new { @class = "form-check-label" })
                             @Html.ValidationMessageFor(x => x.Project.NewProduct)
                         </div>
+
+                        <div class="form-check form-switch mb-3">
+                            @Html.CheckBoxFor(x => x.Project.NewAssortment, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.Project.NewAssortment, new { @class = "form-check-label" })
+                            @Html.ValidationMessageFor(x => x.Project.NewAssortment)
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.Comment)
+                            @Html.TextAreaFor(x => x.Project.Comment,
+                           new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-check form-switch mb-3">
+                            @Html.CheckBoxFor(x => x.Project.IsExecuted, new { @class = "form-check-input" })
+                            @Html.LabelFor(x => x.Project.IsExecuted, new { @class = "form-check-label" })
+                            @Html.ValidationMessageFor(x => x.Project.IsExecuted)
+                        </div>
+
+                        <!-- Oczekiwany termin realizacji -->
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.FinishedDate)
+                            @Html.TextBoxFor(x => x.Project.FinishedDate,
+                             "{0:dd-MM-yyyy}",
+                            new
+                            {
+                                @class = "form-control",
+                                @id = "FinishedDate",
+                                autocomplete = "off"
+                            })
+                            @Html.ValidationMessageFor(x => x.Project.FinishedDate)
+                        </div>
                         @*
-                            <div class="form-group mb-3">
-                                @Html.LabelFor(x => x.Project.Value)
-                                @Html.TextBoxFor(x => x.Project.Value,
-                                new { @class = "form-control", id = "Value", name = "Value" })
-                                @Html.ValidationMessageFor(x => x.Project.Value)
-                            </div>
+        <div class="form-group mb-3">
+            @Html.LabelFor(x => x.Project.Value)
+            @Html.TextBoxFor(x => x.Project.Value,
+            new { @class = "form-control", id = "Value", name = "Value" })
+            @Html.ValidationMessageFor(x => x.Project.Value)
+        </div>
                         *@
                     </div>
                 </div>

@@ -97,10 +97,14 @@ namespace MwProject.Persistence.Repositories
 
             var projects = _context.Projects
                 .Include(x => x.Category)
-                .Where(x => x.IsExecuted == projectsFilter.IsExecuted);
+                .AsQueryable();
+                
 
             if(user.CanSeeAllProject == false)
                 projects = projects.Where(x => x.UserId == userId);
+
+            if (projectsFilter.IsExecuted == true)
+                projects = projects.Where(x => x.IsExecuted == projectsFilter.IsExecuted);
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
@@ -157,14 +161,19 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Number = project.Number;
             projectToUpdate.Title = project.Title;
             projectToUpdate.CreatedDate = project.CreatedDate;
+            projectToUpdate.FinishedDate = project.FinishedDate;
+            projectToUpdate.IsExecuted = project.IsExecuted;
             projectToUpdate.InitiatedBy = project.InitiatedBy;
             projectToUpdate.Description = project.Description;
+            projectToUpdate.Comment = project.Comment;
+            projectToUpdate.Coordinator = project.Coordinator;
             
             if(project.CategoryId != 0) 
                 projectToUpdate.CategoryId = project.CategoryId;
 
             projectToUpdate.Term = project.Term;
             projectToUpdate.NewProduct = project.NewProduct;
+            projectToUpdate.NewAssortment = project.NewAssortment;
             projectToUpdate.Value = project.Value;
 
             if (project.ProductGroupId != 0)

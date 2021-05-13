@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-11">
             <div class="mt-2 mb-4 text-muted">
-                <h4>Informacje Techniczne</h4>
+                <h2>Informacje Techniczne</h2>
             </div>
         </div>
 
@@ -71,12 +71,13 @@
         {
 
             <table class="table table-sm table-hover  mt-3 mb-5">
-                <thead class="table-secondary" style="display:none;" >
+                
+                <thead class="table-secondary">
                     <tr>
-                        <th scope="col">parametr</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th scope="col" style="width:400px">Parametr </th>
+                        <th scope="col" style="width:60px"> T/N </th>
+                        <th scope="col"> Komentarz </th>
+                        <th scope="col"> Wartość </th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -85,7 +86,7 @@
                     @foreach (var position in technicalProperties)
                     {
                         <tr>
-                            <td class="text-muted" style="width:400px">
+                            <td class="text-muted">
                                 @if (canEdit)
                                 {
                                     <a class="font-weight-bold"
@@ -118,12 +119,25 @@
                                         break;
                                 }
 
-                                string value = position.ShowValue == true ? position.Value.ToString() : "";
                             }
 
                         <td class="text-muted"><strong>@exist</strong></td>
-                            <td>@value</td>
-                            <td>@position.Comment</td>
+                          
+                            <td class="text-muted">
+                                <strong>
+                                    @position.Comment
+                                </strong>
+                            </td>
+                          
+                            <td class="text-muted">
+                                @if (position.ShowValue)
+                                {
+                                    <strong>
+                                        @position.Value.ToString("n")
+                                    </strong>
+                                }
+                            </td>
+                            
                             <td align="right">
                                 @if (canEdit)
                                 {
