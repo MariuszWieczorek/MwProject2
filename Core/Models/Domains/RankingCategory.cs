@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,5 +25,7 @@ namespace MwProject.Core.Models.Domains
         public string Abbrev { get; set; }
 
         public ICollection<RankingElement> RankingElements { get; set; }
+
+            
     }
 }

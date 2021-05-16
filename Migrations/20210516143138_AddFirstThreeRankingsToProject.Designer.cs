@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210516143138_AddFirstThreeRankingsToProject")]
+    partial class AddFirstThreeRankingsToProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -530,9 +532,6 @@ namespace MwProject.Migrations
                     b.Property<DateTime?>("EconomicRequirementsConfirmedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("EstimatedCostOfProject")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("EstimatedSalesConfirmedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -584,9 +583,6 @@ namespace MwProject.Migrations
                     b.Property<string>("Picture")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("PriorityOfProject")
-                        .HasColumnType("int");
 
                     b.Property<int>("ProductGroupId")
                         .HasColumnType("int");

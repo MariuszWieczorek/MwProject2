@@ -19,6 +19,7 @@
         <table class="table mt-3  table-hover table-borderless ">
             <thead class="table-light text-muted">
                 <tr>
+                    <th scope="col">!</th>
                     <th scope="col">numer</th>
                     <th scope="col">kategoria</th>
                     <th scope="col">tytuł</th>
@@ -30,7 +31,10 @@
             <tbody>
                 @foreach (var project in Model.Projects)
                 {
+
                 <tr>
+                    <td>@project.PriorityOfProject </td>
+
                     <td>
                         <strong>
                             <a class="font-weight-bold text-muted"
@@ -52,10 +56,10 @@
                     <td>
                         @if (Model.CurrentUser.AdminRights)
                         {
-                        <button class="btn btn-outline-danger btn-sm"
-                                onclick="deleteProject('@project.Id',this)">
-                            Usuń
-                        </button>
+                            <button class="btn btn-outline-danger btn-sm"
+                                    onclick="deleteProject('@project.Id',this)">
+                                Usuń
+                            </button>
                         }
                     </td>
                 </tr>

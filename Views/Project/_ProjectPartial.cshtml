@@ -4,6 +4,10 @@
 
 @{
     bool NewProject = (Model.Project.Id == 0);
+    var listOfPurposeOfTheProject = Model.RankingCategories.Single(x => x.Id == 3).RankingElements;
+    var listOfViabilityOfTheProject = Model.RankingCategories.Single(x => x.Id == 2).RankingElements;
+    var listOfCompetitivenessOfTheProject = Model.RankingCategories.Single(x => x.Id == 1).RankingElements;
+
 }
 
 <div class="m-2 ps-2">
@@ -111,6 +115,14 @@
                             @Html.TextAreaFor(x => x.Project.Description,
                            new { @class = "form-control" })
                         </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.EstimatedCostOfProject)
+                            @Html.TextBoxFor(x => x.Project.EstimatedCostOfProject,
+                           new { @class = "form-control"})
+                            @Html.ValidationMessageFor(x => x.Project.EstimatedCostOfProject)
+                        </div>
+
                     </div>
 
                     <!-- Druga kolumna formularza -->
@@ -187,6 +199,44 @@
                             })
                             @Html.ValidationMessageFor(x => x.Project.FinishedDate)
                         </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.PurposeOfTheProjectId)
+
+                            @Html.DropDownListFor(x => x.Project.PurposeOfTheProjectId,
+                                    new SelectList(listOfPurposeOfTheProject, "Id", "Name"),
+                                    "--- Wybierz cel projektu ---",
+                                    new { @class = "form-control", autofocus = "autofocus" })
+
+
+                            @Html.ValidationMessageFor(x => x.Project.PurposeOfTheProjectId)
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.ViabilityOfTheProjectId)
+
+                            @Html.DropDownListFor(x => x.Project.ViabilityOfTheProjectId,
+                                    new SelectList(listOfViabilityOfTheProject, "Id", "Name"),
+                                    "--- Wybierz wykonalność projektu  ---",
+                                    new { @class = "form-control", autofocus = "autofocus" })
+
+
+                            @Html.ValidationMessageFor(x => x.Project.ViabilityOfTheProjectId)
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.CompetitivenessOfTheProjectId)
+
+                            @Html.DropDownListFor(x => x.Project.CompetitivenessOfTheProjectId,
+                                    new SelectList(listOfCompetitivenessOfTheProject, "Id", "Name"),
+                                    "--- Wybierz konkurencyjność na rynku ---",
+                                    new { @class = "form-control", autofocus = "autofocus" })
+
+
+                            @Html.ValidationMessageFor(x => x.Project.CompetitivenessOfTheProjectId)
+                        </div>
+
+
                         @*
         <div class="form-group mb-3">
             @Html.LabelFor(x => x.Project.Value)

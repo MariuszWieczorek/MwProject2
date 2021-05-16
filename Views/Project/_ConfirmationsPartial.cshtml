@@ -73,8 +73,8 @@
                                 </div>
                      
                         </td>
-                        <td>@Model.Project.User.FirstName @Model.Project.User.LastName</td>
-                        <td>@Model.Project.User.Possition</td>
+                        <td>@Model.Project?.User?.FirstName @Model.Project?.User?.LastName</td>
+                        <td>@Model.Project?.User?.Possition</td>
                         <td>@Model.Project.CreatedDate</td>
                         <td> </td>
                     </tr>
@@ -89,8 +89,8 @@
                                 </div>
                             }
                         </td>
-                        <td>@Model.CalculationConfirmedBy.FirstName @Model.CalculationConfirmedBy.LastName</td>
-                        <td>@Model.CalculationConfirmedBy.Possition</td>
+                        <td>@Model?.CalculationConfirmedBy?.FirstName @Model?.CalculationConfirmedBy?.LastName</td>
+                        <td>@Model?.CalculationConfirmedBy?.Possition</td>
                         <td>@Model.Project.CalculationConfirmedDate</td>
                         <td>
                             @if (canWithdrawConfirmationOfCalculation)
@@ -115,8 +115,8 @@
                                 </div>
                             }
                         </td>
-                        <td>@Model.EstimatedSalesConfirmedBy.FirstName @Model.EstimatedSalesConfirmedBy.LastName</td>
-                        <td>@Model.EstimatedSalesConfirmedBy.Possition</td>
+                        <td>@Model?.EstimatedSalesConfirmedBy?.FirstName @Model?.EstimatedSalesConfirmedBy?.LastName</td>
+                        <td>@Model?.EstimatedSalesConfirmedBy?.Possition</td>
                         <td>@Model.Project.EstimatedSalesConfirmedDate</td>
                         <td>
                             @if (canWithdrawConfirmationOfEstimatedSales)
@@ -140,8 +140,8 @@
                                 </div>
                             }
                         </td>
-                        <td>@Model.QualityRequirementsConfirmedBy.FirstName @Model.QualityRequirementsConfirmedBy.LastName</td>
-                        <td>@Model.QualityRequirementsConfirmedBy.Possition</td>
+                        <td>@Model?.QualityRequirementsConfirmedBy?.FirstName @Model?.QualityRequirementsConfirmedBy?.LastName</td>
+                        <td>@Model?.QualityRequirementsConfirmedBy?.Possition</td>
                         <td>@Model.Project.QualityRequirementsConfirmedDate</td>
                         <td>
                             @if (canWithdrawConfirmationOfQualityRequirement)
@@ -166,8 +166,8 @@
                                 </div>
                             }
                         </td>
-                        <td>@Model.EconomicRequirementsConfirmedBy.FirstName @Model.EconomicRequirementsConfirmedBy.LastName</td>
-                        <td>@Model.EconomicRequirementsConfirmedBy.Possition</td>
+                        <td>@Model?.EconomicRequirementsConfirmedBy?.FirstName @Model?.EconomicRequirementsConfirmedBy?.LastName</td>
+                        <td>@Model?.EconomicRequirementsConfirmedBy?.Possition</td>
                         <td>@Model.Project.EconomicRequirementsConfirmedDate</td>
                         <td>
                             @if (canWithdrawConfirmationOfEconomicRequirement)
@@ -191,8 +191,8 @@
                                 </div>
                             }
                         </td>
-                        <td>@Model.TechnicalPropertiesConfirmedBy.FirstName @Model.TechnicalPropertiesConfirmedBy.LastName</td>
-                        <td>@Model.TechnicalPropertiesConfirmedBy.Possition</td>
+                        <td>@Model?.TechnicalPropertiesConfirmedBy?.FirstName @Model?.TechnicalPropertiesConfirmedBy?.LastName</td>
+                        <td>@Model?.TechnicalPropertiesConfirmedBy?.Possition</td>
                         <td>@Model.Project.TechnicalProportiesConfirmedDate</td>
                         <td>
                             @if (canWithdrawConfirmationOfTechnicalProperties)

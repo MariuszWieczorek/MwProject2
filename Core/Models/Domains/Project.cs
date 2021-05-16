@@ -173,6 +173,35 @@ namespace MwProject.Core.Models.Domains
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 
+        
+        
+        [Display(Name = "Konkurencyjność")]
+        [ForeignKey("CompetitivenessOfTheProject")]
+        public int? CompetitivenessOfTheProjectId { get; set; }
+        public RankingElement CompetitivenessOfTheProject { get; set; }
+
+        
+        
+        [Display(Name = "Cel projektu")]
+        [ForeignKey("PurposeOfTheProject")]
+        public int? PurposeOfTheProjectId { get; set; }
+        public RankingElement PurposeOfTheProject { get; set; }
+
+       
+        
+        [Display(Name = "Wykonalność")]
+        [ForeignKey("ViabilityOfTheProject")]
+        public int? ViabilityOfTheProjectId { get; set; }
+        public RankingElement ViabilityOfTheProject { get; set; }
+
+        [Display(Name = "Priorytet")]
+        public int PriorityOfProject { get; set; }
+
+        
+        [Column(TypeName = "decimal(18, 2)")]
+        [Display(Name = "Szacowany Koszt Projektu")]
+        public decimal EstimatedCostOfProject { get; set; }
+              
 
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }

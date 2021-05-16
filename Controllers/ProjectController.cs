@@ -24,6 +24,8 @@ namespace MwProject.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IProductGroupService _productGroupService;
         private readonly IUserService _userService;
+        private readonly IRankingCategoryService _rankingCategoryService;
+        private readonly IRankingElementService _rankingElementService;
 
         private readonly int _itemPerPage = 30;
 
@@ -31,13 +33,17 @@ namespace MwProject.Controllers
         public ProjectController(IProjectService projectService,
                                  ICategoryService categoryService,
                                  IProductGroupService productGroupService,
-                                 IUserService userService
+                                 IUserService userService,
+                                 IRankingCategoryService rankingCategoryService,
+                                 IRankingElementService rankingElementService
                                 )
         {
             _projectService = projectService;
             _categoryService = categoryService;
             _productGroupService = productGroupService;
             _userService = userService;
+            _rankingCategoryService = rankingCategoryService;
+            _rankingElementService = rankingElementService;
         }
 
         #endregion
@@ -108,6 +114,10 @@ namespace MwProject.Controllers
             
             var currentUser = _userService.GetUser(userId);
 
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+
+            //var rankkingElements = _rankingElementService.GetRankingElement
+
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
                 _projectService.GetProject(id,userId);
@@ -172,7 +182,8 @@ namespace MwProject.Controllers
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
                 TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                RankingCategories = rankingCategories
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -189,6 +200,8 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
 
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+
             if (!ModelState.IsValid)
             {
                 var vm = new ProjectViewModel()
@@ -196,6 +209,7 @@ namespace MwProject.Controllers
                     Project = project,
                     Categories = _categoryService.GetCategories(),
                     ProductGroups = _productGroupService.GetProductGroups(),
+                    RankingCategories = rankingCategories,
                     Heading = project.Id == 0 ?
                       "Nowy Projekt" :
                      $"Edycja Projektu: {project.Number}"
@@ -203,6 +217,8 @@ namespace MwProject.Controllers
 
                 return View("Project", vm);
             }
+
+
 
             if (project.Id == 0)
                 _projectService.AddProject(project);

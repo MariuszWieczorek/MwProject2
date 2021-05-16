@@ -49,15 +49,17 @@ namespace MwProject.Persistence.Services
         public void UpdateProject(Project project, string userId)
         {
             _unitOfWork.Project.UpdateProject(project, userId);
+            
             // metoda wysyłająca maila
             // ...
             // dodatkowa modyfikacja danych
             _unitOfWork.Complete();
+            this.CalculatePriorityOfProject(project.Id, userId);
         }
 
-         public void DeleteProject(int id, string userId)
+        public void DeleteProject(int id, string userId)
         {
-            _unitOfWork.Project.DeleteProject(id,userId);
+            _unitOfWork.Project.DeleteProject(id, userId);
             _unitOfWork.Complete();
         }
 
@@ -174,5 +176,46 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.WithdrawConfirmationOfTechnicalProperties(id, userId);
             _unitOfWork.Complete();
         }
+
+        public void CalculatePriorityOfProject(int id, string userId)
+        {
+            var selectedProject = _unitOfWork.Project.GetProject(id, userId);
+            int viabilityRanking = 0;
+            int competitivenessRanking = 0;
+            int purposeRanking = 0;
+            int calculatedPriorityOfProject = 0;
+            int estimatedPaybackTimeInMonthsRanking = 0; 
+
+            viabilityRanking = selectedProject.ViabilityOfTheProjectId == null ?
+                0 : selectedProject.ViabilityOfTheProject.Index;
+
+            competitivenessRanking = selectedProject.CompetitivenessOfTheProjectId == null ?
+                0 : selectedProject.CompetitivenessOfTheProject.Index;
+
+            purposeRanking = selectedProject.PurposeOfTheProjectId == null ?
+                0 : selectedProject.PurposeOfTheProject.Index;
+
+            decimal estimatedCostOfProject = selectedProject.EstimatedCostOfProject;
+            var firstYear = selectedProject.EstimatedSalesValues.Min(x => x.Year);
+            var firstYearOfSales = selectedProject.EstimatedSalesValues.Single(x => x.Year == firstYear);
+            var firstYearOfSalesValue = firstYearOfSales.Qty * firstYearOfSales.Price;
+            var estimatedPaybackTimeInMonths = firstYearOfSalesValue != 0 ? (estimatedCostOfProject / firstYearOfSalesValue) * 12 : 0;
+
+            estimatedPaybackTimeInMonthsRanking = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+                .Single(x => x.Id == 6)
+                .RankingElements
+                .Single(x => estimatedPaybackTimeInMonths >= x.RangeFrom && estimatedPaybackTimeInMonths <= x.RangeTo).Index; 
+
+            calculatedPriorityOfProject = 
+                  viabilityRanking
+                + competitivenessRanking
+                + purposeRanking
+                + estimatedPaybackTimeInMonthsRanking;
+
+            selectedProject.PriorityOfProject = calculatedPriorityOfProject;
+            _unitOfWork.Complete();
+        }
+
+       
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210516173534_AddPriorityOfProject")]
+    partial class AddPriorityOfProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -529,9 +531,6 @@ namespace MwProject.Migrations
 
                     b.Property<DateTime?>("EconomicRequirementsConfirmedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("EstimatedCostOfProject")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("EstimatedSalesConfirmedBy")
                         .HasColumnType("nvarchar(max)");

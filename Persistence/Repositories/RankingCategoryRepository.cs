@@ -19,6 +19,7 @@ namespace MwProject.Persistence.Repositories
         public IEnumerable<RankingCategory> GetRankingCategories()
         {
             return _context.RankingCategories
+                .Include(x => x.RankingElements)
                .ToList();
         }
 

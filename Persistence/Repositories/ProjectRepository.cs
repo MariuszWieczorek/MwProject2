@@ -83,6 +83,9 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProductGroup)
                 .Include(x => x.Category)
                 .Include(x => x.User)
+                .Include(x => x.PurposeOfTheProject)
+                .Include(x => x.ViabilityOfTheProject)
+                .Include(x => x.CompetitivenessOfTheProject)
                 .Single(x => x.Id == id);
 
             if (user.CanSeeAllProject == false && user.Id != userId)
@@ -119,7 +122,9 @@ namespace MwProject.Persistence.Repositories
                     .Take(pagingInfo.ItemsPerPage);
             }
 
-            return projects.OrderBy(x => x.Term).ToList();
+            return projects.OrderByDescending(x => x.PriorityOfProject)
+                .ThenBy(x=>x.Number)
+                .ToList();
         }
 
 
@@ -178,6 +183,12 @@ namespace MwProject.Persistence.Repositories
 
             if (project.ProductGroupId != 0)
                 projectToUpdate.ProductGroupId = project.ProductGroupId;
+
+            projectToUpdate.PurposeOfTheProjectId = project.PurposeOfTheProjectId;
+            projectToUpdate.CompetitivenessOfTheProjectId = project.CompetitivenessOfTheProjectId;
+            projectToUpdate.ViabilityOfTheProjectId = project.ViabilityOfTheProjectId;
+            projectToUpdate.EstimatedCostOfProject = project.EstimatedCostOfProject;
+
         }
 
         public void AddQualityRequirementsToProject(Project project)

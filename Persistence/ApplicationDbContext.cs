@@ -26,5 +26,26 @@ namespace MwProject.Data
         public DbSet<CategoryRequirement> CategoryRequirements { get; set; }
         public DbSet<RankingCategory> RankingCategories { get; set; }
         public DbSet<RankingElement> RankingElements { get; set; }
+
+        /*
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Project>()
+                .HasOne<RankingCategory>(s => s.PurposeOfTheProject)
+                .WithMany(g => g.Projects1)
+                .HasForeignKey(s => s.PurposeOfTheProjectId);
+
+            modelBuilder.Entity<Project>()
+                .HasOne<RankingCategory>(s => s.Competitiveness)
+                .WithMany(g => g.Projects2)
+                .HasForeignKey(s => s.CompetitivenessId);
+
+            modelBuilder.Entity<Project>()
+                .HasOne<RankingCategory>(s => s.ViabilityOfTheProject)
+                .WithMany(g => g.Projects3)
+                .HasForeignKey(s => s.ViabilityOfTheProjectId);
+        }
+        */
+        
     }
 }
