@@ -1,0 +1,133 @@
+﻿@model MwProject.Core.ViewModels.RankingCategoriesViewModel
+
+@{
+    ViewData["Title"] = "Kategorie rankingów";
+}
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h2 class="mb-3 mt-4 display-4">
+            @ViewData["Title"]
+        </h2>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/dictionary.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-primary btn-lg mt-3 mb-3"
+        onclick='window.location.href = "@Url.Action("RankingCategory","RankingCategory")"'>
+    Dodaj pozycję
+</button>
+
+
+<div id="categoriesTable">
+    <table class="table mt-3 table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Skrót</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.RankingCategories.Any())
+            {
+                foreach (var category in Model.RankingCategories)
+                {
+                    <tr>
+
+
+                        <td style="width:100px">
+                            <strong>
+                                <a href="@Url.Action("RankingCategory", "RankingCategory",
+                                    new { id = category.Id })"
+                                   class="font-weight-bold">@category.Id</a>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("RankingCategory", "RankingCategory",
+                                    new { id = category.Id })"
+                                   class="font-weight-bold">@category.Name</a>
+                            </strong>
+                        </td>
+
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("RankingCategory", "RankingCategory",
+                                    new { id = category.Id })"
+                                   class="font-weight-bold">@category.Abbrev</a>
+                            </strong>
+                        </td>
+
+
+                        <td>
+                            @if (Model.CurrentUser.AdminRights)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteRankingCategory('@category.Id',this)">
+                                    Usuń
+                                </button>
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Brak kategorii
+                    </td>
+                </tr>
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        // Usuwanie kategorii
+        function deleteRankingCategory(id, btn) {
+            if (!confirm("Czy na pewno chcesz kategorię rankingu ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteRankingCategory", "RankingCategory")",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji ');
+                },
+                dataType: 'json'
+
+            });
+        }
+        // --------------------------------------------
+    </script>
+}

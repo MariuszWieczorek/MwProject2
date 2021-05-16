@@ -1,0 +1,73 @@
+﻿@model MwProject.Core.ViewModels.RankingElementViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h1>@Model.Heading</h1>
+
+
+@using (Html.BeginForm("RankingElement", "rankingElement"))
+{
+    <p class="alert alert-info mt-4 mb-4">
+        Pole Nazwa jest <strong>wymagane</strong>
+    </p>
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.RankingElement.Id)
+    @Html.HiddenFor(x => x.RankingElement.RankingCategoryId)
+
+    @Html.ValidationSummary()
+
+
+
+    <div class="form-group mb-2">
+        @Html.LabelFor(x => x.RankingElement.Name)
+        @Html.TextBoxFor(x => x.RankingElement.Name, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.RankingElement.Name)
+    </div>
+
+    <div class="form-group mb-3">
+        @Html.LabelFor(x => x.RankingElement.Description)
+        @Html.TextAreaFor(x => x.RankingElement.Description,
+       new { @class = "form-control" })
+    </div>
+
+    <div class="form-group mb-2">
+        @Html.LabelFor(x => x.RankingElement.RangeFrom)
+        @Html.TextBoxFor(x => x.RankingElement.RangeFrom, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.RankingElement.RangeFrom)
+    </div>
+
+    <div class="form-group mb-2">
+        @Html.LabelFor(x => x.RankingElement.RangeTo)
+        @Html.TextBoxFor(x => x.RankingElement.RangeTo, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.RankingElement.RangeTo)
+    </div>
+
+    <div class="form-group mb-4">
+        @Html.LabelFor(x => x.RankingElement.Index)
+        @Html.TextBoxFor(x => x.RankingElement.Index, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(x => x.RankingElement.Index)
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+
+}
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // w formatowaniu ma być przecinek, a nie kropka
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+        });
+
+    </script>
+}
+

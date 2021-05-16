@@ -24,7 +24,9 @@ namespace MwProject.Persistence
                             IProjectTechnicalPropertyRepository projectTechnicalPropertyRepository,
                             ICategoryTechnicalPropertyRepository categoryTechnicalPropertyRepository,
                             ICategoryRequirementRepository categoryRequirementRepository,
-                            IUserRepository userRepository
+                            IUserRepository userRepository,
+                            IRankingCategoryRepository rankingCategoryRepository,
+                            IRankingElementRepository rankingElementRepository
                             )
         {
             _context = context;
@@ -40,6 +42,8 @@ namespace MwProject.Persistence
             CategoryTechnicalPropertyRepository = categoryTechnicalPropertyRepository;
             CategoryRequirementRepository = categoryRequirementRepository;
             UserRepository = userRepository;
+            RankingCategoryRepository = rankingCategoryRepository;
+            RankingElementRepository = rankingElementRepository;
         }
 
         // obiekty repozytoryjne 
@@ -54,6 +58,8 @@ namespace MwProject.Persistence
         public IProjectTechnicalPropertyRepository ProjectTechnicalPropertyRepository { get; set; }
         public ICategoryTechnicalPropertyRepository CategoryTechnicalPropertyRepository { get; set; }
         public ICategoryRequirementRepository CategoryRequirementRepository { get; set; }
+        public IRankingCategoryRepository RankingCategoryRepository { get; set; }
+        public IRankingElementRepository RankingElementRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
 
         // na koniec metoda zapisująca zmiany

@@ -24,5 +24,7 @@ namespace MwProject.Data
         public DbSet<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
         public DbSet<CategoryTechnicalProperty> CategoryTechnicalProperties { get ; set; }
         public DbSet<CategoryRequirement> CategoryRequirements { get; set; }
+        public DbSet<RankingCategory> RankingCategories { get; set; }
+        public DbSet<RankingElement> RankingElements { get; set; }
     }
 }

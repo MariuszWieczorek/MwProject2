@@ -1,0 +1,141 @@
+﻿@model MwProject.Core.ViewModels.RankingCategoryViewModel
+@*
+    Widok częściowy z listą wymagań Economic powiązanych z projektem
+    do umieszczenia na widoku projektu
+*@
+
+@{
+    var elements = Model.RankingCategory.RankingElements.OrderBy(x => x.Index);
+    bool canEdit = true;
+    bool rangeFromExist = Model.RankingCategory.RankingElements.Where(x => x.RangeFrom != 0).Count() != 0;
+    bool rangeToExist = Model.RankingCategory.RankingElements.Where(x => x.RangeTo != 0).Count() != 0;
+}
+
+<div class="m-2">
+
+    <div class="row">
+        <div class="col-11">
+            <div class="mt-2 mb-4 text-muted">
+                <h3>elementy</h3>
+            </div>
+        </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/economic.png")" style="width: 50px;" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (canEdit)
+            {
+
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("RankingElement", "RankingElement", new { rankingCategoryId = Model.RankingCategory.Id})"'>
+                    Dodaj
+                </button>
+
+            }
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mt-2">
+            @if (elements != null && elements.Any())
+            {
+
+                <table class="table table-sm table-hover mt-3 mb-5">
+
+                    <thead class="table-secondary">
+                        <tr>
+                            
+                            <th scope="col"> Indeks </th>
+
+                            <th scope="col"> Wartość </th>
+                            @if (rangeFromExist || rangeToExist)
+                            {
+                                <th scope="col"> Od </th>
+                                <th scope="col"> Do </th>
+                            }
+
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var position in elements)
+                        {
+                            <tr>
+                                
+                                <td class="display-6" style="width:100px">
+                                    <strong>
+                                        @position.Index
+                                    </strong>
+                                </td>
+                                
+                                <td class="text-muted">
+                                    @if (canEdit)
+                                    {
+                                        <a class="font-weight-bold"
+                                           href="@Url.Action("RankingElement", "RankingElement", new { rankingCategoryId = position.RankingCategoryId, id = position.Id })">
+                                            <strong>
+                                                @position.Name
+                                            </strong>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <strong>
+                                            @position.Name
+                                        </strong>
+                                    }
+                                </td>
+
+
+                                @if (rangeFromExist || rangeToExist)
+                                {
+                                    <td class="text-danger">
+                                        <strong>
+                                            @position.RangeFrom
+                                        </strong>
+                                    </td>
+
+                                    <td class="text-success">
+                                        <strong>
+                                            @position.RangeTo
+                                        </strong>
+                                    </td>
+                                }
+                                
+                                
+
+                                <td align="right">
+                                    @if (canEdit)
+                                    {
+                                        <button class="btn btn-outline-danger btn-sm"
+                                                onclick="deleteProjectRequirement('@position.RankingCategoryId','@position.Id',this)">
+                                            Usuń
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+                                                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                                          // deleteProjectRequirement()
+    </script>
+}

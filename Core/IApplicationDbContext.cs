@@ -21,6 +21,8 @@ namespace MwProject.Core
         DbSet<CategoryTechnicalProperty> CategoryTechnicalProperties { get; set; }
         DbSet<CategoryRequirement> CategoryRequirements { get; set; }
         DbSet<ApplicationUser> Users { get; set; }
+        DbSet<RankingCategory>  RankingCategories { get; set; }
+        DbSet<RankingElement>   RankingElements { get; set; }
         int SaveChanges();
     }
 }

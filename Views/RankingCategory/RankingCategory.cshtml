@@ -1,0 +1,112 @@
+﻿@model MwProject.Core.ViewModels.RankingCategoryViewModel
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h2 class="mb-3 mt-4 display-4">
+            @ViewBag.Title
+        </h2>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/dictionary.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-12">
+
+        @using (Html.BeginForm("RankingCategory", "RankingCategory"))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => x.RankingCategory.Id)
+            @Html.ValidationSummary()
+
+
+            <div class="form-group mb-3">
+
+                @Html.LabelFor(x => x.RankingCategory.Name)
+                <strong>
+                    @Html.TextBoxFor(x => x.RankingCategory.Name, new { @class = "form-control", autofocus = "autofocus" })
+                </strong>
+                @Html.ValidationMessageFor(x => x.RankingCategory.Name)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.RankingCategory.Abbrev)
+                @Html.TextBoxFor(x => x.RankingCategory.Abbrev, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.RankingCategory.Abbrev)
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (Model.RankingCategory.Id != 0)
+            {
+                <div class="row">
+                    <div class="col-12 mt-3 mb-5">
+                        @await Html.PartialAsync("_RankingElementsPartial", Model)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+
+    // ------------------------------------------------------------------------------------------------
+
+    function deleteCategoryRequirement(categoryId,id, btn) {
+            if (!confirm("Czy na pewno chcesz wymaganie ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteCategoryRequirement", "CategoryRequirement")",
+                 data: {
+                     categoryId: categoryId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+
+
+         // ------------------------------------------------------------------------------------------------
+
+    </script>
+}
+

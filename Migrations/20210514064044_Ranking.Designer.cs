@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210514064044_Ranking")]
+    partial class Ranking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -693,58 +695,6 @@ namespace MwProject.Migrations
                     b.ToTable("ProjectTechnicalProperties");
                 });
 
-            modelBuilder.Entity("MwProject.Core.Models.Domains.RankingCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Abbrev")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RankingCategories");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.RankingElement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("RangeFrom")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("RangeTo")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("RankingCategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RankingCategoryId");
-
-                    b.ToTable("RankingElements");
-                });
-
             modelBuilder.Entity("MwProject.Core.Models.Domains.Requirement", b =>
                 {
                     b.Property<int>("Id")
@@ -960,17 +910,6 @@ namespace MwProject.Migrations
                     b.Navigation("TechnicalProperty");
                 });
 
-            modelBuilder.Entity("MwProject.Core.Models.Domains.RankingElement", b =>
-                {
-                    b.HasOne("MwProject.Core.Models.Domains.RankingCategory", "RankingCategory")
-                        .WithMany("RankingElements")
-                        .HasForeignKey("RankingCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RankingCategory");
-                });
-
             modelBuilder.Entity("MwProject.Core.Models.Domains.Category", b =>
                 {
                     b.Navigation("CategoryRequirements");
@@ -987,11 +926,6 @@ namespace MwProject.Migrations
                     b.Navigation("ProjectRequirements");
 
                     b.Navigation("ProjectTechnicalProperties");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.RankingCategory", b =>
-                {
-                    b.Navigation("RankingElements");
                 });
 #pragma warning restore 612, 618
         }

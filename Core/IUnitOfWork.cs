@@ -15,10 +15,9 @@ namespace MwProject.Core
         IProjectTechnicalPropertyRepository ProjectTechnicalPropertyRepository { get; set; }
         ICategoryTechnicalPropertyRepository CategoryTechnicalPropertyRepository { get; set; }
         ICategoryRequirementRepository CategoryRequirementRepository { get; set; }
-
+        IRankingCategoryRepository RankingCategoryRepository { get; set; }
+        IRankingElementRepository RankingElementRepository { get; set; }
         IUserRepository UserRepository { get; set; }
-
-
         void Complete();
     }
 }

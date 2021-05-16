@@ -50,6 +50,8 @@ namespace MwProject
             services.AddScoped<IProjectTechnicalPropertyRepository, ProjectTechnicalPropertyRepository>();
             services.AddScoped<ICategoryTechnicalPropertyRepository, CategoryTechnicalPropertyRepository>();
             services.AddScoped<ICategoryRequirementRepository, CategoryRequirementRepository>();
+            services.AddScoped<IRankingCategoryRepository, RankingCategoryRepository>();
+            services.AddScoped<IRankingElementRepository, RankingElementRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
@@ -63,6 +65,8 @@ namespace MwProject
             services.AddScoped<IProjectTechnicalPropertyService, ProjectTechnicalPropertyService>();
             services.AddScoped<ICategoryTechnicalPropertyService, CategoryTechnicalPropertyService>();
             services.AddScoped<ICategoryRequirementService, CategoryRequirementService>();
+            services.AddScoped<IRankingCategoryService, RankingCategoryService>();
+            services.AddScoped<IRankingElementService, RankingElementService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>

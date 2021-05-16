@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210514064712_Ranking2")]
+    partial class Ranking2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -719,9 +721,6 @@ namespace MwProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Index")
                         .HasColumnType("int");
 
@@ -729,14 +728,14 @@ namespace MwProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("RangeFrom")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("RangeTo")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("RankingCategoryId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("rangeFrom")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("rangeTo")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
