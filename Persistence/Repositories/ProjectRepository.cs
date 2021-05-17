@@ -189,7 +189,12 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ViabilityOfTheProjectId = project.ViabilityOfTheProjectId;
             projectToUpdate.EstimatedCostOfProject = project.EstimatedCostOfProject;
 
+            projectToUpdate.RealStartDateOfTheProject = project.RealStartDateOfTheProject;
+            projectToUpdate.PlannedStartDateOfTheProject = project.PlannedStartDateOfTheProject;
+            projectToUpdate.PlannedEndDateOfTheProject = project.PlannedEndDateOfTheProject;
+
         }
+
 
         public void AddQualityRequirementsToProject(Project project)
         {

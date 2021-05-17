@@ -291,6 +291,36 @@
                 forceParse: false
             });
 
+            //
+
+            $('#RealStartDateOfTheProject').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+
+            $('#PlannedStartDateOfTheProject').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+
+            $('#PlannedEndDateOfTheProject').datepicker({
+                format: "dd-mm-yyyy",
+                language: "pl",
+                multidate: false,
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false
+            });
+
+
 
 
 
@@ -299,6 +329,7 @@
                     return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
                 }
 
+            $('#EstimatedCostOfProject').setMask({ mask: '999 999 999,99' });
 
 
             $('#@ViewBag.Tab-tab').click();

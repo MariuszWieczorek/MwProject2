@@ -44,10 +44,10 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Oczekiwany Termin Realizacji")]
         public DateTime? Term { get; set; }
 
-        [Display(Name = "Data Ukończenia")]
+        [Display(Name = "Faktyczna data zakończenia")]
         public DateTime? FinishedDate { get; set; }
 
-        [Display(Name = "Zrealizowane")]
+        [Display(Name = "koniec")]
         public bool IsExecuted { get; set; }
 
 
@@ -198,10 +198,42 @@ namespace MwProject.Core.Models.Domains
         public int PriorityOfProject { get; set; }
 
         
+        [Display(Name = "Indeks SCZ")]
+        public int EstimatedPaybackTimeInMonthsRanking { get; set; }
+
+        [Display(Name = "Czas zwrotu w mc")]
+        public int EstimatedPaybackTimeInMonths { get; set; }
+
+
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Szacowany Koszt Projektu")]
         public decimal EstimatedCostOfProject { get; set; }
-              
+
+
+        [Display(Name = "Faktyczna data rozpoczęcia")]
+        public DateTime? RealStartDateOfTheProject { get; set; }
+
+        [Display(Name = "Planow. data rozpoczęcia")]
+        public DateTime? PlannedStartDateOfTheProject { get; set; }
+
+        [Display(Name = "Planow. data zakończenia")]
+        public DateTime? PlannedEndDateOfTheProject { get; set; }
+
+        [Display(Name = "Czas wdrożenia w mc")]
+        public int ImplementationTimeInMonths { get; set; }
+
+        [Display(Name = "Indeks CDS")]
+        public int ImplementationTimeInMonthsRanking { get; set; }
+
+
+        [Display(Name = "ROI")]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal ReturnOnInvestment { get; set; }
+
+        [Display(Name = "Indeks ROI")]
+        public int ReturnOnInvestmentRanking { get; set; }
+
+        
 
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
