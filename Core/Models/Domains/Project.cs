@@ -198,8 +198,8 @@ namespace MwProject.Core.Models.Domains
         public int PriorityOfProject { get; set; }
 
         
-        [Display(Name = "Indeks SCZ")]
-        public int EstimatedPaybackTimeInMonthsRanking { get; set; }
+        [Display(Name = "Ranking SCZ")]
+        public int RankingOfEstimatedPaybackTimeInMonths { get; set; }
 
         [Display(Name = "Czas zwrotu w mc")]
         public int EstimatedPaybackTimeInMonths { get; set; }
@@ -222,18 +222,31 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czas wdrożenia w mc")]
         public int ImplementationTimeInMonths { get; set; }
 
-        [Display(Name = "Indeks CDS")]
-        public int ImplementationTimeInMonthsRanking { get; set; }
+        [Display(Name = "Rank CDS")]
+        public int RankingOfImplementationTimeInMonths { get; set; }
 
 
         [Display(Name = "ROI")]
         [Column(TypeName = "decimal(18, 2)")]
         public decimal ReturnOnInvestment { get; set; }
 
-        [Display(Name = "Indeks ROI")]
-        public int ReturnOnInvestmentRanking { get; set; }
+        [Display(Name = "Rank ROI")]
+        public int RankingOfReturnOnInvestment { get; set; }
 
+
+        [Display(Name = "Planowana Produkcja")]
+        [Column(TypeName = "decimal(18, 2)")]
+        public int PlannedProductionVolume { get; set; }
+
+        [Display(Name = "Zdolność produkcyjna")]
+        public int ProductionCapacity { get; set; }
         
+        [Display(Name = "% WZP")]
+        [Column(TypeName = "decimal(18, 2)")]
+        public decimal PercentageOfUsedProductionCapability { get; set; }
+
+        [Display(Name = "Rank WZP")]
+        public int RankingOfUsedProductionCapability { get; set; }
 
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }

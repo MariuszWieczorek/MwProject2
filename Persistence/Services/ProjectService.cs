@@ -49,7 +49,7 @@ namespace MwProject.Persistence.Services
         public void UpdateProject(Project project, string userId)
         {
             _unitOfWork.Project.UpdateProject(project, userId);
-            
+
             // metoda wysyłająca maila
             // ...
             // dodatkowa modyfikacja danych
@@ -180,40 +180,82 @@ namespace MwProject.Persistence.Services
         public void CalculatePriorityOfProject(int id, string userId)
         {
             var selectedProject = _unitOfWork.Project.GetProject(id, userId);
-            int viabilityRanking = 0;
-            int competitivenessRanking = 0;
-            int purposeRanking = 0;
+            int rankingOfViability = 0;
+            int rankingOfCompetitiveness = 0;
+            int rankingOfPurpose = 0;
+            int rankingOfEstimatedPaybackTimeInMonths = 0;
+            int rankingOfReturnOnInvestment = 0;
+            decimal returnOnInvestment = 0M;
             int calculatedPriorityOfProject = 0;
-            int estimatedPaybackTimeInMonthsRanking = 0; 
-
-            viabilityRanking = selectedProject.ViabilityOfTheProjectId == null ?
-                0 : selectedProject.ViabilityOfTheProject.Index;
-
-            competitivenessRanking = selectedProject.CompetitivenessOfTheProjectId == null ?
-                0 : selectedProject.CompetitivenessOfTheProject.Index;
-
-            purposeRanking = selectedProject.PurposeOfTheProjectId == null ?
-                0 : selectedProject.PurposeOfTheProject.Index;
-
-            // Wyliczenie czasu zwrotu
+            int rankingOfUsedProductionCapability = 0;
+            decimal percentageOfUsedProductionCapability = 0M;
+            int estimatedPaybackTimeInMonths = 0;
             decimal estimatedCostOfProject = selectedProject.EstimatedCostOfProject;
             decimal firstYearOfSalesValue = 0M;
+            decimal firstYearOfSalesPrice = 0M;
+            decimal firstYearOfSalesQty = 0M;
+            decimal manufacturingCost = 0M;
+            int rankingOfImplementationTimeInMonths = 0;
+            int implementationTimeInMonths = 0;
+
+            rankingOfViability = selectedProject.ViabilityOfTheProjectId == null ?
+                0 : selectedProject.ViabilityOfTheProject.Index;
+
+            rankingOfCompetitiveness = selectedProject.CompetitivenessOfTheProjectId == null ?
+                0 : selectedProject.CompetitivenessOfTheProject.Index;
+
+            rankingOfPurpose = selectedProject.PurposeOfTheProjectId == null ?
+                0 : selectedProject.PurposeOfTheProject.Index;
+
+
+            // dane dotyczące sprzedaży w pierwszym roku
             if (selectedProject.EstimatedSalesValues.Count() > 0)
             {
-                var firstYear = selectedProject.EstimatedSalesValues.Min(x => x.Year);
-                var firstYearOfSales = selectedProject.EstimatedSalesValues.Single(x => x.Year == firstYear);
+                var firstSalesRecord = selectedProject.EstimatedSalesValues.Min(x => x.Id);
+                var firstYearOfSales = selectedProject.EstimatedSalesValues.Single(x => x.Id == firstSalesRecord);
                 firstYearOfSalesValue = firstYearOfSales.Qty * firstYearOfSales.Price;
+                firstYearOfSalesPrice = firstYearOfSales.Price;
+                firstYearOfSalesQty = firstYearOfSales.Qty;
             }
-            int estimatedPaybackTimeInMonths = (int) Math.Ceiling((firstYearOfSalesValue != 0 ? (estimatedCostOfProject / firstYearOfSalesValue) * 12 : 0));
 
-            estimatedPaybackTimeInMonthsRanking = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
-                .Single(x => x.Id == 6)
-                .RankingElements
-                .Single(x => estimatedPaybackTimeInMonths >= x.RangeFrom && estimatedPaybackTimeInMonths <= x.RangeTo).Index;
+            // dane dotyczące kosztów
+            if (selectedProject.Calculations.Any())
+            {
+                var firstCalculationRecord = selectedProject.Calculations.Min(x => x.Id);
+                var firstCalcutation = selectedProject.Calculations.Single(x => x.Id == firstCalculationRecord);
+                manufacturingCost = firstCalcutation.Ckw;
+            }
+
+
+
+            // SCZ Szacowany czas zwrotu z inwestycji (miesiące)
+            // Jest zerowy gdy deklarowana sprzedaż w 1 roku jest równa 0
+            if (firstYearOfSalesValue > 0)
+            {
+                estimatedPaybackTimeInMonths = (int)Math.Ceiling((estimatedCostOfProject / firstYearOfSalesValue) * 12 );
+
+                rankingOfEstimatedPaybackTimeInMonths = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+                    .Single(x => x.Id == (int)RankingType.EstimatedPaybackTime)
+                    .RankingElements
+                    .Single(x => estimatedPaybackTimeInMonths >= x.RangeFrom && estimatedPaybackTimeInMonths <= x.RangeTo).Index;
+            }
+
+            // ROI Return On Investment
+            if ( firstYearOfSalesValue > 0)
+            {
+                decimal estimatedProfit = (firstYearOfSalesPrice - manufacturingCost) * firstYearOfSalesQty;
+
+                if (estimatedProfit != 0)
+                {
+                    returnOnInvestment = Math.Round(estimatedCostOfProject / estimatedProfit, 2);
+                    rankingOfReturnOnInvestment = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+                    .Single(x => x.Id == (int)RankingType.ReturnOnInvestment)
+                    .RankingElements
+                    .Single(x => returnOnInvestment >= x.RangeFrom && returnOnInvestment <= x.RangeTo).Index;
+                }
+            }
 
             // Czas implementacji
-            int implementationTimeInMonthsRanking = 0;
-            int implementationTimeInMonths = 0;
 
             DateTime? startDateOfTheProject = selectedProject.RealStartDateOfTheProject != null ?
                 selectedProject.RealStartDateOfTheProject :
@@ -224,69 +266,62 @@ namespace MwProject.Persistence.Services
             if (startDateOfTheProject != null && endDateOfTheProject != null)
             {
                 TimeSpan interval = (DateTime)endDateOfTheProject - (DateTime)startDateOfTheProject;
-                implementationTimeInMonths = (int)Math.Ceiling(interval.TotalDays/30);
-                implementationTimeInMonthsRanking = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
-                .Single(x => x.Id == 5)
+                implementationTimeInMonths = (int)Math.Ceiling(interval.TotalDays / 30);
+
+                rankingOfImplementationTimeInMonths = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+                .Single(x => x.Id == (int)RankingType.ImplementationTime)
                 .RankingElements
                 .Single(x => implementationTimeInMonths >= x.RangeFrom && implementationTimeInMonths <= x.RangeTo).Index;
 
             }
 
-            // Szacowany Zysk ROI return on investment
-            decimal returnOnInvestment = 0M;
-            int returnOnInvestmentRanking = 0;
-            
-            
+ 
 
-            if (estimatedCostOfProject != 0 && selectedProject.Calculations.Any() && selectedProject.EstimatedSalesValues.Any())
+
+            if (true)
             {
-                decimal estimatedProfit = 0M;
-                decimal manufacturingCost = 0M;
-                var firstCalculationRecord     = selectedProject.Calculations.Min(x => x.Id);
-                var firstCalcutation = selectedProject.Calculations.Single(x => x.Id == firstCalculationRecord);
-                manufacturingCost = firstCalcutation.Ckw;
 
-                decimal priceInFirstYear = 0M;
-                decimal qtyInFirstYear = 0M;
-                var firstSalesRecord = selectedProject.EstimatedSalesValues.Min(x => x.Id);
-                var firstYearOfSales = selectedProject.EstimatedSalesValues.Single(x => x.Id == firstSalesRecord);
-                priceInFirstYear = firstYearOfSales.Price;
-                qtyInFirstYear = firstYearOfSales.Qty;
 
-                estimatedProfit = (priceInFirstYear - manufacturingCost) * qtyInFirstYear;
+                int productionCapacity = selectedProject.ProductionCapacity;
+                int plannedProductionVolume = selectedProject.PlannedProductionVolume;
 
-                if(estimatedProfit != 0)
-                {
-                    returnOnInvestment = Math.Round(estimatedCostOfProject/estimatedProfit,2);
-                }
 
-                returnOnInvestmentRanking = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
-                .Single(x => x.Id == 4)
+
+                if (productionCapacity != 0 && firstYearOfSalesQty != 0)
+                    percentageOfUsedProductionCapability = (decimal)plannedProductionVolume / productionCapacity;
+                else
+                    percentageOfUsedProductionCapability = 0;
+
+                rankingOfUsedProductionCapability = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+                .Single(x => x.Id == (int)RankingType.UsedProductionCapability)
                 .RankingElements
-                .Single(x => returnOnInvestment >= x.RangeFrom && returnOnInvestment <= x.RangeTo).Index;
+                .Single(x => percentageOfUsedProductionCapability >= x.RangeFrom && percentageOfUsedProductionCapability <= x.RangeTo).Index;
 
             }
 
             // Wyliczenie Priorytetu
-            calculatedPriorityOfProject = 
-                  viabilityRanking
-                + competitivenessRanking
-                + purposeRanking
-                + estimatedPaybackTimeInMonthsRanking
-                + implementationTimeInMonthsRanking
-                + returnOnInvestmentRanking;
+            calculatedPriorityOfProject =
+                  rankingOfViability
+                + rankingOfCompetitiveness
+                + rankingOfPurpose
+                + rankingOfEstimatedPaybackTimeInMonths
+                + rankingOfImplementationTimeInMonths
+                + rankingOfUsedProductionCapability
+                + rankingOfReturnOnInvestment;
 
             selectedProject.PriorityOfProject = calculatedPriorityOfProject;
             selectedProject.EstimatedPaybackTimeInMonths = estimatedPaybackTimeInMonths;
-            selectedProject.EstimatedPaybackTimeInMonthsRanking = estimatedPaybackTimeInMonthsRanking;
+            selectedProject.RankingOfEstimatedPaybackTimeInMonths = rankingOfEstimatedPaybackTimeInMonths;
             selectedProject.ImplementationTimeInMonths = implementationTimeInMonths;
-            selectedProject.ImplementationTimeInMonthsRanking = implementationTimeInMonthsRanking;
+            selectedProject.RankingOfImplementationTimeInMonths = rankingOfImplementationTimeInMonths;
             selectedProject.ReturnOnInvestment = returnOnInvestment;
-            selectedProject.ReturnOnInvestmentRanking = returnOnInvestmentRanking;
+            selectedProject.RankingOfReturnOnInvestment = rankingOfReturnOnInvestment;
+            selectedProject.RankingOfUsedProductionCapability = rankingOfUsedProductionCapability;
+            selectedProject.PercentageOfUsedProductionCapability = percentageOfUsedProductionCapability;
 
             _unitOfWork.Complete();
         }
 
-       
+
     }
 }

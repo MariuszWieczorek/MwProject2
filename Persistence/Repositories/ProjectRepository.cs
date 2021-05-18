@@ -193,6 +193,9 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.PlannedStartDateOfTheProject = project.PlannedStartDateOfTheProject;
             projectToUpdate.PlannedEndDateOfTheProject = project.PlannedEndDateOfTheProject;
 
+            projectToUpdate.ProductionCapacity = project.ProductionCapacity;
+            projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
+
         }
 
 

@@ -139,22 +139,22 @@
                             <div class="form-group mb-3 col-4">
                                 @Html.LabelFor(x => x.Project.EstimatedCostOfProject)
                                 @Html.TextBoxFor(x => x.Project.EstimatedCostOfProject, "{0:n}",
-                               new { @class = "form-control", Style = "background:#eeeeff; font-weight:bold", @id = "EstimatedCostOfProject" })
+                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold", @id = "EstimatedCostOfProject" })
                                 @Html.ValidationMessageFor(x => x.Project.EstimatedCostOfProject)
                             </div>
 
                             <div class="form-group mb-3 col-4">
                                 @Html.LabelFor(x => x.Project.EstimatedPaybackTimeInMonths)
                                 @Html.TextBoxFor(x => x.Project.EstimatedPaybackTimeInMonths,
-                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold", @readonly = "readonly" })
+                               new { @class = "form-control", Style = "background:#eeeeee; font-weight:bold", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(x => x.Project.EstimatedPaybackTimeInMonths)
                             </div>
 
                             <div class="form-group mb-3 col-4">
-                                @Html.LabelFor(x => x.Project.EstimatedPaybackTimeInMonthsRanking)
-                                @Html.TextBoxFor(x => x.Project.EstimatedPaybackTimeInMonthsRanking,
+                                @Html.LabelFor(x => x.Project.RankingOfEstimatedPaybackTimeInMonths)
+                                @Html.TextBoxFor(x => x.Project.RankingOfEstimatedPaybackTimeInMonths,
                                new { @class = "form-control", Style = "background:#ffffdd; font-weight:bold", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(x => x.Project.EstimatedPaybackTimeInMonthsRanking)
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfEstimatedPaybackTimeInMonths)
                             </div>
                         </div>
 
@@ -229,15 +229,15 @@
                             <div class="form-group mb-3 col-4">
                                 @Html.LabelFor(x => x.Project.ImplementationTimeInMonths)
                                 @Html.TextBoxFor(x => x.Project.ImplementationTimeInMonths,
-                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold", @readonly = "readonly" })
+                               new { @class = "form-control", Style = "background:#eeeeee; font-weight:bold", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(x => x.Project.ImplementationTimeInMonths)
                             </div>
 
                             <div class="form-group mb-3 col-4">
-                                @Html.LabelFor(x => x.Project.ImplementationTimeInMonthsRanking)
-                                @Html.TextBoxFor(x => x.Project.ImplementationTimeInMonthsRanking,
+                                @Html.LabelFor(x => x.Project.RankingOfImplementationTimeInMonths)
+                                @Html.TextBoxFor(x => x.Project.RankingOfImplementationTimeInMonths,
                                new { @class = "form-control", Style = "background:#ffffdd; font-weight:bold", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(x => x.Project.ImplementationTimeInMonthsRanking)
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfImplementationTimeInMonths)
                             </div>
                         </div>
 
@@ -245,18 +245,47 @@
                             <div class="form-group mb-3 col-4">
                                 @Html.LabelFor(x => x.Project.ReturnOnInvestment)
                                 @Html.TextBoxFor(x => x.Project.ReturnOnInvestment,
-                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold", @readonly = "readonly" })
+                               new { @class = "form-control", Style = "background:#eeeeee; font-weight:bold", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(x => x.Project.ReturnOnInvestment)
                             </div>
 
                             <div class="form-group mb-3 col-4">
-                                @Html.LabelFor(x => x.Project.ReturnOnInvestmentRanking)
-                                @Html.TextBoxFor(x => x.Project.ReturnOnInvestmentRanking,
+                                @Html.LabelFor(x => x.Project.RankingOfReturnOnInvestment)
+                                @Html.TextBoxFor(x => x.Project.RankingOfReturnOnInvestment,
                                new { @class = "form-control", Style = "background:#ffffdd; font-weight:bold", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(x => x.Project.ReturnOnInvestmentRanking)
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfReturnOnInvestment)
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="form-group mb-3 col-4">
+                                @Html.LabelFor(x => x.Project.PlannedProductionVolume)
+                                @Html.TextBoxFor(x => x.Project.PlannedProductionVolume,
+                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold" })
+                                @Html.ValidationMessageFor(x => x.Project.PlannedProductionVolume)
+                            </div>
+
+                            <div class="form-group mb-3 col-4">
+                                @Html.LabelFor(x => x.Project.ProductionCapacity)
+                                @Html.TextBoxFor(x => x.Project.ProductionCapacity,
+                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold" })
+                                @Html.ValidationMessageFor(x => x.Project.ProductionCapacity)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.PercentageOfUsedProductionCapability)
+                                @Html.TextBoxFor(x => x.Project.PercentageOfUsedProductionCapability,
+                               new { @class = "form-control", Style = "background:#eeeeee; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.PercentageOfUsedProductionCapability)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.RankingOfUsedProductionCapability)
+                                @Html.TextBoxFor(x => x.Project.RankingOfUsedProductionCapability,
+                               new { @class = "form-control", Style = "background:#ffffdd; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfUsedProductionCapability)
+                            </div>
+                        </div>
 
                     </div>
 
