@@ -13,6 +13,9 @@ namespace MwProject.Core.Models.Domains
     {
         public int Id { get; set; }
 
+        [Display(Name = "Lp")]
+        public int OrdinalNumber { get; set; }
+
         public Project()
         {
             Calculations = new Collection<Calculation>();
@@ -31,17 +34,23 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Numer")]
         public string Number { get; set; }
 
-        [Display(Name = "Cel projektu")]
+        [Display(Name = "Cel projektu - szczegóły")]
+        public string DescriptionOfPurpose { get; set; }
+
+        [Display(Name = "Opis")]
         public string Description { get; set; }
 
-        [Display(Name = "Uwagi")]
+        [Display(Name = "Uwagi / komentarze")]
         public string Comment { get; set; }
+
+        [Display(Name = "działania weryfikacyjne przed uruchomieniem projektu")]
+        public string VerificationOperations { get; set; }
 
         [Display(Name = "Data Utworzenia")]
         public DateTime? CreatedDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        [Display(Name = "Oczekiwany Termin Realizacji")]
+        [Display(Name = "Termin realiz.")]
         public DateTime? Term { get; set; }
 
         [Display(Name = "Faktyczna data zakończenia")]

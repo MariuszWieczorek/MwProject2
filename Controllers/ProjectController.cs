@@ -27,7 +27,7 @@ namespace MwProject.Controllers
         private readonly IRankingCategoryService _rankingCategoryService;
         private readonly IRankingElementService _rankingElementService;
 
-        private readonly int _itemPerPage = 30;
+        private readonly int _itemPerPage = 200;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public ProjectController(IProjectService projectService,

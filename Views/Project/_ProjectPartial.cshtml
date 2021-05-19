@@ -51,88 +51,121 @@
                     <div class="col-lg-6">
 
                         <div class="row">
+
+                            <div class="row">
+
+                                <div class="form-group mb-3 col-2">
+                                    @Html.LabelFor(x => x.Project.OrdinalNumber)
+                                    @Html.TextBoxFor(x => x.Project.OrdinalNumber,
+                                   new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold" })
+                                    @Html.ValidationMessageFor(x => x.Project.OrdinalNumber)
+                                </div>
+
+                                <div class="form-group mb-3 col-4">
+                                    @Html.LabelFor(x => x.Project.Number)
+                                    @Html.TextBoxFor(x => x.Project.Number,
+                                   new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold" })
+                                    @Html.ValidationMessageFor(x => x.Project.Number)
+                                </div>
+
+
+                                <div class="form-group mb-3 col-3">
+                                    @Html.LabelFor(x => x.Project.CreatedDate)
+                                    @Html.TextBoxFor(x => x.Project.CreatedDate,
+                                     "{0:dd-MM-yyyy}",
+                                    new
+                                    {
+                                        @class = "form-control",
+                                        Style = "background:#eeffee; font-weight:bold",
+                                        @id = "CreatedDate",
+                                        autocomplete = "off"
+                                    })
+                                    @Html.ValidationMessageFor(x => x.Project.CreatedDate)
+                                </div>
+
+
+                                <div class="form-group mb-3 col-3 ">
+                                    @Html.LabelFor(x => x.Project.Term)
+                                    @Html.TextBoxFor(x => x.Project.Term,
+                                     "{0:dd-MM-yyyy}",
+                                    new
+                                    {
+                                        @class = "form-control",
+                                        Style = "background:#eeffee; font-weight:bold",
+                                        @id = "Term",
+                                        autocomplete = "off"
+                                    })
+                                    @Html.ValidationMessageFor(x => x.Project.Term)
+                                </div>
+                            </div>
+
+
+
+                            <!-- Kategoria Projektu -->
                             <div class="form-group mb-3 col-6">
-                                @Html.LabelFor(x => x.Project.CategoryId)
-                                @Html.LabelFor(x => x.Project.Value)
-
-
                                 @if (NewProject == false)
                                 {
+                                    @Html.LabelFor(x => x.Project.CategoryId)
                                     @Html.DropDownListFor(x => x.Project.CategoryId,
                                             new SelectList(Model.Categories, "Id", "Name"),
                                             "--- Wybierz kategorię projektu ---",
                                             new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(x => x.Project.CategoryId)
                                 }
                                 else
                                 {
+                                    @Html.LabelFor(x => x.Project.CategoryId)
                                     @Html.DropDownListFor(x => x.Project.CategoryId,
                                         new SelectList(Model.Categories, "Id", "Name"),
                                         "--- Wybierz kategorię projektu ---",
                                         new { @class = "form-control", autofocus = "autofocus" })
+                                    @Html.ValidationMessageFor(x => x.Project.CategoryId)
                                 }
-
-                                @Html.ValidationMessageFor(x => x.Project.CategoryId)
                             </div>
 
+                            <!-- Grupa Produktu -->
                             <div class="form-group mb-3 col-6">
-                                @Html.LabelFor(x => x.Project.ProductGroupId)
-
-
                                 @if (NewProject == false)
                                 {
+                                    @Html.LabelFor(x => x.Project.ProductGroupId)
                                     @Html.DropDownListFor(x => x.Project.ProductGroupId,
                                                     new SelectList(Model.ProductGroups, "Id", "Name"),
                                                     "--- Wybierz kategorię ---",
                                                     new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
                                 }
                                 else
                                 {
+                                    @Html.LabelFor(x => x.Project.ProductGroupId)
                                     @Html.DropDownListFor(x => x.Project.ProductGroupId,
                                                    new SelectList(Model.ProductGroups, "Id", "Name"),
                                                    "--- Wybierz kategorię ---",
                                                    new { @class = "form-control", autofocus = "autofocus" })
+                                    @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
                                 }
-
-                                @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group mb-3 col-8">
-                                @Html.LabelFor(x => x.Project.Number)
-                                @Html.TextBoxFor(x => x.Project.Number,
-                               new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold" })
-                                @Html.ValidationMessageFor(x => x.Project.Number)
-                            </div>
-
-
-                            <div class="form-group mb-3 col-4">
-                                @Html.LabelFor(x => x.Project.CreatedDate)
-                                @Html.TextBoxFor(x => x.Project.CreatedDate,
-                                 "{0:dd-MM-yyyy}",
-                                new
-                                {
-                                    @class = "form-control",
-                                    Style = "background:#eeffee; font-weight:bold",
-                                    @id = "CreatedDate",
-                                    autocomplete = "off"
-                                })
-                                @Html.ValidationMessageFor(x => x.Project.CreatedDate)
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.Title)
                             @Html.TextAreaFor(x => x.Project.Title,
-                           new { @class = "form-control" })
+                           new { @class = "form-control", Style = "background:#eeffee; font-weight:bold" })
                             @Html.ValidationMessageFor(x => x.Project.Title)
                         </div>
 
                         <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.InitiatedBy)
+                            @Html.TextBoxFor(x => x.Project.InitiatedBy,
+                           new { @class = "form-control", autofocus = "autofocus" })
+                            @Html.ValidationMessageFor(x => x.Project.InitiatedBy)
+                        </div>
+
+                        <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.Description)
-                            @Html.TextAreaFor(x => x.Project.Description,
+                            @Html.TextAreaFor(x => x.Project.Description, 5, 40,
                            new { @class = "form-control" })
                         </div>
+
 
                         <div class="row">
 
@@ -291,50 +324,6 @@
 
                     <!-- Druga kolumna formularza -->
                     <div class="col-lg-5 offset-lg-1">
-                        <div class="form-group mb-3">
-                            @Html.LabelFor(x => x.Project.InitiatedBy)
-                            @Html.TextBoxFor(x => x.Project.InitiatedBy,
-                           new { @class = "form-control", autofocus = "autofocus" })
-                            @Html.ValidationMessageFor(x => x.Project.InitiatedBy)
-                        </div>
-
-
-
-                        <!-- Oczekiwany termin realizacji -->
-                        <div class="form-group mb-3">
-                            @Html.LabelFor(x => x.Project.Term)
-                            @Html.TextBoxFor(x => x.Project.Term,
-                             "{0:dd-MM-yyyy}",
-                            new
-                            {
-                                @class = "form-control",
-                                @id = "Term",
-                                autocomplete = "off"
-                            })
-                            @Html.ValidationMessageFor(x => x.Project.Term)
-                        </div>
-
-                        <div class="form-check form-switch mb-3">
-                            @Html.CheckBoxFor(x => x.Project.NewProduct, new { @class = "form-check-input" })
-                            @Html.LabelFor(x => x.Project.NewProduct, new { @class = "form-check-label" })
-                            @Html.ValidationMessageFor(x => x.Project.NewProduct)
-                        </div>
-
-                        <div class="form-check form-switch mb-3">
-                            @Html.CheckBoxFor(x => x.Project.NewAssortment, new { @class = "form-check-input" })
-                            @Html.LabelFor(x => x.Project.NewAssortment, new { @class = "form-check-label" })
-                            @Html.ValidationMessageFor(x => x.Project.NewAssortment)
-                        </div>
-
-                        <div class="form-group mb-3">
-                            @Html.LabelFor(x => x.Project.Comment)
-                            @Html.TextAreaFor(x => x.Project.Comment,
-                           new { @class = "form-control" })
-                        </div>
-
-
-                        <!-- Oczekiwany termin realizacji -->
-
 
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.PurposeOfTheProjectId)
@@ -372,6 +361,49 @@
                             @Html.ValidationMessageFor(x => x.Project.CompetitivenessOfTheProjectId)
                         </div>
 
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.DescriptionOfPurpose)
+                            @Html.TextAreaFor(x => x.Project.DescriptionOfPurpose, 5, 40,
+                           new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.VerificationOperations)
+                            @Html.TextAreaFor(x => x.Project.VerificationOperations, 5, 40,
+                           new { @class = "form-control" })
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.Comment)
+                            @Html.TextAreaFor(x => x.Project.Comment, 5, 40,
+                           new { @class = "form-control" })
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-1"></div>
+
+                            <div class="form-check form-switch mb-3 col-4">
+                                @Html.CheckBoxFor(x => x.Project.NewProduct, new { @class = "form-check-input" })
+                                @Html.LabelFor(x => x.Project.NewProduct, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(x => x.Project.NewProduct)
+                            </div>
+
+                            <div class="form-check form-switch mb-3 col-4">
+                                @Html.CheckBoxFor(x => x.Project.NewAssortment, new { @class = "form-check-input" })
+                                @Html.LabelFor(x => x.Project.NewAssortment, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(x => x.Project.NewAssortment)
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
 
                         @*
                             <div class="form-group mb-3">
@@ -402,6 +434,6 @@
 @section scripts
 {
     <script type="text/javascript">
-                             // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                 // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
     </script>
 }

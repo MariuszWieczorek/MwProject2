@@ -123,7 +123,8 @@ namespace MwProject.Persistence.Repositories
             }
 
             return projects.OrderByDescending(x => x.PriorityOfProject)
-                .ThenBy(x=>x.Number)
+                .ThenBy(x => x.OrdinalNumber)
+                .ThenBy(x => x.Number)
                 .ToList();
         }
 
@@ -195,6 +196,8 @@ namespace MwProject.Persistence.Repositories
 
             projectToUpdate.ProductionCapacity = project.ProductionCapacity;
             projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
+            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
+            projectToUpdate.VerificationOperations = project.VerificationOperations;
 
         }
 
