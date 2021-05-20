@@ -112,6 +112,9 @@ namespace MwProject.Persistence.Repositories
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
+            if (projectsFilter.ordinalNumber != 0)
+                projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
+
             if (!string.IsNullOrWhiteSpace(projectsFilter.Title))
                 projects = projects.Where(x => x.Title.Contains(projectsFilter.Title));
 
@@ -122,11 +125,16 @@ namespace MwProject.Persistence.Repositories
                     .Take(pagingInfo.ItemsPerPage);
             }
 
-            return projects.OrderByDescending(x => x.PriorityOfProject)
+            //  .OrderByDescending(x=>x.PriorityOfProject)                    
+            // .OrderBy(x => x.OrdinalNumber)
+
+            return projects
+                .OrderByDescending(x => x.PriorityOfProject)
                 .ThenBy(x => x.OrdinalNumber)
                 .ThenBy(x => x.Number)
                 .ToList();
         }
+
 
 
         public int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId)
@@ -354,6 +362,11 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsTechnicalProportiesConfirmed = false;
             projectToUpdate.TechnicalProportiesConfirmedDate = null;
             projectToUpdate.TechnicalProportiesConfirmedBy = null;
+        }
+
+        public IEnumerable<Project> GetAllProjects(string userId)
+        {
+            return _context.Projects.ToList();
         }
     }
 }

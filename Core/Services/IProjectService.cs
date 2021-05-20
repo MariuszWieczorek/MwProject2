@@ -36,6 +36,7 @@ namespace MwProject.Core.Services
         void ConfirmTechnicalProperties(int id, string userId);
         void WithdrawConfirmationOfTechnicalProperties(int id, string userId);
         void CalculatePriorityOfProject(int id, string userId);
+        void CalculatePriorities(string userId);
         IEnumerable<Category> GetUsedCategories();
 
     }

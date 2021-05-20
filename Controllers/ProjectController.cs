@@ -174,7 +174,7 @@ namespace MwProject.Controllers
                 Categories = _categoryService.GetCategories(),
                 Heading = selectedProject.Id == 0 ?
                       "Nowy Projekt" :
-                     $"Projekt: {selectedProject.Number}",
+                     $"lp: {selectedProject.OrdinalNumber} numer: {selectedProject.Number}",
                 AcceptedBy = acceptedBy,
                 ConfirmedBy = confirmedBy,
                 CalculationConfirmedBy = calculationConfirmedBy,
@@ -554,6 +554,13 @@ namespace MwProject.Controllers
         }
 
         #endregion
+
+        public string CalculatePriorities()
+        {
+            var userId = User.GetUserId();
+            _projectService.CalculatePriorities(userId);
+            return "OK";
+        }
 
     }
 }

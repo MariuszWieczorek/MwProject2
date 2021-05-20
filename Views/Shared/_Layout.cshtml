@@ -10,11 +10,11 @@
     <link href="~/lib/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/validate.css" rel="stylesheet" />
-    
+
 </head>
 <body>
 
-      <header>
+    <header>
 
         <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
             <div class="container">
@@ -31,12 +31,40 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">Home</a>
+                        @*
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area=""
+                                   asp-controller="Home"
+                                   asp-action="Index">Home</a>
+                            </li>
+                        *@
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Zarządzanie
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="Project"><strong>Dodaj Nowy Projekt</strong></a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="CalculatePriorities">Przelicz priorytety</a>
+                                </li>
+
+                            </ul>
                         </li>
+
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -106,6 +134,8 @@
                                        asp-controller="User"
                                        asp-action="Users">użytkownicy</a>
                                 </li>
+
+
 
                             </ul>
                         </li>

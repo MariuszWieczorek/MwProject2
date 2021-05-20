@@ -237,7 +237,9 @@ namespace MwProject.Persistence.Services
                 rankingOfEstimatedPaybackTimeInMonths = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
                     .Single(x => x.Id == (int)RankingType.EstimatedPaybackTime)
                     .RankingElements
-                    .Single(x => estimatedPaybackTimeInMonths >= x.RangeFrom && estimatedPaybackTimeInMonths <= x.RangeTo).Index;
+                    .Single(x => estimatedPaybackTimeInMonths >= x.RangeFrom && estimatedPaybackTimeInMonths < x.RangeTo).Index;
+
+
             }
 
             // ROI Return On Investment
@@ -245,13 +247,13 @@ namespace MwProject.Persistence.Services
             {
                 decimal estimatedProfit = (firstYearOfSalesPrice - manufacturingCost) * firstYearOfSalesQty;
 
-                if (estimatedProfit != 0)
+                if (estimatedProfit > 0)
                 {
                     returnOnInvestment = Math.Round(estimatedCostOfProject / estimatedProfit, 2);
                     rankingOfReturnOnInvestment = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
                     .Single(x => x.Id == (int)RankingType.ReturnOnInvestment)
                     .RankingElements
-                    .Single(x => returnOnInvestment >= x.RangeFrom && returnOnInvestment <= x.RangeTo).Index;
+                    .Single(x => returnOnInvestment >= x.RangeFrom && returnOnInvestment < x.RangeTo).Index;
                 }
             }
 
@@ -268,10 +270,13 @@ namespace MwProject.Persistence.Services
                 TimeSpan interval = (DateTime)endDateOfTheProject - (DateTime)startDateOfTheProject;
                 implementationTimeInMonths = (int)Math.Ceiling(interval.TotalDays / 30);
 
-                rankingOfImplementationTimeInMonths = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
-                .Single(x => x.Id == (int)RankingType.ImplementationTime)
-                .RankingElements
-                .Single(x => implementationTimeInMonths >= x.RangeFrom && implementationTimeInMonths <= x.RangeTo).Index;
+                if (implementationTimeInMonths > 0)
+                {
+                    rankingOfImplementationTimeInMonths = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+                    .Single(x => x.Id == (int)RankingType.ImplementationTime)
+                    .RankingElements
+                    .Single(x => implementationTimeInMonths >= x.RangeFrom && implementationTimeInMonths < x.RangeTo).Index;
+                }
 
             }
 
@@ -295,7 +300,7 @@ namespace MwProject.Persistence.Services
                 rankingOfUsedProductionCapability = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
                 .Single(x => x.Id == (int)RankingType.UsedProductionCapability)
                 .RankingElements
-                .Single(x => percentageOfUsedProductionCapability >= x.RangeFrom && percentageOfUsedProductionCapability <= x.RangeTo).Index;
+                .Single(x => percentageOfUsedProductionCapability >= x.RangeFrom && percentageOfUsedProductionCapability < x.RangeTo).Index;
 
             }
 
@@ -322,6 +327,13 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Complete();
         }
 
-
+        public void CalculatePriorities(string userId)
+        {
+            var projects = _unitOfWork.Project.GetAllProjects(userId);
+            foreach (var project in projects)
+            {
+                this.CalculatePriorityOfProject(project.Id, userId);
+            }
+        }
     }
 }

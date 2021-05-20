@@ -10,6 +10,10 @@ namespace MwProject.Core.Models
     {
         public string Title { get; set; }
         public int CategoryId { get; set; }
+        
+        [Display(Name = "Lp")]
+        public int ordinalNumber { get; set; }
+
         [Display(Name = "Tylko zrealizowane")]
         public bool IsExecuted { get; set; }
     }

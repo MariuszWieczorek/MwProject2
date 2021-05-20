@@ -11,6 +11,7 @@ namespace MwProject.Core.Repositories
     public interface IProjectRepository
     {
         IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId);
+        IEnumerable<Project> GetAllProjects(string userId);
         Project GetProject(int id, string userId);
         Project NewProject(string userId);
         void AddProject(Project project);

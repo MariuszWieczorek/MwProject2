@@ -125,24 +125,14 @@
 
                             <!-- Grupa Produktu -->
                             <div class="form-group mb-3 col-6">
-                                @if (NewProject == false)
-                                {
-                                    @Html.LabelFor(x => x.Project.ProductGroupId)
-                                    @Html.DropDownListFor(x => x.Project.ProductGroupId,
-                                                    new SelectList(Model.ProductGroups, "Id", "Name"),
-                                                    "--- Wybierz kategorię ---",
-                                                    new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled" })
-                                    @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
-                                }
-                                else
-                                {
-                                    @Html.LabelFor(x => x.Project.ProductGroupId)
-                                    @Html.DropDownListFor(x => x.Project.ProductGroupId,
-                                                   new SelectList(Model.ProductGroups, "Id", "Name"),
-                                                   "--- Wybierz kategorię ---",
-                                                   new { @class = "form-control", autofocus = "autofocus" })
-                                    @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
-                                }
+
+                                @Html.LabelFor(x => x.Project.ProductGroupId)
+                                @Html.DropDownListFor(x => x.Project.ProductGroupId,
+                                               new SelectList(Model.ProductGroups, "Id", "Name"),
+                                               "--- Wybierz grupę produktu ---",
+                                               new { @class = "form-control", autofocus = "autofocus" })
+                                @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
+
                             </div>
                         </div>
 
@@ -434,6 +424,6 @@
 @section scripts
 {
     <script type="text/javascript">
-                                 // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                     // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
     </script>
 }

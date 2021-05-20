@@ -8,7 +8,7 @@
     <div class="col-10">
         <h1 class="mb-3 mt-4 display-4">Projekty</h1>
     </div>
-    
+
     <div class="col-2">
         <div class="mt-2 mb-4 text-muted">
             <img src="@Url.Content("~/images/documents.png")" style="width: 100px;" />
@@ -27,7 +27,13 @@
 <div class="p-3 mb-2 bg-light border rounded">
     <form id="filterForm" class="row gy-2 gx-3 align-items-center">
 
-        <div class="col-5">
+
+        <div class="col-2">
+            @Html.TextBoxFor(x => x.ProjectsFilter.ordinalNumber,
+              new { @class = "form-control", placeholder = "Lp" })
+        </div>
+
+        <div class="col-4">
             @Html.TextBoxFor(x => x.ProjectsFilter.Title,
               new { @class = "form-control", placeholder = "Tytuł" })
         </div>
@@ -55,14 +61,16 @@
     </form>
 </div>
 
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-primary btn mt-4"
-                onclick='window.location.href = "@Url.Action("Project","Project")"'>
-            Dodaj
-        </button>
+@*
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-primary btn mt-4"
+                    onclick='window.location.href = "@Url.Action("Project","Project")"'>
+                Dodaj
+            </button>
+        </div>
     </div>
-</div>
+*@
 
 @* tabela z listą projektów *@
 <div class="row">
