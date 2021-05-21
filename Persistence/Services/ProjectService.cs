@@ -1,4 +1,5 @@
-﻿using MwProject.Core;
+﻿using ClosedXML.Excel;
+using MwProject.Core;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Services;
@@ -333,6 +334,38 @@ namespace MwProject.Persistence.Services
             foreach (var project in projects)
             {
                 this.CalculatePriorityOfProject(project.Id, userId);
+            }
+        }
+
+        public void ExportProjectsToExcel(IEnumerable<Project> projects)
+        {
+            // PM> Install-Package ClosedXML
+            
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Sample Sheet");
+
+                int row = 1;
+                foreach(var project in projects)
+                {
+                    worksheet.Cell($"A{row}").Value = row;
+                    worksheet.Cell(row,"B").Value = project.Number;
+                    worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
+
+
+                    // Add the text parts
+                    /*
+                    var cell = worksheet.Cell(row, "D");
+                    cell.RichText
+                      .AddText("Hello").SetFontColor(XLColor.Red)
+                      .AddText(" BIG ").SetFontColor(XLColor.Blue).SetBold()
+                      .AddText("World").SetFontColor(XLColor.Red);
+                    */
+                    row++;
+                }
+                                
+                // worksheet.Cell($"A{row}").FormulaA1 = "=MID(A1, 7, 5)";
+                workbook.SaveAs("ListOfProjects.xlsx");
             }
         }
     }

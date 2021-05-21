@@ -562,5 +562,24 @@ namespace MwProject.Controllers
             return "OK";
         }
 
+
+        public string ExportProjectsToExcel()
+        {
+            var userId = User.GetUserId();
+            int categoryId = 0;
+            int currentPage = 1;
+            var currentUser = _userService.GetUser(userId);
+
+            var projects = _projectService.GetProjects(
+                new ProjectsFilter(),
+                new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage },
+                categoryId,
+                userId
+                );
+
+            _projectService.ExportProjectsToExcel(projects);
+            return "OK";
+        }
+
     }
 }

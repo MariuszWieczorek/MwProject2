@@ -38,6 +38,7 @@ namespace MwProject.Core.Services
         void CalculatePriorityOfProject(int id, string userId);
         void CalculatePriorities(string userId);
         IEnumerable<Category> GetUsedCategories();
+        void ExportProjectsToExcel(IEnumerable<Project> projects);
 
     }
 }
