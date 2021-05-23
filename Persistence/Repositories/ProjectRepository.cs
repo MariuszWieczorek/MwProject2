@@ -368,5 +368,21 @@ namespace MwProject.Persistence.Repositories
         {
             return _context.Projects.ToList();
         }
+
+        public void ConfirmGeneralRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsGeneralRequirementsConfirmed = true;
+            projectToUpdate.GeneralRequirementsConfirmedDate = DateTime.Now;
+            projectToUpdate.GeneralRequirementsConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfGeneralRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsGeneralRequirementsConfirmed = false;
+            projectToUpdate.GeneralRequirementsConfirmedDate = null;
+            projectToUpdate.GeneralRequirementsConfirmedBy = null;
+        }
     }
 }

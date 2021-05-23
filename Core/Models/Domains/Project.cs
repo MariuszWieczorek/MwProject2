@@ -166,6 +166,16 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy wymagania ekonomiczne zostały potwierdzone")]
         public bool IsEconomicRequirementsConfirmed { get; set; }
 
+        // potwierdzenie informacji ogólnych
+
+        [Display(Name = "Informacje ogólne potwierdzone przez")]
+        public string GeneralRequirementsConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia informacji ogólnych")]
+        public DateTime? GeneralRequirementsConfirmedDate { get; set; }
+
+        [Display(Name = "Czy informacje ogólne zostały potwierdzone")]
+        public bool IsGeneralRequirementsConfirmed { get; set; }
 
         // potwierdzenie informacji technicznych
 

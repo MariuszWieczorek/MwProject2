@@ -25,6 +25,7 @@
                 <th scope="col">Qual</th>
                 <th scope="col">Econ</th>
                 <th scope="col">Tech</th>
+                <th scope="col">Gene</th>
             </tr>
         </thead>
         <tbody>
@@ -32,149 +33,172 @@
             {
                 foreach (var user in Model.Users)
                 {
-                    <tr>
+            <tr>
 
 
-                        <td>
-                            <strong>
-                                <a href="@Url.Action("SingleUser", "User",
+                <td>
+                    <strong>
+                        <a href="@Url.Action("SingleUser", "User",
                                     new { id = user.Id })"
-                                   class="font-weight-bold">@user.Email</a>
-                            </strong>
-                        </td>
-                        <td><strong>@user.FirstName</strong></td>
-                        <td><strong>@user.LastName</strong></td>
-                        <td>@user.Possition</td>
+                           class="font-weight-bold">@user.Email</a>
+                    </strong>
+                </td>
+                <td><strong>@user.FirstName</strong></td>
+                <td><strong>@user.LastName</strong></td>
+                <td>@user.Possition</td>
 
-                        <td>
-                            @if (user.AdminRights)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
+                <td>
+                    @if (user.AdminRights)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
 
-                        <td>
-                            @if (user.CanModifyProject)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
+                <td>
+                    @if (user.CanModifyProject)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
 
-                        <td>
-                            @if (user.CanSeeAllProject)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
+                <td>
+                    @if (user.CanSeeAllProject)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
 
-                        <td>
-                            @if (user.CanAcceptProject)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
+                <td>
+                    @if (user.CanAcceptProject)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
 
-                        <td>
-                            @if (user.CanConfirmProject)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
+                <td>
+                    @if (user.CanConfirmProject)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
 
-                        <td>
-                            @if (user.CanConfirmCalculations)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                            @if (user.CanEditCalculations)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
+                <td>
+                    @if (user.CanConfirmCalculations)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                    @if (user.CanEditCalculations)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
 
-                        <td>
-                            <div class="row">
-                                @if (user.CanConfirmEstimatedSales)
-                                {
-                                    <div class="col-6">
-                                        <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                    </div>
-                                }
-                                @if (user.CanEditEstimatedSales)
-                                {
-                                    <div class="col-6">
-                                        <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                    </div>
-                                }
+                <td>
+                    <div class="row">
+                        @if (user.CanConfirmEstimatedSales)
+                        {
+                            <div class="col-6">
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
                             </div>
-                        </td>
-
-                        <td>
-                            @if (user.CanConfirmQualityRequirements)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                            @if (user.CanEditQualityRequirements)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
-
-                        <td>
-                            @if (user.CanConfirmEconomicRequirements)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                            @if (user.CanEditEconomicRequirements)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
-
-                        <td>
-                            <div class="col-12" width="34">
-                                <div class="col-6">
-                                    @if (user.CanConfirmTechnicalProperties)
-                                    {
-                                        <div>
-                                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                        </div>
-                                    }
-                                </div>
-                                <div class="col-6">
-                                    @if (user.CanEditTechnicalProperties)
-                                    {
-                                        <div>
-                                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                        </div>
-                                    }
-                                </div>
+                        }
+                        @if (user.CanEditEstimatedSales)
+                        {
+                            <div class="col-6">
+                                <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
                             </div>
-                        </td>
+                        }
+                    </div>
+                </td>
 
-                    </tr>
+                <td>
+                    @if (user.CanConfirmQualityRequirements)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                    @if (user.CanEditQualityRequirements)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
+
+                <td>
+                    @if (user.CanConfirmEconomicRequirements)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                    @if (user.CanEditEconomicRequirements)
+                    {
+                        <div>
+                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                        </div>
+                    }
+                </td>
+
+                <td>
+                    <div class="col-12" width="34">
+                        <div class="col-6">
+                            @if (user.CanConfirmTechnicalProperties)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </div>
+                        <div class="col-6">
+                            @if (user.CanEditTechnicalProperties)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </td>
+
+
+
+                <td>
+                    <div class="col-12" width="34">
+                        <div class="col-6">
+                            @if (user.CanConfirmGeneralRequirements)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </div>
+                        <div class="col-6">
+                            @if (user.CanEditGeneralRequirements)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
                 }
 
             }

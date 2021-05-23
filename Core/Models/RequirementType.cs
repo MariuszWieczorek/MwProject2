@@ -9,6 +9,7 @@ namespace MwProject.Core.Models
     {
         All,        // 0
         Economic,   // 1
-        Quality    // 2
+        Quality,    // 2
+        General     // 3
     }
 }

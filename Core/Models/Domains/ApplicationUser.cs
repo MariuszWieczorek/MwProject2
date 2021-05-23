@@ -31,14 +31,17 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "może potwierdzać prognozowaną sprzedaż")]
         public bool CanConfirmEstimatedSales { get; set; }
 
-        [Display(Name = "może potwierdzać dane techniczne")]
+        [Display(Name = "może potwierdzać informacje techniczne")]
         public bool CanConfirmTechnicalProperties { get; set; }
 
-        [Display(Name = "może potwierdzać wymagania jakościowe")]
+        [Display(Name = "może potwierdzać informacje jakościowe")]
         public bool CanConfirmQualityRequirements { get; set; }
 
-        [Display(Name = "może potwierdzać wymagania ekonomiczne")]
+        [Display(Name = "może potwierdzać informacje ekonomiczne")]
         public bool CanConfirmEconomicRequirements { get; set; }
+
+        [Display(Name = "może potwierdzać informacje ogólne")]
+        public bool CanConfirmGeneralRequirements { get; set; }
 
         [Display(Name = "może akceptować projekt")]
         public bool CanAcceptProject { get; set; }
@@ -48,6 +51,9 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "uprawnienia administratora")]
         public bool AdminRights { get; set; }
+
+        [Display(Name = "uprawnienia super administratora")]
+        public bool SuperAdminRights { get; set; }
 
         [Display(Name = "może edytować dane")]
         public bool CanModifyProject { get; set; }
@@ -63,15 +69,17 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "może edytować prognozowaną sprzedaż")]
         public bool CanEditEstimatedSales { get; set; }
 
-        [Display(Name = "może edytować dane techniczne")]
+        [Display(Name = "może edytować informacje techniczne")]
         public bool CanEditTechnicalProperties { get; set; }
 
-        [Display(Name = "może edytować wymagania jakościowe")]
+        [Display(Name = "może edytować informacje jakościowe")]
         public bool CanEditQualityRequirements { get; set; }
 
-        [Display(Name = "może edytować wymagania ekonomiczne")]
+        [Display(Name = "może edytować informacje ekonomiczne")]
         public bool CanEditEconomicRequirements { get; set; }
 
+        [Display(Name = "może edytować informacje ogólne")]
+        public bool CanEditGeneralRequirements { get; set; }
 
         public ApplicationUser()
         {

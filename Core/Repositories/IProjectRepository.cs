@@ -34,6 +34,8 @@ namespace MwProject.Core.Repositories
         void WithdrawConfirmationOfQualityRequirements(int id, string userId);
         void ConfirmEconomicRequirements(int id, string userId);
         void WithdrawConfirmationOfEconomicRequirements(int id, string userId);
+        void ConfirmGeneralRequirements(int id, string userId);
+        void WithdrawConfirmationOfGeneralRequirements(int id, string userId);
         void ConfirmTechnicalProperties(int id, string userId);
         void WithdrawConfirmationOfTechnicalProperties(int id, string userId);
 

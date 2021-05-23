@@ -43,7 +43,24 @@ namespace MwProject.Controllers
         public IActionResult ProjectRequirement(int projectId, int id, int type)
         {
             var userId = User.GetUserId();
-            string typeOfRequirement = type == 1 ? "ekonomiczna" : "jakościowa";
+            string typeOfRequirement;
+
+            switch (type)
+            {
+                case 1:
+                    typeOfRequirement = "ekonomiczna";
+                    break;
+                case 2:
+                    typeOfRequirement = "jakościowa";
+                    break;
+                case 3:
+                    typeOfRequirement = "ogólna";
+                    break;
+                default:
+                    typeOfRequirement = "inna";
+                    break;
+            }
+
             var selectedProjectRequirement = id == 0 ?
                 _projectRequirementService.NewProjectRequirement(projectId, userId) :
                 _projectRequirementService.GetProjectRequirement(projectId, id, userId);
@@ -102,6 +119,9 @@ namespace MwProject.Controllers
                         break;
                     case 2:
                         tabName = "quality";
+                        break;
+                    case 3:
+                        tabName = "general";
                         break;
                     default:
                         tabName = "";

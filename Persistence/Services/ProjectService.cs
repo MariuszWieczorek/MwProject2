@@ -368,5 +368,17 @@ namespace MwProject.Persistence.Services
                 workbook.SaveAs("ListOfProjects.xlsx");
             }
         }
+
+        public void ConfirmGeneralRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmGeneralRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfGeneralRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfGeneralRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
     }
 }
