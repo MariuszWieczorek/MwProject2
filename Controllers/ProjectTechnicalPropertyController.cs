@@ -45,11 +45,13 @@ namespace MwProject.Controllers
             var selectedProjectTechnicalProperty = id == 0 ?
                 _projectTechnicalPropertyService.NewProjectTechnicalProperty(projectId,userId) :
                 _projectTechnicalPropertyService.GetProjectTechnicalProperty(projectId,id,userId);
-            
+
+            var typeOfRequirement = "techniczna";
+
             var vm = new ProjectTechnicalPropertyViewModel()
             {
                 ProjectTechnicalProperty = selectedProjectTechnicalProperty,
-                Heading = id == 0 ? $"nowa {projectId}" : $"edycja {projectId}",
+                Heading = id == 0 ? $"nowa: informacja {typeOfRequirement}" : $"edycja: informacja {typeOfRequirement}",
                 TechnicalProperties = _technicalPropertyService.GetTechnicalProperties()
             };
             
@@ -68,10 +70,12 @@ namespace MwProject.Controllers
 
             if (!ModelState.IsValid)
             {
+                var typeOfRequirement = "techniczna";
+
                 var vm = new ProjectTechnicalPropertyViewModel()
                 {
                     ProjectTechnicalProperty = selectedProjectTechnicalProperty.ProjectTechnicalProperty,
-                    Heading = selectedProjectTechnicalProperty.ProjectTechnicalProperty.Id == 0 ? "nowa" : "edycja",
+                    Heading = selectedProjectTechnicalProperty.ProjectTechnicalProperty.Id == 0 ? $"nowa: informacja {typeOfRequirement}" : $"edycja: informacja {typeOfRequirement}",
                     TechnicalProperties = _technicalPropertyService.GetTechnicalProperties()
                 };
 

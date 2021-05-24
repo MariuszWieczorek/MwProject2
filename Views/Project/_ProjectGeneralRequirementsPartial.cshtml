@@ -7,7 +7,7 @@
 @{
     int typeOfRequirement = 3;
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
-    bool canEdit = !Model.Project.IsGeneralRequirementsConfirmed;
+    bool canEdit = !Model.Project.IsGeneralRequirementsConfirmed && Model.CurrentUser.CanEditGeneralRequirements;
     bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 
@@ -22,7 +22,7 @@
 
         <div class="col-1">
             <div class="mt-2 mb-4 text-muted">
-                <img src="@Url.Content("~/images/economic.png")" style="width: 50px;" />
+                <img src="@Url.Content("~/images/info-512.webp")" style="width: 50px;" />
             </div>
         </div>
     </div>

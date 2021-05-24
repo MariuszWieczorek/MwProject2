@@ -47,7 +47,7 @@
                 <td>@category.Description</td>
                 <td>@category.DocumentSymbol</td>
                 <td>
-                    @if (Model.CurrentUser.AdminRights)
+                    @if (Model.CurrentUser.SuperAdminRights)
                     {
                     <button class="btn btn-outline-danger btn-sm"
                             onclick="deleteCategory('@category.Id',this)">

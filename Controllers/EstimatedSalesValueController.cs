@@ -35,7 +35,7 @@ namespace MwProject.Controllers
             var vm = new EstimatedSalesValueViewModel()
             {
                 EstimatedSalesValue = selectedEstimatedSalesValue,
-                Heading = id == 0 ? $"nowa {projectId}" : $"edycja {projectId}"
+                Heading = id == 0 ? $"nowa przewidywana sprzedaż" : $"edycja przewidywanej sprzedaży"
             };
 
             return View(vm);
@@ -53,7 +53,7 @@ namespace MwProject.Controllers
                 var vm = new EstimatedSalesValueViewModel()
                 {
                     EstimatedSalesValue = estimatedSalesValue,
-                    Heading = estimatedSalesValue.Id == 0 ? $"nowa {estimatedSalesValue.ProjectId}" : $"edycja {estimatedSalesValue.ProjectId}"
+                    Heading = estimatedSalesValue.Id == 0 ? $"nowa przewidywana sprzedaż" : $"edycja przewidywanej sprzedaży"
                 };
 
                 return View("EstimatedSalesValue", vm);

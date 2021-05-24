@@ -116,6 +116,8 @@ namespace MwProject.Controllers
 
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
 
+            var applicationUsers = _userService.GetUsers();
+
             //var rankkingElements = _rankingElementService.GetRankingElement
 
             var selectedProject = id == 0 ?
@@ -128,9 +130,13 @@ namespace MwProject.Controllers
             ApplicationUser confirmedBy = new();
             ApplicationUser calculationConfirmedBy = new();
             ApplicationUser estiamtedSalesConfirmedBy = new();
+            ApplicationUser generalRequirementsConfirmedBy = new();
             ApplicationUser qualityRequirementsConfirmedBy = new();
             ApplicationUser economicRequirementsConfirmedBy = new();
             ApplicationUser technicalPropertiesConfirmedBy = new();
+            ApplicationUser projectManager = new();
+
+            //IEnumerable<ApplicationUser> ApplicationUsers = _userService
 
             if (selectedProject.AcceptedBy != null)
             {
@@ -152,6 +158,11 @@ namespace MwProject.Controllers
                 estiamtedSalesConfirmedBy = _userService.GetUser(selectedProject.EstimatedSalesConfirmedBy);
             }
 
+            if (selectedProject.GeneralRequirementsConfirmedBy != null)
+            {
+                generalRequirementsConfirmedBy = _userService.GetUser(selectedProject.GeneralRequirementsConfirmedBy);
+            }
+
             if (selectedProject.QualityRequirementsConfirmedBy != null)
             {
                 qualityRequirementsConfirmedBy = _userService.GetUser(selectedProject.QualityRequirementsConfirmedBy);
@@ -167,6 +178,11 @@ namespace MwProject.Controllers
                 technicalPropertiesConfirmedBy = _userService.GetUser(selectedProject.TechnicalProportiesConfirmedBy);
             }
 
+            if (selectedProject.ProjectManagerId != null)
+            {
+                projectManager = _userService.GetUser(selectedProject.ProjectManagerId);
+            }
+
             var vm = new ProjectViewModel()
             {
                 Project = selectedProject,
@@ -179,11 +195,14 @@ namespace MwProject.Controllers
                 ConfirmedBy = confirmedBy,
                 CalculationConfirmedBy = calculationConfirmedBy,
                 EstimatedSalesConfirmedBy = estiamtedSalesConfirmedBy,
+                GeneralRequirementsConfirmedBy = generalRequirementsConfirmedBy,
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
                 TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
                 CurrentUser = currentUser,
-                RankingCategories = rankingCategories
+                ProjectManager = projectManager,
+                RankingCategories = rankingCategories,
+                ApplicationUsers = applicationUsers
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -202,6 +221,8 @@ namespace MwProject.Controllers
 
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
 
+            var applicationUsers = _userService.GetUsers();
+
             if (!ModelState.IsValid)
             {
                 var vm = new ProjectViewModel()
@@ -210,6 +231,7 @@ namespace MwProject.Controllers
                     Categories = _categoryService.GetCategories(),
                     ProductGroups = _productGroupService.GetProductGroups(),
                     RankingCategories = rankingCategories,
+                    ApplicationUsers = applicationUsers,
                     Heading = project.Id == 0 ?
                       "Nowy Projekt" :
                      $"Edycja Projektu: {project.Number}"

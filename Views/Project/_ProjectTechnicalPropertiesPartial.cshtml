@@ -6,7 +6,7 @@
 
 @{
     var technicalProperties = Model.Project.ProjectTechnicalProperties;
-    bool canEdit = !Model.Project.IsTechnicalProportiesConfirmed;
+    bool canEdit = !Model.Project.IsTechnicalProportiesConfirmed && Model.CurrentUser.CanConfirmTechnicalProperties;
     bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 

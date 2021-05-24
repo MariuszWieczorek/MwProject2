@@ -7,7 +7,7 @@
 @{
     int typeOfRequirement = 2;
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
-    bool canEdit = !Model.Project.IsQualityRequirementsConfirmed;
+    bool canEdit = !Model.Project.IsQualityRequirementsConfirmed && Model.CurrentUser.CanEditQualityRequirements;
     bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 

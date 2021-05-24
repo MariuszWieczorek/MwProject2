@@ -67,6 +67,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Koordynator")]
         public string Coordinator { get; set; }
 
+        [Display(Name = "Kierownik Projektu")]
+        public string ProjectManagerId { get; set; }
+
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
         public decimal Value { get; set; }

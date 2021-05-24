@@ -136,6 +136,17 @@
                             </div>
                         </div>
 
+                        <div class="form-group mb-3 col-6">
+
+                            @Html.LabelFor(x => x.Project.ProjectManagerId)
+                            @Html.DropDownListFor(x => x.Project.ProjectManagerId,
+                                           new SelectList(Model.ApplicationUsers, "Id", "Name"),
+                                           "--- Wybierz kierownika projektu ---",
+                                           new { @class = "form-control", autofocus = "autofocus" })
+                            @Html.ValidationMessageFor(x => x.Project.ProjectManagerId)
+
+                        </div>
+
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.Title)
                             @Html.TextAreaFor(x => x.Project.Title,

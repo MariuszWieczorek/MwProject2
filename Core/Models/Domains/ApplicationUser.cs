@@ -52,7 +52,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "uprawnienia administratora")]
         public bool AdminRights { get; set; }
 
-        [Display(Name = "uprawnienia super administratora")]
+        [Display(Name = "system admin")]
         public bool SuperAdminRights { get; set; }
 
         [Display(Name = "może edytować dane")]

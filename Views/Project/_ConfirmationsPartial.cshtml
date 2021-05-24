@@ -67,11 +67,11 @@
                     <tr>
                         <td class="text-muted"> <strong>utworzony</strong> </td>
                         <td>
-                     
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                     
+
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+
                         </td>
                         <td>@Model.Project?.User?.FirstName @Model.Project?.User?.LastName</td>
                         <td>@Model.Project?.User?.Possition</td>
@@ -131,7 +131,31 @@
 
 
                     <tr>
-                        <td class="text-muted"> <strong>potwierdzone wymagania jakościowe</strong></td>
+                        <td class="text-muted"> <strong>potwierdzone informacje ogólne</strong></td>
+                        <td>
+                            @if (Model.Project.IsGeneralRequirementsConfirmed)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </td>
+                        <td>@Model?.GeneralRequirementsConfirmedBy?.FirstName @Model?.GeneralRequirementsConfirmedBy?.LastName</td>
+                        <td>@Model?.GeneralRequirementsConfirmedBy?.Possition</td>
+                        <td>@Model.Project.GeneralRequirementsConfirmedDate</td>
+                        <td>
+                            @if (canWithdrawConfirmationOfQualityRequirement)
+                            {
+                                <button class="btn btn-outline-warning btn-sm"
+                                        onclick="withdrawConfirmationOfGeneralRequirements('@Model.Project.Id',this)">
+                                    Wycofaj
+                                </button>
+                            }
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-muted"> <strong>potwierdzone informacje jakościowe</strong></td>
                         <td>
                             @if (Model.Project.IsQualityRequirementsConfirmed)
                             {

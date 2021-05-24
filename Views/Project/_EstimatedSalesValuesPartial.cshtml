@@ -3,7 +3,7 @@
 
 @{
     var estimatedSalesValues = Model.Project.EstimatedSalesValues;
-    bool canEdit = !Model.Project.IsEstimatedSalesConfirmed;
+    bool canEdit = !Model.Project.IsEstimatedSalesConfirmed && Model.CurrentUser.CanEditEstimatedSales;
     bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 

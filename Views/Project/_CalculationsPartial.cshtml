@@ -3,7 +3,7 @@
 
 @{
     var projectCalculations = Model.Project.Calculations;
-    bool canEdit = !Model.Project.IsCalculationConfirmed;
+    bool canEdit = !Model.Project.IsCalculationConfirmed && Model.CurrentUser.CanEditCalculations;
     bool canWithdrawAcceptation = !Model.Project.IsAccepted;
 }
 

@@ -56,7 +56,7 @@
 
                         </td>
                         <td>
-                            @if (Model.CurrentUser.AdminRights)
+                            @if (Model.CurrentUser.SuperAdminRights)
                             {
                                 <button class="btn btn-outline-danger btn-sm"
                                         onclick="deleteTechnicalProperty('@technicalProperty.Id',this)">
