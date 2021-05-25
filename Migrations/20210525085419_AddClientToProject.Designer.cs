@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210525085419_AddClientToProject")]
+    partial class AddClientToProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -635,9 +637,6 @@ namespace MwProject.Migrations
 
                     b.Property<int>("ProductGroupId")
                         .HasColumnType("int");
-
-                    b.Property<byte>("ProductStatus")
-                        .HasColumnType("tinyint");
 
                     b.Property<int>("ProductionCapacity")
                         .HasColumnType("int");

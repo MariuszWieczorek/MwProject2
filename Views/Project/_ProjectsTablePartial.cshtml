@@ -25,7 +25,7 @@
                     <th scope="col">kategoria</th>
                     <th scope="col">tytuł</th>
                     <th scope="col">data</th>
-                    <th scope="col">termin</th>
+                    <th scope="col">kierownik</th>
                     <th scope="col"> </th>
                 </tr>
             </thead>
@@ -38,7 +38,7 @@
                     <td>
                         @if (@project.PriorityOfProject > 0)
                         {
-                        <span class="badge rounded-pill bg-warning">@project.PriorityOfProject</span>
+                            <span class="badge rounded-pill bg-warning">@project.PriorityOfProject</span>
                         }
                     </td>
 
@@ -52,11 +52,18 @@
                     </td>
                     <td class="text-muted font-weight-bold">@project.Category.Name</td>
                     <td style=" max-width: 300px ">@project.Title </td>
-                    <td>@project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")</td>
+                   
                     <td>
-                        @if (project.Term.HasValue)
+                        @if (project.CreatedDate.HasValue)
                         {
-                            @project.Term.GetValueOrDefault().ToString("dd-MM-yyyy")
+                            @project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
+                        }
+                    </td>
+                   
+                    <td>
+                        @if (project.ProjectManager != null)
+                        {
+                            @project.ProjectManager?.UserName
                         }
                     </td>
 

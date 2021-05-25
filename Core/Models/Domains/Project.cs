@@ -43,6 +43,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Uwagi / komentarze")]
         public string Comment { get; set; }
 
+        [Display(Name = "Klient / Dział")]
+        public string Client { get; set; }
+
         [Display(Name = "działania weryfikacyjne przed uruchomieniem projektu")]
         public string VerificationOperations { get; set; }
 
@@ -56,7 +59,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Faktyczna data zakończenia")]
         public DateTime? FinishedDate { get; set; }
 
-        [Display(Name = "koniec")]
+        [Display(Name = "zrealizowane")]
         public bool IsExecuted { get; set; }
 
 
@@ -68,7 +71,10 @@ namespace MwProject.Core.Models.Domains
         public string Coordinator { get; set; }
 
         [Display(Name = "Kierownik Projektu")]
+        [ForeignKey("ProjectManager")]
         public string ProjectManagerId { get; set; }
+        public ApplicationUser ProjectManager { get; set; }
+
 
         [Column(TypeName = "decimal(18, 2)")]
         [Display(Name = "Wartość")]
@@ -93,6 +99,12 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Nowy Asortyment")]
         public bool NewAssortment { get; set; }
+
+
+        [Column(TypeName = "tinyint")]
+        [Display(Name = "Nowy/Modyfikacja")]
+        public int ProductStatus { get; set; }
+
 
         [Required(ErrorMessage = "Pole grupa produktu jest wymagane.")]
         [Display(Name = "Grupa Produktu")]

@@ -8,13 +8,25 @@ namespace MwProject.Core.Models
 {
     public class ProjectsFilter
     {
+        [Display(Name = "Tytuł")]
         public string Title { get; set; }
-        public int CategoryId { get; set; }
-        
-        [Display(Name = "Lp")]
-        public int ordinalNumber { get; set; }
 
-        [Display(Name = "Tylko zrealizowane")]
-        public bool IsExecuted { get; set; }
+        [Display(Name = "Klient")]
+        public string Client { get; set; }
+
+        [Display(Name = "Kategoria")]
+        public int CategoryId { get; set; }
+
+        [Display(Name = "Numer")]
+        public string Number { get; set; }
+
+        [Display(Name = "Lp")]
+        public int? ordinalNumber { get; set; }
+
+        [Display(Name = "ukryj zrealizowane")]
+        public bool IsExecuted { get; set; } = true;
+
+        [Display(Name = "Kierownik Projektu")]
+        public string ProjectManagerId { get; set; }
     }
 }

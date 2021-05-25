@@ -28,17 +28,26 @@
     <form id="filterForm" class="row gy-2 gx-3 align-items-center">
 
 
-        <div class="col-2">
+        <div class="col-1">
+            @Html.LabelFor(x => x.ProjectsFilter.ordinalNumber)
             @Html.TextBoxFor(x => x.ProjectsFilter.ordinalNumber,
               new { @class = "form-control", placeholder = "Lp" })
         </div>
 
-        <div class="col-4">
+        <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.Number)
+            @Html.TextBoxFor(x => x.ProjectsFilter.Number,
+              new { @class = "form-control", placeholder = "Numer" })
+        </div>
+
+        <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.Title)
             @Html.TextBoxFor(x => x.ProjectsFilter.Title,
               new { @class = "form-control", placeholder = "Tytuł" })
         </div>
 
         <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.CategoryId)
             @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
                new SelectList(Model.Categories, "Id", "Name"),
                " -- wszystkie kategorie -- ",
@@ -46,12 +55,24 @@
         </div>
 
         <div class="col-3">
-            <div class="form-check">
-                @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted,
-                   new { @class = "form-check-label" }
-                   )
-                @Html.LabelFor(x => x.ProjectsFilter.IsExecuted)
-            </div>
+            @Html.LabelFor(x => x.ProjectsFilter.ProjectManagerId)
+            @Html.DropDownListFor(x => x.ProjectsFilter.ProjectManagerId,
+               new SelectList(Model.ApplicationUsers, "Id", "UserName"),
+               " -- wszystkie kierownicy -- ",
+               new { @class = "form-control" })
+        </div>
+
+        <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.Client)
+            @Html.TextBoxFor(x => x.ProjectsFilter.Client,
+              new { @class = "form-control", placeholder = "Klient" })
+        </div>
+
+
+        <div class="form-check form-switch mb-3 col-2">
+            <br>
+            @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.ProjectsFilter.IsExecuted, new { @class = "form-check-label" })
         </div>
 
         <div class="col-1">

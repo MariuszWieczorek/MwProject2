@@ -86,6 +86,7 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.PurposeOfTheProject)
                 .Include(x => x.ViabilityOfTheProject)
                 .Include(x => x.CompetitivenessOfTheProject)
+                .Include(x => x.ProjectManager) 
                 .Single(x => x.Id == id);
 
             if (user.CanSeeAllProject == false && user.Id != userId)
@@ -100,6 +101,8 @@ namespace MwProject.Persistence.Repositories
 
             var projects = _context.Projects
                 .Include(x => x.Category)
+                .Include(x => x.User)
+                .Include(x => x.ProjectManager)
                 .AsQueryable();
                 
 
@@ -107,16 +110,26 @@ namespace MwProject.Persistence.Repositories
                 projects = projects.Where(x => x.UserId == userId);
 
             if (projectsFilter.IsExecuted == true)
-                projects = projects.Where(x => x.IsExecuted == projectsFilter.IsExecuted);
+                projects = projects.Where(x => x.IsExecuted == false);
+            
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
-            if (projectsFilter.ordinalNumber != 0)
+            if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
                 projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
 
             if (!string.IsNullOrWhiteSpace(projectsFilter.Title))
                 projects = projects.Where(x => x.Title.Contains(projectsFilter.Title));
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.Number))
+                projects = projects.Where(x => x.Number.Contains(projectsFilter.Number));
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.Client))
+                projects = projects.Where(x => x.Client.Contains(projectsFilter.Client));
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
+                projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
             if (pagingInfo != null)
             {
@@ -151,9 +164,11 @@ namespace MwProject.Persistence.Repositories
             if (categoryId != 0)
                 projects = projects.Where(x => x.CategoryId == categoryId);
 
+            if (!string.IsNullOrWhiteSpace(projectFilter.ProjectManagerId))
+                projects = projects.Where(x => x.Title.Contains(projectFilter.ProjectManagerId));
+
             if (!string.IsNullOrWhiteSpace(projectFilter.Title))
                 projects = projects.Where(x => x.Title.Contains(projectFilter.Title));
-
 
             return projects.Count();
         }
@@ -186,8 +201,6 @@ namespace MwProject.Persistence.Repositories
                 projectToUpdate.CategoryId = project.CategoryId;
 
             projectToUpdate.Term = project.Term;
-            projectToUpdate.NewProduct = project.NewProduct;
-            projectToUpdate.NewAssortment = project.NewAssortment;
             projectToUpdate.Value = project.Value;
 
             if (project.ProductGroupId != 0)
@@ -206,7 +219,9 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
             projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
             projectToUpdate.VerificationOperations = project.VerificationOperations;
-
+            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+            projectToUpdate.Client = project.Client;
+            projectToUpdate.ProductStatus = project.ProductStatus;
         }
 
 

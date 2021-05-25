@@ -54,7 +54,8 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
             int numberOfRecords = _projectService.GetNumberOfRecords(new ProjectsFilter(), categoryId);
-            
+            var applicationUsers = _userService.GetUsers();
+
             var projects = _projectService.GetProjects(
                 new ProjectsFilter(),
                 new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage },
@@ -68,7 +69,8 @@ namespace MwProject.Controllers
                 Categories = _categoryService.GetCategories(),
                 Projects = projects,
                 PagingInfo = new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                ApplicationUsers = applicationUsers
             };
 
             return View(vm);
@@ -219,6 +221,8 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
 
+            var currentUser = _userService.GetUser(userId);
+
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
 
             var applicationUsers = _userService.GetUsers();
@@ -232,6 +236,7 @@ namespace MwProject.Controllers
                     ProductGroups = _productGroupService.GetProductGroups(),
                     RankingCategories = rankingCategories,
                     ApplicationUsers = applicationUsers,
+                    CurrentUser = currentUser,
                     Heading = project.Id == 0 ?
                       "Nowy Projekt" :
                      $"Edycja Projektu: {project.Number}"

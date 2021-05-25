@@ -191,7 +191,13 @@ namespace MwProject.Persistence.Services
             int rankingOfUsedProductionCapability = 0;
             decimal percentageOfUsedProductionCapability = 0M;
             int estimatedPaybackTimeInMonths = 0;
-            decimal estimatedCostOfProject = selectedProject.EstimatedCostOfProject;
+            //decimal estimatedCostOfProject = selectedProject.EstimatedCostOfProject;
+            
+            decimal estimatedCostOfProject = selectedProject.ProjectRequirements
+                .Where(x=>x.Requirement.Type==(int)RequirementType.Economic)
+                .Sum(x => x.Value);
+            
+
             decimal firstYearOfSalesValue = 0M;
             decimal firstYearOfSalesPrice = 0M;
             decimal firstYearOfSalesQty = 0M;
