@@ -24,9 +24,9 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.GetProjects(projectsFilter, pagingInfo, categoryId, userId);
         }
 
-        public int GetNumberOfRecords(ProjectsFilter projectsFilter, int categoryId)
+        public int GetNumberOfRecords(ProjectsFilter projectsFilter, int categoryId, string userId)
         {
-            return _unitOfWork.Project.GetNumberOfRecords(projectsFilter, categoryId);
+            return _unitOfWork.Project.GetNumberOfRecords(projectsFilter, categoryId, userId);
         }
 
         public IEnumerable<Category> GetUsedCategories()

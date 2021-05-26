@@ -29,7 +29,7 @@ namespace MwProject.Persistence.Services
 
         public IEnumerable<ApplicationUser> GetUsers()
         {
-            return _unitOfWork.UserRepository.GetUsers();
+            return _unitOfWork.UserRepository.GetUsers().OrderBy(x=>x.UserName);
         }
 
         public void UpdateUser(ApplicationUser user)

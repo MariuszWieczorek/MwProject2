@@ -78,7 +78,19 @@ namespace MwProject
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
-                
+
+            // dodana obs³uga sesji
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+            /*
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            */
 
         }
 
@@ -97,6 +109,12 @@ namespace MwProject
                 // You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // dodana obs³uga sesji
+            // Kolejnoœæ oprogramowania poœrednicz¹cego jest wa¿na.
+            // Wywo³aj UseSession wywo³anie po i przed UseRouting UseEndpoints. 
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

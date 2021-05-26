@@ -17,7 +17,7 @@ namespace MwProject.Core.Services
         void UpdateProject(Project project, string userId);
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);
-        int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId);
+        int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId, string userId);
         void AddTechnicalPropertiesToProject(Project project);
         void AddQualityRequirementsToProject(Project project);
         void AddEconomicRequirementsToProject(Project project);

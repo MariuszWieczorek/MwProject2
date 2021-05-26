@@ -141,6 +141,8 @@ namespace MwProject.Persistence.Repositories
             //  .OrderByDescending(x=>x.PriorityOfProject)                    
             // .OrderBy(x => x.OrdinalNumber)
 
+
+
             return projects
                 .OrderByDescending(x => x.PriorityOfProject)
                 .ThenBy(x => x.OrdinalNumber)
@@ -150,26 +152,43 @@ namespace MwProject.Persistence.Repositories
 
 
 
-        public int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId)
+        public int GetNumberOfRecords(ProjectsFilter projectsFilter, int categoryId, string userId)
         {
+            var user = _context.Users.Single(x => x.Id == userId);
+
             var projects = _context.Projects
-                .Include(x => x.Category).AsQueryable();
+                .Include(x => x.Category)
+                .Include(x => x.User)
+                .Include(x => x.ProjectManager)
+                .AsQueryable();
 
-            if (projectFilter.IsExecuted == true)
-                projects = projects.Where(x => x.IsExecuted == projectFilter.IsExecuted);
 
-            if (projectFilter.CategoryId != 0)
-                projects = projects.Where(x => x.CategoryId == projectFilter.CategoryId);
+            if (user.CanSeeAllProject == false)
+                projects = projects.Where(x => x.UserId == userId);
 
-            if (categoryId != 0)
-                projects = projects.Where(x => x.CategoryId == categoryId);
+            if (projectsFilter.IsExecuted == true)
+                projects = projects.Where(x => x.IsExecuted == false);
 
-            if (!string.IsNullOrWhiteSpace(projectFilter.ProjectManagerId))
-                projects = projects.Where(x => x.Title.Contains(projectFilter.ProjectManagerId));
 
-            if (!string.IsNullOrWhiteSpace(projectFilter.Title))
-                projects = projects.Where(x => x.Title.Contains(projectFilter.Title));
+            if (projectsFilter.CategoryId != 0)
+                projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
+            if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
+                projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.Title))
+                projects = projects.Where(x => x.Title.Contains(projectsFilter.Title));
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.Number))
+                projects = projects.Where(x => x.Number.Contains(projectsFilter.Number));
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.Client))
+                projects = projects.Where(x => x.Client.Contains(projectsFilter.Client));
+
+            if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
+                projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
+
+           
             return projects.Count();
         }
 

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Services;
 using MwProject.Core.ViewModels;
+using MwProject.Helpers;
 using MwProject.Persistence.Extensions;
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,7 @@ namespace MwProject.Controllers
         private readonly IRankingCategoryService _rankingCategoryService;
         private readonly IRankingElementService _rankingElementService;
 
-        private readonly int _itemPerPage = 200;
+        private readonly int _itemPerPage = 10;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public ProjectController(IProjectService projectService,
@@ -53,11 +55,23 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
-            int numberOfRecords = _projectService.GetNumberOfRecords(new ProjectsFilter(), categoryId);
             var applicationUsers = _userService.GetUsers();
 
+            //HttpContext.Session.SetInt32("age", 20);
+            //HttpContext.Session.SetString("username", "abc");
+
+            ProjectsFilter projectFilter = HttpContext.Session.GetObjectFromJson<ProjectsFilter>("ProjectsFilter");
+            string a = HttpContext.Session.GetString("username");
+
+            if (projectFilter==null)
+            {
+                projectFilter = new();
+            }
+
+            int numberOfRecords = _projectService.GetNumberOfRecords(projectFilter, categoryId, userId);
+
             var projects = _projectService.GetProjects(
-                new ProjectsFilter(),
+                projectFilter,
                 new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage },
                 categoryId,
                 userId
@@ -65,7 +79,7 @@ namespace MwProject.Controllers
 
             var vm = new ProjectsViewModel()
             {
-                ProjectsFilter = new ProjectsFilter(),
+                ProjectsFilter = projectFilter,
                 Categories = _categoryService.GetCategories(),
                 Projects = projects,
                 PagingInfo = new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
@@ -76,6 +90,9 @@ namespace MwProject.Controllers
             return View(vm);
         }
 
+
+
+
         // akcja wywoływana w widoku Projects po kliknięciu na submit służącym do filtrowania zadań
         // wersja bez przeładowywania strony
 
@@ -85,42 +102,46 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
 
-            int numberOfRecords = _projectService.GetNumberOfRecords(viewModel.ProjectsFilter, 0);
+            int numberOfRecords = _projectService.GetNumberOfRecords(viewModel.ProjectsFilter, 0, userId);
+
+            var pagingInfo = new PagingInfo() { CurrentPage = 1, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords };
 
             var projects = _projectService.GetProjects(
                 viewModel.ProjectsFilter,
-                viewModel.PagingInfo,
+                pagingInfo,
                 0,
                 userId
                );
-          
 
+            
             var vm = new ProjectsViewModel()
             {
-                ProjectsFilter = new ProjectsFilter(),
+                ProjectsFilter = viewModel.ProjectsFilter,
                 Categories = _categoryService.GetCategories(),
                 Projects = projects,
-                PagingInfo = new PagingInfo() { CurrentPage = 1, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
+                PagingInfo = pagingInfo,
                 CurrentUser = currentUser
             };
+
+            // zapisujemy w sesji ustawienia filtra
+            HttpContext.Session.SetObjectAsJson("ProjectsFilter",viewModel.ProjectsFilter);
+            HttpContext.Session.SetString("username", "abc");
 
             return PartialView("_ProjectsTablePartial", vm);
         }
 
         #endregion
 
+  
+
+
         #region Pojedynczy projekt
         public IActionResult Project(int id, string tab)
         {
             var userId = User.GetUserId();
-            
             var currentUser = _userService.GetUser(userId);
-
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
-
             var applicationUsers = _userService.GetUsers();
-
-            //var rankkingElements = _rankingElementService.GetRankingElement
 
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
@@ -131,7 +152,7 @@ namespace MwProject.Controllers
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();
             ApplicationUser calculationConfirmedBy = new();
-            ApplicationUser estiamtedSalesConfirmedBy = new();
+            ApplicationUser estimatedSalesConfirmedBy = new();
             ApplicationUser generalRequirementsConfirmedBy = new();
             ApplicationUser qualityRequirementsConfirmedBy = new();
             ApplicationUser economicRequirementsConfirmedBy = new();
@@ -157,7 +178,7 @@ namespace MwProject.Controllers
 
             if (selectedProject.EstimatedSalesConfirmedBy != null)
             {
-                estiamtedSalesConfirmedBy = _userService.GetUser(selectedProject.EstimatedSalesConfirmedBy);
+                estimatedSalesConfirmedBy = _userService.GetUser(selectedProject.EstimatedSalesConfirmedBy);
             }
 
             if (selectedProject.GeneralRequirementsConfirmedBy != null)
@@ -196,7 +217,7 @@ namespace MwProject.Controllers
                 AcceptedBy = acceptedBy,
                 ConfirmedBy = confirmedBy,
                 CalculationConfirmedBy = calculationConfirmedBy,
-                EstimatedSalesConfirmedBy = estiamtedSalesConfirmedBy,
+                EstimatedSalesConfirmedBy = estimatedSalesConfirmedBy,
                 GeneralRequirementsConfirmedBy = generalRequirementsConfirmedBy,
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
@@ -217,49 +238,49 @@ namespace MwProject.Controllers
         #region update-project, delete-project
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Project(Project project)
+        public IActionResult Project(ProjectViewModel projectViewModel)
         {
+            var project = projectViewModel.Project;
             var userId = User.GetUserId();
-
             var currentUser = _userService.GetUser(userId);
 
-            var rankingCategories = _rankingCategoryService.GetRankingCategories();
-
-            var applicationUsers = _userService.GetUsers();
 
             if (!ModelState.IsValid)
             {
+               
                 var vm = new ProjectViewModel()
                 {
-                    Project = project,
+                    Project = projectViewModel.Project,
                     Categories = _categoryService.GetCategories(),
                     ProductGroups = _productGroupService.GetProductGroups(),
-                    RankingCategories = rankingCategories,
-                    ApplicationUsers = applicationUsers,
+                    RankingCategories = projectViewModel.RankingCategories,
+                    ApplicationUsers = projectViewModel.ApplicationUsers,
                     CurrentUser = currentUser,
-                    Heading = project.Id == 0 ?
-                      "Nowy Projekt" :
-                     $"Edycja Projektu: {project.Number}"
+                    Heading = projectViewModel.Project.Id == 0 ? "Nowy Projekt" : 
+                        $"lp: {projectViewModel.Project.OrdinalNumber} numer: {projectViewModel.Project.Number}",
+                    AcceptedBy = projectViewModel.AcceptedBy,
+                    ConfirmedBy = projectViewModel.ConfirmedBy,
+                    CalculationConfirmedBy = projectViewModel.CalculationConfirmedBy,
+                    EstimatedSalesConfirmedBy = projectViewModel.EstimatedSalesConfirmedBy,
+                    GeneralRequirementsConfirmedBy = projectViewModel.GeneralRequirementsConfirmedBy,
+                    QualityRequirementsConfirmedBy = projectViewModel.QualityRequirementsConfirmedBy,
+                    EconomicRequirementsConfirmedBy = projectViewModel.EconomicRequirementsConfirmedBy,
+                    TechnicalPropertiesConfirmedBy = projectViewModel.TechnicalPropertiesConfirmedBy,
+                    ProjectManager = projectViewModel.ProjectManager
                 };
-
+                
+                // gdy nie przeszła walidacja wracamy do ekranu edycji
                 return View("Project", vm);
             }
 
-
-
+            // jeżeli wszystko ok to zapisujemy projekt
             if (project.Id == 0)
                 _projectService.AddProject(project);
             else
                 _projectService.UpdateProject(project,userId);
-
-            if (project.Id == 0)
-            {
-
-            }
-
+                    
             return RedirectToAction("Projects", "Project");
         }
-
 
         [HttpPost]
         public IActionResult DeleteProject(int id)

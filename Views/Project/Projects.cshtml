@@ -1,6 +1,12 @@
 ﻿@model MwProject.Core.ViewModels.ProjectsViewModel
+@using Microsoft.AspNetCore.Http;
+@using MwProject.Helpers;
+@using MwProject.Core.Models;
 
 @{
+
+    ProjectsFilter projectFilter;
+    projectFilter = SessionHelper.GetObjectFromJson<ProjectsFilter>(Context.Session, "ProjectsFilter");
     ViewBag.Title = "Projekty";
 }
 
