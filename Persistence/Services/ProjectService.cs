@@ -386,5 +386,11 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.WithdrawConfirmationOfGeneralRequirements(id, userId);
             _unitOfWork.Complete();
         }
+
+        public void AddGeneralRequirementsToProject(Project project)
+        {
+            _unitOfWork.Project.AddGeneralRequirementsToProject(project);
+            _unitOfWork.Complete();
+        }
     }
 }

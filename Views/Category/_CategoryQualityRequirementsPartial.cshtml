@@ -1,19 +1,21 @@
 ﻿@model MwProject.Core.ViewModels.CategoryViewModel
+@using MwProject.Core.Models
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
 
 @{
-    var requirements = Model.Category.CategoryRequirements.Where(x=>x.Requirement.Type == 2).OrderBy(x => x.OrdinalNumber);
+    int typeOfRequirement = (int)RequirementType.Quality;
+    var requirements = Model.Category.CategoryRequirements.Where(x => x.Requirement.Type == typeOfRequirement).OrderBy(x => x.OrdinalNumber);
 }
 
 <div class="row">
     <div class="row g-0">
         <div class="col-12">
-            <h4>Wymagania Jakościowe</h4>
+            <h4>domyślne informacje jakościowe</h4>
         </div>
 
         <div class="col-12">
             <button class="btn btn-success btn-sm"
-                    onclick='window.location.href = "@Url.Action("CategoryRequirement","CategoryRequirement",new { categoryId = Model.Category.Id, type = 2})"'>
+                    onclick='window.location.href = "@Url.Action("CategoryRequirement","CategoryRequirement",new { categoryId = Model.Category.Id, type = typeOfRequirement})"'>
                 Dodaj
             </button>
         </div>
@@ -43,7 +45,7 @@
                     <tr>
                         <td>
                             <a class="font-weight-bold"
-                               href="@Url.Action("CategoryRequirement", "CategoryRequirement", new { categoryId = position.CategoryId, id = position.Id, type = 2})">
+                               href="@Url.Action("CategoryRequirement", "CategoryRequirement", new { categoryId = position.CategoryId, id = position.Id, type = typeOfRequirement})">
                                 <strong>
                                     @position.OrdinalNumber
                                 </strong>
@@ -52,7 +54,7 @@
 
                         <td>
                             <a class="font-weight-bold"
-                               href="@Url.Action("CategoryRequirement", "CategoryRequirement", new { categoryId = position.CategoryId, id = position.Id, type = 2})">
+                               href="@Url.Action("CategoryRequirement", "CategoryRequirement", new { categoryId = position.CategoryId, id = position.Id, type = typeOfRequirement})">
                                 <strong>
                                     @position.Requirement.Name
                                 </strong>
@@ -98,7 +100,7 @@
 @section scripts
 {
     <script type="text/javascript">
-              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-              // deleteProjectRequirement()
+                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                  // deleteProjectRequirement()
     </script>
 }

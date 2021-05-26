@@ -23,6 +23,8 @@ namespace MwProject.Core
         DbSet<ApplicationUser> Users { get; set; }
         DbSet<RankingCategory>  RankingCategories { get; set; }
         DbSet<RankingElement>   RankingElements { get; set; }
+        DbSet<ProjectTeamMember> ProjectTeamMembers { get; set; }
+
         int SaveChanges();
     }
 }

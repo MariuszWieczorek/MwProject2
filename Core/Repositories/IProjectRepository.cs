@@ -21,6 +21,7 @@ namespace MwProject.Core.Repositories
         int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId, string userId);
         void AddTechnicalPropertiesToProject(Project project);
         void AddQualityRequirementsToProject(Project project);
+        void AddGeneralRequirementsToProject(Project project);
         void AddEconomicRequirementsToProject(Project project);
         void AcceptProject(int id, string userId);
         void WithdrawProjectAcceptance(int id, string userId);

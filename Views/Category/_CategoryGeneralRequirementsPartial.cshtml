@@ -3,15 +3,14 @@
 @* Widok częściowy z wymaganiami powiązanymi z projektem *@
 
 @{
-    int typeOfRequirement = (int)RequirementType.Economic;
+    int typeOfRequirement = (int)RequirementType.General;
     var requirements = Model.Category.CategoryRequirements.Where(x => x.Requirement.Type == typeOfRequirement).OrderBy(x => x.OrdinalNumber);
 }
-
 
 <div class="row">
     <div class="row g-0">
         <div class="col-12">
-            <h4>domyślne informacje ekonomiczne</h4>
+            <h4>domyślne informacje ogólne</h4>
         </div>
 
         <div class="col-12">
@@ -101,7 +100,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                  // deleteProjectRequirement()
+              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+              // deleteProjectRequirement()
     </script>
 }

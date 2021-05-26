@@ -410,6 +410,24 @@ namespace MwProject.Controllers
         }
 
         [HttpPost]
+        public IActionResult AddGeneralRequirements(int projectId)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var project = _projectService.GetProject(projectId, userId);
+                _projectService.AddGeneralRequirementsToProject(project);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
         public IActionResult AddEconomicRequirements(int projectId)
         {
             try

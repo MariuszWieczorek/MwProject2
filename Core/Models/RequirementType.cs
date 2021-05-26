@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MwProject.Core.Models
 {
-    enum RequirementType
+    public enum RequirementType
     {
         All,        // 0
         Economic,   // 1

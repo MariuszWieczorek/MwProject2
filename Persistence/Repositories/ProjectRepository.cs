@@ -418,5 +418,26 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.GeneralRequirementsConfirmedDate = null;
             projectToUpdate.GeneralRequirementsConfirmedBy = null;
         }
+
+        public void AddGeneralRequirementsToProject(Project project)
+        {
+            var category = _context.Categories
+                            .Include(x => x.CategoryRequirements)
+                            .ThenInclude(x => x.Requirement)
+                            .Single(x => x.Id == project.CategoryId);
+
+            var categoryRequirements = category.CategoryRequirements.Where(x => x.Requirement.Type == (int)RequirementType.General);
+
+            foreach (var requirement in categoryRequirements)
+            {
+                var projectRequitement = new ProjectRequirement()
+                {
+                    ProjectId = project.Id,
+                    RequirementId = requirement.RequirementId,
+                };
+
+                _context.ProjectRequirements.Add(projectRequitement);
+            }
+        }
     }
 }

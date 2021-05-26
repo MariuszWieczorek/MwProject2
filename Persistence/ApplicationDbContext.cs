@@ -12,7 +12,6 @@ namespace MwProject.Data
             : base(options)
         {
         }
-
         public DbSet<Project> Projects { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Calculation> Calculations { get; set; }
@@ -26,6 +25,7 @@ namespace MwProject.Data
         public DbSet<CategoryRequirement> CategoryRequirements { get; set; }
         public DbSet<RankingCategory> RankingCategories { get; set; }
         public DbSet<RankingElement> RankingElements { get; set; }
+        public DbSet<ProjectTeamMember> ProjectTeamMembers { get; set; }
 
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,6 +46,6 @@ namespace MwProject.Data
                 .HasForeignKey(s => s.ViabilityOfTheProjectId);
         }
         */
-        
+
     }
 }

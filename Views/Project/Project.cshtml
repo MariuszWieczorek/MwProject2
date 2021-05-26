@@ -772,6 +772,34 @@
 
             }
 
+        // ------------------------------------------------------------------------------------------------
+            //addProjectGenerallProperties
+            function addProjectGeneralRequirements(projectId, btn) {
+            if (!confirm("Czy na pewno wczytać informacje ogólne ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("AddGeneralRequirements", "Project")",
+                 data: {
+                     projectId: projectId
+                },
+                success: function (data) {
+                    if (data.success) {
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "general" })";
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
 
 
          // ------------------------------------------------------------------------------------------------
