@@ -7,9 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="EmailSender\**" />
+    <Compile Remove="EmailService\**" />
     <Content Remove="EmailSender\**" />
+    <Content Remove="EmailService\**" />
     <EmbeddedResource Remove="EmailSender\**" />
+    <EmbeddedResource Remove="EmailService\**" />
     <None Remove="EmailSender\**" />
+    <None Remove="EmailService\**" />
   </ItemGroup>
 
   <ItemGroup>

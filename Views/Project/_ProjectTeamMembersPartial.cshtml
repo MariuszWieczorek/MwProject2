@@ -1,0 +1,142 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy ze składem zespołu projektowego
+    Wywołany na oknie projektu
+*@
+
+@{
+    var projectTeamMembers = Model.Project.ProjectTeamMembers;
+
+    bool canEdit = Model.CurrentUser.CanEditProjectTeam
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsProjectTeamConfirmed;
+
+    bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmProjectTeam
+        && !Model.Project.IsAccepted
+        && Model.Project.IsProjectTeamConfirmed;
+
+    bool canAccept = Model.CurrentUser.CanConfirmProjectTeam
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsProjectTeamConfirmed;
+}
+
+<div class="m-2">
+
+    <div class="row">
+        <div class="col-11">
+            <div class="mt-2 mb-4 text-muted">
+                <h2>Zespół projektowy</h2>
+            </div>
+        </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/team.png")" style="width: 50px;" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            @if (canEdit)
+            {
+
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("ProjectTeamMember", "ProjectTeamMember", new { projectId = Model.Project.Id })"'>
+                    Dodaj
+                </button>
+            }
+
+            @if (canAccept)
+            {
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="confirmProjectTeam('@Model.Project.Id',this)">
+                    Potwierdź
+                </button>
+            }
+
+            @if (canWithdrawAcceptation)
+            {
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfProjectTeam('@Model.Project.Id',this)">
+                    Wycofaj Potwierdzenie
+                </button>
+            }
+
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        @if (projectTeamMembers != null && projectTeamMembers.Any())
+        {
+
+            <table class="table table-sm table-hover  mt-3 mb-5">
+
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Lp </th>
+                        <th scope="col"> Członek zespołu </th>
+                        <th scope="col"> Rola, przydzielone zadania </th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var position in projectTeamMembers)
+                    {
+                        <tr>
+
+                            <td class="text-muted">
+                                <strong>
+                                    @position.OrdinalNumber
+                                </strong>
+                            </td>
+
+
+                            <td class="text-muted">
+                                @if (canEdit)
+                                {
+                                    <a class="font-weight-bold"
+                                       href="@Url.Action("ProjectTeamMember", "ProjectTeamMember", new { projectId = position.ProjectId, id = position.Id})">
+                                        <strong>
+                                            @position.User.UserName
+                                        </strong>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <strong>
+                                        @position.User.UserName
+                                    </strong>
+                                }
+                            </td>
+
+                            <td class="text-muted"><strong>@position.Description</strong></td>
+
+                            <td align="right">
+                                @if (canEdit)
+                                {
+                                    <button class="btn btn-outline-danger btn-sm"
+                                            onclick="deleteProjectTeamMember('@position.ProjectId','@position.Id',this)">
+                                        Usuń
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+                                                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                  // deleteProjectTeamMember()
+    </script>
+}

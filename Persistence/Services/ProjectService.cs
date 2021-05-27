@@ -392,5 +392,17 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.AddGeneralRequirementsToProject(project);
             _unitOfWork.Complete();
         }
+
+        public void ConfirmProjectTeam(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmProjectTeam(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfProjectTeam(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfProjectTeam(id, userId);
+            _unitOfWork.Complete();
+        }
     }
 }

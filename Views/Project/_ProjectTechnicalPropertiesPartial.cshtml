@@ -6,8 +6,20 @@
 
 @{
     var technicalProperties = Model.Project.ProjectTechnicalProperties;
-    bool canEdit = !Model.Project.IsTechnicalProportiesConfirmed && Model.CurrentUser.CanConfirmTechnicalProperties;
-    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
+
+
+    bool canEdit = Model.CurrentUser.CanEditTechnicalProperties
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsTechnicalProportiesConfirmed;
+
+    bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmTechnicalProperties
+        && !Model.Project.IsAccepted
+        && Model.Project.IsTechnicalProportiesConfirmed;
+
+    bool canAccept = Model.CurrentUser.CanConfirmTechnicalProperties
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsTechnicalProportiesConfirmed;
+
 }
 
 <div class="m-2">
@@ -35,34 +47,32 @@
                         onclick="addProjectTechnicalProperties('@Model.Project.Id',this)">
                     Wczytaj
                 </button>
+            }
 
+            @if (canEdit)
+            {
                 <button class="btn btn-outline-success btn-sm"
                         onclick='window.location.href = "@Url.Action("ProjectTechnicalProperty", "ProjectTechnicalProperty", new { projectId = Model.Project.Id })"'>
                     Dodaj
                 </button>
+            }
 
+            @if (canAccept)
+            {
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmTechnicalProperties('@Model.Project.Id',this)">
                     Potwierdź
                 </button>
-
-                @*
-                <button class="btn btn-outline-primary btn-sm mt-3 mb-3"
-                        onclick='window.location.href = "@Url.Action("ProjectTechnicalProperties","ProjectTechnicalProperty", new { projectId = Model.Project.Id })"'>
-                    Edytuj w osobnym oknie
-                </button>
-                    *@
             }
-            else
+            
+            @if (canWithdrawAcceptation)
             {
-                @if (canWithdrawAcceptation)
-                {
-                    <button class="btn btn-outline-warning btn-sm"
-                            onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
-                        Wycofaj Potwierdzenie
-                    </button>
-                }
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
+                    Wycofaj Potwierdzenie
+                </button>
             }
+
         </div>
     </div>
 
@@ -71,7 +81,7 @@
         {
 
             <table class="table table-sm table-hover  mt-3 mb-5">
-                
+
                 <thead class="table-secondary">
                     <tr>
                         <th scope="col" style="width:400px">Parametr </th>
@@ -121,14 +131,14 @@
 
                             }
 
-                        <td class="text-muted"><strong>@exist</strong></td>
-                          
+                            <td class="text-muted"><strong>@exist</strong></td>
+
                             <td class="text-muted">
                                 <strong>
                                     @position.Comment
                                 </strong>
                             </td>
-                          
+
                             <td class="text-muted">
                                 @if (position.ShowValue)
                                 {
@@ -137,7 +147,7 @@
                                     </strong>
                                 }
                             </td>
-                            
+
                             <td align="right">
                                 @if (canEdit)
                                 {
@@ -159,7 +169,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                          // deleteProjectRequirement()
+                                              // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                              // deleteProjectRequirement()
     </script>
 }

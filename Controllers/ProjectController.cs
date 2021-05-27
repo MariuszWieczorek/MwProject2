@@ -655,6 +655,41 @@ namespace MwProject.Controllers
             return Json(new { success = true });
         }
 
+        [HttpPost]
+        public IActionResult ConfirmProjectTeam(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.ConfirmProjectTeam(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult WithdrawConfirmationOfProjectTeam(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.WithdrawConfirmationOfProjectTeam(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+
         #endregion
 
         public string CalculatePriorities()

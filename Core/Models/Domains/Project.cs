@@ -22,6 +22,7 @@ namespace MwProject.Core.Models.Domains
             EstimatedSalesValues = new Collection<EstimatedSalesValue>();
             ProjectRequirements = new Collection<ProjectRequirement>();
             ProjectTechnicalProperties = new Collection<ProjectTechnicalProperty>();
+            ProjectTeamMembers = new Collection<ProjectTeamMember>();
         }
 
         [MaxLength(255)]
@@ -204,6 +205,17 @@ namespace MwProject.Core.Models.Domains
         public bool IsTechnicalProportiesConfirmed { get; set; }
 
 
+        // potwierdzenie zespołu projektowego
+
+        [Display(Name = "Zespół projektowy potwierdzone przez")]
+        public string ProjectTeamConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia zespołu projektowego")]
+        public DateTime? ProjectTeamConfirmedDate { get; set; }
+
+        [Display(Name = "Czy zespół projektowy został potwierdzony")]
+        public bool IsProjectTeamConfirmed { get; set; }
+
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 
@@ -286,6 +298,8 @@ namespace MwProject.Core.Models.Domains
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
         public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
+        
+        public ICollection<ProjectTeamMember> ProjectTeamMembers { get; set; }
 
     }
 }

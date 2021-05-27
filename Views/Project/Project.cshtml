@@ -163,6 +163,19 @@
 
             <li class="nav-item" role="presentation">
                 <button class="nav-link"
+                        id="team-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#team"
+                        type="button"
+                        role="tab"
+                        aria-controls="team"
+                        aria-selected="false">
+                    Zespół
+                </button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
                         id="status-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#status"
@@ -258,6 +271,15 @@
                 }
             </div>
 
+            <!-- zakładka z zespołem -->
+            <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
+                @if (Model.Project.Id != 0)
+                {
+                    <div class="col-12 mt-3 mb-2 border rounded bg-light">
+                        @await Html.PartialAsync("_ProjectTeamMembersPartial", Model)
+                    </div>
+                }
+            </div>
 
             <!-- zakładka ze statusami -->
             <div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
@@ -584,6 +606,37 @@
             }
 
          // ------------------------------------------------------------------------------------------------
+        function deleteProjectTeamMember(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć członka zespołu ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteProjectTeamMember", "ProjectTeamMember")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+         // ------------------------------------------------------------------------------------------------
         function deleteCalculation2(projectId,id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć kalkulację ?"))
                 return;
@@ -850,6 +903,69 @@
                     if (data.success) {
 
                         window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "calculation" })";
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+
+        // ------------------------------------------------------------------------------------------------
+         // confirmProjectTeam
+        function confirmProjectTeam() {
+
+            if (!confirm("Czy potwierdzić skład zespołu projektowego ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmProjectTeam", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "team" })";
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+         // withdrawConfirmationOfProjectTeam
+        function withdrawConfirmationOfProjectTeam() {
+
+            if (!confirm("Czy wycofać potwierdzenie składu zespołu projektowego ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawConfirmationOfProjectTeam", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                        window.location.href = "@Url.Action("Project", "Project",new { id = Model.Project.Id, tab = "team" })";
                     }
                     else {
                         alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');

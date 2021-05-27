@@ -44,6 +44,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "może potwierdzać informacje ogólne")]
         public bool CanConfirmGeneralRequirements { get; set; }
 
+        [Display(Name = "może potwierdzać zespół projektowy")]
+        public bool CanConfirmProjectTeam { get; set; }
+
         [Display(Name = "może akceptować projekt")]
         public bool CanAcceptProject { get; set; }
         
@@ -81,6 +84,9 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "może edytować informacje ogólne")]
         public bool CanEditGeneralRequirements { get; set; }
+
+        [Display(Name = "może edytować zespół projektowy")]
+        public bool CanEditProjectTeam { get; set; }
 
         public ApplicationUser()
         {

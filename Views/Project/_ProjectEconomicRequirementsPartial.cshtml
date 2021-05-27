@@ -7,8 +7,19 @@
 @{
     int typeOfRequirement = 1;
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
-    bool canEdit = !Model.Project.IsEconomicRequirementsConfirmed && Model.CurrentUser.CanEditEconomicRequirements;
-    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
+
+    bool canEdit = Model.CurrentUser.CanEditEconomicRequirements
+      && !Model.Project.IsAccepted
+      && !Model.Project.IsEconomicRequirementsConfirmed;
+
+    bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmEconomicRequirements
+        && !Model.Project.IsAccepted
+        && Model.Project.IsEconomicRequirementsConfirmed;
+
+    bool canAccept = Model.CurrentUser.CanConfirmEconomicRequirements
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsEconomicRequirementsConfirmed;
+
     var totalCost = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement).Sum(x => x.Value);
 }
 
@@ -36,34 +47,33 @@
                         onclick="addProjectEconomicRequirements('@Model.Project.Id',this)">
                     Wczytaj
                 </button>
+            }
 
+            @if (canEdit)
+            {
                 <button class="btn btn-outline-success btn-sm"
                         onclick='window.location.href = "@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
                     Dodaj
                 </button>
+            }
 
+            @if (canAccept)
+            {
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmEconomicRequirements('@Model.Project.Id',this)">
                     Potwierdź
                 </button>
+            }
 
-                @*
-                <button class="btn btn-outline-primary btn-sm mt-3 mb-3"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirements","ProjectRequirement", new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
-                    Edytuj w osobnym oknie
-                </button>
-                    *@
-            }
-            else
+
+            @if (canWithdrawAcceptation)
             {
-                @if (canWithdrawAcceptation)
-                {
-                    <button class="btn btn-outline-warning btn-sm"
-                            onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
-                        Wycofaj Potwierdzenie
-                    </button>
-                }
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
+                    Wycofaj Potwierdzenie
+                </button>
             }
+
         </div>
     </div>
 
@@ -73,7 +83,7 @@
             {
 
                 <table class="table table-sm table-hover mt-3 mb-5">
-                    
+
                     <thead class="table-secondary">
                         <tr>
                             <th scope="col" style="width:400px">Parametr </th>
@@ -167,7 +177,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                                                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                                                      // deleteProjectRequirement()
+                                                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                                          // deleteProjectRequirement()
     </script>
 }

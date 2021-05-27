@@ -1,5 +1,5 @@
 ﻿@model MwProject.Core.ViewModels.ProjectViewModel
-@* 
+@*
     Widok częściowy z listą wymagań Quality powiązanych z projektem
     do umieszczenia na widoku projektu
 *@
@@ -7,8 +7,18 @@
 @{
     int typeOfRequirement = 2;
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
-    bool canEdit = !Model.Project.IsQualityRequirementsConfirmed && Model.CurrentUser.CanEditQualityRequirements;
-    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
+
+    bool canEdit = Model.CurrentUser.CanEditQualityRequirements
+         && !Model.Project.IsAccepted
+         && !Model.Project.IsQualityRequirementsConfirmed;
+
+    bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmQualityRequirements
+        && !Model.Project.IsAccepted
+        && Model.Project.IsQualityRequirementsConfirmed;
+
+    bool canAccept = Model.CurrentUser.CanConfirmQualityRequirements
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsQualityRequirementsConfirmed;
 }
 
 <div class="m-2">
@@ -38,34 +48,32 @@
                         onclick="addProjectQualityRequirements('@Model.Project.Id',this)">
                     Wczytaj
                 </button>
+            }
 
+            @if (canEdit)
+            {
                 <button class="btn btn-outline-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirement","ProjectRequirement",new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
+                        onclick='window.location.href = "@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
                     Dodaj
                 </button>
+            }
 
+            @if (canAccept)
+            {
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmQualityRequirements('@Model.Project.Id',this)">
                     Potwierdź
                 </button>
-                
-                @*
-                <button class="btn btn-outline-primary btn-sm mt-3 mb-3"
-                        onclick='window.location.href = "@Url.Action("ProjectRequirements","ProjectRequirement", new { projectId = Model.Project.Id, type = typeOfRequirement })"'>
-                    Edytuj w osobnym oknie
-                </button>
-                    *@
             }
-            else
+
+            @if (canWithdrawAcceptation)
             {
-                @if (canWithdrawAcceptation)
-                {
-                    <button class="btn btn-outline-warning btn-sm"
-                            onclick="withdrawConfirmationOfQualityRequirements('@Model.Project.Id',this)">
-                        Wycofaj Potwierdzenie
-                    </button>
-                }
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfQualityRequirements('@Model.Project.Id',this)">
+                    Wycofaj Potwierdzenie
+                </button>
             }
+
 
 
         </div>
@@ -75,86 +83,86 @@
         @if (requirements != null && requirements.Any())
         {
 
-        <table class="table table-sm table-hover mt-3 mb-5">
-            
-            <thead class="table-secondary">
-                <tr>
-                    <th scope="col" style="width:400px">Parametr </th>
-                    <th scope="col" style="width:60px"> T/N </th>
-                    <th scope="col"> Komentarz </th>
-                    <th scope="col"> Wartość </th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
+            <table class="table table-sm table-hover mt-3 mb-5">
 
-            <tbody>
-                @foreach (var position in requirements)
-                {
-                <tr>
-                    <td class="text-muted">
-                        @if (canEdit)
-                        {
-                            <a class="font-weight-bold"
-                               href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = typeOfRequirement })">
-                                <strong>
-                                    @position.Requirement.Name
-                                </strong>
-                            </a>
-                        }
-                        else
-                        {
-                            <strong>
-                                @position.Requirement.Name
-                            </strong>
-                        }
-                    </td>
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col" style="width:400px">Parametr </th>
+                        <th scope="col" style="width:60px"> T/N </th>
+                        <th scope="col"> Komentarz </th>
+                        <th scope="col"> Wartość </th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
 
-                    @{
-                        string exist;
-                        switch (position.YesNo)
-                        {
-                            case 1:
-                                exist = "TAK";
-                                break;
-                            case 2:
-                                exist = "NIE";
-                                break;
-                            default:
-                                exist = "";
-                                break;
-                        }
+                <tbody>
+                    @foreach (var position in requirements)
+                    {
+                        <tr>
+                            <td class="text-muted">
+                                @if (canEdit)
+                                {
+                                    <a class="font-weight-bold"
+                                       href="@Url.Action("ProjectRequirement", "ProjectRequirement", new { projectId = position.ProjectId, id = position.Id, type = typeOfRequirement })">
+                                        <strong>
+                                            @position.Requirement.Name
+                                        </strong>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <strong>
+                                        @position.Requirement.Name
+                                    </strong>
+                                }
+                            </td>
 
-                        
+                            @{
+                                string exist;
+                                switch (position.YesNo)
+                                {
+                                    case 1:
+                                        exist = "TAK";
+                                        break;
+                                    case 2:
+                                        exist = "NIE";
+                                        break;
+                                    default:
+                                        exist = "";
+                                        break;
+                                }
+
+
+                            }
+
+                            <td class="text-muted"><strong>@exist</strong></td>
+
+                            <td>@position.Comment</td>
+
+                            <td class="text-muted">
+                                @if (position.ShowValue)
+                                {
+                                    <strong>
+                                        @position.Value.ToString("n")
+                                    </strong>
+                                }
+                            </td>
+
+                            <td align="right">
+                                @if (canEdit)
+                                {
+                                    <button class="btn btn-outline-danger btn-sm"
+                                            onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
+                                        Usuń
+                                    </button>
+                                }
+
+                            </td>
+                        </tr>
                     }
 
-                    <td class="text-muted"><strong>@exist</strong></td>
-
-                    <td>@position.Comment</td>
-
-                    <td class="text-muted">
-                        @if (position.ShowValue)
-                        {
-                            <strong>
-                                @position.Value.ToString("n")
-                            </strong>
-                        }
-                    </td>
-
-                    <td align="right">
-                        @if (canEdit)
-                        {
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteProjectRequirement('@position.ProjectId','@position.Id',this)">
-                                Usuń
-                            </button>
-                        }
-
-                    </td>
-                </tr>
-                }
-
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         }
     </div>
 </div>
@@ -162,7 +170,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                                  // deleteProjectRequirement()
+                                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                          // deleteProjectRequirement()
     </script>
 }

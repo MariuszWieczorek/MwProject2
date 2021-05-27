@@ -1,0 +1,78 @@
+﻿@model MwProject.Core.ViewModels.ProjectTeamMemberViewModel
+
+@*
+    Okno do edycji informacji technicznych przypisanych do projektu
+    Wywołane z okna projektu
+*@
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h2>@Model.Heading</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <!-- po submit wywoła się metoda ProjectTeamMember w kontrolerze ProjectTeamMember typu HttpPost -->
+        @using (Html.BeginForm("ProjectTeamMember", "ProjectTeamMember"))
+        {
+            @Html.AntiForgeryToken()
+
+            <!-- Wyświetlenie podsumowania walidacji-->
+            @Html.ValidationSummary()
+
+            if (Model.ProjectTeamMember.Id == 0)
+            {
+                <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
+            }
+
+            @Html.HiddenFor(x => x.ProjectTeamMember.Id)
+            @Html.HiddenFor(x => x.ProjectTeamMember.ProjectId)
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectTeamMember.OrdinalNumber)
+                @Html.TextBoxFor(x => x.ProjectTeamMember.OrdinalNumber,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ProjectTeamMember.OrdinalNumber)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectTeamMember.UserId)
+                @Html.DropDownListFor(x => x.ProjectTeamMember.UserId,
+               new SelectList(Model.ApplicationUsers, "Id", "UserName"),
+               "--- Wybierz członka zespołu ---",
+               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.ProjectTeamMember.UserId)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectTeamMember.Description)
+                @Html.TextAreaFor(x => x.ProjectTeamMember.Description, 10, 40,
+               new { @class = "form-control" })
+            </div>
+
+            <button class="btn btn-primary btn-lg mb-5" type="submit">
+                Zapisz
+            </button>
+        }
+    </div>
+
+
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // w formatowaniu ma być przecinek, a nie kropka
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+        });
+
+    </script>
+}
+

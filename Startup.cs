@@ -53,6 +53,7 @@ namespace MwProject
             services.AddScoped<IRankingCategoryRepository, RankingCategoryRepository>();
             services.AddScoped<IRankingElementRepository, RankingElementRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProjectTeamMemberRepository, ProjectTeamMemberRepository>();
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -68,6 +69,7 @@ namespace MwProject
             services.AddScoped<IRankingCategoryService, RankingCategoryService>();
             services.AddScoped<IRankingElementService, RankingElementService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProjectTeamMemberService, ProjectTeamMemberService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

@@ -3,8 +3,18 @@
 
 @{
     var estimatedSalesValues = Model.Project.EstimatedSalesValues;
-    bool canEdit = !Model.Project.IsEstimatedSalesConfirmed && Model.CurrentUser.CanEditEstimatedSales;
-    bool canWithdrawAcceptation = !Model.Project.IsAccepted;
+
+    bool canEdit = Model.CurrentUser.CanEditEstimatedSales
+      && !Model.Project.IsAccepted
+      && !Model.Project.IsEstimatedSalesConfirmed;
+
+    bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmEstimatedSales
+        && !Model.Project.IsAccepted
+        && Model.Project.IsEstimatedSalesConfirmed;
+
+    bool canAccept = Model.CurrentUser.CanEditEstimatedSales
+        && !Model.Project.IsAccepted
+        && !Model.Project.IsEstimatedSalesConfirmed;
 }
 
 <div class="m-2 ps-2">
@@ -29,26 +39,27 @@
             @if (canEdit)
             {
                 <button class="btn btn-outline-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("EstimatedSalesValue","EstimatedSalesValue",new { projectId = Model.Project.Id })"'>
+                        onclick='window.location.href = "@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = Model.Project.Id })"'>
                     Dodaj
                 </button>
+            }
 
+            @if (canAccept)
+            {
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmEstimatedSales('@Model.Project.Id',this)">
                     Akceptuj
                 </button>
             }
-            else
-            {
 
-                @if (canWithdrawAcceptation)
-                {
-                    <button class="btn btn-outline-warning btn-sm"
-                            onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
-                        Wycofaj Potwierdzenie
-                    </button>
-                }
+            @if (canWithdrawAcceptation)
+            {
+                <button class="btn btn-outline-warning btn-sm"
+                        onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
+                    Wycofaj Potwierdzenie
+                </button>
             }
+            
         </div>
     </div>
 
@@ -74,8 +85,7 @@
                                 @if (canEdit)
                                 {
                                     <strong>
-                                        <a
-                                            href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
+                                        <a href="@Url.Action("EstimatedSalesValue", "EstimatedSalesValue", new { projectId = position.ProjectId, Id = position.Id })">
                                             @position.Year
                                         </a>
                                     </strong>
@@ -87,27 +97,27 @@
                                     </strong>
                                 }
                             </td>
-                            
+
                             <td class="text-muted">
                                 <strong>
                                     @position.Qty.ToString("N")
                                 </strong>
                             </td>
-                            
+
                             <td class="text-muted">
                                 <strong>
                                     @position.Price.ToString("c")
                                 </strong>
                             </td>
-                            
+
                             @{decimal value = Math.Round(position.Qty * position.Price, 2);}
-                            
+
                             <td class="text-muted">
                                 <strong>
                                     @value.ToString("c")
                                 </strong>
                             </td>
-                            
+
                             <td align="right">
                                 @if (canEdit)
                                 {
@@ -147,9 +157,9 @@
                                 @averageQty.ToString("N")
                             </strong>
                         </td>
-                        
+
                         <td> </td>
-                        
+
                         <td>
                             <strong>
                                 @averageValue.ToString("c")
@@ -167,7 +177,7 @@
 @section scripts
 {
     <script type="text/javascript">
-                                          // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
-                                          // deleteEstimatedSalesValue()
+                                                      // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                      // deleteEstimatedSalesValue()
     </script>
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210527110102_ProjectTeemMemberUserIdIntToString")]
+    partial class ProjectTeemMemberUserIdIntToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,9 +185,6 @@ namespace MwProject.Migrations
                     b.Property<bool>("CanConfirmProject")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("CanConfirmProjectTeam")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("CanConfirmQualityRequirements")
                         .HasColumnType("bit");
 
@@ -202,9 +201,6 @@ namespace MwProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanEditGeneralRequirements")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CanEditProjectTeam")
                         .HasColumnType("bit");
 
                     b.Property<bool>("CanEditQualityRequirements")
@@ -600,9 +596,6 @@ namespace MwProject.Migrations
                     b.Property<bool>("IsGeneralRequirementsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsProjectTeamConfirmed")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsQualityRequirementsConfirmed")
                         .HasColumnType("bit");
 
@@ -653,12 +646,6 @@ namespace MwProject.Migrations
 
                     b.Property<string>("ProjectManagerId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ProjectTeamConfirmedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ProjectTeamConfirmedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("PurposeOfTheProjectId")
                         .HasColumnType("int");
@@ -775,9 +762,6 @@ namespace MwProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrdinalNumber")
                         .HasColumnType("int");

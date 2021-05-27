@@ -53,6 +53,8 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.CanConfirmEconomicRequirements = user.CanConfirmEconomicRequirements;
             userToUpdate.CanConfirmTechnicalProperties = user.CanConfirmTechnicalProperties;
             userToUpdate.CanConfirmGeneralRequirements = user.CanConfirmGeneralRequirements;
+            userToUpdate.CanConfirmProjectTeam = user.CanConfirmProjectTeam;      
+
             userToUpdate.AdminRights = user.AdminRights;
             userToUpdate.SuperAdminRights = user.SuperAdminRights;
             userToUpdate.CanModifyProject = user.CanModifyProject;
@@ -64,6 +66,7 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.CanEditEconomicRequirements = user.CanEditEconomicRequirements;
             userToUpdate.CanEditTechnicalProperties = user.CanEditTechnicalProperties;
             userToUpdate.CanEditGeneralRequirements = user.CanEditGeneralRequirements;
+            userToUpdate.CanEditProjectTeam = user.CanEditProjectTeam;
 
             userToUpdate.EmailConfirmed = user.EmailConfirmed;
 

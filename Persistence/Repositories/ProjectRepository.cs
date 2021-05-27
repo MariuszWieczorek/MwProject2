@@ -87,6 +87,8 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ViabilityOfTheProject)
                 .Include(x => x.CompetitivenessOfTheProject)
                 .Include(x => x.ProjectManager) 
+                .Include(x => x.ProjectTeamMembers)
+                .ThenInclude(x => x.User)
                 .Single(x => x.Id == id);
 
             if (user.CanSeeAllProject == false && user.Id != userId)
@@ -131,6 +133,13 @@ namespace MwProject.Persistence.Repositories
             if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
                 projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
+
+            projects = projects
+                .OrderByDescending(x => x.PriorityOfProject)
+                .ThenBy(x => x.OrdinalNumber)
+                .ThenBy(x => x.Number);
+
+
             if (pagingInfo != null)
             {
                 projects = projects
@@ -144,9 +153,6 @@ namespace MwProject.Persistence.Repositories
 
 
             return projects
-                .OrderByDescending(x => x.PriorityOfProject)
-                .ThenBy(x => x.OrdinalNumber)
-                .ThenBy(x => x.Number)
                 .ToList();
         }
 
@@ -438,6 +444,22 @@ namespace MwProject.Persistence.Repositories
 
                 _context.ProjectRequirements.Add(projectRequitement);
             }
+        }
+
+        public void ConfirmProjectTeam(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsProjectTeamConfirmed = true;
+            projectToUpdate.ProjectTeamConfirmedDate = DateTime.Now;
+            projectToUpdate.ProjectTeamConfirmedBy = userId;
+        }
+
+        public void WithdrawConfirmationOfProjectTeam(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsProjectTeamConfirmed = false;
+            projectToUpdate.ProjectTeamConfirmedDate = null;
+            projectToUpdate.ProjectTeamConfirmedBy = null;
         }
     }
 }

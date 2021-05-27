@@ -41,7 +41,7 @@
     </div>
 
     <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.AdminRights, new { @class = "form-check-input"})
+        @Html.CheckBoxFor(x => x.User.AdminRights, new { @class = "form-check-input" })
         @Html.LabelFor(x => x.User.AdminRights, new { @class = "form-check-label" })
         @Html.ValidationMessageFor(x => x.User.AdminRights)
     </div>
@@ -108,6 +108,11 @@
         @Html.ValidationMessageFor(x => x.User.CanConfirmEstimatedSales)
     </div>
 
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanConfirmProjectTeam)
+    </div>
 
 
     <div class="form-check form-switch mt-3 mb-2">
@@ -146,6 +151,11 @@
         @Html.ValidationMessageFor(x => x.User.CanEditEstimatedSales)
     </div>
 
+    <div class="form-check form-switch mt-3 mb-2">
+        @Html.CheckBoxFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-input" })
+        @Html.LabelFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-label" })
+        @Html.ValidationMessageFor(x => x.User.CanEditProjectTeam)
+    </div>
 
     <div class="form-check form-switch mt-3 mb-2">
         @Html.CheckBoxFor(x => x.User.EmailConfirmed, new { @class = "form-check-input" })

@@ -38,6 +38,8 @@ namespace MwProject.Core.Services
         void WithdrawConfirmationOfGeneralRequirements(int id, string userId);
         void ConfirmTechnicalProperties(int id, string userId);
         void WithdrawConfirmationOfTechnicalProperties(int id, string userId);
+        void ConfirmProjectTeam(int id, string userId);
+        void WithdrawConfirmationOfProjectTeam(int id, string userId);
         void CalculatePriorityOfProject(int id, string userId);
         void CalculatePriorities(string userId);
         IEnumerable<Category> GetUsedCategories();

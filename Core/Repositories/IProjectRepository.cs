@@ -39,7 +39,8 @@ namespace MwProject.Core.Repositories
         void WithdrawConfirmationOfGeneralRequirements(int id, string userId);
         void ConfirmTechnicalProperties(int id, string userId);
         void WithdrawConfirmationOfTechnicalProperties(int id, string userId);
-
+        void ConfirmProjectTeam(int id, string userId);
+        void WithdrawConfirmationOfProjectTeam(int id, string userId);
         IEnumerable<Category> GetUsedCategories();
     }
 }
