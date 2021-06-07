@@ -243,30 +243,88 @@ namespace MwProject.Controllers
             var project = projectViewModel.Project;
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
-
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+            var applicationUsers = _userService.GetUsers();
+            
+            ApplicationUser acceptedBy = new();
+            ApplicationUser confirmedBy = new();
+            ApplicationUser calculationConfirmedBy = new();
+            ApplicationUser estimatedSalesConfirmedBy = new();
+            ApplicationUser generalRequirementsConfirmedBy = new();
+            ApplicationUser qualityRequirementsConfirmedBy = new();
+            ApplicationUser economicRequirementsConfirmedBy = new();
+            ApplicationUser technicalPropertiesConfirmedBy = new();
+            ApplicationUser projectManager = new();
 
             if (!ModelState.IsValid)
             {
-               
+
+                if (projectViewModel.Project.AcceptedBy != null)
+                {
+                    acceptedBy = _userService.GetUser(projectViewModel.Project.AcceptedBy);
+                }
+
+                if (projectViewModel.Project.ConfirmedBy != null)
+                {
+                    confirmedBy = _userService.GetUser(projectViewModel.Project.ConfirmedBy);
+                }
+
+                if (projectViewModel.Project.CalculationConfirmedBy != null)
+                {
+                    calculationConfirmedBy = _userService.GetUser(projectViewModel.Project.CalculationConfirmedBy);
+                }
+
+                if (projectViewModel.Project.EstimatedSalesConfirmedBy != null)
+                {
+                    estimatedSalesConfirmedBy = _userService.GetUser(projectViewModel.Project.EstimatedSalesConfirmedBy);
+                }
+
+                if (projectViewModel.Project.GeneralRequirementsConfirmedBy != null)
+                {
+                    generalRequirementsConfirmedBy = _userService.GetUser(projectViewModel.Project.GeneralRequirementsConfirmedBy);
+                }
+
+                if (projectViewModel.Project.QualityRequirementsConfirmedBy != null)
+                {
+                    qualityRequirementsConfirmedBy = _userService.GetUser(projectViewModel.Project.QualityRequirementsConfirmedBy);
+                }
+
+                if (projectViewModel.Project.EconomicRequirementsConfirmedBy != null)
+                {
+                    economicRequirementsConfirmedBy = _userService.GetUser(projectViewModel.Project.EconomicRequirementsConfirmedBy);
+                }
+
+                if (projectViewModel.Project.TechnicalProportiesConfirmedBy != null)
+                {
+                    technicalPropertiesConfirmedBy = _userService.GetUser(projectViewModel.Project.TechnicalProportiesConfirmedBy);
+                }
+
+                if (projectViewModel.Project.ProjectManagerId != null)
+                {
+                    projectManager = _userService.GetUser(projectViewModel.Project.ProjectManagerId);
+                }
+
                 var vm = new ProjectViewModel()
                 {
                     Project = projectViewModel.Project,
                     Categories = _categoryService.GetCategories(),
                     ProductGroups = _productGroupService.GetProductGroups(),
-                    RankingCategories = projectViewModel.RankingCategories,
-                    ApplicationUsers = projectViewModel.ApplicationUsers,
+                    RankingCategories = rankingCategories,
+                    ApplicationUsers = applicationUsers,
                     CurrentUser = currentUser,
                     Heading = projectViewModel.Project.Id == 0 ? "Nowy Projekt" : 
                         $"lp: {projectViewModel.Project.OrdinalNumber} numer: {projectViewModel.Project.Number}",
-                    AcceptedBy = projectViewModel.AcceptedBy,
-                    ConfirmedBy = projectViewModel.ConfirmedBy,
-                    CalculationConfirmedBy = projectViewModel.CalculationConfirmedBy,
-                    EstimatedSalesConfirmedBy = projectViewModel.EstimatedSalesConfirmedBy,
-                    GeneralRequirementsConfirmedBy = projectViewModel.GeneralRequirementsConfirmedBy,
-                    QualityRequirementsConfirmedBy = projectViewModel.QualityRequirementsConfirmedBy,
-                    EconomicRequirementsConfirmedBy = projectViewModel.EconomicRequirementsConfirmedBy,
-                    TechnicalPropertiesConfirmedBy = projectViewModel.TechnicalPropertiesConfirmedBy,
-                    ProjectManager = projectViewModel.ProjectManager
+                    
+                    AcceptedBy = acceptedBy,
+                    ConfirmedBy = confirmedBy,
+                    CalculationConfirmedBy = calculationConfirmedBy,
+                    EstimatedSalesConfirmedBy = estimatedSalesConfirmedBy,
+                    GeneralRequirementsConfirmedBy = generalRequirementsConfirmedBy,
+                    QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
+                    EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
+                    TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
+                    ProjectManager = projectManager
+
                 };
                 
                 // gdy nie przeszła walidacja wracamy do ekranu edycji

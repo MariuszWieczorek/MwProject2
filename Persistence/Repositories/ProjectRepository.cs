@@ -211,7 +211,7 @@ namespace MwProject.Persistence.Repositories
 
         public void UpdateProject(Project project, string userId)
         {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id && x.UserId == userId);
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
             projectToUpdate.Number = project.Number;
             projectToUpdate.Title = project.Title;
             projectToUpdate.CreatedDate = project.CreatedDate;
