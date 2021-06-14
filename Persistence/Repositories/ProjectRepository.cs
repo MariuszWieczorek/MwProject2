@@ -22,12 +22,20 @@ namespace MwProject.Persistence.Repositories
 
         public Project NewProject(string userId)
         {
+
+            int ordinalNumber = 1;
+            if (_context.Projects.Any())
+            {
+                ordinalNumber = _context.Projects.Max(x => x.OrdinalNumber) + 1;
+            }
+
             return new Project()
             {
                 UserId = userId,
                 CreatedDate = DateTime.Now,
                 Term = DateTime.Now,
-                Value = 0
+                Value = 0,
+                OrdinalNumber = ordinalNumber
             };
         }
 
@@ -247,6 +255,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectManagerId = project.ProjectManagerId;
             projectToUpdate.Client = project.Client;
             projectToUpdate.ProductStatus = project.ProductStatus;
+
+            projectToUpdate.OrdinalNumber = project.OrdinalNumber;
         }
 
 
