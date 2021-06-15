@@ -43,9 +43,12 @@ namespace MwProject.Persistence.Services
 
 
             //var user = await UserManager.FindByIdAsync(id);
-            var token  = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user, token, password);
-            
+            //var token  = await _userManager.GeneratePasswordResetTokenAsync(user);
+            //var result = await _userManager.ResetPasswordAsync(user, token, password);
+
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, password);
+
 
             /*
             .ContinueWith(t => 
@@ -57,7 +60,7 @@ namespace MwProject.Persistence.Services
                     a = 2;
             });
             */
-           
+
 
         }
 
