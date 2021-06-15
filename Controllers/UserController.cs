@@ -30,10 +30,12 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             var users = _userService.GetUsers();
+            var currentUser = _userService.GetUser(userId);
 
             var vm = new UsersViewModel()
             {
-                Users = users
+                Users = users,
+                CurrentUser = currentUser
             };
 
             return View(vm);
@@ -85,7 +87,25 @@ namespace MwProject.Controllers
 
         #endregion
 
+        [HttpPost]
+        public IActionResult ResetPassword(string id)
+        {
+    
+            try
+            {
+                var userId = User.GetUserId();
+                var currentUser = _userService.GetUser(userId);
 
+                _userService.ResetPassword(id);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
 
     }
 }

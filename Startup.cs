@@ -76,8 +76,23 @@ namespace MwProject
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            // doda
+            /*
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredLength = 7;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.User.RequireUniqueEmail = true;
+            })
+            .AddDefaultTokenProviders();
+            */
+            //
+
+
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-               .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
 
@@ -93,6 +108,8 @@ namespace MwProject
                 options.Cookie.IsEssential = true;
             });
             */
+
+         
 
         }
 

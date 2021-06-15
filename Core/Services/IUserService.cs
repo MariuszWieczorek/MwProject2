@@ -12,5 +12,6 @@ namespace MwProject.Core.Services
         void UpdateUser(ApplicationUser user);
         void DeleteUser(string id);
         IEnumerable<ApplicationUser> GetUsers();
+        Task ResetPassword(string id);
     }
 }

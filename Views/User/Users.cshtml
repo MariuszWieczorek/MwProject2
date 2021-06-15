@@ -26,6 +26,7 @@
                 <th scope="col">Econ</th>
                 <th scope="col">Tech</th>
                 <th scope="col">Gene</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -198,7 +199,16 @@
                     </div>
                 </td>
 
-            </tr>
+                <td>
+                    @if (Model.CurrentUser.AdminRights)
+                    {
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="resetPassword('@user.Id',this)">
+                            reset
+                        </button>
+                    }
+                </td>  
+</tr>
                 }
 
             }
@@ -221,7 +231,7 @@
 {
     <script type="text/javascript">
 
-        // Usuwanie kategorii
+        // Usuwanie użytkownika
         function deleteUser(id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć użytkownika ?"))
                 return;
@@ -230,7 +240,7 @@
                 type: 'POST',
                 url: "@Url.Action("DeleteUser", "User")",
                 data: {
-                    Id: id
+                    id: id
                 },
                 success: function (data) {
                     if (data.success) {
@@ -250,5 +260,35 @@
             });
         }
         // --------------------------------------------
+
+        // Usuwanie użytkownika
+        function resetPassword(id, btn) {
+            if (!confirm("Czy na pewno chcesz zresetować hasło ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ResetPassword", "User")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        alert('hasło zostało zresetowane')    
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji ');
+                },
+                dataType: 'json'
+
+            });
+        }
+        // --------------------------------------------
+
     </script>
 }
