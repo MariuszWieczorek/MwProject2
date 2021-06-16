@@ -88,7 +88,7 @@ namespace MwProject.Controllers
         #endregion
 
         [HttpPost]
-        public IActionResult ResetPassword(string id)
+        public async Task<IActionResult> ResetPassword(string id)
         {
     
             try
@@ -97,9 +97,7 @@ namespace MwProject.Controllers
                 var currentUser = _userService.GetUser(userId);
 
                 var claims = HttpContext.User;
-                var x = _userService.ResetPassword(id);
-                int a = 1;
-
+                var x = await _userService.ResetPassword(id);
             }
             catch (Exception ex)
             {
