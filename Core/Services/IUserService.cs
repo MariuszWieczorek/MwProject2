@@ -1,4 +1,5 @@
-﻿using MwProject.Core.Models.Domains;
+﻿using Microsoft.AspNetCore.Identity;
+using MwProject.Core.Models.Domains;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace MwProject.Core.Services
         void UpdateUser(ApplicationUser user);
         void DeleteUser(string id);
         IEnumerable<ApplicationUser> GetUsers();
-        Task ResetPassword(string id);
+        Task<IdentityResult> ResetPassword(string id);
     }
 }

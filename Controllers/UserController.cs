@@ -96,7 +96,10 @@ namespace MwProject.Controllers
                 var userId = User.GetUserId();
                 var currentUser = _userService.GetUser(userId);
 
-                _userService.ResetPassword(id);
+                var claims = HttpContext.User;
+                var x = _userService.ResetPassword(id);
+                int a = 1;
+
             }
             catch (Exception ex)
             {

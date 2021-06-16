@@ -6,6 +6,7 @@ using MwProject.Core;
 using MwProject.Core.Services;
 using MwProject.Core.Models.Domains;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace MwProject.Persistence.Services
 {
@@ -35,19 +36,27 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.UserRepository.GetUsers().OrderBy(x=>x.UserName);
         }
 
-        public async Task ResetPassword(string id)
+        public async Task<IdentityResult> ResetPassword(string id)
         {
-            var user = _unitOfWork.UserRepository.GetUser(id);
+            //            var user = _unitOfWork.UserRepository.GetUser(id);
+            //System.Security.Claims.ClaimsPrincipal claims
+
+            //var user = await _userManager.GetUserAsync(claims);
             string password = "Projekty2021$";
-            //Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
 
 
-            //var user = await UserManager.FindByIdAsync(id);
-            //var token  = await _userManager.GeneratePasswordResetTokenAsync(user);
-            //var result = await _userManager.ResetPasswordAsync(user, token, password);
+            var user = await _userManager.FindByIdAsync(id);
+            var token  = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return await _userManager.ResetPasswordAsync(user, token, password); 
 
-            await _userManager.RemovePasswordAsync(user);
-            await _userManager.AddPasswordAsync(user, password);
+            var result = await _userManager.ResetPasswordAsync(user, token, password);
+            
+            if (result.Succeeded)
+                await _userManager.UpdateAsync(user);
+
+            return result;
+//            await _userManager.RemovePasswordAsync(user);
+  //          await _userManager.AddPasswordAsync(user, password);
 
 
             /*
