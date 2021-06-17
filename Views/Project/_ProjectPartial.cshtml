@@ -30,7 +30,7 @@
 
     </div>
 
-    
+
 
     <div class="row">
         <div class="col-12">
@@ -70,7 +70,7 @@
                             <div class="form-group mb-3 col-2">
                                 @Html.LabelFor(x => x.Project.No)
                                 @Html.TextBoxFor(x => x.Project.No,
-                               new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold", id="no" })
+                               new { @class = "form-control", autofocus = "autofocus", Style = "font-weight:bold", id = "no", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(x => x.Project.No)
                             </div>
 
@@ -91,18 +91,21 @@
                             <div class="form-group mb-3 col-4">
                                 @Html.LabelFor(x => x.Project.Number)
                                 @Html.TextBoxFor(x => x.Project.Number,
-                               new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold", id = "number" })
+                               new { @class = "form-control", autofocus = "autofocus", Style = "font-weight:bold", id = "number", @readonly = "readonly" })
                                 @Html.ValidationMessageFor(x => x.Project.Number)
                             </div>
 
-                            <div class="row">
-                                <div class="mb-3 col-1">
-                                    <button type="button" class="btn btn-sm btn-warning mb-3" onclick="getNewNumber('@Model.Project.CategoryId','@Model.Project.CreatedDate')">
-                                        Nr
-                                    </button>
+                            
+                            @if (false)
+                            {
+                                <div class="row">
+                                    <div class="mb-3 col-1">
+                                        <button type="button" class="btn btn-sm btn-warning mb-3" onclick="getNewNumber('@Model.Project.CategoryId','@Model.Project.CreatedDate')">
+                                            Nr
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
+                            }
 
                         </div>
 
@@ -135,7 +138,7 @@
                                     @Html.DropDownListFor(x => x.Project.CategoryId,
                                             new SelectList(Model.Categories, "Id", "Name"),
                                             "--- Wybierz kategorię projektu ---",
-                                            new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled" })
+                                            new { @class = "form-control", autofocus = "autofocus", @disabled = "disabled", id = "categoryId" })
                                     @Html.ValidationMessageFor(x => x.Project.CategoryId)
                                 }
                                 else
@@ -144,7 +147,7 @@
                                     @Html.DropDownListFor(x => x.Project.CategoryId,
                                         new SelectList(Model.Categories, "Id", "Name"),
                                         "--- Wybierz kategorię projektu ---",
-                                        new { @class = "form-control", autofocus = "autofocus" })
+                                        new { @class = "form-control", autofocus = "autofocus", id = "categoryId" })
                                     @Html.ValidationMessageFor(x => x.Project.CategoryId)
                                 }
                             </div>
@@ -484,6 +487,6 @@
 @section scripts
 {
     <script type="text/javascript">
-                                                         // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                             // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
     </script>
 }

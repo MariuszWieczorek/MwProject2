@@ -28,5 +28,8 @@ namespace MwProject.Core.Models
 
         [Display(Name = "Kierownik Projektu")]
         public string ProjectManagerId { get; set; }
+
+        [Display(Name = "Rok")]
+        public int Year { get; set; } = DateTime.Now.Year;
     }
 }

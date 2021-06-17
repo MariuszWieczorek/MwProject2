@@ -31,7 +31,6 @@ namespace MwProject.Core.Models.Domains
         public string Title { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "Pole numer jest wymagane.")]
         [Display(Name = "Numer")]
         public string Number { get; set; }
 
@@ -96,6 +95,8 @@ namespace MwProject.Core.Models.Domains
         [Required(ErrorMessage = "Pole kategoria jest wymagane.")]
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
+
+        
         public Category Category { get; set; }
 
         [Display(Name = "Nowy Produkt")]

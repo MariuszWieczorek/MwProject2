@@ -1365,14 +1365,16 @@
         // WithdrawConfirmationOfTechnicalProperties
         function getNewNumber(categoryId,createdDate) {
 
-            alert('ok');
+            //alert($('#categoryId option:selected').val());
+            //alert($('#categoryId option:selected').text());
+
             // --------------------------------------------
             $.ajax({
                 type: 'POST',
                 url: "@Url.Action("NewFullNumber", "Project")",
                 data: {
-                    categoryId: categoryId,
-                    createdDate: createdDate
+                    categoryId:  $('#categoryId option:selected').val(),
+                    createdDate: $('#CreatedDate').val()
                 },
                 success: function (data) {
                     if (data.success) {

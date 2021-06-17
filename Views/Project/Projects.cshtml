@@ -74,6 +74,11 @@
               new { @class = "form-control", placeholder = "Klient" })
         </div>
 
+        <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.Year)
+            @Html.TextBoxFor(x => x.ProjectsFilter.Year,
+              new { @class = "form-control", placeholder = "Rok" })
+        </div>
 
         <div class="form-check form-switch mb-3 col-2">
             <br>

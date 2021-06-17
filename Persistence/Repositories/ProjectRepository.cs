@@ -48,6 +48,10 @@ namespace MwProject.Persistence.Repositories
 
         public void AddProject(Project project)
         {
+
+            var x = NewFullNumber(project.CategoryId, project.CreatedDate);
+            project.No = x.Item1;
+            project.Number = x.Item2;
             _context.Projects.Add(project);
         }
 
@@ -133,6 +137,9 @@ namespace MwProject.Persistence.Repositories
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
+            if (projectsFilter.Year != 0)
+                projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
+
             if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
                 projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
 
@@ -154,7 +161,7 @@ namespace MwProject.Persistence.Repositories
                 .ThenBy(x => x.OrdinalNumber)
                 .ThenBy(x => x.Number);
 
-
+            // .OrderByDescending(x => x.PriorityOfProject)
             if (pagingInfo != null)
             {
                 projects = projects
@@ -193,6 +200,9 @@ namespace MwProject.Persistence.Repositories
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
+
+            if (projectsFilter.Year != 0)
+                projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
 
             if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
                 projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
@@ -262,29 +272,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectManagerId = project.ProjectManagerId;
             projectToUpdate.Client = project.Client;
             projectToUpdate.ProductStatus = project.ProductStatus;
-
             projectToUpdate.OrdinalNumber = project.OrdinalNumber;
-            
-
-            if(project.No == 0 && project.CreatedDate != null)
-            {
-                int year = ((DateTime)project.CreatedDate).Year;
-                int no = _context.Projects.Where(x=> ((DateTime)x.CreatedDate).Year == year).Max(x=>x.No);
-                project.No = no;
-            }
-
-            projectToUpdate.No = project.No;
-
-            if ((project.Number == null || project.Number == string.Empty) && project.CreatedDate != null && projectToUpdate.No > 0)
-            {
-                
-                int year = ((DateTime)project.CreatedDate).Year;
-                string no = project.No.ToString("D8");
-                string number = $"{project.Category.Abbrev}/{year}/{no}";
-                project.Number = number;
-            }
-
-            projectToUpdate.Number = project.Number;
 
         }
 
@@ -503,13 +491,16 @@ namespace MwProject.Persistence.Repositories
 
         public int NewRawNumber(int categoryId, DateTime? createdDate)
         {
-            int no = 0;
+            int no = 1;
             if (createdDate != null)
             {
                 int year = ((DateTime)createdDate).Year;
-                no = _context.Projects
-                    .Where(x => ((DateTime)x.CreatedDate).Year == year && x.CategoryId == categoryId)
-                    .Max(x => x.No) + 1;
+                var projectsOfSelectedCategoryIdInSelectedYear = _context.Projects
+                    .Where(x => x.CreatedDate != null && ((DateTime)x.CreatedDate).Year == year && x.CategoryId == categoryId);
+                if (projectsOfSelectedCategoryIdInSelectedYear.Any())
+                {
+                    no = projectsOfSelectedCategoryIdInSelectedYear.Max(x => x.No) + 1;
+                }     
             }
             return no;
         }
@@ -524,14 +515,12 @@ namespace MwProject.Persistence.Repositories
             }
 
             int no = NewRawNumber(categoryId, createdDate);
-            string nox = no.ToString("D8");
+            string nox = no.ToString("D5");
             int year = ((DateTime)createdDate).Year;
             string abbrev = _context.Categories.Single(x => x.Id == categoryId).Abbrev;
             number = $"{abbrev}/{year}/{nox}";
 
             return (no,number);
-
         }
-
     }
 }
