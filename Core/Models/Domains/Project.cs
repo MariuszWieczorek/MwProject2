@@ -35,6 +35,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Numer")]
         public string Number { get; set; }
 
+        [Display(Name = "Nr")]
+        public int No { get; set; }
+
         [Display(Name = "Cel projektu - szczegóły")]
         public string DescriptionOfPurpose { get; set; }
 

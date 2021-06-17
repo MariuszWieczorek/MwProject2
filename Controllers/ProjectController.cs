@@ -748,6 +748,7 @@ namespace MwProject.Controllers
         }
 
 
+
         #endregion
 
         public string CalculatePriorities()
@@ -774,6 +775,42 @@ namespace MwProject.Controllers
 
             _projectService.ExportProjectsToExcel(projects);
             return "OK";
+        }
+
+        [HttpPost]
+        public IActionResult NewRawNumber(int categoryId, DateTime? createdDate)
+        {
+            int no = 0;
+            try
+            {
+                var userId = User.GetUserId();
+                no = _projectService.NewRawNumber(categoryId, createdDate);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true, no = no });
+        }
+
+        [HttpPost]
+        public IActionResult NewFullNumber(int categoryId, DateTime? createdDate)
+        {
+            (int,string) no = (0,string.Empty);
+            try
+            {
+                var userId = User.GetUserId();
+                no = _projectService.NewFullNumber(categoryId, createdDate);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true, no = no.Item1, number = no.Item2 });
         }
 
     }

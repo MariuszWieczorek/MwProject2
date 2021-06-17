@@ -29,13 +29,20 @@ namespace MwProject.Persistence.Repositories
                 ordinalNumber = _context.Projects.Max(x => x.OrdinalNumber) + 1;
             }
 
+            int no = 1;
+            if (_context.Projects.Any())
+            {
+                no = _context.Projects.Max(x => x.No) + 1;
+            }
+
             return new Project()
             {
                 UserId = userId,
                 CreatedDate = DateTime.Now,
                 Term = DateTime.Now,
                 Value = 0,
-                OrdinalNumber = ordinalNumber
+                OrdinalNumber = ordinalNumber,
+                No = no
             };
         }
 
@@ -220,7 +227,7 @@ namespace MwProject.Persistence.Repositories
         public void UpdateProject(Project project, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
-            projectToUpdate.Number = project.Number;
+            
             projectToUpdate.Title = project.Title;
             projectToUpdate.CreatedDate = project.CreatedDate;
             projectToUpdate.FinishedDate = project.FinishedDate;
@@ -257,6 +264,28 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProductStatus = project.ProductStatus;
 
             projectToUpdate.OrdinalNumber = project.OrdinalNumber;
+            
+
+            if(project.No == 0 && project.CreatedDate != null)
+            {
+                int year = ((DateTime)project.CreatedDate).Year;
+                int no = _context.Projects.Where(x=> ((DateTime)x.CreatedDate).Year == year).Max(x=>x.No);
+                project.No = no;
+            }
+
+            projectToUpdate.No = project.No;
+
+            if ((project.Number == null || project.Number == string.Empty) && project.CreatedDate != null && projectToUpdate.No > 0)
+            {
+                
+                int year = ((DateTime)project.CreatedDate).Year;
+                string no = project.No.ToString("D8");
+                string number = $"{project.Category.Abbrev}/{year}/{no}";
+                project.Number = number;
+            }
+
+            projectToUpdate.Number = project.Number;
+
         }
 
 
@@ -471,5 +500,38 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectTeamConfirmedDate = null;
             projectToUpdate.ProjectTeamConfirmedBy = null;
         }
+
+        public int NewRawNumber(int categoryId, DateTime? createdDate)
+        {
+            int no = 0;
+            if (createdDate != null)
+            {
+                int year = ((DateTime)createdDate).Year;
+                no = _context.Projects
+                    .Where(x => ((DateTime)x.CreatedDate).Year == year && x.CategoryId == categoryId)
+                    .Max(x => x.No) + 1;
+            }
+            return no;
+        }
+
+        public (int,string) NewFullNumber(int categoryId, DateTime? createdDate)
+        {
+            string number = string.Empty;
+                        
+            if(createdDate == null)
+            {
+                return (0,number);
+            }
+
+            int no = NewRawNumber(categoryId, createdDate);
+            string nox = no.ToString("D8");
+            int year = ((DateTime)createdDate).Year;
+            string abbrev = _context.Categories.Single(x => x.Id == categoryId).Abbrev;
+            number = $"{abbrev}/{year}/{nox}";
+
+            return (no,number);
+
+        }
+
     }
 }

@@ -44,6 +44,8 @@ namespace MwProject.Core.Services
         void CalculatePriorities(string userId);
         IEnumerable<Category> GetUsedCategories();
         void ExportProjectsToExcel(IEnumerable<Project> projects);
+        int NewRawNumber(int projectCategory, DateTime? createdDate);
+        (int,string) NewFullNumber(int projectCategory, DateTime? createdDate);
 
     }
 }

@@ -216,7 +216,7 @@ namespace MwProject.Persistence.Services
 
 
             // dane dotyczące sprzedaży w pierwszym roku
-            if (selectedProject.EstimatedSalesValues.Count() > 0)
+            if (selectedProject.EstimatedSalesValues.Count > 0)
             {
                 var firstSalesRecord = selectedProject.EstimatedSalesValues.Min(x => x.Id);
                 var firstYearOfSales = selectedProject.EstimatedSalesValues.Single(x => x.Id == firstSalesRecord);
@@ -403,6 +403,16 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.WithdrawConfirmationOfProjectTeam(id, userId);
             _unitOfWork.Complete();
+        }
+
+        public int NewRawNumber(int projectCategory, DateTime? createdDate)
+        {
+            return _unitOfWork.Project.NewRawNumber(projectCategory, createdDate);
+        }
+
+        public (int,string) NewFullNumber(int projectCategory, DateTime? createdDate)
+        {
+            return _unitOfWork.Project.NewFullNumber(projectCategory, createdDate);
         }
     }
 }

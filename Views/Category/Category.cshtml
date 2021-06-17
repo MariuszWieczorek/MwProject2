@@ -20,7 +20,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(x => x.Category.Id)
 
-                      
+
 
 
             @Html.ValidationSummary()
@@ -35,6 +35,12 @@
                 @Html.LabelFor(x => x.Category.Name)
                 @Html.TextBoxFor(x => x.Category.Name, new { @class = "form-control", autofocus = "autofocus" })
                 @Html.ValidationMessageFor(x => x.Category.Name)
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.Category.Abbrev)
+                @Html.TextBoxFor(x => x.Category.Abbrev, new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Category.Abbrev)
             </div>
 
             <div class="form-group mb-3">

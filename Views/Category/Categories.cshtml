@@ -18,6 +18,7 @@
             <tr>
                 <th scope="col">Lp</th>
                 <th scope="col">Nazwa</th>
+                <th scope="col">Skr</th>
                 <th scope="col">Opis</th>
                 <th scope="col">Symbol</th>
                 <th scope="col"></th>
@@ -44,15 +45,24 @@
                        class="font-weight-bold">@category.Name</a>
 
                 </td>
+
+                <td>
+
+                    <a href="@Url.Action("Category", "Category",
+                                    new { id = category.Id })"
+                       class="font-weight-bold">@category.Abbrev</a>
+
+                </td>
+
                 <td>@category.Description</td>
                 <td>@category.DocumentSymbol</td>
                 <td>
                     @if (Model.CurrentUser.SuperAdminRights)
                     {
-                    <button class="btn btn-outline-danger btn-sm"
-                            onclick="deleteCategory('@category.Id',this)">
-                        Usuń
-                    </button>
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="deleteCategory('@category.Id',this)">
+                            Usuń
+                        </button>
                     }
 
                 </td>

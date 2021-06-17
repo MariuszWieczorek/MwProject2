@@ -1362,6 +1362,43 @@
 
         }
         // ------------------------------------------------------------------------------------------------
+        // WithdrawConfirmationOfTechnicalProperties
+        function getNewNumber(categoryId,createdDate) {
+
+            alert('ok');
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("NewFullNumber", "Project")",
+                data: {
+                    categoryId: categoryId,
+                    createdDate: createdDate
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                      //  alert(data.number);
+                      //  var number = data.number;
+                       $('#number').val(data.number);
+                       $('#no').val(data.no);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+
+        // ------------------------------------------------------------------------------------------------
         $('#results').on('click', '.item', function () {
             var NestId = $(this).data('id');
             var url = '@Url.Action("Details, Artists")';

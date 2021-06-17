@@ -52,6 +52,7 @@ namespace MwProject.Persistence.Repositories
             categoryToUpdate.OrdinalNumber = category.OrdinalNumber;
             categoryToUpdate.Description = category.Description;
             categoryToUpdate.DocumentSymbol = category.DocumentSymbol;
+            categoryToUpdate.Abbrev = category.Abbrev;
         }
     }
 }

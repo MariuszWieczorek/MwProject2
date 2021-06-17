@@ -25,6 +25,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nazwa kategorii")]
         public string Name { get; set; }
 
+        [Display(Name = "Skrót")]
+        public string Abbrev { get; set; }
+
         [Required]
         [Display(Name = "Symbol Dokumentu")]
         public string DocumentSymbol { get; set; }

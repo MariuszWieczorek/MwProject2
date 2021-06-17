@@ -41,6 +41,8 @@ namespace MwProject.Core.Repositories
         void WithdrawConfirmationOfTechnicalProperties(int id, string userId);
         void ConfirmProjectTeam(int id, string userId);
         void WithdrawConfirmationOfProjectTeam(int id, string userId);
+        int NewRawNumber(int projectCategory, DateTime? createdDate);
+        (int,string) NewFullNumber(int projectCategory, DateTime? createdDate);
         IEnumerable<Category> GetUsedCategories();
     }
 }
