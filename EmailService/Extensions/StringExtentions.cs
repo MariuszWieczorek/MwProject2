@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
-namespace EmailSender.Extensions
+namespace EmailService.Extensions
 {
     // jak chcemy dodać metodę rozszerzjącą to klasa musi być statyczna
     // metoda musi być statyczna

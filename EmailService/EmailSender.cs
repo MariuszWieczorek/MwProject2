@@ -1,111 +1,117 @@
-﻿using MailKit.Net.Smtp;
-using MimeKit;
+﻿using EmailService.Extensions;
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EmailService
 {
     public class EmailSender : IEmailSender
     {
-        private readonly EmailConfiguration _emailConfig;
-
-        public EmailSender(EmailConfiguration emailConfig)
+        private SmtpClient _smtp;
+        private MailMessage _mail;
+        private readonly EmailConfiguration _emailConfiguration;
+     
+        public EmailSender(EmailConfiguration emailConfiguration)
         {
-            _emailConfig = emailConfig;
+            _emailConfiguration = emailConfiguration;
         }
 
-        public void SendEmail(Message message)
+     
+        public MailMessage CreateMailMessage(string subject, string body, List<string> emailRecipients, List<string> attachments)
         {
-            var emailMessage = CreateEmailMessage(message);
+            _mail = new MailMessage();
+            _mail.From = new MailAddress(_emailConfiguration.SenderEmail, _emailConfiguration.SenderName);
+            _mail.Subject = subject;
+            _mail.IsBodyHtml = true;
+            _mail.BodyEncoding = Encoding.UTF8;
+            _mail.SubjectEncoding = Encoding.UTF8;
 
-            Send(emailMessage);
-        }
+            foreach (var address in emailRecipients)
+                _mail.To.Add(new MailAddress(address));
 
-        public async Task SendEmailAsync(Message message)
-        {
-            var mailMessage = CreateEmailMessage(message);
-
-            await SendAsync(mailMessage);
-        }
-
-        private MimeMessage CreateEmailMessage(Message message)
-        {
-            var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress(_emailConfig.From));
-            emailMessage.To.AddRange(message.To);
-            emailMessage.Subject = message.Subject;
-
-            var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<h2 style='color:red;'>{0}</h2>", message.Content) };
-
-            if (message.Attachments != null && message.Attachments.Any())
+            foreach (var attachment in attachments)
             {
-                byte[] fileBytes;
-                foreach (var attachment in message.Attachments)
-                {
-                    using (var ms = new MemoryStream())
-                    {
-                        attachment.CopyTo(ms);
-                        fileBytes = ms.ToArray();
-                    }
-
-                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes, ContentType.Parse(attachment.ContentType));
-                }
+                var data = new Attachment(attachment, MediaTypeNames.Application.Octet);
+                _mail.Attachments.Add(data);
             }
+            // _mail.Body = body; też by zadziałało
+            // aby mail trafił do skrzynki odbiorczej, a nie do spamu jest mnóstwo zasad
+            // tworzymy maila w dwóch wersjach: bez tagów html oraz z tagami <html>, <head>, <body>
 
-            emailMessage.Body = bodyBuilder.ToMessageBody();
-            return emailMessage;
+            _mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(
+                body.StripHTML(),
+                null,
+                MediaTypeNames.Text.Plain));
+
+            _mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(
+                 AddHtmlHeader(body),
+                 null,
+                 MediaTypeNames.Text.Html));
+
+            return _mail;
         }
 
-        private void Send(MimeMessage mailMessage)
-        {
-            using (var client = new SmtpClient())
-            {
-                try
-                {
-                    client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
 
-                    client.Send(mailMessage);
-                }
-                catch
-                {
-                    //log an error message or throw an exception, or both.
-                    throw;
-                }
-                finally
-                {
-                    client.Disconnect(true);
-                    client.Dispose();
-                }
-            }
+        private string AddHtmlHeader(string text)
+        {
+            return $@"
+            <html>    
+                <head>
+                </head>
+                <body>
+            <div style='font-size: 16px; padding: 10px; font-family: Arial; line-height: 1.4'>
+                {text}
+            </div>
+            </body>
+            </html>
+            ";
         }
 
-        private async Task SendAsync(MimeMessage mailMessage)
+        public async Task SendEmailAsync(MailMessage mail)
         {
-            using (var client = new SmtpClient())
+            _smtp = new SmtpClient()
             {
-                try
-                {
-                    await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+                Host = _emailConfiguration.SmtpServer,
+                EnableSsl = _emailConfiguration.EnableSsl,
+                Port = _emailConfiguration.Port,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_emailConfiguration.SenderEmail, _emailConfiguration.SenderEmailPassword)
+            };
 
-                    await client.SendAsync(mailMessage);
-                }
-                catch
-                {
-                    //log an error message or throw an exception, or both.
-                    throw;
-                }
-                finally
-                {
-                    await client.DisconnectAsync(true);
-                    client.Dispose();
-                }
-            }
+            _smtp.SendCompleted += OnSendCompleted;
+
+            await _smtp.SendMailAsync(_mail);
+        }
+
+        public void SendEmail(MailMessage mail)
+        {
+            _smtp = new SmtpClient()
+            {
+                Host = _emailConfiguration.SmtpServer,
+                EnableSsl = _emailConfiguration.EnableSsl,
+                Port = _emailConfiguration.Port,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_emailConfiguration.SenderEmail, _emailConfiguration.SenderEmailPassword)
+            };
+
+            _smtp.SendCompleted += OnSendCompleted;
+
+            _smtp.Send(_mail);
+        }
+
+        private void OnSendCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            _smtp.Dispose();
+            _mail.Dispose();
         }
     }
 }

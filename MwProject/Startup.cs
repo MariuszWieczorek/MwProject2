@@ -1,3 +1,4 @@
+using EmailService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -71,10 +72,23 @@ namespace MwProject
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectTeamMemberService, ProjectTeamMemberService>();
 
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+            #region obs³uga wysy³ania wiadomoœci e-mail
+            // odczyt parametrów z appsettings.json
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration2")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            // klasa obs³uguj¹ca wysy³anie wiadomoœci e-mail
+            services.AddScoped<IEmailSender, EmailSender>();
+            #endregion
 
             // doda
             /*
