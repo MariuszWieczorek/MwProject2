@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210624092814_UsersAddReferenceNumber")]
+    partial class UsersAddReferenceNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,9 +235,6 @@ namespace MwProject.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsManager")
-                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -492,39 +491,6 @@ namespace MwProject.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("EstimatedSalesValues");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeOfNotification")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TypeOfNotificationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("TypeOfNotificationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.ProductGroup", b =>
@@ -980,21 +946,6 @@ namespace MwProject.Migrations
                     b.ToTable("TechnicalProperties");
                 });
 
-            modelBuilder.Entity("MwProject.Core.Models.Domains.TypeOfNotification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TypeOfNotifications");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1113,31 +1064,6 @@ namespace MwProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.Notification", b =>
-                {
-                    b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
-                        .WithMany("Notifications")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MwProject.Core.Models.Domains.TypeOfNotification", "TypeOfNotification")
-                        .WithMany("Notifications")
-                        .HasForeignKey("TypeOfNotificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MwProject.Core.Models.Domains.ApplicationUser", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Project");
-
-                    b.Navigation("TypeOfNotification");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.Project", b =>
@@ -1259,8 +1185,6 @@ namespace MwProject.Migrations
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.ApplicationUser", b =>
                 {
-                    b.Navigation("Notifications");
-
                     b.Navigation("ProjectManagers");
                 });
 
@@ -1276,8 +1200,6 @@ namespace MwProject.Migrations
                     b.Navigation("Calculations");
 
                     b.Navigation("EstimatedSalesValues");
-
-                    b.Navigation("Notifications");
 
                     b.Navigation("ProjectRequirements");
 
@@ -1298,11 +1220,6 @@ namespace MwProject.Migrations
                     b.Navigation("PurposeOfTheProjects");
 
                     b.Navigation("ViabilityOfTheProjects");
-                });
-
-            modelBuilder.Entity("MwProject.Core.Models.Domains.TypeOfNotification", b =>
-                {
-                    b.Navigation("Notifications");
                 });
 #pragma warning restore 612, 618
         }

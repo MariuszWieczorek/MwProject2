@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MwProject.Core;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Filters;
 using MwProject.Core.Repositories;
 using MwProject.Core.ViewModels;
 using System;
@@ -20,10 +22,34 @@ namespace MwProject.Persistence.Repositories
             _context = context;
         }
 
+
         public void DeleteUser(string id)
         {
             var userToDelete = _context.Users.Single(x => x.Id == id);
             _context.Users.Remove(userToDelete);
+        }
+
+        public void ExportUsersToExcel(IEnumerable<ApplicationUser> users)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetNumberOfRecords(UsersFilter usersFilter)
+        {
+            int numberOfRecords = 0;
+            var users = _context.Users
+                 .AsQueryable();
+
+            // filtrowanie
+            if (usersFilter != null)
+            {
+                if (!string.IsNullOrWhiteSpace(usersFilter.UserName))
+                    users = users.Where(x => x.UserName.Contains(usersFilter.UserName));
+
+          
+            }
+            numberOfRecords = users.Count();
+            return numberOfRecords;
         }
 
         public ApplicationUser GetUser(string id)
@@ -32,11 +58,40 @@ namespace MwProject.Persistence.Repositories
 
         }
 
-        public IEnumerable<ApplicationUser> GetUsers()
+        public IEnumerable<ApplicationUser> GetUsers(UsersFilter usersFilter, PagingInfo pagingInfo)
         {
-            return _context.Users.ToList();
+            int numberOfRecords = 0;
+            var users = _context.Users
+                        .OrderBy(x => x.UserName)
+                        .AsQueryable();
+
+            // filtrowanie
+            if (usersFilter != null)
+            {
+                if (!string.IsNullOrWhiteSpace(usersFilter.UserName))
+                    users = users.Where(x => x.UserName.Contains(usersFilter.UserName));
+
+       
+            }
+
+            numberOfRecords = users.Count();
+
+            // stronicowanie
+            if (pagingInfo != null)
+            {
+                pagingInfo.TotalItems = numberOfRecords;
+
+                if (pagingInfo.ItemsPerPage > 0 && pagingInfo.TotalItems > 0)
+                    users = users
+                        .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.ItemsPerPage)
+                        .Take(pagingInfo.ItemsPerPage);
+            }
+
+            return users
+                .ToList();
         }
 
+    
         public void UpdateUser(ApplicationUser user)
         {
             var userToUpdate = _context.Users.Single(x => x.Id == user.Id);
@@ -67,8 +122,12 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.CanEditTechnicalProperties = user.CanEditTechnicalProperties;
             userToUpdate.CanEditGeneralRequirements = user.CanEditGeneralRequirements;
             userToUpdate.CanEditProjectTeam = user.CanEditProjectTeam;
+            userToUpdate.ReferenceNumber = user.ReferenceNumber;
 
             userToUpdate.EmailConfirmed = user.EmailConfirmed;
+            userToUpdate.IsManager = user.IsManager;
+            userToUpdate.NewProjectEmailNotification = user.NewProjectEmailNotification;
+            userToUpdate.ManagerId = user.ManagerId;
 
         }
     }

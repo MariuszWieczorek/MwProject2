@@ -25,6 +25,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Stanowisko")]
         public string Possition { get; set; }
 
+        [Display(Name = "Numer ewidencyjny")]
+        public string ReferenceNumber { get; set; }
+
 
         [Display(Name = "może potwierdzać koszty")]
         public bool CanConfirmCalculations { get; set; }
@@ -65,8 +68,6 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "widzi wszystkie projekty")]
         public bool CanSeeAllProject { get; set; }
 
-
-
         [Display(Name = "może edytować koszty")]
         public bool CanEditCalculations { get; set; }
 
@@ -88,16 +89,31 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "może edytować zespół projektowy")]
         public bool CanEditProjectTeam { get; set; }
 
+        [Display(Name = "manager")]
+        public bool IsManager { get; set; }
+
+
+        [ForeignKey("Manager")]
+        public string ManagerId { get; set; }
+        public ApplicationUser Manager { get; set; }
+
+        
+        [Display(Name = "email gdy nowy projekt")]
+        public bool NewProjectEmailNotification { get; set; }
+
+
         public ApplicationUser()
         {
             Projects = new Collection<Project>();
             ProjectManagers = new Collection<Project>();
+            Notifications = new Collection<Notification>();
         }
+        
         public ICollection<Project> Projects;
 
 
         [InverseProperty("ProjectManager")]
         public ICollection<Project> ProjectManagers { get; set; }
-
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

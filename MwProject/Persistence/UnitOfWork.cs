@@ -27,7 +27,8 @@ namespace MwProject.Persistence
                             IUserRepository userRepository,
                             IRankingCategoryRepository rankingCategoryRepository,
                             IRankingElementRepository rankingElementRepository,
-                            IProjectTeamMemberRepository projectTeamMemberRepository
+                            IProjectTeamMemberRepository projectTeamMemberRepository,
+                            INotificationRepository notificationRepository
                             )
         {
             _context = context;
@@ -46,6 +47,7 @@ namespace MwProject.Persistence
             RankingCategoryRepository = rankingCategoryRepository;
             RankingElementRepository = rankingElementRepository;
             ProjectTeamMemberRepository = projectTeamMemberRepository;
+            NotificationRepository = notificationRepository;
         }
 
         // obiekty repozytoryjne 
@@ -64,6 +66,7 @@ namespace MwProject.Persistence
         public IRankingElementRepository RankingElementRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
         public IProjectTeamMemberRepository ProjectTeamMemberRepository { get; set; }
+        public INotificationRepository NotificationRepository { get; set; }
 
         // na koniec metoda zapisująca zmiany
         public void Complete()

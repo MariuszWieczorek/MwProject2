@@ -1,0 +1,114 @@
+﻿@model MwProject.Core.ViewModels.UsersViewModel
+
+
+<div id="usersTable">
+
+
+    <div class="row my-2 mx-1">
+        <div class="col-12">
+            ilość użytkowników: <span class="badge rounded-pill bg-warning">@Model.NumberOfRecords</span>
+        </div>
+    </div>
+
+    @* Tabela z użytkownikami *@
+
+    <div>
+        <table class="table mt-3 table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Email</th>
+                    <th scope="col">Imię</th>
+                    <th scope="col">Nazwisko</th>
+                    <th scope="col">Stanowisko</th>
+            
+
+                    <th scope="col">Akt</th>
+                    <th scope="col">Adm</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Users != null && Model.Users.Any())
+                {
+                    foreach (var user in Model.Users)
+                    {
+                <tr>
+
+
+                    <td>
+                        <strong>
+                            <a href="@Url.Action("SingleUser", "User",
+                                    new { id = user.Id })"
+                               class="font-weight-bold">@user.Email</a>
+                        </strong>
+                    </td>
+                    <td><strong>@user.FirstName</strong></td>
+                    <td><strong>@user.LastName</strong></td>
+                    <td><strong>@user.Possition</strong></td>
+                    
+
+                    <td>
+                        @if (user.EmailConfirmed)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @if (user.AdminRights)
+                        {
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+                        }
+                    </td>
+
+                    <td>
+                        @if (Model.CurrentUser.AdminRights)
+                        {
+                            <button class="btn btn-outline-danger btn-sm"
+                                    onclick="resetPassword('@user.Id',this)">
+                                reset
+                            </button>
+                        }
+                    </td>
+
+                </tr>
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Brak użytkowników
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+    @* Stronicowanie *@
+
+    <div class="row">
+        <div class="col-12">
+            <div page-model="@Model.PagingInfo" page-action="Users" page-classes-enabled="true"
+                 page-class="btn"
+                 page-class-normal="btn-secondary"
+                 page-class-selected="btn-primary"
+                 class="btn-group btn-group-sm m-1">
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+

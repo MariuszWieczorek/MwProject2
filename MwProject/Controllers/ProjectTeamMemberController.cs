@@ -48,7 +48,7 @@ namespace MwProject.Controllers
             {
                 ProjectTeamMember = selectedProjectTeamMember,
                 Heading = id == 0 ? $"nowy" : $"edycja",
-                ApplicationUsers = _userService.GetUsers()
+                ApplicationUsers = _userService.GetUsers(null,null)
             };
 
             return View(vm);
@@ -68,7 +68,7 @@ namespace MwProject.Controllers
                 {
                     ProjectTeamMember = selectedProjectTeamMember.ProjectTeamMember,
                     Heading = selectedProjectTeamMember.ProjectTeamMember.Id == 0 ? "nowa" : "edycja",
-                    ApplicationUsers = _userService.GetUsers()
+                    ApplicationUsers = _userService.GetUsers(null,null)
                 };
 
                 return View("ProjectTeamMember", vm);

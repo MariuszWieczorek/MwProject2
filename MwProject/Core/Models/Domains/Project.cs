@@ -23,6 +23,7 @@ namespace MwProject.Core.Models.Domains
             ProjectRequirements = new Collection<ProjectRequirement>();
             ProjectTechnicalProperties = new Collection<ProjectTechnicalProperty>();
             ProjectTeamMembers = new Collection<ProjectTeamMember>();
+            Notifications = new Collection<Notification>();
         }
 
         [MaxLength(255)]
@@ -304,6 +305,9 @@ namespace MwProject.Core.Models.Domains
         public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
         
         public ICollection<ProjectTeamMember> ProjectTeamMembers { get; set; }
+
+        public ICollection<Notification> Notifications { get; set; }
+
 
     }
 }

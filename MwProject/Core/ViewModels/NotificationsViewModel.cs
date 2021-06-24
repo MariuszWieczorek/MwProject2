@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MwProject.Core.ViewModels
 {
-    public class UserViewModel
+    public class NotificationsViewModel
     {
-        public string Heading { get; set; }
-        public ApplicationUser User { get; set; }
+        public IEnumerable<Notification> Notifications { get; set; }
         public ApplicationUser CurrentUser { get; set; }
-        public IEnumerable<ApplicationUser> Managers { get; set; }
     }
 }

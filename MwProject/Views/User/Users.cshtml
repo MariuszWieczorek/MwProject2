@@ -4,234 +4,82 @@
     ViewData["Title"] = "Użytkownicy";
 }
 
-<h1>Użytkownicy</h1>
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h2 class="mb-3 mt-4 display-4">
+            @ViewData["Title"]
+        </h2>
+    </div>
 
-
-<div id="usersTable">
-    <table class="table mt-3 table-bordered table-hover">
-        <thead class="table-light">
-            <tr>
-                <th scope="col">Email</th>
-                <th scope="col">Imię</th>
-                <th scope="col">Nazwisko</th>
-                <th scope="col">Stanowisko</th>
-                <th scope="col">Admin</th>
-                <th scope="col">Edit</th>
-                <th scope="col">All</th>
-                <th scope="col">Accept</th>
-                <th scope="col">Confirm</th>
-                <th scope="col">Tkw</th>
-                <th scope="col">Sales</th>
-                <th scope="col">Qual</th>
-                <th scope="col">Econ</th>
-                <th scope="col">Tech</th>
-                <th scope="col">Gene</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Users != null && Model.Users.Any())
-            {
-                foreach (var user in Model.Users)
-                {
-            <tr>
-
-
-                <td>
-                    <strong>
-                        <a href="@Url.Action("SingleUser", "User",
-                                    new { id = user.Id })"
-                           class="font-weight-bold">@user.Email</a>
-                    </strong>
-                </td>
-                <td><strong>@user.FirstName</strong></td>
-                <td><strong>@user.LastName</strong></td>
-                <td>@user.Possition</td>
-
-                <td>
-                    @if (user.AdminRights)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    @if (user.CanModifyProject)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    @if (user.CanSeeAllProject)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    @if (user.CanAcceptProject)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    @if (user.CanConfirmProject)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    @if (user.CanConfirmCalculations)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                    @if (user.CanEditCalculations)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    <div class="row">
-                        @if (user.CanConfirmEstimatedSales)
-                        {
-                            <div class="col-6">
-                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                            </div>
-                        }
-                        @if (user.CanEditEstimatedSales)
-                        {
-                            <div class="col-6">
-                                <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                            </div>
-                        }
-                    </div>
-                </td>
-
-                <td>
-                    @if (user.CanConfirmQualityRequirements)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                    @if (user.CanEditQualityRequirements)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    @if (user.CanConfirmEconomicRequirements)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                    @if (user.CanEditEconomicRequirements)
-                    {
-                        <div>
-                            <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                        </div>
-                    }
-                </td>
-
-                <td>
-                    <div class="col-12" width="34">
-                        <div class="col-6">
-                            @if (user.CanConfirmTechnicalProperties)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </div>
-                        <div class="col-6">
-                            @if (user.CanEditTechnicalProperties)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </td>
-
-
-
-                <td>
-                    <div class="col-12" width="34">
-                        <div class="col-6">
-                            @if (user.CanConfirmGeneralRequirements)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </div>
-                        <div class="col-6">
-                            @if (user.CanEditGeneralRequirements)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/edit-512.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </td>
-
-                <td>
-                    @if (Model.CurrentUser.AdminRights)
-                    {
-                        <button class="btn btn-outline-danger btn-sm"
-                                onclick="resetPassword('@user.Id',this)">
-                            reset
-                        </button>
-                    }
-                </td>  
-</tr>
-                }
-
-            }
-            else
-            {
-                <tr>
-                    <td colspan="5" class="text-center">
-                        Brak użytkowników
-                    </td>
-                </tr>
-            }
-
-
-        </tbody>
-
-    </table>
+    <div class="col-2">
+        <div class="mt-4 mb-4 text-muted">
+            <img src="@Url.Content("~/images/users.png")" style="width: 100px;" />
+        </div>
+    </div>
 </div>
+
+@*Filtrowanie*@
+<div class="p-3 mb-2 bg-light border rounded">
+    <form id="filterForm" class="row gy-2 gx-3 align-items-center">
+
+
+        <div class="col-3">
+            @Html.LabelFor(x => x.UsersFilter.UserName)
+            @Html.TextBoxFor(x => x.UsersFilter.UserName,
+              new { @class = "form-control", placeholder = "Nazwa użytkownika" })
+        </div>
+              
+
+        <div class="col-1">
+            <button type="submit" class="btn btn-outline-success">Filtruj</button>
+        </div>
+
+    </form>
+</div>
+
+@* tabela z listą użytkowników *@
+<div class="row">
+    <div class="col-12">
+        @await Html.PartialAsync("_UsersTablePartial.cshtml", Model)
+    </div>
+</div>
+
 
 @section Scripts
 {
     <script type="text/javascript">
+        // ------------------------------------------------------------------------------------------------------
+        // funkcja zostanie wywołana gdy zostanie załadowany już cały widok
 
-        // Usuwanie użytkownika
+        $(document).ready(function () {
+        // najpierw zaznaczamy formularz o id = filterForm
+        // chcemy aby po kliknięci przycisku zostałą wywołana taka funkcja
+        // a chcemy, żeby za pomocą ajax'a została wywołana odpowiednia funkcja z kontrolera
+        // przesyłamy zserializowane dane z tego formularza
+        // jeżeli zakończone sukcesem, to zostanie zwrócona tabelka z widoku częściowego
+
+            $('#filterForm').submit(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("Users","User")",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#usersTable').html(data);
+                    },
+                    error: function (data) {
+                        alert(data.message + ' filter ')
+                    },
+                    dataType: "html"
+                });
+                // return false konieczne aby nie wykonał się jeszcze raz submit
+                return false;
+            });
+        });
+
+        // ------------------------------------------------------------------------------------------------------
+
+        // Usuwanie kategorii
         function deleteUser(id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć użytkownika ?"))
                 return;
@@ -240,7 +88,7 @@
                 type: 'POST',
                 url: "@Url.Action("DeleteUser", "User")",
                 data: {
-                    id: id
+                    Id: id
                 },
                 success: function (data) {
                     if (data.success) {
@@ -260,8 +108,6 @@
             });
         }
         // --------------------------------------------
-
-        // Usuwanie użytkownika
         function resetPassword(id, btn) {
             if (!confirm("Czy na pewno chcesz zresetować hasło ?"))
                 return;
@@ -275,7 +121,7 @@
                 success: function (data) {
                     if (data.success) {
                         // usuwanie z tabeli w html'u
-                        alert('hasło zostało zresetowane')    
+                        alert('hasło zostało zresetowane')
                     }
                     else {
                         alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
@@ -289,6 +135,5 @@
             });
         }
         // --------------------------------------------
-
     </script>
 }

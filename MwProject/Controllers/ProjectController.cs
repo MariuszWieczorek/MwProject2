@@ -55,7 +55,7 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
-            var applicationUsers = _userService.GetUsers();
+            var applicationUsers = _userService.GetUsers(null,null);
 
             //HttpContext.Session.SetInt32("age", 20);
             //HttpContext.Session.SetString("username", "abc");
@@ -141,7 +141,7 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
-            var applicationUsers = _userService.GetUsers();
+            var applicationUsers = _userService.GetUsers(null,null);
 
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
@@ -244,7 +244,7 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
-            var applicationUsers = _userService.GetUsers();
+            var applicationUsers = _userService.GetUsers(null,null);
             
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();

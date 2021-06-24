@@ -19,6 +19,7 @@ namespace MwProject.Core
         IRankingElementRepository RankingElementRepository { get; set; }
         IUserRepository UserRepository { get; set; }
         IProjectTeamMemberRepository ProjectTeamMemberRepository { get; set; }
+        INotificationRepository NotificationRepository { get; set; }
 
         void Complete();
     }

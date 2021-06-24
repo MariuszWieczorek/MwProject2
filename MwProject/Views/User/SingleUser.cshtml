@@ -16,158 +16,285 @@
 
     @Html.ValidationSummary()
 
-    <div class="form-group mb-2">
-        @Html.LabelFor(x => x.User.FirstName)
-        @Html.TextBoxFor(x => x.User.FirstName, new { @class = "form-control", autofocus = "autofocus" })
-        @Html.ValidationMessageFor(x => x.User.FirstName)
-    </div>
+    <!-- Uprawnienia -->
+    <div class="row">
+        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+            <div class="row">
+                <div class="form-group mb-2">
+                    @Html.LabelFor(x => x.User.FirstName)
+                    @Html.TextBoxFor(x => x.User.FirstName, new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.User.FirstName)
+                </div>
 
-    <div class="form-group mb-2">
-        @Html.LabelFor(x => x.User.LastName)
-        @Html.TextBoxFor(x => x.User.LastName, new { @class = "form-control", autofocus = "autofocus" })
-        @Html.ValidationMessageFor(x => x.User.LastName)
-    </div>
+                <div class="form-group mb-2">
+                    @Html.LabelFor(x => x.User.LastName)
+                    @Html.TextBoxFor(x => x.User.LastName, new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.User.LastName)
+                </div>
 
-    <div class="form-group mb-2">
-        @Html.LabelFor(x => x.User.Possition)
-        @Html.TextBoxFor(x => x.User.Possition, new { @class = "form-control", autofocus = "autofocus" })
-        @Html.ValidationMessageFor(x => x.User.Possition)
-    </div>
+                <div class="form-group mb-2">
+                    @Html.LabelFor(x => x.User.Possition)
+                    @Html.TextBoxFor(x => x.User.Possition, new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.User.Possition)
+                </div>
 
-    <div class="form-group mb-2">
-        <label asp-for="User.PhoneNumber"></label>
-        <input asp-for="User.PhoneNumber" class="form-control" />
-        <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
-    </div>
+                <div class="form-group mb-2">
+                    @Html.LabelFor(x => x.User.ReferenceNumber)
+                    @Html.TextBoxFor(x => x.User.ReferenceNumber, new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.User.ReferenceNumber)
+                </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.AdminRights, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.AdminRights, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.AdminRights)
-    </div>
+                <div class="form-group mb-2">
+                    <label asp-for="User.PhoneNumber"></label>
+                    <input asp-for="User.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                </div>
 
+                <!-- Manager -->
+                <div class="form-group mb-3 col-6">
+                    @Html.LabelFor(x => x.User.ManagerId)
+                    @Html.DropDownListFor(x => x.User.ManagerId,
+                                   new SelectList(Model.Managers, "Id", "UserName"),
+                                   "--- Wybierz kierownika ---",
+                                   new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.User.ManagerId)
+                </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanModifyProject, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanModifyProject, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanModifyProject)
-    </div>
+                <div class="form-check form-switch mt-3 mb-2 me-2">
+                    @Html.CheckBoxFor(x => x.User.EmailConfirmed, new { @class = "form-check-input" })
+                    @Html.LabelFor(x => x.User.EmailConfirmed, new { @class = "form-check-label" })
+                    @Html.ValidationMessageFor(x => x.User.EmailConfirmed)
+                </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanSeeAllProject, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanSeeAllProject, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanSeeAllProject)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanAcceptProject, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanAcceptProject, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanAcceptProject)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmProject, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmProject, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmProject)
-    </div>
-
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmCalculations)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmGeneralRequirements, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmGeneralRequirements, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmGeneralRequirements)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmEconomicRequirements)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmQualityRequirements)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmTechnicalProperties)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmEstimatedSales)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanConfirmProjectTeam)
+                <div class="form-check form-switch mt-3 mb-2 me-2">
+                    @Html.CheckBoxFor(x => x.User.IsManager, new { @class = "form-check-input" })
+                    @Html.LabelFor(x => x.User.IsManager, new { @class = "form-check-label" })
+                    @Html.ValidationMessageFor(x => x.User.IsManager)
+                </div>
+            </div>
+        </div>
     </div>
 
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditCalculations, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditCalculations, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditCalculations)
+
+    <!-- Uprawnienia -->
+    <div class="row">
+        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+
+            <!-- Widoczność projektów -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanModifyProject, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanModifyProject, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanModifyProject)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanSeeAllProject, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanSeeAllProject, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanSeeAllProject)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kalkulacje -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditCalculations, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditCalculations, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditCalculations)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmCalculations)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ekonomiczne -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditEconomicRequirements, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditEconomicRequirements, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditEconomicRequirements)
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmEconomicRequirements)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ogólne -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditGeneralRequirements, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditGeneralRequirements, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditGeneralRequirements)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmGeneralRequirements, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmGeneralRequirements, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmGeneralRequirements)
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Jakościowe -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditQualityRequirements, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditQualityRequirements, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditQualityRequirements)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmQualityRequirements)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Techniczne  -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditTechnicalProperties, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditTechnicalProperties, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditTechnicalProperties)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmTechnicalProperties)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sprzedaż  -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditEstimatedSales, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditEstimatedSales, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditEstimatedSales)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmEstimatedSales)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Zespół projektowy -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanEditProjectTeam)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmProjectTeam)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Potwierdzanie, akceptacja projektu -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanConfirmProject, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanConfirmProject, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanConfirmProject)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanAcceptProject, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanAcceptProject, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanAcceptProject)
+                    </div>
+                </div>
+
+            </div>
+
+            <!--Admin SuperAdmin-->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.AdminRights, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.AdminRights, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.AdminRights)
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2 ">
+                        @Html.CheckBoxFor(x => x.User.SuperAdminRights, new { @class = "form-check-input text-danger", onclick = "return false" })
+                        @Html.LabelFor(x => x.User.SuperAdminRights, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.SuperAdminRights)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditGeneralRequirements, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditGeneralRequirements, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditGeneralRequirements)
+
+    <!-- Powiadomienia -->
+    <div class="row">
+        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+
+            <!-- gdy nowy projekt -->
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.NewProjectEmailNotification, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.NewProjectEmailNotification, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.NewProjectEmailNotification)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditEconomicRequirements, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditEconomicRequirements, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditEconomicRequirements)
-    </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditQualityRequirements, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditQualityRequirements, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditQualityRequirements)
-    </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditTechnicalProperties, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditTechnicalProperties, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditTechnicalProperties)
-    </div>
 
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditEstimatedSales, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditEstimatedSales, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditEstimatedSales)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.CanEditProjectTeam)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2">
-        @Html.CheckBoxFor(x => x.User.EmailConfirmed, new { @class = "form-check-input" })
-        @Html.LabelFor(x => x.User.EmailConfirmed, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.EmailConfirmed)
-    </div>
-
-    <div class="form-check form-switch mt-3 mb-2 ">
-        @Html.CheckBoxFor(x => x.User.SuperAdminRights, new { @class = "form-check-input text-danger", onclick = "return false" })
-        @Html.LabelFor(x => x.User.SuperAdminRights, new { @class = "form-check-label" })
-        @Html.ValidationMessageFor(x => x.User.SuperAdminRights)
-    </div>
 
     <!--, onclick = "return false", disabled = "disabled"-->
 

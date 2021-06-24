@@ -26,6 +26,8 @@ namespace MwProject.Data
         public DbSet<RankingCategory> RankingCategories { get; set; }
         public DbSet<RankingElement> RankingElements { get; set; }
         public DbSet<ProjectTeamMember> ProjectTeamMembers { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<TypeOfNotification> TypeOfNotifications { get; set; }
 
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)

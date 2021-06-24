@@ -24,6 +24,9 @@ namespace MwProject.Core
         DbSet<RankingCategory>  RankingCategories { get; set; }
         DbSet<RankingElement>   RankingElements { get; set; }
         DbSet<ProjectTeamMember> ProjectTeamMembers { get; set; }
+        DbSet<Notification> Notifications { get; set; }
+        DbSet<TypeOfNotification> TypeOfNotifications { get; set; }
+
 
         int SaveChanges();
     }
