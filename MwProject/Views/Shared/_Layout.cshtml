@@ -4,12 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MwProject</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-datepicker/bootstrap-datepicker3.css" rel="stylesheet" />
-    <link href="~/lib/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datapicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datapicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <link href="~/lib/eonasdan-bootstrap-datatimepicker/css/bootstrap-datetimepicker-standalone.css" rel="stylesheet" />
+
+
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/validate.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap4-glyphicons/css/bootstrap-glyphicons.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -178,11 +184,22 @@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+
+    <script src="~/lib/moment/moment.js"></script>
+
+    <script src="~/lib/bootstrap-datapicker/js/bootstrap-datepicker.js"></script>
+
+    <script src="~/lib/eonasdan-bootstrap-datatimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="~/lib/font-awesome/js/all.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @await RenderSectionAsync("Scripts", required: false)
 </body>
