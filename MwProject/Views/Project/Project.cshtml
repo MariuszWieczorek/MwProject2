@@ -6,9 +6,26 @@
 
 
     bool NewProject = (Model.Project.Id == 0);
-    bool canAccept = !Model.Project.IsAccepted
-                   && Model.Project.IsCalculationConfirmed;
-    bool canWithdrawAcceptation = Model.Project.IsAccepted;
+
+
+    bool canConfirm = !Model.Project.IsConfirmed
+                   && !Model.Project.IsAccepted
+                   && Model.CurrentUser.CanConfirmProject;
+
+
+    bool canWithdrawConfirmation = Model.Project.IsConfirmed
+                   && !Model.Project.IsAccepted
+                   && Model.CurrentUser.CanConfirmProject;
+
+
+    bool canAccept =    !Model.Project.IsAccepted
+                      && Model.Project.IsConfirmed
+                      && Model.CurrentUser.CanAcceptProject;
+
+    bool canWithdrawAcceptation = Model.Project.IsAccepted
+                               && Model.CurrentUser.CanAcceptProject;
+
+
 }
 
 <!-- Nagłówek -->
@@ -33,15 +50,15 @@
         <div class="col-12">
 
             <!--
-               <button class="btn btn-secondary mb-3"
-                       onclick="generatePdf()">
-                   Generuj PDF
-               </button>
+       <button class="btn btn-secondary mb-3"
+               onclick="generatePdf()">
+           Generuj PDF
+       </button>
 
-               <button class="btn btn-secondary mb-3" onclick="printProject()">
-                   Drukuj
-               </button>
-            -->
+       <button class="btn btn-secondary mb-3" onclick="printProject()">
+           Drukuj
+       </button>
+    -->
             <button id="printButton" class="btn btn-secondary mb-3">
                 Drukuj
             </button>
@@ -49,18 +66,31 @@
 
             @if (canAccept)
             {
-                <button class="btn btn-lg btn-warning mb-3" onclick="acceptProject()">
+                <button class="btn btn-lg btn-danger mb-3" onclick="acceptProject()">
                     <strong>Akceptuj Projekt</strong>
                 </button>
             }
 
             @if (canWithdrawAcceptation)
             {
-                <button class="btn btn-warning mb-3" onclick="withdrawProjectAcceptance()">
+                <button class="btn btn-danger mb-3" onclick="withdrawProjectAcceptance()">
                     Wycofaj Akceptacje
                 </button>
             }
 
+            @if (canConfirm)
+            {
+                <button class="btn btn-lg btn-warning mb-3" onclick="confirmProject()">
+                    <strong>Potwierdź Dane</strong>
+                </button>
+            }
+
+            @if (canWithdrawConfirmation)
+            {
+                <button class="btn btn-warning mb-3" onclick="withdrawProjectConfirmation()">
+                    Wycofaj Potwierdzenie Danych
+                </button>
+            }
 
         </div>
     </div>
@@ -1045,7 +1075,7 @@
         // ConfirmProject
         function confirmProject() {
 
-            if (!confirm("Czy potwierdzić projekt ?"))
+            if (!confirm("Czy potwierdzić dane na projekcie ?"))
                 return;
             // --------------------------------------------
             $.ajax({
@@ -1076,9 +1106,9 @@
 
         // ------------------------------------------------------------------------------------------------
         // WithdrawProjectConfimration
-        function WithdrawProjectConfimration() {
+        function withdrawProjectConfirmation() {
 
-            if (!confirm("Czy wycofać potwierdzenie projektu ?"))
+            if (!confirm("Czy wycofać potwierdzenie danych ?"))
                 return;
             // --------------------------------------------
             $.ajax({

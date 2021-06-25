@@ -9,14 +9,17 @@
 
     bool canEdit = Model.CurrentUser.CanEditProjectTeam
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && !Model.Project.IsProjectTeamConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmProjectTeam
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && Model.Project.IsProjectTeamConfirmed;
 
     bool canAccept = Model.CurrentUser.CanConfirmProjectTeam
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && !Model.Project.IsProjectTeamConfirmed;
 }
 

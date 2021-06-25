@@ -96,9 +96,15 @@ namespace MwProject.Core.Models.Domains
         [Required(ErrorMessage = "Pole kategoria jest wymagane.")]
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
-
         
         public Category Category { get; set; }
+
+
+        [Display(Name = "Status")]
+        public int? ProjectStatusId { get; set; }
+
+        public ProjectStatus ProjectStatus { get; set; }
+
 
         [Display(Name = "Nowy Produkt")]
         public bool NewProduct { get; set; }

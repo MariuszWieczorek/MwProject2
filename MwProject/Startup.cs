@@ -56,6 +56,8 @@ namespace MwProject
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProjectTeamMemberRepository, ProjectTeamMemberRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IProjectStatusRepository, ProjectStatusRepository>();
+            
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -73,6 +75,7 @@ namespace MwProject
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectTeamMemberService, ProjectTeamMemberService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IProjectStatusService, ProjectStatusService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

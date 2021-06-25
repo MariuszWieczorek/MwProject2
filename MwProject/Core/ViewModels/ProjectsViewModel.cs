@@ -1,5 +1,6 @@
 ﻿using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace MwProject.Core.ViewModels
         public IEnumerable<ProductGroup> ProductGroups { get; set; }
         public ApplicationUser CurrentUser { get; set; }
         public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
+
+        public IEnumerable<ProjectStatus> ProjectStatuses { get; set; }
     }
 }

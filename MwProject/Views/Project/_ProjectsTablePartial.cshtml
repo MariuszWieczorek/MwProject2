@@ -25,6 +25,7 @@
                     <th scope="col">kategoria</th>
                     <th scope="col">tytuł</th>
                     <th scope="col">data</th>
+                    <th scope="col">status</th>
                     <th scope="col">kierownik</th>
                     <th scope="col"> </th>
                 </tr>
@@ -52,14 +53,18 @@
                     </td>
                     <td class="text-muted font-weight-bold">@project.Category.Name</td>
                     <td style=" max-width: 300px ">@project.Title </td>
-                   
+
                     <td>
                         @if (project.CreatedDate.HasValue)
                         {
                             @project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
                         }
                     </td>
-                   
+
+                    <td>
+                            @project.ProjectStatus?.Name
+                    </td>
+
                     <td>
                         @if (project.ProjectManager != null)
                         {

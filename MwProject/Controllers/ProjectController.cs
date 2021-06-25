@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Filters;
 using MwProject.Core.Services;
 using MwProject.Core.ViewModels;
 using MwProject.Helpers;
@@ -28,6 +29,7 @@ namespace MwProject.Controllers
         private readonly IUserService _userService;
         private readonly IRankingCategoryService _rankingCategoryService;
         private readonly IRankingElementService _rankingElementService;
+        private readonly IProjectStatusService _projectStatusService;
 
         private readonly int _itemPerPage = 10;
 
@@ -37,7 +39,8 @@ namespace MwProject.Controllers
                                  IProductGroupService productGroupService,
                                  IUserService userService,
                                  IRankingCategoryService rankingCategoryService,
-                                 IRankingElementService rankingElementService
+                                 IRankingElementService rankingElementService,
+                                 IProjectStatusService projectStatusService
                                 )
         {
             _projectService = projectService;
@@ -46,6 +49,7 @@ namespace MwProject.Controllers
             _userService = userService;
             _rankingCategoryService = rankingCategoryService;
             _rankingElementService = rankingElementService;
+            _projectStatusService = projectStatusService;
         }
 
         #endregion
@@ -56,6 +60,7 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
             var applicationUsers = _userService.GetUsers(null,null);
+            var projectStatuses = _projectStatusService.GetProjectStatuses();
 
             //HttpContext.Session.SetInt32("age", 20);
             //HttpContext.Session.SetString("username", "abc");
@@ -84,7 +89,8 @@ namespace MwProject.Controllers
                 Projects = projects,
                 PagingInfo = new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
                 CurrentUser = currentUser,
-                ApplicationUsers = applicationUsers
+                ApplicationUsers = applicationUsers,
+                ProjectStatuses = projectStatuses
             };
 
             return View(vm);
@@ -101,6 +107,7 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
+            var projectStatuses = _projectStatusService.GetProjectStatuses();
 
             int numberOfRecords = _projectService.GetNumberOfRecords(viewModel.ProjectsFilter, 0, userId);
 
@@ -120,7 +127,8 @@ namespace MwProject.Controllers
                 Categories = _categoryService.GetCategories(),
                 Projects = projects,
                 PagingInfo = pagingInfo,
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                ProjectStatuses = projectStatuses
             };
 
             // zapisujemy w sesji ustawienia filtra
@@ -142,6 +150,7 @@ namespace MwProject.Controllers
             var currentUser = _userService.GetUser(userId);
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
             var applicationUsers = _userService.GetUsers(null,null);
+            var projectStatuses = _projectStatusService.GetProjectStatuses();
 
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
@@ -225,7 +234,8 @@ namespace MwProject.Controllers
                 CurrentUser = currentUser,
                 ProjectManager = projectManager,
                 RankingCategories = rankingCategories,
-                ApplicationUsers = applicationUsers
+                ApplicationUsers = applicationUsers,
+                ProjectStatuses = projectStatuses
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -245,7 +255,8 @@ namespace MwProject.Controllers
             var currentUser = _userService.GetUser(userId);
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
             var applicationUsers = _userService.GetUsers(null,null);
-            
+            var projectStatuses = _projectStatusService.GetProjectStatuses();
+
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();
             ApplicationUser calculationConfirmedBy = new();
@@ -323,7 +334,8 @@ namespace MwProject.Controllers
                     QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                     EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
                     TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
-                    ProjectManager = projectManager
+                    ProjectManager = projectManager,
+                    ProjectStatuses = projectStatuses
 
                 };
                 

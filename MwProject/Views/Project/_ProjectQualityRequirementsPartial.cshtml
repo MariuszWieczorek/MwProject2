@@ -10,14 +10,17 @@
 
     bool canEdit = Model.CurrentUser.CanEditQualityRequirements
          && !Model.Project.IsAccepted
+         && !Model.Project.IsConfirmed
          && !Model.Project.IsQualityRequirementsConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmQualityRequirements
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && Model.Project.IsQualityRequirementsConfirmed;
 
     bool canAccept = Model.CurrentUser.CanConfirmQualityRequirements
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && !Model.Project.IsQualityRequirementsConfirmed;
 }
 

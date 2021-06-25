@@ -10,14 +10,17 @@
 
     bool canEdit = Model.CurrentUser.CanEditEconomicRequirements
       && !Model.Project.IsAccepted
+      && !Model.Project.IsConfirmed
       && !Model.Project.IsEconomicRequirementsConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmEconomicRequirements
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && Model.Project.IsEconomicRequirementsConfirmed;
 
     bool canAccept = Model.CurrentUser.CanConfirmEconomicRequirements
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && !Model.Project.IsEconomicRequirementsConfirmed;
 
     var totalCost = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement).Sum(x => x.Value);

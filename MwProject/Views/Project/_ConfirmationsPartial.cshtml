@@ -64,6 +64,25 @@
                     }
 
 
+                    @if (Model.Project.IsConfirmed)
+                    {
+                        <tr>
+                            <td> <strong>dane potwierdzone przez</strong> </td>
+                            <td>
+                                @if (Model.Project.IsConfirmed)
+                                {
+                                    <div>
+                                        <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                    </div>
+                                }
+                            </td>
+                            <td>@Model.ConfirmedBy.FirstName @Model.ConfirmedBy.LastName</td>
+                            <td>@Model.ConfirmedBy.Possition</td>
+                            <td>@Model.Project.ConfirmedDate</td>
+                            <td> </td>
+                        </tr>
+                    }
+
                     <tr>
                         <td class="text-muted"> <strong>utworzony</strong> </td>
                         <td>

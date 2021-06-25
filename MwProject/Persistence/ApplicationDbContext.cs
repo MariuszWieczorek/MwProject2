@@ -28,6 +28,8 @@ namespace MwProject.Data
         public DbSet<ProjectTeamMember> ProjectTeamMembers { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<TypeOfNotification> TypeOfNotifications { get; set; }
+        
+        public DbSet<ProjectStatus> ProjectStatuses { get; set; }
 
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -6,14 +6,17 @@
 
     bool canEdit = Model.CurrentUser.CanEditEstimatedSales
       && !Model.Project.IsAccepted
+      && !Model.Project.IsConfirmed
       && !Model.Project.IsEstimatedSalesConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmEstimatedSales
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && Model.Project.IsEstimatedSalesConfirmed;
 
     bool canAccept = Model.CurrentUser.CanEditEstimatedSales
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && !Model.Project.IsEstimatedSalesConfirmed;
 }
 

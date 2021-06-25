@@ -1,5 +1,6 @@
 ﻿using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Filters;
 using MwProject.Core.ViewModels;
 using System;
 using System.Collections.Generic;

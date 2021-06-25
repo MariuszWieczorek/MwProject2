@@ -6,14 +6,17 @@
 
     bool canEdit = Model.CurrentUser.CanEditCalculations
       && !Model.Project.IsAccepted
+      && !Model.Project.IsConfirmed
       && !Model.Project.IsCalculationConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmCalculations
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && Model.Project.IsCalculationConfirmed;
 
     bool canAccept = Model.CurrentUser.CanConfirmCalculations
         && !Model.Project.IsAccepted
+        && !Model.Project.IsConfirmed
         && !Model.Project.IsCalculationConfirmed;
 }
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MwProject.Core.Models
+namespace MwProject.Core.Models.Filters
 {
     public class ProjectsFilter
     {
@@ -16,6 +16,9 @@ namespace MwProject.Core.Models
 
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
+
+        [Display(Name = "Status")]
+        public int ProjectStatusId { get; set; }
 
         [Display(Name = "Numer")]
         public string Number { get; set; }

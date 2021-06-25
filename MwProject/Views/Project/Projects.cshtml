@@ -1,7 +1,7 @@
 ﻿@model MwProject.Core.ViewModels.ProjectsViewModel
 @using Microsoft.AspNetCore.Http;
 @using MwProject.Helpers;
-@using MwProject.Core.Models;
+@using MwProject.Core.Models.Filters;
 
 @{
 
@@ -75,9 +75,11 @@
         </div>
 
         <div class="col-3">
-            @Html.LabelFor(x => x.ProjectsFilter.Year)
-            @Html.TextBoxFor(x => x.ProjectsFilter.Year,
-              new { @class = "form-control", placeholder = "Rok" })
+            @Html.LabelFor(x => x.ProjectsFilter.ProjectStatusId)
+            @Html.DropDownListFor(x => x.ProjectsFilter.ProjectStatusId,
+               new SelectList(Model.ProjectStatuses, "Id", "Name"),
+               " -- wszystkie kategorie -- ",
+               new { @class = "form-control" })
         </div>
 
         <div class="form-check form-switch mb-3 col-2">

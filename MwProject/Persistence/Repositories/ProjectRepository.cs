@@ -2,6 +2,7 @@
 using MwProject.Core;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Filters;
 using MwProject.Core.Repositories;
 using MwProject.Core.ViewModels;
 using System;
@@ -137,6 +138,9 @@ namespace MwProject.Persistence.Repositories
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
+            if (projectsFilter.ProjectStatusId != 0)
+                projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
+
             if (projectsFilter.Year != 0)
                 projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
 
@@ -188,6 +192,7 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.Category)
                 .Include(x => x.User)
                 .Include(x => x.ProjectManager)
+                .Include(x => x.ProjectStatus)
                 .AsQueryable();
 
 
@@ -200,6 +205,9 @@ namespace MwProject.Persistence.Repositories
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
+
+            if (projectsFilter.ProjectStatusId != 0)
+                projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
 
             if (projectsFilter.Year != 0)
                 projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
@@ -273,6 +281,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Client = project.Client;
             projectToUpdate.ProductStatus = project.ProductStatus;
             projectToUpdate.OrdinalNumber = project.OrdinalNumber;
+            projectToUpdate.ProjectStatusId = project.ProjectStatusId;
 
         }
 

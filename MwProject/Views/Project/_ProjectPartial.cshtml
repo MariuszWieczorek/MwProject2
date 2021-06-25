@@ -95,7 +95,7 @@
                                 @Html.ValidationMessageFor(x => x.Project.Number)
                             </div>
 
-                            
+
                             @if (false)
                             {
                                 <div class="row">
@@ -128,6 +128,17 @@
                         </div>
 
 
+                        <div class="row">
+                            <div class="form-group mb-3 col-6">
+
+                                @Html.LabelFor(x => x.Project.ProjectStatusId)
+                                @Html.DropDownListFor(x => x.Project.ProjectStatusId,
+                                        new SelectList(Model.ProjectStatuses, "Id", "Name"),
+                                        "--- Wybierz status projektu ---",
+                                        new { @class = "form-control", autofocus = "autofocus", id = "statusId" })
+                                @Html.ValidationMessageFor(x => x.Project.ProjectStatusId)
+                            </div>
+                        </div>
 
                         <div class="row">
                             <!-- Kategoria Projektu -->
@@ -487,6 +498,6 @@
 @section scripts
 {
     <script type="text/javascript">
-                                                             // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                                 // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
     </script>
 }
