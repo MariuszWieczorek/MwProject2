@@ -29,8 +29,9 @@
     <table class="table mt-3 table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th scope="col">Lp</th>
+                <th scope="col">Id</th>
                 <th scope="col">Nazwa</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -39,33 +40,45 @@
             {
                 foreach (var technicalProperty in Model.TechnicalProperties)
                 {
-                    <tr>
+            <tr>
 
-                        <td>
-
-                            <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
+                <td>
+                    <strong>
+                        <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
                                     new { id = technicalProperty.Id })"
-                               class="font-weight-bold">@technicalProperty.OrdinalNumber</a>
-                        </td>
+                           class="font-weight-bold">@technicalProperty.Id</a>
+                    </strong>
+                </td>
 
-                        <td>
-
-                            <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
+                <td>
+                    <strong>
+                        <a href="@Url.Action("TechnicalProperty", "TechnicalProperty",
                                     new { id = technicalProperty.Id })"
-                               class="font-weight-bold">@technicalProperty.Name</a>
+                           class="font-weight-bold">@technicalProperty.Name</a>
+                    </strong>
+                </td>
+                <td>
+                    @if (Model.CurrentUser.SuperAdminRights)
+                    {
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="deleteTechnicalProperty('@technicalProperty.Id',this)">
+                            Usuń
+                        </button>
+                    }
 
-                        </td>
-                        <td>
-                            @if (Model.CurrentUser.SuperAdminRights)
-                            {
-                                <button class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteTechnicalProperty('@technicalProperty.Id',this)">
-                                    Usuń
-                                </button>
-                            }
+                </td>
 
-                        </td>
-                    </tr>
+                <td>
+                    @if (Model.CurrentUser.AdminRights)
+                    {
+                        <button class="btn btn-outline-warning btn-sm"
+                                onclick="setIsActiveToFalse('@technicalProperty.Id',this)">
+                            Ukryj
+                        </button>
+                    }
+
+                </td>
+            </tr>
                 }
 
             }
@@ -96,6 +109,36 @@
             $.ajax({
                 type: 'POST',
                 url: "@Url.Action("DeleteTechnicalProperty", "TechnicalProperty")",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji ');
+                },
+                dataType: 'json'
+
+            });
+        }
+        // --------------------------------------------
+
+         // Ukrywanie kategorii
+        function setIsActiveToFalse(id, btn) {
+            if (!confirm("Czy na ukryć element ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("SetIsActiveToFalse", "TechnicalProperty")",
                 data: {
                     Id: id
                 },

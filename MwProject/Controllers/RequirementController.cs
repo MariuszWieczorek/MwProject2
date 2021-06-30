@@ -118,6 +118,24 @@ namespace MwProject.Controllers
             return Json(new { success = true });
         }
 
+        [HttpPost]
+        public IActionResult SetIsActiveToFalse(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var currentUser = _userService.GetUser(userId);
+                _requirementService.SetIsActiveToFalse(id);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
+        }
+
         #endregion
 
     }

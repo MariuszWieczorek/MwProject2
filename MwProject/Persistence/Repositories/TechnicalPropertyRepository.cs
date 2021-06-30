@@ -20,8 +20,8 @@ namespace MwProject.Persistence.Repositories
         public IEnumerable<TechnicalProperty> GetTechnicalProperties()
         {
             var technicalProperities = _context.TechnicalProperties
-                        .OrderBy(x => x.OrdinalNumber)
-                        .ThenBy(x => x.Name)
+                        .Where(x => x.IsActive)
+                        .OrderBy(x => x.Name)
                         .ToList();
                             
             return technicalProperities;
@@ -29,6 +29,7 @@ namespace MwProject.Persistence.Repositories
 
         public void AddTechnicalProperty(TechnicalProperty technicalProperty)
         {
+            technicalProperty.IsActive = true;
             _context.TechnicalProperties.Add(technicalProperty);
             //var sql = string.Format(@"SELECT IDENT_CURRENT ('{0}') AS Current_Identity", "TechnicalProperties");
             //var id = _context.TechnicalProperties.FromSqlRaw(sql).First();
@@ -60,6 +61,12 @@ namespace MwProject.Persistence.Repositories
             {
                 OrdinalNumber = _context.TechnicalProperties.Max(x => x.OrdinalNumber) + 1
             };
+        }
+
+        public void SetIsActiveToFalse(int id)
+        {
+            var technicalPropertyToUpdate = _context.TechnicalProperties.Single(x => x.Id == id);
+            technicalPropertyToUpdate.IsActive = false;
         }
     }
 }

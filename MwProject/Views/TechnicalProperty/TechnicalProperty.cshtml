@@ -15,23 +15,19 @@
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.TechnicalProperty.Id)
+    @Html.HiddenFor(x => x.TechnicalProperty.OrdinalNumber)
 
 
     @Html.ValidationSummary()
 
-    <div class="form-group mb-3">
-        @Html.LabelFor(x => x.TechnicalProperty.OrdinalNumber)
-        @Html.TextBoxFor(x => x.TechnicalProperty.OrdinalNumber, new { @class = "form-control", autofocus = "autofocus" })
-        @Html.ValidationMessageFor(x => x.TechnicalProperty.OrdinalNumber)
-    </div>
-
+ 
     <div class="form-group mb-3">
         @Html.LabelFor(x => x.TechnicalProperty.Name)
         @Html.TextBoxFor(x => x.TechnicalProperty.Name, new { @class = "form-control", autofocus = "autofocus" })
         @Html.ValidationMessageFor(x => x.TechnicalProperty.Name)
     </div>
 
-      <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+    <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
 
 }
 

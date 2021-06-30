@@ -12,6 +12,7 @@ namespace MwProject.Core.Services
         void AddTechnicalProperty(TechnicalProperty technicalProperty);
         TechnicalProperty GetTechnicalProperty(int id);
         void UpdateTechnicalProperty(TechnicalProperty technicalProperty);
+        void SetIsActiveToFalse(int id);
         void DeleteTechnicalProperty(int id);
         TechnicalProperty NewTechnicalProperty();
     }

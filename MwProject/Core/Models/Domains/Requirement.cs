@@ -25,6 +25,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nazwa")]
         public string Name { get; set; }
         public int Type { get; set; }
+        
+        [Display(Name = "Widoczny")]
+        public bool IsActive { get; set; }
 
         public ICollection<ProjectRequirement> ProjectRequirements;
         

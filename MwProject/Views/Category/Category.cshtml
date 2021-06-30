@@ -91,13 +91,13 @@
 
     // ------------------------------------------------------------------------------------------------
 
-    function deleteCategoryRequirement(categoryId,id, btn) {
+        function deleteCategoryTechnicalProperty(categoryId,id, btn) {
             if (!confirm("Czy na pewno chcesz wymaganie ?"))
                 return;
 
            $.ajax({
                 type: 'POST',
-                url: "@Url.Action("DeleteCategoryRequirement", "CategoryRequirement")",
+                url: "@Url.Action("DeleteCategoryTechnicalProperty", "CategoryTechnicalProperty")",
                  data: {
                      categoryId: categoryId,
                      id: id
@@ -110,7 +110,7 @@
 
                     }
                     else {
-                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd X');
                     }
                 },
                 error: function (data) {

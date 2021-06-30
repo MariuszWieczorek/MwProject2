@@ -25,7 +25,7 @@ namespace MwProject.Persistence.Repositories
 
         public void DeleteCategoryTechnicalProperty(int categoryId, int id, string userId)
         {
-            var categoryTechnicalPropertyToDelete = _context.CategoryTechnicalProperties.Single(x => x.CategoryId == categoryId);
+            var categoryTechnicalPropertyToDelete = _context.CategoryTechnicalProperties.Single(x => x.CategoryId == categoryId && x.Id == id);
             _context.CategoryTechnicalProperties.Remove(categoryTechnicalPropertyToDelete);
         }
 

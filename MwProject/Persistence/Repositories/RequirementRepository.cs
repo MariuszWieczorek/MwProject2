@@ -19,6 +19,7 @@ namespace MwProject.Persistence.Repositories
 
         public void AddRequirement(Requirement requirement)
         {
+            requirement.IsActive = true;
             _context.Requirements.Add(requirement);
         }
 
@@ -45,7 +46,9 @@ namespace MwProject.Persistence.Repositories
         public IEnumerable<Requirement> GetRequirements()
         {
             return _context.Requirements
-                .OrderBy(x=>x.OrdinalNumber).ThenBy(x=>x.Name).ToList();
+                .Where(x=>x.IsActive)
+                .OrderBy(x=>x.Name)
+                .ToList();
         }
 
         public void UpdateRequirement(Requirement requirement)
@@ -54,6 +57,12 @@ namespace MwProject.Persistence.Repositories
             requirementToUpdate.Name = requirement.Name;
             requirementToUpdate.Type = requirement.Type;
             requirementToUpdate.OrdinalNumber = requirement.OrdinalNumber;
+        }
+
+        public void SetIsActiveToFalse(int id)
+        {
+            var requirementToUpdate = _context.Requirements.Single(x => x.Id == id);
+            requirementToUpdate.IsActive = false;
         }
     }
 }

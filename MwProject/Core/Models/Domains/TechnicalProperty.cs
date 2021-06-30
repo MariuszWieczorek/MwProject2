@@ -15,5 +15,8 @@ namespace MwProject.Core.Models.Domains
         [Required(ErrorMessage = "Pole nazwa jest wymagane.")]
         [Display(Name = "Nazwa")]
         public string Name { get; set; }
+        
+        [Display(Name = "Widoczny")]
+        public bool IsActive { get; set; }
     }
 }

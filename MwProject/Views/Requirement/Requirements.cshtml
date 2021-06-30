@@ -48,8 +48,9 @@
     <table class="table mt-3 table-bordered table-hover">
         <thead class="table-secondary">
             <tr>
-                <th scope="col">Lp</th>
+                <th scope="col">Id</th>
                 <th scope="col">Nazwa</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -58,32 +59,42 @@
             {
                 foreach (var requirement in Model.Requirements)
                 {
-                    <tr>
-                        <td>
-                            <strong>
-                                <a href="@Url.Action("Requirement", "Requirement",
+            <tr>
+                <td>
+                    <strong>
+                        <a href="@Url.Action("Requirement", "Requirement",
                                     new { id = requirement.Id, type = Model.Type })"
-                                   class="font-weight-bold">@requirement.OrdinalNumber</a>
-                            </strong>
-                        </td>
-                        <td>
-                            <strong>
-                                <a href="@Url.Action("Requirement", "Requirement",
+                           class="font-weight-bold">@requirement.Id</a>
+                    </strong>
+                </td>
+                <td>
+                    <strong>
+                        <a href="@Url.Action("Requirement", "Requirement",
                                     new { id = requirement.Id, type = Model.Type  })"
-                                   class="font-weight-bold">@requirement.Name</a>
-                            </strong>
-                        </td>
-                        <td>
-                            @if (Model.CurrentUser.SuperAdminRights)
-                            {
-                                <button class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteRequirement('@requirement.Id',this)">
-                                    Usuń
-                                </button>
-                            }
+                           class="font-weight-bold">@requirement.Name</a>
+                    </strong>
+                </td>
+                <td>
+                    @if (Model.CurrentUser.SuperAdminRights)
+                    {
+                        <button class="btn btn-outline-danger btn-sm"
+                                onclick="deleteRequirement('@requirement.Id',this)">
+                            Usuń
+                        </button>
+                    }
 
-                        </td>
-                    </tr>
+                </td>
+                <td>
+                    @if (Model.CurrentUser.AdminRights)
+                    {
+                        <button class="btn btn-outline-warning btn-sm"
+                                onclick="setIsActiveToFalse('@requirement.Id',this)">
+                            Ukryj
+                        </button>
+                    }
+
+                </td>
+            </tr>
                 }
 
             }
@@ -114,6 +125,36 @@
             $.ajax({
                 type: 'POST',
                 url: "@Url.Action("DeleteRequirement", "Requirement")",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd' );
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji ');
+                },
+                dataType: 'json'
+
+            });
+        }
+        // --------------------------------------------
+
+            // Ukrywanie kategorii
+        function setIsActiveToFalse(id, btn) {
+            if (!confirm("Czy na ukryć element ?"))
+                return;
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("SetIsActiveToFalse", "Requirement")",
                 data: {
                     Id: id
                 },

@@ -15,14 +15,11 @@
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Requirement.Id)
+    @Html.HiddenFor(x => x.Requirement.OrdinalNumber)
+    @Html.HiddenFor(x => x.Requirement.Type)
 
     @Html.ValidationSummary()
 
-    <div class="form-group">
-        @Html.LabelFor(x => x.Requirement.OrdinalNumber)
-        @Html.TextBoxFor(x => x.Requirement.OrdinalNumber, new { @class = "form-control", autofocus = "autofocus" })
-        @Html.ValidationMessageFor(x => x.Requirement.OrdinalNumber)
-    </div>
 
     <div class="form-group">
         @Html.LabelFor(x => x.Requirement.Name)
@@ -30,12 +27,7 @@
         @Html.ValidationMessageFor(x => x.Requirement.Name)
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(x => x.Requirement.Type)
-        @Html.TextBoxFor(x => x.Requirement.Type, new { @class = "form-control", autofocus = "autofocus", @readonly="readonly"  })
-        @Html.ValidationMessageFor(x => x.Requirement.Type)
-    </div>
-
+    
     <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
 
 }

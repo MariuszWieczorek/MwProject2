@@ -13,6 +13,7 @@ namespace MwProject.Core.Repositories
         TechnicalProperty GetTechnicalProperty(int id);
         void UpdateTechnicalProperty(TechnicalProperty technicalProperty);
         void DeleteTechnicalProperty(int id);
+        void SetIsActiveToFalse(int id);
         public TechnicalProperty NewTechnicalProperty();
     }
 }

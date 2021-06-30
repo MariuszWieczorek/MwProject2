@@ -48,5 +48,12 @@ namespace MwProject.Persistence.Services
         {
             return _unitOfWork.Requirement.NewRequirement();
         }
+
+        public void SetIsActiveToFalse(int id)
+        {
+            _unitOfWork.Requirement.SetIsActiveToFalse(id);
+            _unitOfWork.Complete();
+
+        }
     }
 }

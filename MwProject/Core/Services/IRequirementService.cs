@@ -13,6 +13,7 @@ namespace MwProject.Core.Services
         Requirement GetRequirement(int id);
         Requirement NewRequirement();
         void UpdateRequirement(Requirement requirement);
+        void SetIsActiveToFalse(int id);
         void DeleteRequirement(int id);
     }
 }

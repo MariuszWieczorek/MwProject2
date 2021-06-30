@@ -48,5 +48,11 @@ namespace MwProject.Persistence.Services
         {
             return _unitOfWork.TechnicalPropertyRepository.NewTechnicalProperty();
         }
+
+        public void SetIsActiveToFalse(int id)
+        {
+            _unitOfWork.TechnicalPropertyRepository.SetIsActiveToFalse(id);
+            _unitOfWork.Complete();
+        }
     }
 }
