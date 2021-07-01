@@ -125,6 +125,40 @@
 
          // ------------------------------------------------------------------------------------------------
 
+        function deleteCategoryRequirement(categoryId,id, btn) {
+            if (!confirm("Czy na pewno chcesz wymaganie ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteCategoryRequirement", "CategoryRequirement")",
+                 data: {
+                     categoryId: categoryId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd X');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+
+
+         // ------------------------------------------------------------------------------------------------
+
     </script>
 }
 
