@@ -43,9 +43,19 @@ namespace MwProject.Persistence.Services
         public void AddProject(Project project)
         {
             _unitOfWork.Project.AddProject(project);
+
             _unitOfWork.Complete();
+
             _unitOfWork.Project.AddTechnicalPropertiesToProject(project);
+            
+            _unitOfWork.Project.AddEconomicRequirementsToProject(project);
+            
+            _unitOfWork.Project.AddGeneralRequirementsToProject(project);
+            
+            _unitOfWork.Project.AddQualityRequirementsToProject(project);
+
             _unitOfWork.Complete();
+
         }
 
         public void UpdateProject(Project project, string userId)

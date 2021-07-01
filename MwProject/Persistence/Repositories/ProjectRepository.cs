@@ -334,6 +334,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsAccepted = true;
             projectToUpdate.AcceptedDate = DateTime.Now;
             projectToUpdate.AcceptedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.ProjectIsAccepted;
         }
 
         public void WithdrawProjectAcceptance(int id, string userId)
@@ -342,6 +343,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsAccepted = false;
             projectToUpdate.AcceptedDate = null;
             projectToUpdate.AcceptedBy = null;
+            projectToUpdate.ProjectStatusId = (int)StatusType.ReadyForAcceptance;
         }
 
         public void ConfirmCalculation(int id, string userId)
@@ -382,6 +384,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsConfirmed = true;
             projectToUpdate.ConfirmedDate = DateTime.Now;
             projectToUpdate.ConfirmedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.ReadyForAcceptance;
         }
 
         public void WithdrawProjectConfimration(int id, string userId)
@@ -390,6 +393,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsConfirmed = false;
             projectToUpdate.ConfirmedDate = null;
             projectToUpdate.ConfirmedBy = null;
+            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
         }
 
         public void ConfirmQualityRequirements(int id, string userId)
