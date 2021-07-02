@@ -14,6 +14,7 @@ namespace MwProject.Core.ViewModels
         public IEnumerable<RankingCategory> RankingCategories { get; set; }
         public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
         public IEnumerable<ProjectStatus> ProjectStatuses { get; set; }
+        public IEnumerable<ProjectGroup> ProjectGroups { get; set; }
         public Project Project { get; set; }
         public ApplicationUser AcceptedBy { get; set; }
         public ApplicationUser ConfirmedBy { get; set; }

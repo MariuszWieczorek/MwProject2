@@ -29,7 +29,8 @@ namespace MwProject.Persistence
                             IRankingElementRepository rankingElementRepository,
                             IProjectTeamMemberRepository projectTeamMemberRepository,
                             INotificationRepository notificationRepository,
-                            IProjectStatusRepository projectStatusRepository
+                            IProjectStatusRepository projectStatusRepository,
+                            IProjectGroupRepository projectGroupRepository
                             )
         {
             _context = context;
@@ -50,6 +51,7 @@ namespace MwProject.Persistence
             ProjectTeamMemberRepository = projectTeamMemberRepository;
             NotificationRepository = notificationRepository;
             ProjectStatusRepository = projectStatusRepository;
+            ProjectGroupRepository = projectGroupRepository;
         }
 
         // obiekty repozytoryjne 
@@ -70,6 +72,7 @@ namespace MwProject.Persistence
         public IProjectTeamMemberRepository ProjectTeamMemberRepository { get; set; }
         public INotificationRepository NotificationRepository { get; set; }
         public IProjectStatusRepository ProjectStatusRepository { get; set; }
+        public IProjectGroupRepository ProjectGroupRepository { get; set; }
 
         // na koniec metoda zapisująca zmiany
         public void Complete()

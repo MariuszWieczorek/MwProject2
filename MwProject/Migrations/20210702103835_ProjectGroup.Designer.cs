@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210702103835_ProjectGroup")]
+    partial class ProjectGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -659,9 +661,6 @@ namespace MwProject.Migrations
                     b.Property<bool>("IsTechnicalProportiesConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LinkToPlanner")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("NewAssortment")
                         .HasColumnType("bit");
 
@@ -820,7 +819,7 @@ namespace MwProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectGroups");
+                    b.ToTable("projectGroups");
                 });
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectRequirement", b =>

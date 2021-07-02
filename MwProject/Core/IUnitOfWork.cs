@@ -21,6 +21,8 @@ namespace MwProject.Core
         IProjectTeamMemberRepository ProjectTeamMemberRepository { get; set; }
         INotificationRepository NotificationRepository { get; set; }
         IProjectStatusRepository ProjectStatusRepository { get; set; }
+        IProjectGroupRepository ProjectGroupRepository { get; set; }
+
 
         void Complete();
     }

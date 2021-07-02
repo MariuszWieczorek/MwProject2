@@ -19,5 +19,6 @@ namespace MwProject.Core.ViewModels
         public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
 
         public IEnumerable<ProjectStatus> ProjectStatuses { get; set; }
+        public IEnumerable<ProjectGroup> ProjectGroups { get; set; }
     }
 }

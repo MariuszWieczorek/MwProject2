@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MwProject.Core;
-using MwProject.Core.Models;
+using MwProject.Core.Models.Enums;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Models.Filters;
 using MwProject.Core.Repositories;
@@ -140,6 +140,9 @@ namespace MwProject.Persistence.Repositories
 
             if (projectsFilter.ProjectStatusId != 0)
                 projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
+            
+            if (projectsFilter.ProjectGroupId != 0)
+                projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
             if (projectsFilter.Year != 0)
                 projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
@@ -208,6 +211,9 @@ namespace MwProject.Persistence.Repositories
 
             if (projectsFilter.ProjectStatusId != 0)
                 projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
+
+            if (projectsFilter.ProjectGroupId != 0)
+                projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
             if (projectsFilter.Year != 0)
                 projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
@@ -282,7 +288,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProductStatus = project.ProductStatus;
             projectToUpdate.OrdinalNumber = project.OrdinalNumber;
             projectToUpdate.ProjectStatusId = project.ProjectStatusId;
-
+            projectToUpdate.ProjectGroupId = project.ProjectGroupId;
+            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
         }
 
 

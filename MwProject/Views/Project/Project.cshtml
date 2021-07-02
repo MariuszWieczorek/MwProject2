@@ -1429,7 +1429,16 @@
 
         }
         // ------------------------------------------------------------------------------------------------
+            function showPlanner() {
 
+            if (!confirm("Czy otworzyć link ?"))
+                return;
+
+                let link = document.getElementById('linkToPlanner').Value();
+                alert(link);
+                window.open(link);
+
+            }
         // ------------------------------------------------------------------------------------------------
         $('#results').on('click', '.item', function () {
             var NestId = $(this).data('id');

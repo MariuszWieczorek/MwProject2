@@ -1,6 +1,6 @@
 ﻿using ClosedXML.Excel;
 using MwProject.Core;
-using MwProject.Core.Models;
+using MwProject.Core.Models.Enums;
 using MwProject.Core.Models.Domains;
 using MwProject.Core.Models.Filters;
 using MwProject.Core.Services;

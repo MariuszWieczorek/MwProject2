@@ -16,6 +16,9 @@ namespace MwProject.Core.Models.Filters
 
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
+        
+        [Display(Name = "Program")]
+        public int ProjectGroupId { get; set; }
 
         [Display(Name = "Status")]
         public int ProjectStatusId { get; set; }

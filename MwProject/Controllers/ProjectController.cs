@@ -30,6 +30,7 @@ namespace MwProject.Controllers
         private readonly IRankingCategoryService _rankingCategoryService;
         private readonly IRankingElementService _rankingElementService;
         private readonly IProjectStatusService _projectStatusService;
+        private readonly IProjectGroupService _projectGroupService;
 
         private readonly int _itemPerPage = 10;
 
@@ -40,7 +41,8 @@ namespace MwProject.Controllers
                                  IUserService userService,
                                  IRankingCategoryService rankingCategoryService,
                                  IRankingElementService rankingElementService,
-                                 IProjectStatusService projectStatusService
+                                 IProjectStatusService projectStatusService,
+                                 IProjectGroupService projectGroupService
                                 )
         {
             _projectService = projectService;
@@ -50,6 +52,7 @@ namespace MwProject.Controllers
             _rankingCategoryService = rankingCategoryService;
             _rankingElementService = rankingElementService;
             _projectStatusService = projectStatusService;
+            _projectGroupService = projectGroupService;
         }
 
         #endregion
@@ -61,6 +64,7 @@ namespace MwProject.Controllers
             var currentUser = _userService.GetUser(userId);
             var applicationUsers = _userService.GetUsers(null,null);
             var projectStatuses = _projectStatusService.GetProjectStatuses();
+            var projectGroups = _projectGroupService.GetProjectGroups();
 
             //HttpContext.Session.SetInt32("age", 20);
             //HttpContext.Session.SetString("username", "abc");
@@ -90,7 +94,8 @@ namespace MwProject.Controllers
                 PagingInfo = new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage, TotalItems = numberOfRecords },
                 CurrentUser = currentUser,
                 ApplicationUsers = applicationUsers,
-                ProjectStatuses = projectStatuses
+                ProjectStatuses = projectStatuses,
+                ProjectGroups = projectGroups
             };
 
             return View(vm);
@@ -108,6 +113,7 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
             var projectStatuses = _projectStatusService.GetProjectStatuses();
+            var projectGroups = _projectGroupService.GetProjectGroups();
 
             int numberOfRecords = _projectService.GetNumberOfRecords(viewModel.ProjectsFilter, 0, userId);
 
@@ -128,7 +134,8 @@ namespace MwProject.Controllers
                 Projects = projects,
                 PagingInfo = pagingInfo,
                 CurrentUser = currentUser,
-                ProjectStatuses = projectStatuses
+                ProjectStatuses = projectStatuses,
+                ProjectGroups = projectGroups
             };
 
             // zapisujemy w sesji ustawienia filtra
@@ -151,6 +158,7 @@ namespace MwProject.Controllers
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
             var applicationUsers = _userService.GetUsers(null,null);
             var projectStatuses = _projectStatusService.GetProjectStatuses();
+            var projectGroups = _projectGroupService.GetProjectGroups();
 
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
@@ -235,7 +243,8 @@ namespace MwProject.Controllers
                 ProjectManager = projectManager,
                 RankingCategories = rankingCategories,
                 ApplicationUsers = applicationUsers,
-                ProjectStatuses = projectStatuses
+                ProjectStatuses = projectStatuses,
+                ProjectGroups = projectGroups
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -256,6 +265,7 @@ namespace MwProject.Controllers
             var rankingCategories = _rankingCategoryService.GetRankingCategories();
             var applicationUsers = _userService.GetUsers(null,null);
             var projectStatuses = _projectStatusService.GetProjectStatuses();
+            var projectGroups = _projectGroupService.GetProjectGroups();
 
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();
@@ -335,7 +345,8 @@ namespace MwProject.Controllers
                     EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
                     TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
                     ProjectManager = projectManager,
-                    ProjectStatuses = projectStatuses
+                    ProjectStatuses = projectStatuses,
+                    ProjectGroups = projectGroups
 
                 };
                 

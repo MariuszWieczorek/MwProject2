@@ -61,6 +61,14 @@
         </div>
 
         <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.ProjectGroupId)
+            @Html.DropDownListFor(x => x.ProjectsFilter.ProjectGroupId,
+               new SelectList(Model.ProjectGroups, "Id", "Name"),
+               " -- wszystkie programy -- ",
+               new { @class = "form-control" })
+        </div>
+
+        <div class="col-3">
             @Html.LabelFor(x => x.ProjectsFilter.ProjectManagerId)
             @Html.DropDownListFor(x => x.ProjectsFilter.ProjectManagerId,
                new SelectList(Model.ApplicationUsers, "Id", "UserName"),

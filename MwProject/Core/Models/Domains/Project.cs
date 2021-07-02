@@ -53,6 +53,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "działania weryfikacyjne przed uruchomieniem projektu")]
         public string VerificationOperations { get; set; }
 
+        [Display(Name = "link do planera")]
+        public string LinkToPlanner { get; set; }
+
         [Display(Name = "Data Utworzenia")]
         public DateTime? CreatedDate { get; set; }
 
@@ -98,6 +101,13 @@ namespace MwProject.Core.Models.Domains
         public int CategoryId { get; set; }
         
         public Category Category { get; set; }
+
+       
+        [Display(Name = "Program")]
+        public int? ProjectGroupId { get; set; }
+
+        public ProjectGroup ProjectGroup { get; set; }
+
 
 
         [Display(Name = "Status")]
