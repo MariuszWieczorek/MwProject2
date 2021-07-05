@@ -69,6 +69,13 @@ namespace MwProject.Persistence.Services
             this.CalculatePriorityOfProject(project.Id, userId);
         }
 
+        public void UpdateProjectPriority(Project project, string userId)
+        {
+            _unitOfWork.Project.UpdateProjectPriority(project, userId);
+            _unitOfWork.Complete();
+                this.CalculatePriorityOfProject(project.Id, userId);
+        }
+
         public void DeleteProject(int id, string userId)
         {
             _unitOfWork.Project.DeleteProject(id, userId);
@@ -310,8 +317,8 @@ namespace MwProject.Persistence.Services
 
 
 
-                if (productionCapacity != 0 && firstYearOfSalesQty != 0)
-                    percentageOfUsedProductionCapability = (decimal)plannedProductionVolume / productionCapacity;
+                if (plannedProductionVolume != 0 && firstYearOfSalesQty != 0)
+                    percentageOfUsedProductionCapability = (decimal)productionCapacity / plannedProductionVolume;
                 else
                     percentageOfUsedProductionCapability = 0;
 
@@ -425,5 +432,7 @@ namespace MwProject.Persistence.Services
         {
             return _unitOfWork.Project.NewFullNumber(projectCategory, createdDate);
         }
+
+      
     }
 }

@@ -1,0 +1,308 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@* Widok częściowy z głównym formularzem projektu *@
+
+@{
+
+    bool NewProject = (Model.Project.Id == 0);
+    var listOfPurposeOfTheProject = Model.RankingCategories.Single(x => x.Id == 3).RankingElements;
+    var listOfViabilityOfTheProject = Model.RankingCategories.Single(x => x.Id == 2).RankingElements;
+    var listOfCompetitivenessOfTheProject = Model.RankingCategories.Single(x => x.Id == 1).RankingElements;
+
+    decimal estimatedCostOfProject = Model.Project.ProjectRequirements
+        .Where(x => x.Requirement.Type == 1)
+        .Sum(x => x.Value);
+
+    var firstSalesRecord = Model.Project.EstimatedSalesValues.Min(x => x.Id);
+    var firstYearOfSales = Model.Project.EstimatedSalesValues.Single(x => x.Id == firstSalesRecord);
+    var firstYearOfSalesValue = firstYearOfSales.Qty * firstYearOfSales.Price;
+    var firstYearOfSalesPrice = firstYearOfSales.Price;
+    var firstYearOfSalesQty = firstYearOfSales.Qty;
+
+}
+
+<div class="m-2 ps-2">
+
+    <div class="row">
+        <div class="col-11">
+            <div class="mt-2 mb-4 text-muted">
+                <h4>Dane do wyliczenia priorytetu</h4>
+            </div>
+        </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/form.webp")" style="width: 50px;" />
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-12">
+
+            @using (Html.BeginForm("ProjectPriority", "Project", FormMethod.Post, new { id = "myform" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <!-- Wyświetlenie podsumowania walidacji-->
+                @Html.ValidationSummary()
+
+                if (Model.Project.Id == 0)
+                {
+                    <p class="alert alert-info mb-4 mt-4">Pola tytuł i termin są <strong>wymagane</strong> </p>
+                }
+
+                @Html.HiddenFor(x => x.Project.Id)
+                @Html.HiddenFor(x => x.Project.Title)
+                @Html.HiddenFor(x => x.Project.InitiatedBy)
+
+                <!--Podział głównych danych formularza na dwie kolumny-->
+                <div class="row">
+                    <!-- Pierwsza kolumna formularza -->
+                    <div class="col-lg-12">
+
+
+
+                        <div class="row">
+                            <div class="form-group mb-3 col-4">
+                                @Html.LabelFor(x => x.Project.PriorityOfProject)
+                                @Html.TextBoxFor(x => x.Project.PriorityOfProject,
+                              new { @class = "form-control", Style = "background:#eeeeff; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.EstimatedCostOfProject)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mb-3 col-10">
+                                @Html.LabelFor(x => x.Project.PurposeOfTheProjectId)
+
+                                @Html.DropDownListFor(x => x.Project.PurposeOfTheProjectId,
+                                        new SelectList(listOfPurposeOfTheProject, "Id", "Name"),
+                                        "--- Wybierz cel projektu ---",
+                                        new { @class = "form-control", autofocus = "autofocus", Style = "background:#ffffdd; font-weight:bold" })
+
+
+                                @Html.ValidationMessageFor(x => x.Project.PurposeOfTheProjectId)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mb-3 col-10">
+                                @Html.LabelFor(x => x.Project.ViabilityOfTheProjectId)
+
+                                @Html.DropDownListFor(x => x.Project.ViabilityOfTheProjectId,
+                                        new SelectList(listOfViabilityOfTheProject, "Id", "Name"),
+                                        "--- Wybierz wykonalność projektu  ---",
+                                        new { @class = "form-control", autofocus = "autofocus", Style = "background:#ffffdd; font-weight:bold" })
+
+
+                                @Html.ValidationMessageFor(x => x.Project.ViabilityOfTheProjectId)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mb-3 col-10">
+                                @Html.LabelFor(x => x.Project.CompetitivenessOfTheProjectId)
+
+                                @Html.DropDownListFor(x => x.Project.CompetitivenessOfTheProjectId,
+                                        new SelectList(listOfCompetitivenessOfTheProject, "Id", "Name"),
+                                        "--- Wybierz konkurencyjność na rynku ---",
+                                        new { @class = "form-control", autofocus = "autofocus", Style = "background:#ffffdd; font-weight:bold" })
+
+
+                                @Html.ValidationMessageFor(x => x.Project.CompetitivenessOfTheProjectId)
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group mb-3 col-3">
+                                <label for="estimatedCostOfProject">szacowany koszt [PLN]</label>
+                                <input type="text" class="form-control" id="estimatedCostOfProject" value="@estimatedCostOfProject.ToString("c")" readonly="readonly" Style="font-weight:bold">
+                            </div>
+
+                            <div class="form-group mb-3 col-3">
+                                <label for="firstYearOfSalesValue">sprzedaż 1 rok [PLN]</label>
+                                <input type="text" class="form-control" id="firstYearOfSalesValue" value="@firstYearOfSalesValue.ToString("c")" readonly="readonly" Style="font-weight:bold">
+                            </div>
+
+                            <div class="form-group mb-3 col-3">
+                                @Html.LabelFor(x => x.Project.EstimatedPaybackTimeInMonths)
+                                @Html.TextBoxFor(x => x.Project.EstimatedPaybackTimeInMonths,
+                               new { @class = "form-control", Style = "background:#eeeeee; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.EstimatedPaybackTimeInMonths)
+                            </div>
+
+                            <div class="form-group mb-3 col-3">
+                                @Html.LabelFor(x => x.Project.RankingOfEstimatedPaybackTimeInMonths)
+                                @Html.TextBoxFor(x => x.Project.RankingOfEstimatedPaybackTimeInMonths,
+                               new { @class = "form-control", Style = "background:#eeeecc; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfEstimatedPaybackTimeInMonths)
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.PlannedStartDateOfTheProject)
+                                @Html.TextBoxFor(x => x.Project.PlannedStartDateOfTheProject, "{0:dd-MM-yyyy}",
+                               new
+                                    {
+                                   @class = "form-control",
+                                   Style = "background:#eeffee; font-weight:bold",
+                                   @id = "PlannedStartDateOfTheProject"
+                               })
+                                @Html.ValidationMessageFor(x => x.Project.PlannedStartDateOfTheProject)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.RealStartDateOfTheProject)
+                                @Html.TextBoxFor(x => x.Project.RealStartDateOfTheProject, "{0:dd-MM-yyyy}",
+                               new
+                                    {
+                                   @class = "form-control",
+                                   Style = "background:#eeffee; font-weight:bold",
+                                   @id = "RealStartDateOfTheProject"
+                               })
+                                @Html.ValidationMessageFor(x => x.Project.RealStartDateOfTheProject)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.PlannedEndDateOfTheProject)
+                                @Html.TextBoxFor(x => x.Project.PlannedEndDateOfTheProject, "{0:dd-MM-yyyy}",
+                               new
+                                    {
+                                   @class = "form-control",
+                                   Style = "background:#eeffee; font-weight:bold",
+                                   @id = "PlannedEndDateOfTheProject"
+                               })
+                                @Html.ValidationMessageFor(x => x.Project.PlannedEndDateOfTheProject)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.FinishedDate)
+                                @Html.TextBoxFor(x => x.Project.FinishedDate,
+                                 "{0:dd-MM-yyyy}",
+                                new
+                                {
+                                    @class = "form-control",
+                                    @id = "FinishedDate",
+                                    Style = "background:#eeffee; font-weight:bold",
+                                    autocomplete = "off"
+                                })
+                                @Html.ValidationMessageFor(x => x.Project.FinishedDate)
+                            </div>
+
+                            <div class="form-check form-switch mb-3 offset-2 col-2">
+                                <br>
+                                @Html.CheckBoxFor(x => x.Project.IsExecuted, new { @class = "form-check-input" })
+                                @Html.LabelFor(x => x.Project.IsExecuted, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(x => x.Project.IsExecuted)
+                            </div>
+
+                        </div>
+                           
+                        <div class="row">
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.ImplementationTimeInMonths)
+                                @Html.TextBoxFor(x => x.Project.ImplementationTimeInMonths,
+                               new { @class = "form-control", Style = "background:#dddddd; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.ImplementationTimeInMonths)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.RankingOfImplementationTimeInMonths)
+                                @Html.TextBoxFor(x => x.Project.RankingOfImplementationTimeInMonths,
+                               new { @class = "form-control", Style = "background:#eeeecc; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfImplementationTimeInMonths)
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.ReturnOnInvestment)
+                                @Html.TextBoxFor(x => x.Project.ReturnOnInvestment,
+                               new { @class = "form-control", Style = "background:#dddddd; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.ReturnOnInvestment)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.RankingOfReturnOnInvestment)
+                                @Html.TextBoxFor(x => x.Project.RankingOfReturnOnInvestment,
+                               new { @class = "form-control", Style = "background:#eeeecc; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfReturnOnInvestment)
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="form-group mb-3 col-2">
+                                <label for="firstYearOfSalesQty">sprzedaż w pierwszym <br /> roku [szt]</label>
+                                <input type="text" class="form-control" id="firstYearOfSalesQty" value="@firstYearOfSalesQty.ToString("n")" readonly="readonly" Style = "font-weight:bold">
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.ProductionCapacity)
+                                @Html.TextBoxFor(x => x.Project.ProductionCapacity,
+                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold" })
+                                @Html.ValidationMessageFor(x => x.Project.ProductionCapacity)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                @Html.LabelFor(x => x.Project.PlannedProductionVolume)
+                                @Html.TextBoxFor(x => x.Project.PlannedProductionVolume,
+                               new { @class = "form-control", Style = "background:#eeffee; font-weight:bold" })
+                                @Html.ValidationMessageFor(x => x.Project.PlannedProductionVolume)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                <br />
+                                @Html.LabelFor(x => x.Project.PercentageOfUsedProductionCapability)
+                                @Html.TextBoxFor(x => x.Project.PercentageOfUsedProductionCapability,
+                               new { @class = "form-control", Style = "background:#dddddd; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.PercentageOfUsedProductionCapability)
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                <br />
+                                @Html.LabelFor(x => x.Project.RankingOfUsedProductionCapability)
+                                @Html.TextBoxFor(x => x.Project.RankingOfUsedProductionCapability,
+                               new { @class = "form-control", Style = "background:#eeeecc; font-weight:bold", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Project.RankingOfUsedProductionCapability)
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Druga kolumna formularza -->
+                    <!-- <div class="col-lg-3 offset-lg-1"></div> -->
+
+
+                </div>
+
+                @if (Model.Project.IsAccepted == false)
+                {
+                    <button class="btn btn-primary btn-lg mb-5" type="submit">
+                        Zapisz
+                    </button>
+                }
+
+
+
+            }
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+            {
+    <script type="text/javascript">
+                             // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+
+                              //
+    </script>
+}

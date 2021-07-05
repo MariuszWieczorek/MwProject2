@@ -254,26 +254,46 @@ namespace MwProject.Persistence.Repositories
             
             projectToUpdate.Title = project.Title;
             projectToUpdate.CreatedDate = project.CreatedDate;
-            projectToUpdate.FinishedDate = project.FinishedDate;
-            projectToUpdate.IsExecuted = project.IsExecuted;
-            projectToUpdate.InitiatedBy = project.InitiatedBy;
-            projectToUpdate.Description = project.Description;
-            projectToUpdate.Comment = project.Comment;
-            projectToUpdate.Coordinator = project.Coordinator;
-            
-            if(project.CategoryId != 0) 
-                projectToUpdate.CategoryId = project.CategoryId;
-
+            projectToUpdate.OrdinalNumber = project.OrdinalNumber;
             projectToUpdate.Term = project.Term;
-            projectToUpdate.Value = project.Value;
+            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
 
+            if (project.CategoryId != 0)
+                projectToUpdate.CategoryId = project.CategoryId;
             if (project.ProductGroupId != 0)
                 projectToUpdate.ProductGroupId = project.ProductGroupId;
+            if (project.ProjectStatusId != 0)
+                projectToUpdate.ProjectStatusId = project.ProjectStatusId;
+            if (project.ProjectGroupId != 0)
+                projectToUpdate.ProjectGroupId = project.ProjectGroupId;
+
+            projectToUpdate.Description = project.Description;
+            projectToUpdate.Comment = project.Comment;
+            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
+            projectToUpdate.VerificationOperations = project.VerificationOperations;
+
+
+            projectToUpdate.InitiatedBy = project.InitiatedBy;
+            projectToUpdate.Coordinator = project.Coordinator;
+            projectToUpdate.Client = project.Client;
+            projectToUpdate.ProductStatus = project.ProductStatus;
+            
+        }
+
+        public void UpdateProjectPriority(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+
+
+            projectToUpdate.IsExecuted = project.IsExecuted;
+            projectToUpdate.FinishedDate = project.FinishedDate;
+
 
             projectToUpdate.PurposeOfTheProjectId = project.PurposeOfTheProjectId;
             projectToUpdate.CompetitivenessOfTheProjectId = project.CompetitivenessOfTheProjectId;
             projectToUpdate.ViabilityOfTheProjectId = project.ViabilityOfTheProjectId;
-            projectToUpdate.EstimatedCostOfProject = project.EstimatedCostOfProject;
+
 
             projectToUpdate.RealStartDateOfTheProject = project.RealStartDateOfTheProject;
             projectToUpdate.PlannedStartDateOfTheProject = project.PlannedStartDateOfTheProject;
@@ -281,17 +301,7 @@ namespace MwProject.Persistence.Repositories
 
             projectToUpdate.ProductionCapacity = project.ProductionCapacity;
             projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
-            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
-            projectToUpdate.VerificationOperations = project.VerificationOperations;
-            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
-            projectToUpdate.Client = project.Client;
-            projectToUpdate.ProductStatus = project.ProductStatus;
-            projectToUpdate.OrdinalNumber = project.OrdinalNumber;
-            projectToUpdate.ProjectStatusId = project.ProjectStatusId;
-            projectToUpdate.ProjectGroupId = project.ProjectGroupId;
-            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
         }
-
 
         public void AddQualityRequirementsToProject(Project project)
         {
@@ -542,5 +552,7 @@ namespace MwProject.Persistence.Repositories
 
             return (no,number);
         }
+
+       
     }
 }

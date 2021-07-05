@@ -16,6 +16,7 @@ namespace MwProject.Core.Services
         Project NewProject(string userId);
         void AddProject(Project project);
         void UpdateProject(Project project, string userId);
+        void UpdateProjectPriority(Project project, string userId);
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);
         int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId, string userId);

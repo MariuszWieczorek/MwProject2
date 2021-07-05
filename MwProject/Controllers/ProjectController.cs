@@ -252,9 +252,51 @@ namespace MwProject.Controllers
             return View(vm);
         }
 
+
+        // Fragment widoku z danymi do wyliczenia priorytetu
+        public IActionResult ProjectPriority(int id, string tab)
+        {
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+            var applicationUsers = _userService.GetUsers(null, null);
+
+            var selectedProject = id == 0 ?
+                _projectService.NewProject(userId) :
+                _projectService.GetProject(id, userId);
+
+            ViewBag.Tab = tab != null ? tab : string.Empty;
+
+           
+            //IEnumerable<ApplicationUser> ApplicationUsers = _userService
+
+           
+
+            var vm = new ProjectViewModel()
+            {
+                Project = selectedProject,
+                ProductGroups = _productGroupService.GetProductGroups(),
+                Categories = _categoryService.GetCategories(),
+                Heading = selectedProject.Id == 0 ?
+                      "Nowy Projekt" :
+                     $"lp: {selectedProject.OrdinalNumber} numer: {selectedProject.Number}",
+           
+                CurrentUser = currentUser,
+                RankingCategories = rankingCategories,
+                ApplicationUsers = applicationUsers,
+
+            };
+
+            ViewBag.Tab = tab != null ? tab : string.Empty;
+
+            return View(vm);
+        }
+
+
         #endregion
 
         #region update-project, delete-project
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Project(ProjectViewModel projectViewModel)
@@ -362,6 +404,47 @@ namespace MwProject.Controllers
                     
             return RedirectToAction("Projects", "Project");
         }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ProjectPriority(ProjectViewModel projectViewModel)
+        {
+            var project = projectViewModel.Project;
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+            var applicationUsers = _userService.GetUsers(null, null);
+
+            if (!ModelState.IsValid)
+            {
+
+
+                var vm = new ProjectViewModel()
+                {
+                    Project = projectViewModel.Project,
+                    Categories = _categoryService.GetCategories(),
+                    ProductGroups = _productGroupService.GetProductGroups(),
+                    RankingCategories = rankingCategories,
+                    ApplicationUsers = applicationUsers,
+                    CurrentUser = currentUser,
+                    Heading = projectViewModel.Project.Id == 0 ? "Nowy Projekt" :
+                        $"lp: {projectViewModel.Project.OrdinalNumber} numer: {projectViewModel.Project.Number}",
+
+                };
+
+                // gdy nie przeszła walidacja wracamy do ekranu edycji
+                return View("ProjectPriority", vm);
+            }
+
+            // jeżeli wszystko ok to zapisujemy projekt
+            _projectService.UpdateProjectPriority(project, userId);
+
+            return RedirectToAction("Project", "Project"
+                ,new { id = project.Id, tab = "priority" });
+        }
+
 
         [HttpPost]
         public IActionResult DeleteProject(int id)

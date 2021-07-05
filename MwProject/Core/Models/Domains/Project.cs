@@ -63,7 +63,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Termin realiz.")]
         public DateTime? Term { get; set; }
 
-        [Display(Name = "Faktyczna data zakończenia")]
+        [Display(Name = "Fakt. data zakończenia")]
         public DateTime? FinishedDate { get; set; }
 
         [Display(Name = "zrealizowane")]
@@ -277,7 +277,7 @@ namespace MwProject.Core.Models.Domains
         public decimal EstimatedCostOfProject { get; set; }
 
 
-        [Display(Name = "Faktyczna data rozpoczęcia")]
+        [Display(Name = "Fakt. data rozpoczęcia")]
         public DateTime? RealStartDateOfTheProject { get; set; }
 
         [Display(Name = "Planow. data rozpoczęcia")]
@@ -301,11 +301,11 @@ namespace MwProject.Core.Models.Domains
         public int RankingOfReturnOnInvestment { get; set; }
 
 
-        [Display(Name = "Planowana Produkcja")]
+        [Display(Name = "Zdolność produkcji po realizacji projektu")]
         [Column(TypeName = "decimal(18, 2)")]
         public int PlannedProductionVolume { get; set; }
 
-        [Display(Name = "Zdolność produkcyjna")]
+        [Display(Name = "Zdolność produkcji przed realizacją projektu")]
         public int ProductionCapacity { get; set; }
         
         [Display(Name = "% WZP")]
