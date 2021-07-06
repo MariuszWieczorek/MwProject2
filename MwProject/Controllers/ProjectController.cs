@@ -32,6 +32,7 @@ namespace MwProject.Controllers
         private readonly IRankingElementService _rankingElementService;
         private readonly IProjectStatusService _projectStatusService;
         private readonly IProjectGroupService _projectGroupService;
+        private readonly INotificationService _notificationService;
 
         private readonly int _itemPerPage = 10;
 
@@ -43,7 +44,8 @@ namespace MwProject.Controllers
                                  IRankingCategoryService rankingCategoryService,
                                  IRankingElementService rankingElementService,
                                  IProjectStatusService projectStatusService,
-                                 IProjectGroupService projectGroupService
+                                 IProjectGroupService projectGroupService,
+                                 INotificationService notificationService
                                 )
         {
             _projectService = projectService;
@@ -54,6 +56,7 @@ namespace MwProject.Controllers
             _rankingElementService = rankingElementService;
             _projectStatusService = projectStatusService;
             _projectGroupService = projectGroupService;
+            _notificationService = notificationService;
         }
 
         #endregion
@@ -439,9 +442,14 @@ namespace MwProject.Controllers
 
             // jeżeli wszystko ok to zapisujemy projekt
             if (project.Id == 0)
+            {
                 _projectService.AddProject(project);
+
+            }
             else
-                _projectService.UpdateProject(project,userId);
+            {
+                _projectService.UpdateProject(project, userId);
+            }
                     
             return RedirectToAction("Projects", "Project");
         }

@@ -110,6 +110,8 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProjectTeamMembers)
                 .ThenInclude(x => x.User)
                 .Include(x => x.ProjectClients)
+                .Include(x => x.Notifications)
+                .ThenInclude(x => x.TypeOfNotification)
                 .Single(x => x.Id == id);
 
             if (user.CanSeeAllProject == false && user.Id != userId)

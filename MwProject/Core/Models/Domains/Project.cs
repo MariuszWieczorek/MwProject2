@@ -92,28 +92,21 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Obrazek")]
         public string Picture { get; set; }
 
-
-        
-
-        
         
         [Required(ErrorMessage = "Pole kategoria jest wymagane.")]
         [Display(Name = "Kategoria")]
         public int CategoryId { get; set; }
-        
         public Category Category { get; set; }
 
        
         [Display(Name = "Program")]
         public int? ProjectGroupId { get; set; }
-
         public ProjectGroup ProjectGroup { get; set; }
 
 
 
         [Display(Name = "Status")]
         public int? ProjectStatusId { get; set; }
-
         public ProjectStatus ProjectStatus { get; set; }
 
 
@@ -133,6 +126,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Grupa Produktu")]
         public int ProductGroupId { get; set; }
         public ProductGroup ProductGroup { get; set; }
+
+
 
         // kalkulacja
 

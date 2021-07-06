@@ -1,0 +1,102 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z klientami projektu
+    Wywołany na oknie projektu
+*@
+
+@{
+    var notifications = Model.Project.Notifications;
+
+    bool canEdit = true;
+
+}
+
+<div class="m-2">
+
+    <div class="row">
+        <div class="col-11">
+            <div class="mt-2 mb-4 text-muted">
+                <h2>Powiadowmienia</h2>
+            </div>
+        </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/notification_bell_ring-512.png")" style="width: 50px;" />
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+   
+
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        @if (notifications != null && notifications.Any())
+        {
+
+            <table class="table table-sm table-hover  mt-3 mb-5">
+
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col"> Typ </th>
+                        <th scope="col"> User</th>
+                        <th scope="col"> Czas</th>
+                        <th scope="col"> </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var position in notifications)
+                    {
+                    <tr>
+
+                        <td class="text-muted">
+                            <strong>
+                                @position.TypeOfNotification.Name
+                            </strong>
+                        </td>
+
+                        <td class="text-muted">
+                            <strong>
+                                @position.User.UserName
+                            </strong>
+                        </td>
+
+                        <td class="text-muted">
+                            <strong>
+                                @position.TimeOfNotification
+                            </strong>
+                        </td>
+
+                        
+                        <td align="right">
+                            @if (canEdit)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteProjectNotification('@position.ProjectId','@position.Id',this)">
+                                    Usuń
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+                                                  // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                                                  // deleteProjectClient()
+    </script>
+}

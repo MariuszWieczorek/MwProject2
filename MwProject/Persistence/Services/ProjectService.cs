@@ -54,8 +54,27 @@ namespace MwProject.Persistence.Services
             
             _unitOfWork.Project.AddQualityRequirementsToProject(project);
 
-            _unitOfWork.Complete();
 
+            var id = project.Id;
+            var usersToNotifications = _unitOfWork.UserRepository.GetUsers(new UsersFilter(), new PagingInfo())
+                .Where(x => x.NewProjectEmailNotification);
+            
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 1,
+                        Content = $"utworzono nowy projekt id = {project.Title}"
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+            _unitOfWork.Complete();
         }
 
         public void UpdateProject(Project project, string userId)
