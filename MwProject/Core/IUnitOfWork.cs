@@ -22,7 +22,7 @@ namespace MwProject.Core
         INotificationRepository NotificationRepository { get; set; }
         IProjectStatusRepository ProjectStatusRepository { get; set; }
         IProjectGroupRepository ProjectGroupRepository { get; set; }
-
+        IProjectClientRepository ProjectClientRepository { get; set; }
 
         void Complete();
     }

@@ -105,6 +105,7 @@ namespace MwProject.Controllers
             else
                 _projectRequirementService.UpdateProjectRequirement(selectedProjectRequirement.ProjectRequirement, userId);
 
+            _projectService.CalculatePriorityOfProject(selectedProjectRequirement.ProjectRequirement.ProjectId, userId);
 
             var requirementId = selectedProjectRequirement.ProjectRequirement.RequirementId;
             var requirement = _requirementService.GetRequirement(requirementId);
@@ -146,6 +147,7 @@ namespace MwProject.Controllers
             {
                 var userId = User.GetUserId();
                 _projectRequirementService.DeleteProjectRequirement(projectId, id, userId);
+                _projectService.CalculatePriorityOfProject(projectId, userId);
             }
             catch (Exception ex)
             {

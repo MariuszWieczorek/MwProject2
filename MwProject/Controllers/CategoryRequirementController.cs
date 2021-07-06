@@ -21,7 +21,8 @@ namespace MwProject.Controllers
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
         public CategoryRequirementController(ICategoryRequirementService categoryRequirementService,
-                                            IRequirementService requirementService)
+                                            IRequirementService requirementService
+                                            )
         {
             _categoryRequirementService = categoryRequirementService;
             _requirementService = requirementService;

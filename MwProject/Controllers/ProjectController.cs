@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Enums;
 using MwProject.Core.Models.Filters;
 using MwProject.Core.Services;
 using MwProject.Core.ViewModels;
@@ -145,9 +146,49 @@ namespace MwProject.Controllers
             return PartialView("_ProjectsTablePartial", vm);
         }
 
+
+
+        public IActionResult ProjectsStatistics(int currentPage = 1, int categoryId = 0)
+        {
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            var applicationUsers = _userService.GetUsers(null, null);
+            var projectStatuses = _projectStatusService.GetProjectStatuses();
+            var projectGroups = _projectGroupService.GetProjectGroups();
+            var projectFilter = new ProjectsFilter(); 
+
+
+            int numberOfRecords = _projectService.GetNumberOfRecords(projectFilter, categoryId, userId);
+
+            var projects = _projectService.GetProjects(
+                projectFilter,
+                new PagingInfo() { CurrentPage = 1, ItemsPerPage = numberOfRecords, TotalItems = numberOfRecords },
+                categoryId,
+                userId
+                );
+
+            int mission5Count = projects.Where(x => x.ProjectGroupId == (int)ProjectGroupX.Mission50)
+                                        .Count();
+
+            int polishAreaCount = projects.Where(x => x.ProjectGroupId == (int)ProjectGroupX.PolishArea)
+                                        .Count();
+
+            var vm = new ProjectsStatisticsViewModel()
+            {
+                Categories = _categoryService.GetCategories(),
+                Projects = projects,
+                TotalCount = numberOfRecords,
+                Mission50Count = mission5Count,
+                PolishAreaCount = polishAreaCount,
+                ProjectStatuses = projectStatuses,
+                ProjectGroups = projectGroups
+            };
+
+            return View(vm);
+        }
         #endregion
 
-  
+
 
 
         #region Pojedynczy projekt

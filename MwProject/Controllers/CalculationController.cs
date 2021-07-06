@@ -17,11 +17,15 @@ namespace MwProject.Controllers
         /* Konwencja ( Views \ nazwa_kontrolera \ nazwa_akcji.cshtml ) */
 
         private readonly ICalculationService _calculationService;
+        private readonly IProjectService _projectService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public CalculationController(ICalculationService calculationService)
+        public CalculationController(ICalculationService calculationService,
+                                     IProjectService projectService
+                                     )
         {
             _calculationService = calculationService;
+            _projectService = projectService;
         }
 
         // wyświetlamy wybraną kalkulację lub pusty objekt
@@ -63,6 +67,7 @@ namespace MwProject.Controllers
             else
                 _calculationService.UpdateCalculation(selectedCalculation.Calculation, userId);
 
+            _projectService.CalculatePriorityOfProject(selectedCalculation.Calculation.ProjectId, userId);
 
             return RedirectToAction("Project","Project", new { id = selectedCalculation.Calculation.ProjectId, tab = "calculation" });
 
@@ -76,6 +81,7 @@ namespace MwProject.Controllers
             {
                 var userId = User.GetUserId();
                 _calculationService.DeleteCalculation(projectId, id, userId);
+                _projectService.CalculatePriorityOfProject(projectId, userId);
             }
             catch (Exception ex)
             {

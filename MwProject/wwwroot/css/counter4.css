@@ -1,0 +1,96 @@
+﻿counter {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    width: 180px;
+    height: 220px;
+    padding: 9px 0 0;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.counter:before {
+    content: "";
+    background: #e64529;
+    width: 180px;
+    height: 180px;
+    border-radius: 100px 100px 0 100px;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.counter .counter-content {
+    background-color: #fff;
+    height: 160px;
+    width: 160px;
+    padding: 20px 15px;
+    margin: 0 auto;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.9) inset;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+    .counter .counter-content:before {
+        content: "";
+        background: repeating-linear-gradient(-45deg,#e64529, #e64529 5px, #cc1023 5px, #cc1023 10px);
+        width: 100%;
+        height: 50%;
+        border-radius: 80% 80% 0 0/150% 150% 0 0;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+.counter .counter-value {
+    color: #fff;
+    font-size: 35px;
+    font-weight: 700;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
+    margin: 0 0 20px;
+    display: block;
+}
+
+.counter h3 {
+    font-size: 17px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.counter.green:before {
+    background: #008f35;
+}
+
+.counter.green .counter-content:before {
+    background: repeating-linear-gradient(-45deg,#008f35,#008f35 5px, #0a612a 5px, #0a612a 10px);
+}
+
+.counter.blue:before {
+    background: #1b4086;
+}
+
+.counter.blue .counter-content:before {
+    background: repeating-linear-gradient(-45deg,#1b4086,#1b4086 5px, #0a2552 5px, #0a2552 10px);
+}
+
+.counter.purple:before {
+    background: #88217c;
+}
+
+.counter.purple .counter-content:before {
+    background: repeating-linear-gradient(-45deg,#88217c,#88217c 5px, #520a4a 5px, #520a4a 10px);
+}
+
+@media screen and (max-width:990px) {
+    .counter {
+        margin-bottom: 40px;
+    }
+}

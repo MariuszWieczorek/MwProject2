@@ -1,0 +1,102 @@
+﻿@model MwProject.Core.ViewModels.ProjectsStatisticsViewModel
+@using Microsoft.AspNetCore.Http;
+@using MwProject.Helpers;
+@using MwProject.Core.Models.Filters;
+
+@{
+
+    ProjectsFilter projectFilter;
+    projectFilter = SessionHelper.GetObjectFromJson<ProjectsFilter>(Context.Session, "ProjectsFilter");
+    ViewBag.Title = "Projekty";
+}
+
+<div class="row">
+    <div class="col-10">
+        <h1 class="mb-3 mt-4 display-4">Projekty</h1>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/documents.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-3 col-sm-6">
+            <div class="counter">
+                <div class="counter-icon">
+                    <i class="fa fa-globe"></i>
+                </div>
+                <h3>Wszystkie Projekty</h3>
+                <span class="counter-value">@Model.TotalCount</span>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="counter orange">
+                <div class="counter-icon">
+                    <i class="fa fa-rocket"></i>
+                </div>
+                <h3>Misja 5.0</h3>
+                <span class="counter-value">@Model.Mission50Count</span>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="counter green">
+                <div class="counter-icon">
+                    <i class="fa fa-heart"></i>
+                </div>
+                <h3>Polska Strefa</h3>
+                <span class="counter-value">@Model.PolishAreaCount</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        // ------------------------------------------------------------------------------------------------------
+        // funkcja zostanie wywołana gdy zostanie załadowany już cały widok
+
+        $(document).ready(function () {
+            // najpierw zaznaczamy formularz o id = filterForm
+            // chcemy aby po kliknięci przycisku zostałą wywołana taka funkcja
+            // a chcemy, żeby za pomocą ajax'a została wywołana odpowiednia funkcja z kontrolera
+            // przesyłamy zserializowane dane z tego formularza
+            // jeżeli zakończone sukcesem, to zostanie zwrócona tabelka z widoku częściowego
+
+            // bajerancki licznik
+            $('.counter-value').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 3500,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
+            });
+
+        });
+
+            // ------------------------------------------------------------------------------------------------------
+
+
+           // ------------------------------------------------------------------------------------------------------
+
+
+    </script>
+}

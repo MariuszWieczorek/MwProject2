@@ -1,0 +1,71 @@
+﻿@model MwProject.Core.ViewModels.ProjectClientViewModel
+
+@*
+    Okno do edycji informacji technicznych przypisanych do projektu
+    Wywołane z okna projektu
+*@
+
+@{
+    ViewBag.Title = Model.Heading;
+}
+
+<h2>@Model.Heading</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+        <!-- po submit wywoła się metoda ProjectClient w kontrolerze ProjectClient typu HttpPost -->
+        @using (Html.BeginForm("ProjectClient", "ProjectClient"))
+        {
+            @Html.AntiForgeryToken()
+
+            <!-- Wyświetlenie podsumowania walidacji-->
+            @Html.ValidationSummary()
+
+            if (Model.ProjectClient.Id == 0)
+            {
+                <p class="alert alert-info mb-4 mt-4">Wszystkie pola są <strong>wymagane</strong> </p>
+            }
+
+            @Html.HiddenFor(x => x.ProjectClient.Id)
+            @Html.HiddenFor(x => x.ProjectClient.ProjectId)
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectClient.OrdinalNumber)
+                @Html.TextBoxFor(x => x.ProjectClient.OrdinalNumber,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ProjectClient.OrdinalNumber)
+            </div>
+
+          
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectClient.Name)
+                @Html.TextAreaFor(x => x.ProjectClient.Name, 10, 40,
+               new { @class = "form-control" })
+            </div>
+
+            <button class="btn btn-primary btn-lg mb-5" type="submit">
+                Zapisz
+            </button>
+        }
+    </div>
+
+
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            // w formatowaniu ma być przecinek, a nie kropka
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            }
+        });
+
+    </script>
+}
+

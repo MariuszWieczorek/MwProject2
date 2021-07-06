@@ -109,6 +109,7 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProjectManager) 
                 .Include(x => x.ProjectTeamMembers)
                 .ThenInclude(x => x.User)
+                .Include(x => x.ProjectClients)
                 .Single(x => x.Id == id);
 
             if (user.CanSeeAllProject == false && user.Id != userId)

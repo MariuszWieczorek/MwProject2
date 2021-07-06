@@ -28,7 +28,7 @@ namespace MwProject.Core
         DbSet<TypeOfNotification> TypeOfNotifications { get; set; }
         DbSet<ProjectStatus> ProjectStatuses { get; set; }
         DbSet<ProjectGroup> ProjectGroups { get; set; }
-
+        DbSet<ProjectClient> ProjectClients { get; set; }
         int SaveChanges();
     }
 }

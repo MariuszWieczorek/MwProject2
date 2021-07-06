@@ -36,7 +36,6 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.EstimatedSalesValue.UpdateEstimatedSalesValue(estimatedSalesValue, userId);
             _unitOfWork.Complete();
-           // _unitOfWork.Project.CalculatePriorityOfProject(estimatedSalesValue.ProjectId, userId);
         }
 
         public void DeleteEstimatedSalesValue(int projectId, int id, string userId)

@@ -12,11 +12,28 @@
         .Where(x => x.Requirement.Type == 1)
         .Sum(x => x.Value);
 
-    var firstSalesRecord = Model.Project.EstimatedSalesValues.Min(x => x.Id);
-    var firstYearOfSales = Model.Project.EstimatedSalesValues.Single(x => x.Id == firstSalesRecord);
-    var firstYearOfSalesValue = firstYearOfSales.Qty * firstYearOfSales.Price;
-    var firstYearOfSalesPrice = firstYearOfSales.Price;
-    var firstYearOfSalesQty = firstYearOfSales.Qty;
+
+    decimal firstYearOfSalesValue = 0M;
+    decimal firstYearOfSalesPrice = 0M;
+    decimal firstYearOfSalesQty = 0M;
+    if (Model.Project.EstimatedSalesValues.Count > 0)
+    {
+        var firstSalesRecord = Model.Project.EstimatedSalesValues.Min(x => x.Id);
+        var firstYearOfSales = Model.Project.EstimatedSalesValues.Single(x => x.Id == firstSalesRecord);
+        firstYearOfSalesValue = firstYearOfSales.Qty * firstYearOfSales.Price;
+        firstYearOfSalesPrice = firstYearOfSales.Price;
+        firstYearOfSalesQty = firstYearOfSales.Qty;
+    }
+
+    decimal manufacturingCost = 0M;
+    if (Model.Project.Calculations.Any())
+    {
+        var firstCalculationRecord = Model.Project.Calculations.Min(x => x.Id);
+        var firstCalcutation = Model.Project.Calculations.Single(x => x.Id == firstCalculationRecord);
+        manufacturingCost = firstCalcutation.Ckw;
+    }
+
+    decimal estimatedProfit = (firstYearOfSalesPrice - manufacturingCost) * firstYearOfSalesQty;
 
 }
 
@@ -221,7 +238,24 @@
                             </div>
                         </div>
 
+                        <!-- ROI -->
                         <div class="row">
+
+                            <div class="form-group mb-3 col-2">
+                                <label for="firstYearOfSalesPrice">cena 1 rok [PLN]</label>
+                                <input type="text" class="form-control" id="firstYearOfSalesPrice" value="@firstYearOfSalesPrice.ToString("c")" readonly="readonly" Style="font-weight:bold">
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                <label for="manufacturingCost">CKW [PLN]</label>
+                                <input type="text" class="form-control" id="manufacturingCost" value="@manufacturingCost.ToString("c")" readonly="readonly" Style="font-weight:bold">
+                            </div>
+
+                            <div class="form-group mb-3 col-2">
+                                <label for="estimatedProfit">profit 1 rok [PLN]</label>
+                                <input type="text" class="form-control" id="estimatedProfit" value="@estimatedProfit.ToString("c")" readonly="readonly" Style="font-weight:bold">
+                            </div>
+
                             <div class="form-group mb-3 col-2">
                                 @Html.LabelFor(x => x.Project.ReturnOnInvestment)
                                 @Html.TextBoxFor(x => x.Project.ReturnOnInvestment,

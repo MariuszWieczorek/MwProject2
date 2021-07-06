@@ -58,6 +58,7 @@ namespace MwProject
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<IProjectStatusRepository, ProjectStatusRepository>();
             services.AddScoped<IProjectGroupRepository, ProjectGroupRepository>();
+            services.AddScoped<IProjectClientRepository, ProjectClientRepository>();
 
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
@@ -78,6 +79,7 @@ namespace MwProject
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IProjectStatusService, ProjectStatusService>();
             services.AddScoped<IProjectGroupService, ProjectGroupService>();
+            services.AddScoped<IProjectClientService, ProjectClientService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
