@@ -121,13 +121,13 @@ namespace MwProject.Persistence.Repositories
             if (projectsFilter.ShowProjectsWithNotifications == true)
                 projects = projects.Where(x => x.Notifications.Where(x=>x.UserId==userId && x.Confirmed==false).Any() );
 
-            if (projectsFilter.CategoryId != 0)
+            if (projectsFilter.CategoryId != 0 && projectsFilter.CategoryId != null)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
-            if (projectsFilter.ProjectStatusId != 0)
+            if (projectsFilter.ProjectStatusId != 0 && projectsFilter.ProjectStatusId != null)
                 projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
 
-            if (projectsFilter.ProjectGroupId != 0)
+            if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
                 projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
             if (projectsFilter.Year != 0)
@@ -191,17 +191,16 @@ namespace MwProject.Persistence.Repositories
             if (projectsFilter.IsExecuted == true)
                 projects = projects.Where(x => x.IsExecuted == false);
 
-
-            if (projectsFilter.CategoryId != 0)
-                projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
-
             if (projectsFilter.ShowProjectsWithNotifications == true)
                 projects = projects.Where(x => x.Notifications.Where(x => x.UserId == userId && x.Confirmed == false).Any());
 
-            if (projectsFilter.ProjectStatusId != 0)
+            if (projectsFilter.CategoryId != 0 && projectsFilter.CategoryId != null)
+                projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
+
+            if (projectsFilter.ProjectStatusId != 0 && projectsFilter.ProjectStatusId != null)
                 projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
 
-            if (projectsFilter.ProjectGroupId != 0)
+            if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
                 projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
             if (projectsFilter.Year != 0)

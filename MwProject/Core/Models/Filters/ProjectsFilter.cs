@@ -15,13 +15,13 @@ namespace MwProject.Core.Models.Filters
         public string Client { get; set; }
 
         [Display(Name = "Kategoria")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         
         [Display(Name = "Program")]
-        public int ProjectGroupId { get; set; }
+        public int? ProjectGroupId { get; set; }
 
         [Display(Name = "Status")]
-        public int ProjectStatusId { get; set; }
+        public int? ProjectStatusId { get; set; }
 
         [Display(Name = "Numer")]
         public string Number { get; set; }
