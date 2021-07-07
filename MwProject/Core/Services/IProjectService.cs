@@ -24,6 +24,7 @@ namespace MwProject.Core.Services
         void AddQualityRequirementsToProject(Project project);
         void AddGeneralRequirementsToProject(Project project);
         void AddEconomicRequirementsToProject(Project project);
+        void AddNewTechnicalProperitiesAndRequirementsToAllProjects(string userId);
         void AcceptProject(int id, string userId);
         void WithdrawProjectAcceptance(int id, string userId);
         void ConfirmProject(int id, string userId);

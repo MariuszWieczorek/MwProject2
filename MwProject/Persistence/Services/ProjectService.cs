@@ -380,6 +380,21 @@ namespace MwProject.Persistence.Services
             }
         }
 
+        public void AddNewTechnicalProperitiesAndRequirementsToAllProjects(string userId)
+        {
+            var projects = _unitOfWork.Project.GetAllProjects(userId);
+            foreach (var project in projects)
+            {
+                if (project.CategoryId == 1)
+                {
+                    AddEconomicRequirementsToProject(project);
+                    AddQualityRequirementsToProject(project);
+                    AddGeneralRequirementsToProject(project);
+                    AddTechnicalPropertiesToProject(project);
+                }
+            }
+        }
+
         public void ExportProjectsToExcel(IEnumerable<Project> projects)
         {
             // PM> Install-Package ClosedXML

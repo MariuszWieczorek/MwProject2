@@ -914,6 +914,13 @@ namespace MwProject.Controllers
         }
 
 
+        public string AddNewTechnicalProperitiesAndRequirementsToAllProjects()
+        {
+            var userId = User.GetUserId();
+            _projectService.AddNewTechnicalProperitiesAndRequirementsToAllProjects(userId);
+            return "OK";
+        }
+
         public string ExportProjectsToExcel()
         {
             var userId = User.GetUserId();

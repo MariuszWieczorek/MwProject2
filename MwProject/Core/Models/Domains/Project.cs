@@ -95,7 +95,7 @@ namespace MwProject.Core.Models.Domains
         
         [Required(ErrorMessage = "Pole kategoria jest wymagane.")]
         [Display(Name = "Kategoria")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public Category Category { get; set; }
 
        
@@ -122,9 +122,8 @@ namespace MwProject.Core.Models.Domains
         public int ProductStatus { get; set; }
 
 
-        [Required(ErrorMessage = "Pole grupa produktu jest wymagane.")]
         [Display(Name = "Grupa Produktu")]
-        public int ProductGroupId { get; set; }
+        public int? ProductGroupId { get; set; }
         public ProductGroup ProductGroup { get; set; }
 
 

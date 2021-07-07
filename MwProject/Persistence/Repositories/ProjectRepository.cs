@@ -49,32 +49,13 @@ namespace MwProject.Persistence.Repositories
 
         public void AddProject(Project project)
         {
-
-            var x = NewFullNumber(project.CategoryId, project.CreatedDate);
+            int categoryId = project.CategoryId != null ? (int)project.CategoryId : 0;
+            var x = NewFullNumber(categoryId, project.CreatedDate);
             project.No = x.Item1;
             project.Number = x.Item2;
             _context.Projects.Add(project);
         }
-
-        public void AddTechnicalPropertiesToProject(Project project)
-        {
-
-            var category = _context.Categories
-                .Include(x => x.CategoryTechnicalProperties)
-                .ThenInclude(x => x.TechnicalProperty)
-                .Single(x => x.Id == project.CategoryId);
-
-            foreach (var technicalProperty in category.CategoryTechnicalProperties)
-            {
-                var projectTechnicalProperty = new ProjectTechnicalProperty()
-                {
-                    ProjectId = project.Id,
-                    TechnicalPropertyId = technicalProperty.TechnicalPropertyId,
-                };
-                
-                _context.ProjectTechnicalProperties.Add(projectTechnicalProperty);
-            }
-        }
+             
 
         public void DeleteProject(int id, string userId)
         {
@@ -106,7 +87,7 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.PurposeOfTheProject)
                 .Include(x => x.ViabilityOfTheProject)
                 .Include(x => x.CompetitivenessOfTheProject)
-                .Include(x => x.ProjectManager) 
+                .Include(x => x.ProjectManager)
                 .Include(x => x.ProjectTeamMembers)
                 .ThenInclude(x => x.User)
                 .Include(x => x.ProjectClients)
@@ -129,21 +110,21 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.User)
                 .Include(x => x.ProjectManager)
                 .AsQueryable();
-                
 
-            if(user.CanSeeAllProject == false)
+
+            if (user.CanSeeAllProject == false)
                 projects = projects.Where(x => x.UserId == userId);
 
             if (projectsFilter.IsExecuted == true)
                 projects = projects.Where(x => x.IsExecuted == false);
-            
+
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
             if (projectsFilter.ProjectStatusId != 0)
                 projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
-            
+
             if (projectsFilter.ProjectGroupId != 0)
                 projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
@@ -236,7 +217,7 @@ namespace MwProject.Persistence.Repositories
             if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
                 projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
-           
+
             return projects.Count();
         }
 
@@ -254,7 +235,7 @@ namespace MwProject.Persistence.Repositories
         public void UpdateProject(Project project, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
-            
+
             projectToUpdate.Title = project.Title;
             projectToUpdate.CreatedDate = project.CreatedDate;
             projectToUpdate.OrdinalNumber = project.OrdinalNumber;
@@ -281,7 +262,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Coordinator = project.Coordinator;
             projectToUpdate.Client = project.Client;
             projectToUpdate.ProductStatus = project.ProductStatus;
-            
+
         }
 
         public void UpdateProjectPriority(Project project, string userId)
@@ -313,17 +294,23 @@ namespace MwProject.Persistence.Repositories
                 .ThenInclude(x => x.Requirement)
                 .Single(x => x.Id == project.CategoryId);
 
-            var categoryRequirements = category.CategoryRequirements.Where(x=>x.Requirement.Type==2);
+            var categoryRequirements = category.CategoryRequirements.Where(x => x.Requirement.Type == 2);
+            var currentRequirements = project.ProjectRequirements;
 
             foreach (var requirement in categoryRequirements)
             {
-                var projectRequitement = new ProjectRequirement()
-                {
-                    ProjectId = project.Id,
-                    RequirementId = requirement.RequirementId,
-                };
 
-                _context.ProjectRequirements.Add(projectRequitement);
+                bool exists = currentRequirements.Where(x => x.RequirementId == requirement.RequirementId).Any();
+                if (!exists)
+                {
+                    var projectRequitement = new ProjectRequirement()
+                    {
+                        ProjectId = project.Id,
+                        RequirementId = requirement.RequirementId,
+                    };
+
+                    _context.ProjectRequirements.Add(projectRequitement);
+                }
             }
         }
 
@@ -335,16 +322,74 @@ namespace MwProject.Persistence.Repositories
                 .Single(x => x.Id == project.CategoryId);
 
             var categoryRequirements = category.CategoryRequirements.Where(x => x.Requirement.Type == 1);
+            var currentRequirements = project.ProjectRequirements;
 
             foreach (var requirement in categoryRequirements)
             {
-                var projectRequitement = new ProjectRequirement()
+                bool exists = currentRequirements.Where(x => x.RequirementId == requirement.RequirementId).Any();
+                if (!exists)
                 {
-                    ProjectId = project.Id,
-                    RequirementId = requirement.RequirementId,
-                };
+                    var projectRequitement = new ProjectRequirement()
+                    {
+                        ProjectId = project.Id,
+                        RequirementId = requirement.RequirementId,
+                    };
 
-                _context.ProjectRequirements.Add(projectRequitement);
+                    _context.ProjectRequirements.Add(projectRequitement);
+                }
+            }
+        }
+
+        public void AddGeneralRequirementsToProject(Project project)
+        {
+            var category = _context.Categories
+                            .Include(x => x.CategoryRequirements)
+                            .ThenInclude(x => x.Requirement)
+                            .Single(x => x.Id == project.CategoryId);
+
+            var categoryRequirements = category.CategoryRequirements.Where(x => x.Requirement.Type == (int)RequirementType.General);
+            var currentRequirements = project.ProjectRequirements;
+
+            foreach (var requirement in categoryRequirements)
+            {
+                bool exists = currentRequirements.Where(x => x.RequirementId == requirement.RequirementId).Any();
+                if (!exists)
+                {
+                    var projectRequitement = new ProjectRequirement()
+                    {
+                        ProjectId = project.Id,
+                        RequirementId = requirement.RequirementId,
+                    };
+
+                    _context.ProjectRequirements.Add(projectRequitement);
+                }
+            }
+        }
+
+        public void AddTechnicalPropertiesToProject(Project project)
+        {
+
+            var category = _context.Categories
+                .Include(x => x.CategoryTechnicalProperties)
+                .ThenInclude(x => x.TechnicalProperty)
+                .Single(x => x.Id == project.CategoryId);
+
+            var currentTechnicalProperties = project.ProjectTechnicalProperties;
+
+            foreach (var technicalProperty in category.CategoryTechnicalProperties)
+            {
+
+                bool exists = currentTechnicalProperties.Where(x => x.TechnicalPropertyId == technicalProperty.TechnicalPropertyId).Any();
+                if (!exists)
+                {
+                    var projectTechnicalProperty = new ProjectTechnicalProperty()
+                    {
+                        ProjectId = project.Id,
+                        TechnicalPropertyId = technicalProperty.TechnicalPropertyId,
+                    };
+
+                    _context.ProjectTechnicalProperties.Add(projectTechnicalProperty);
+                }
             }
         }
 
@@ -485,26 +530,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.GeneralRequirementsConfirmedBy = null;
         }
 
-        public void AddGeneralRequirementsToProject(Project project)
-        {
-            var category = _context.Categories
-                            .Include(x => x.CategoryRequirements)
-                            .ThenInclude(x => x.Requirement)
-                            .Single(x => x.Id == project.CategoryId);
-
-            var categoryRequirements = category.CategoryRequirements.Where(x => x.Requirement.Type == (int)RequirementType.General);
-
-            foreach (var requirement in categoryRequirements)
-            {
-                var projectRequitement = new ProjectRequirement()
-                {
-                    ProjectId = project.Id,
-                    RequirementId = requirement.RequirementId,
-                };
-
-                _context.ProjectRequirements.Add(projectRequitement);
-            }
-        }
+       
 
         public void ConfirmProjectTeam(int id, string userId)
         {
@@ -533,18 +559,18 @@ namespace MwProject.Persistence.Repositories
                 if (projectsOfSelectedCategoryIdInSelectedYear.Any())
                 {
                     no = projectsOfSelectedCategoryIdInSelectedYear.Max(x => x.No) + 1;
-                }     
+                }
             }
             return no;
         }
 
-        public (int,string) NewFullNumber(int categoryId, DateTime? createdDate)
+        public (int, string) NewFullNumber(int categoryId, DateTime? createdDate)
         {
             string number = string.Empty;
-                        
-            if(createdDate == null)
+
+            if (createdDate == null)
             {
-                return (0,number);
+                return (0, number);
             }
 
             int no = NewRawNumber(categoryId, createdDate);
@@ -553,9 +579,9 @@ namespace MwProject.Persistence.Repositories
             string abbrev = _context.Categories.Single(x => x.Id == categoryId).Abbrev;
             number = $"{abbrev}/{year}/{nox}";
 
-            return (no,number);
+            return (no, number);
         }
 
-       
+
     }
 }
