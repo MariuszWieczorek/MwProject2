@@ -54,6 +54,8 @@
                     <td class="text-muted font-weight-bold">@project.Category.Name</td>
                     <td style=" max-width: 300px ">@project.Title </td>
 
+                    
+
                     <td>
                         @if (project.CreatedDate.HasValue)
                         {
@@ -62,7 +64,7 @@
                     </td>
 
                     <td>
-                            @project.ProjectStatus?.Name
+                        @project.ProjectStatus?.Name
                     </td>
 
                     <td>

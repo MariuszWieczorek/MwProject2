@@ -14,7 +14,7 @@ namespace MwProject.Core.Services
         IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId);
         Project GetProject(int id, string userId);
         Project NewProject(string userId);
-        void AddProject(Project project);
+        void AddProject(Project project, string userId);
         void UpdateProject(Project project, string userId);
         void UpdateProjectPriority(Project project, string userId);
         void FinishProject(int id, string userId);

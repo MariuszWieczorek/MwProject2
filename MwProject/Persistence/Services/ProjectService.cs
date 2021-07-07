@@ -9,15 +9,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmailService;
 
 namespace MwProject.Persistence.Services
 {
     public class ProjectService : IProjectService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProjectService(IUnitOfWork unitOfWork)
+        private readonly IEmailSender _emailSender;
+
+        public ProjectService(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
         }
 
         public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
@@ -40,7 +44,7 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.GetProject(id, userId);
         }
 
-        public void AddProject(Project project)
+        public void AddProject(Project project, string userId)
         {
             _unitOfWork.Project.AddProject(project);
 
@@ -54,7 +58,7 @@ namespace MwProject.Persistence.Services
             
             _unitOfWork.Project.AddQualityRequirementsToProject(project);
 
-
+            // notifications
             var id = project.Id;
             var usersToNotifications = _unitOfWork.UserRepository.GetUsers(new UsersFilter(), new PagingInfo())
                 .Where(x => x.NewProjectEmailNotification);
@@ -74,7 +78,71 @@ namespace MwProject.Persistence.Services
                     _unitOfWork.NotificationRepository.AddNotification(notification);
                 }
             }
+
             _unitOfWork.Complete();
+
+            var projectToSend = _unitOfWork.Project.GetProject(project.Id,userId);
+
+            var notificationsToSend = projectToSend.Notifications.Where(x => x.Confirmed == false && x.TypeOfNotificationId == 1);
+            if (notificationsToSend.Any())
+            {
+                foreach (var notification in notificationsToSend)
+                {
+
+                    string subject = $"MWProject: {notification.TypeOfNotification.Name} / {notification.Project.Number}";
+                    string message = GenerateHtml(notification);
+                    var listOfEmailRecipients = new List<string>()
+                {
+                    $"{notification.User.Email}"
+                };
+
+                    var listOfAttachments = new List<string>();
+
+                    var mailMessage = _emailSender.CreateMailMessage(subject, message, listOfEmailRecipients, listOfAttachments);
+                    _emailSender.SendEmailAsync(mailMessage);
+
+                }
+            }
+
+        }
+
+
+        private string GenerateHtml(Notification notification)
+        {
+            var html = $"Powiadomienie programu <strong> MWProject </strong> <br />";
+                html +=  $"Projekt : {notification.TypeOfNotification.Name} / {notification.Project.Number}";
+
+            html += $@"<table border=1 cellpadding=5  cellspacing=1>
+                <tr>
+                    <td align=center bgcolor=lightgrey>Tytuł</td>
+                    <td align=center bgcolor=white> {notification.Project.Title}</td>                    
+                    
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Numer</td>                    
+                    <td align=center bgcolor=white> {notification.Project.Number}</td>
+                </tr>
+                ";
+
+            //var Url = Microsoft.AspNetCore.Html.ActionLink("Project", "Project", new { id = notification.Project.Id });
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Link</td>                    
+                    <td align=center bgcolor=white>
+                    http://192.168.1.186/mwproject/Project/Project/{notification.Project.Id}    
+                    </td>
+                </tr>
+                ";
+
+
+            html += $@"</table> <br /> <br /> <i>Automatyczna wiadomość wysłana z aplikacji MWProject</i>";
+
+            return html;
         }
 
         public void UpdateProject(Project project, string userId)

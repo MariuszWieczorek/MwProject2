@@ -442,14 +442,10 @@ namespace MwProject.Controllers
 
             // jeżeli wszystko ok to zapisujemy projekt
             if (project.Id == 0)
-            {
-                _projectService.AddProject(project);
-
-            }
+                _projectService.AddProject(project,userId);
             else
-            {
-                _projectService.UpdateProject(project, userId);
-            }
+                 _projectService.UpdateProject(project, userId);
+            
                     
             return RedirectToAction("Projects", "Project");
         }
