@@ -53,6 +53,11 @@
                 @Html.HiddenFor(x => x.Project.Value)
                 @Html.HiddenFor(x => x.Project.Coordinator)
 
+                @if (NewProject == false)
+                {
+                    @Html.HiddenFor(x => x.Project.CategoryId)
+                }
+
                 <!--Podział głównych danych formularza na dwie kolumny-->
                 <div class="row g-0">
                     <!-- Pierwsza kolumna formularza -->

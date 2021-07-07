@@ -1551,6 +1551,42 @@
             var url = '@Url.Action("Details, Artists")';
             window.location.href = url;
         });
+
+          // ------------------------------------------------------------------------------------------------
+        function confirmProjectNotification(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz potwierdzić powiadomienie ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmProjectNotification", "Notification")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        btn.style.display = "none";
+                        var row = btn.parentNode.parentNode;
+                        //row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+
+
+         // ------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------
     </script>
 }

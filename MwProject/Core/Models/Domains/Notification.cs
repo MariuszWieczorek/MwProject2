@@ -16,5 +16,7 @@ namespace MwProject.Core.Models.Domains
         public TypeOfNotification TypeOfNotification { get; set; }
         public DateTime TimeOfNotification { get; set; }
         public string Content { get; set; }
+        public bool Confirmed { get; set; }
+        public DateTime? ConfirmedDate { get; set; }
     }
 }

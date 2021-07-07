@@ -118,6 +118,8 @@ namespace MwProject.Persistence.Repositories
             if (projectsFilter.IsExecuted == true)
                 projects = projects.Where(x => x.IsExecuted == false);
 
+            if (projectsFilter.ShowProjectsWithNotifications == true)
+                projects = projects.Where(x => x.Notifications.Where(x=>x.UserId==userId && x.Confirmed==false).Any() );
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
@@ -192,6 +194,9 @@ namespace MwProject.Persistence.Repositories
 
             if (projectsFilter.CategoryId != 0)
                 projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
+
+            if (projectsFilter.ShowProjectsWithNotifications == true)
+                projects = projects.Where(x => x.Notifications.Where(x => x.UserId == userId && x.Confirmed == false).Any());
 
             if (projectsFilter.ProjectStatusId != 0)
                 projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);

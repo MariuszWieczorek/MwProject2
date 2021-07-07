@@ -28,6 +28,11 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Skrót")]
         public string Abbrev { get; set; }
 
+        [Display(Name = "Grupa Produktu")]
+        public int? ProductGroupId { get; set; }
+        public ProductGroup ProductGroup { get; set; }
+
+
         [Required]
         [Display(Name = "Symbol Dokumentu")]
         public string DocumentSymbol { get; set; }

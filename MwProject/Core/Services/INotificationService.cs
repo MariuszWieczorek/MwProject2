@@ -14,5 +14,6 @@ namespace MwProject.Core.Services
         Notification NewNotification();
         void UpdateNotification(Notification notification);
         void DeleteNotification(int id);
+        void ConfirmProjectNotification(int projectId, int id, string userId);
     }
 }

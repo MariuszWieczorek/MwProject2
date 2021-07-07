@@ -46,7 +46,8 @@
                     <tr>
                         <th scope="col"> Typ </th>
                         <th scope="col"> User</th>
-                        <th scope="col"> Czas</th>
+                        <th scope="col"> Czas Powiadomienia</th>
+                        <th scope="col"> Czas Potwierdzenia</th>
                         <th scope="col"> </th>
                     </tr>
                 </thead>
@@ -74,13 +75,18 @@
                             </strong>
                         </td>
 
-                        
+                        <td class="text-muted">
+                            <strong>
+                                @position.ConfirmedDate
+                            </strong>
+                        </td>
+
                         <td align="right">
-                            @if (canEdit)
+                            @if (canEdit && Model.CurrentUser.Id == position.UserId && position.Confirmed == false)
                             {
                                 <button class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteProjectNotification('@position.ProjectId','@position.Id',this)">
-                                    Usuń
+                                        onclick="confirmProjectNotification('@position.ProjectId','@position.Id',this)">
+                                    Potwierdź
                                 </button>
                             }
                         </td>

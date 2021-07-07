@@ -48,5 +48,11 @@ namespace MwProject.Persistence.Services
         {
             return _unitOfWork.NotificationRepository.NewNotification();
         }
+
+        public void ConfirmProjectNotification(int projectId, int id, string userId)
+        {
+            _unitOfWork.NotificationRepository.ConfirmProjectNotification(projectId,id,userId);
+            _unitOfWork.Complete();
+        }
     }
 }

@@ -96,6 +96,12 @@
             @Html.LabelFor(x => x.ProjectsFilter.IsExecuted, new { @class = "form-check-label" })
         </div>
 
+        <div class="form-check form-switch mb-3 col-2">
+            <br>
+            @Html.CheckBoxFor(x => x.ProjectsFilter.ShowProjectsWithNotifications, new { @class = "form-check-input" })
+            @Html.LabelFor(x => x.ProjectsFilter.ShowProjectsWithNotifications, new { @class = "form-check-label" })
+        </div>
+
         <div class="col-1">
             <button type="submit" class="btn btn-outline-success">Filtruj</button>
         </div>

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace MwProject.Controllers
 {
     [Authorize]
-    public class NotyficationController : Controller
+    public class NotificationController : Controller
     {
 
         #region konstruktor, DI
@@ -21,7 +21,7 @@ namespace MwProject.Controllers
         private readonly INotificationService _notificationService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public NotyficationController(IProjectService projectService, IUserService userService, INotificationService notificationService)
+        public NotificationController(IProjectService projectService, IUserService userService, INotificationService notificationService)
         {
             _projectService = projectService;
             _userService = userService;
@@ -101,6 +101,25 @@ namespace MwProject.Controllers
                 var userId = User.GetUserId();
                 var currentUser = _userService.GetUser(userId);
                 _notificationService.DeleteNotification(id);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message });
+            }
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public IActionResult ConfirmProjectNotification(int projectId, int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                var currentUser = _userService.GetUser(userId);
+                _notificationService.ConfirmProjectNotification(projectId,id,userId);
             }
             catch (Exception ex)
             {

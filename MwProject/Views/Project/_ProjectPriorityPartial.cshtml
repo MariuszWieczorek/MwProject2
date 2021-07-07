@@ -74,6 +74,7 @@
                 @Html.HiddenFor(x => x.Project.Id)
                 @Html.HiddenFor(x => x.Project.Title)
                 @Html.HiddenFor(x => x.Project.InitiatedBy)
+                @Html.HiddenFor(x => x.Project.CategoryId)
 
                 <!--Podział głównych danych formularza na dwie kolumny-->
                 <div class="row">
@@ -221,7 +222,7 @@
                             </div>
 
                         </div>
-                           
+
                         <div class="row">
                             <div class="form-group mb-3 col-2">
                                 @Html.LabelFor(x => x.Project.ImplementationTimeInMonths)
@@ -275,7 +276,7 @@
 
                             <div class="form-group mb-3 col-2">
                                 <label for="firstYearOfSalesQty">sprzedaż w pierwszym <br /> roku [szt]</label>
-                                <input type="text" class="form-control" id="firstYearOfSalesQty" value="@firstYearOfSalesQty.ToString("n")" readonly="readonly" Style = "font-weight:bold">
+                                <input type="text" class="form-control" id="firstYearOfSalesQty" value="@firstYearOfSalesQty.ToString("n")" readonly="readonly" Style="font-weight:bold">
                             </div>
 
                             <div class="form-group mb-3 col-2">

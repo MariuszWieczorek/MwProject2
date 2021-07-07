@@ -49,5 +49,12 @@ namespace MwProject.Persistence.Repositories
                 TimeOfNotification = DateTime.Now
             };
         }
+
+        public void ConfirmProjectNotification(int projectId, int id, string userId)
+        {
+            var notificationToConfirm = _context.Notifications.Single(x => x.ProjectId == projectId && x.Id == id);
+            notificationToConfirm.Confirmed = true;
+            notificationToConfirm.ConfirmedDate = DateTime.Now;
+        }
     }
 }
