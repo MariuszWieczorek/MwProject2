@@ -11,7 +11,7 @@
     .Where(x => x.Requirement.Type == 1)
     .Sum(x => x.Value);
 
-                
+
 }
 
 <div class="m-2 ps-2">
@@ -169,16 +169,18 @@
                             </div>
 
                             <!-- Grupa Produktu -->
-                            <div class="form-group mb-3 col-6">
+                            @*
+                                <div class="form-group mb-3 col-6">
 
-                                @Html.LabelFor(x => x.Project.ProductGroupId)
-                                @Html.DropDownListFor(x => x.Project.ProductGroupId,
-                                               new SelectList(Model.ProductGroups, "Id", "Name"),
-                                               "--- Wybierz grupę produktu ---",
-                                               new { @class = "form-control", autofocus = "autofocus" })
-                                @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
+                                    @Html.LabelFor(x => x.Project.ProductGroupId)
+                                    @Html.DropDownListFor(x => x.Project.ProductGroupId,
+                                                   new SelectList(Model.ProductGroups, "Id", "Name"),
+                                                   "--- Wybierz grupę produktu ---",
+                                                   new { @class = "form-control", autofocus = "autofocus" })
+                                    @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
 
-                            </div>
+                                </div>
+                            *@
                         </div>
 
                         <div class="form-group mb-3">
@@ -321,8 +323,8 @@
 @section scripts
 {
     <script type="text/javascript">
-             // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+                 // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
 
-              //
+                  //
     </script>
 }

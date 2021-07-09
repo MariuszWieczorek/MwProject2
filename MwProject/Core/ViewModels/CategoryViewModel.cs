@@ -11,5 +11,6 @@ namespace MwProject.Core.ViewModels
         public string Heading { get; set; }
         public Category Category { get; set; }
         public ApplicationUser CurrentUser { get; set; }
+        public IEnumerable<ProductGroup> ProductGroups { get; set; }
     }
 }

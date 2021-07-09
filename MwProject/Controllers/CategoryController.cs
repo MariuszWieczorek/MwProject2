@@ -17,13 +17,15 @@ namespace MwProject.Controllers
 
         #region konstruktor, DI
         private readonly ICategoryService _categoryService;
+        private readonly IProductGroupService _productGroupService;
         private readonly IUserService _userService;
 
         /* Korzystając z mechanizmu DI wstrzykujemy zależności */
-        public CategoryController(ICategoryService categoryService, IUserService userService)
+        public CategoryController(ICategoryService categoryService, IUserService userService, IProductGroupService productGroupService)
         {
             _categoryService = categoryService;
             _userService = userService;
+            _productGroupService = productGroupService;
         }
 
         #endregion
@@ -57,7 +59,8 @@ namespace MwProject.Controllers
             {
                 Category = selectedCategory,
                 Heading = "",
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                ProductGroups = _productGroupService.GetProductGroups(),
             };
 
             return View(vm);
@@ -82,7 +85,8 @@ namespace MwProject.Controllers
                     Heading = category.Id == 0 ?
                      "nowa kategoria" :
                      "edycja kategorii",
-                    CurrentUser = currentUser
+                    CurrentUser = currentUser,
+                    ProductGroups = _productGroupService.GetProductGroups(),
                 };
 
                 return View("Category", vm);

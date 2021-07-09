@@ -12,6 +12,7 @@ namespace MwProject.Core.Models.Domains
         public ProductGroup()
         {
             Projects = new Collection<Project>();
+            Categories = new Collection<Category>();
         }
         public int Id { get; set; }
 
@@ -24,6 +25,7 @@ namespace MwProject.Core.Models.Domains
         public string Name { get; set; }
 
         public ICollection<Project> Projects;
+        public ICollection<Category> Categories;
 
     }
 }

@@ -29,6 +29,7 @@ namespace MwProject.Core
         DbSet<ProjectStatus> ProjectStatuses { get; set; }
         DbSet<ProjectGroup> ProjectGroups { get; set; }
         DbSet<ProjectClient> ProjectClients { get; set; }
+        DbSet<ProjectRisk> ProjectRisks { get; set; }
         int SaveChanges();
     }
 }

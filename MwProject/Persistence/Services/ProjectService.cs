@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmailService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MwProject.Persistence.Services
 {
@@ -17,11 +18,13 @@ namespace MwProject.Persistence.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
+        private readonly IUrlHelper _urlHelper;
 
         public ProjectService(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
+          //  _urlHelper = urlHelper;
         }
 
         public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
@@ -130,11 +133,15 @@ namespace MwProject.Persistence.Services
 
             //var Url = Microsoft.AspNetCore.Html.ActionLink("Project", "Project", new { id = notification.Project.Id });
 
+
+            // var link = _urlHelper.ActionLink("Project", "Project", new { id = notification.Project.Id });
+            var link = $@"http://192.168.1.186/mwproject/Project/Project/{notification.Project.Id}";
+            
             html +=
                 $@"<tr>
                     <td align=center bgcolor=lightgrey>Link</td>                    
                     <td align=center bgcolor=white>
-                    http://192.168.1.186/mwproject/Project/Project/{notification.Project.Id}    
+                    {link}
                     </td>
                 </tr>
                 ";

@@ -56,6 +56,18 @@
                 @Html.ValidationMessageFor(x => x.Category.Description)
             </div>
 
+            <!-- Grupa Produktu -->
+            <div class="form-group mb-3 col-6">
+
+                @Html.LabelFor(x => x.Category.ProductGroupId)
+                @Html.DropDownListFor(x => x.Category.ProductGroupId,
+                               new SelectList(Model.ProductGroups, "Id", "Name"),
+                               "--- Wybierz grupę produktu ---",
+                               new { @class = "form-control", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(x => x.Category.ProductGroupId)
+
+            </div>
+
             <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
 
         }

@@ -895,6 +895,32 @@ namespace MwProject.Migrations
                     b.ToTable("ProjectRequirements");
                 });
 
+            modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectRisk", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrdinalNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectRisks");
+                });
+
             modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectStatus", b =>
                 {
                     b.Property<int>("Id")
@@ -1344,6 +1370,17 @@ namespace MwProject.Migrations
                     b.Navigation("Requirement");
                 });
 
+            modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectRisk", b =>
+                {
+                    b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
+                        .WithMany("ProjectRisks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("MwProject.Core.Models.Domains.ProjectTeamMember", b =>
                 {
                     b.HasOne("MwProject.Core.Models.Domains.Project", "Project")
@@ -1418,6 +1455,8 @@ namespace MwProject.Migrations
                     b.Navigation("ProjectClients");
 
                     b.Navigation("ProjectRequirements");
+
+                    b.Navigation("ProjectRisks");
 
                     b.Navigation("ProjectTeamMembers");
 

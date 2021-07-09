@@ -25,6 +25,7 @@ namespace MwProject.Core.Models.Domains
             ProjectTeamMembers = new Collection<ProjectTeamMember>();
             Notifications = new Collection<Notification>();
             ProjectClients = new Collection<ProjectClient>();
+            ProjectRisks = new Collection<ProjectRisk>();
         }
 
         [MaxLength(255)]
@@ -309,17 +310,14 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Rank WZP")]
         public int RankingOfUsedProductionCapability { get; set; }
-
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
         public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
-        
         public ICollection<ProjectTeamMember> ProjectTeamMembers { get; set; }
-
         public ICollection<Notification> Notifications { get; set; }
-
         public ICollection<ProjectClient> ProjectClients { get; set; }
+        public ICollection<ProjectRisk> ProjectRisks { get; set; }
 
 
     }

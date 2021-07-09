@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +41,8 @@ namespace MwProject
             // dla ka¿dego request'a jedna instancja tej klasy
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped<IUrlHelper, UrlHelper>();
+
             // repozytoria
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -59,6 +63,7 @@ namespace MwProject
             services.AddScoped<IProjectStatusRepository, ProjectStatusRepository>();
             services.AddScoped<IProjectGroupRepository, ProjectGroupRepository>();
             services.AddScoped<IProjectClientRepository, ProjectClientRepository>();
+            services.AddScoped<IProjectRiskRepository, ProjectRiskRepository>();
 
             // serwisy
             services.AddScoped<IProjectService, ProjectService>();
@@ -80,6 +85,7 @@ namespace MwProject
             services.AddScoped<IProjectStatusService, ProjectStatusService>();
             services.AddScoped<IProjectGroupService, ProjectGroupService>();
             services.AddScoped<IProjectClientService, ProjectClientService>();
+            services.AddScoped<IProjectRiskService, ProjectRiskService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

@@ -23,6 +23,7 @@ namespace MwProject.Core
         IProjectStatusRepository ProjectStatusRepository { get; set; }
         IProjectGroupRepository ProjectGroupRepository { get; set; }
         IProjectClientRepository ProjectClientRepository { get; set; }
+        IProjectRiskRepository ProjectRiskRepository { get; set; }
 
         void Complete();
     }

@@ -53,6 +53,7 @@ namespace MwProject.Persistence.Repositories
             categoryToUpdate.Description = category.Description;
             categoryToUpdate.DocumentSymbol = category.DocumentSymbol;
             categoryToUpdate.Abbrev = category.Abbrev;
+            categoryToUpdate.ProductGroupId = category.ProductGroupId;
         }
     }
 }

@@ -31,6 +31,7 @@ namespace MwProject.Data
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public DbSet<ProjectGroup> ProjectGroups { get; set; }
         public DbSet<ProjectClient> ProjectClients { get; set; }
+        public DbSet<ProjectRisk> ProjectRisks { get; set; }
 
         /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)

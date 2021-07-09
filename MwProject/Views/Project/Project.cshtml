@@ -229,6 +229,19 @@
 
             <li class="nav-item" role="presentation">
                 <button class="nav-link"
+                        id="risks-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#risks"
+                        type="button"
+                        role="tab"
+                        aria-controls="risks"
+                        aria-selected="false">
+                    Ocena Ryzyka
+                </button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link"
                         id="team-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#team"
@@ -375,6 +388,17 @@
                 {
                     <div class="col-12 mt-3 mb-2 border rounded bg-light">
                         @await Html.PartialAsync("_ProjectClientsPartial", Model)
+                    </div>
+                }
+            </div>
+
+
+            <!-- zakładka z oceną ryzyka -->
+            <div class="tab-pane fade" id="risks" role="tabpanel" aria-labelledby="risks-tab">
+                @if (Model.Project.Id != 0)
+                {
+                    <div class="col-12 mt-3 mb-2 border rounded bg-light">
+                        @await Html.PartialAsync("_ProjectRisksPartial", Model)
                     </div>
                 }
             </div>

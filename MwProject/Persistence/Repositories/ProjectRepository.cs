@@ -93,6 +93,7 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProjectClients)
                 .Include(x => x.Notifications)
                 .ThenInclude(x => x.TypeOfNotification)
+                .Include(x => x.ProjectRisks)
                 .Single(x => x.Id == id);
 
             if (user.CanSeeAllProject == false && user.Id != userId)
@@ -247,8 +248,9 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectManagerId = project.ProjectManagerId;
             projectToUpdate.LinkToPlanner = project.LinkToPlanner;
 
-            if (project.CategoryId != 0)
-                projectToUpdate.CategoryId = project.CategoryId;
+            //if (project.CategoryId != 0)
+            //   projectToUpdate.CategoryId = project.CategoryId;
+
             if (project.ProductGroupId != 0)
                 projectToUpdate.ProductGroupId = project.ProductGroupId;
             if (project.ProjectStatusId != 0)
