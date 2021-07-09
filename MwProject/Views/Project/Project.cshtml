@@ -708,6 +708,41 @@
 
             }
          // ------------------------------------------------------------------------------------------------
+
+         // --------------------------------------------------------------------------------------------
+
+            function deleteProjectRisk(projectId,id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć pozycję ?"))
+                return;
+
+           $.ajax({
+                type: 'POST',
+                url: "@Url.Action("DeleteProjectRisk", "ProjectRisk")",
+                 data: {
+                     projectId: projectId,
+                     id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // usuwanie z tabeli w html'u
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+
+                    }
+                    else {
+                        alert(data.message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json'
+
+                });
+
+            }
+         // ------------------------------------------------------------------------------------------------
+
         function deleteCalculation(projectId,id, btn) {
             if (!confirm("Czy na pewno chcesz usunąć kalkulację ?"))
                 return;

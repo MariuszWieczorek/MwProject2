@@ -1,5 +1,4 @@
 ﻿@model MwProject.Core.ViewModels.ProjectRiskViewModel
-
 @*
     Okno do edycji informacji technicznych przypisanych do projektu
     Wywołane z okna projektu
@@ -7,9 +6,19 @@
 
 @{
     ViewBag.Title = Model.Heading;
+    var back = Html.ActionLink("cofnij", "Project", "Project", new { id = Model.ProjectRisk.Id, tab = "risks" });
 }
 
 <h2>@Model.Heading</h2>
+
+<div class="row">
+    <div class="col-2">
+        <button class="btn btn-primary btn-lg mt-3 mb-3"
+                onclick='window.location.href = "@Url.Action("Project","Project", new { id = Model.ProjectRisk.ProjectId, tab = "risks" })"'>
+            cofnij
+        </button>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-6">
@@ -47,15 +56,18 @@
 
             <div class="form-group mb-3">
                 @Html.LabelFor(x => x.ProjectRisk.Content)
-                @Html.TextAreaFor(x => x.ProjectRisk.Content,10, 40,
+                @Html.TextAreaFor(x => x.ProjectRisk.Content, 10, 40,
                new { @class = "form-control" })
             </div>
 
             <button class="btn btn-primary btn-lg mb-5" type="submit">
                 Zapisz
             </button>
+
         }
     </div>
+
+
 
 
 </div>
