@@ -102,89 +102,10 @@ namespace MwProject.Persistence.Repositories
             return project;
         }
 
-        public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
+        private IQueryable<Project> FilterProjects(IQueryable<Project> projects, ProjectsFilter projectsFilter, string userId)
         {
+
             var user = _context.Users.Single(x => x.Id == userId);
-
-            var projects = _context.Projects
-                .Include(x => x.Category)
-                .Include(x => x.User)
-                .Include(x => x.ProjectManager)
-                .AsQueryable();
-
-
-            if (user.CanSeeAllProject == false)
-                projects = projects.Where(x => x.UserId == userId);
-
-            if (projectsFilter.IsExecuted == true)
-                projects = projects.Where(x => x.IsExecuted == false);
-
-            if (projectsFilter.ShowProjectsWithNotifications == true)
-                projects = projects.Where(x => x.Notifications.Where(x=>x.UserId==userId && x.Confirmed==false).Any() );
-
-            if (projectsFilter.CategoryId != 0 && projectsFilter.CategoryId != null)
-                projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
-
-            if (projectsFilter.ProjectStatusId != 0 && projectsFilter.ProjectStatusId != null)
-                projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
-
-            if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
-                projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
-
-            if (projectsFilter.Year != 0)
-                projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
-
-            if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
-                projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
-
-            if (!string.IsNullOrWhiteSpace(projectsFilter.Title))
-                projects = projects.Where(x => x.Title.Contains(projectsFilter.Title));
-
-            if (!string.IsNullOrWhiteSpace(projectsFilter.Number))
-                projects = projects.Where(x => x.Number.Contains(projectsFilter.Number));
-
-            if (!string.IsNullOrWhiteSpace(projectsFilter.Client))
-                projects = projects.Where(x => x.Client.Contains(projectsFilter.Client));
-
-            if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
-                projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
-
-
-            projects = projects
-                .OrderByDescending(x => x.PriorityOfProject)
-                .ThenBy(x => x.OrdinalNumber)
-                .ThenBy(x => x.Number);
-
-            // .OrderByDescending(x => x.PriorityOfProject)
-            if (pagingInfo != null)
-            {
-                projects = projects
-                    .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.ItemsPerPage)
-                    .Take(pagingInfo.ItemsPerPage);
-            }
-
-            //  .OrderByDescending(x=>x.PriorityOfProject)                    
-            // .OrderBy(x => x.OrdinalNumber)
-
-
-
-            return projects
-                .ToList();
-        }
-
-
-
-        public int GetNumberOfRecords(ProjectsFilter projectsFilter, int categoryId, string userId)
-        {
-            var user = _context.Users.Single(x => x.Id == userId);
-
-            var projects = _context.Projects
-                .Include(x => x.Category)
-                .Include(x => x.User)
-                .Include(x => x.ProjectManager)
-                .Include(x => x.ProjectStatus)
-                .AsQueryable();
-
 
             if (user.CanSeeAllProject == false)
                 projects = projects.Where(x => x.UserId == userId);
@@ -222,6 +143,51 @@ namespace MwProject.Persistence.Repositories
             if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
                 projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
+            return projects;
+        }
+
+        public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
+        {
+            
+
+            var projects = _context.Projects
+                .Include(x => x.Category)
+                .Include(x => x.User)
+                .Include(x => x.ProjectManager)
+                .AsQueryable();
+
+            projects = FilterProjects(projects, projectsFilter, userId);
+
+            projects = projects
+                .OrderByDescending(x => x.PriorityOfProject)
+                .ThenBy(x => x.OrdinalNumber)
+                .ThenBy(x => x.Number);
+
+            if (pagingInfo != null)
+            {
+                projects = projects
+                    .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.ItemsPerPage)
+                    .Take(pagingInfo.ItemsPerPage);
+            }
+
+
+            return projects
+                .ToList();
+        }
+
+
+
+        public int GetNumberOfRecords(ProjectsFilter projectsFilter, int categoryId, string userId)
+        {
+
+            var projects = _context.Projects
+                .Include(x => x.Category)
+                .Include(x => x.User)
+                .Include(x => x.ProjectManager)
+                .Include(x => x.ProjectStatus)
+                .AsQueryable();
+
+            projects = FilterProjects(projects, projectsFilter, userId);
 
             return projects.Count();
         }
