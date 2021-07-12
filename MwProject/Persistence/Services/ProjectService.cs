@@ -24,7 +24,7 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
-          //  _urlHelper = urlHelper;
+            //  _urlHelper = urlHelper;
         }
 
         public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
@@ -54,18 +54,18 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Complete();
 
             _unitOfWork.Project.AddTechnicalPropertiesToProject(project);
-            
+
             _unitOfWork.Project.AddEconomicRequirementsToProject(project);
-            
+
             _unitOfWork.Project.AddGeneralRequirementsToProject(project);
-            
+
             _unitOfWork.Project.AddQualityRequirementsToProject(project);
 
             // notifications
             var id = project.Id;
             var usersToNotifications = _unitOfWork.UserRepository.GetUsers(new UsersFilter(), new PagingInfo())
                 .Where(x => x.NewProjectEmailNotification);
-            
+
             if (usersToNotifications.Any())
             {
                 foreach (var user in usersToNotifications)
@@ -84,7 +84,7 @@ namespace MwProject.Persistence.Services
 
             _unitOfWork.Complete();
 
-            var projectToSend = _unitOfWork.Project.GetProject(project.Id,userId);
+            var projectToSend = _unitOfWork.Project.GetProject(project.Id, userId);
 
             var notificationsToSend = projectToSend.Notifications.Where(x => x.Confirmed == false && x.TypeOfNotificationId == 1);
             if (notificationsToSend.Any())
@@ -113,7 +113,7 @@ namespace MwProject.Persistence.Services
         private string GenerateHtml(Notification notification)
         {
             var html = $"Powiadomienie programu <strong> MWProject </strong> <br />";
-                html +=  $"Projekt : {notification.TypeOfNotification.Name} / {notification.Project.Number}";
+            html += $"Projekt : {notification.TypeOfNotification.Name} / {notification.Project.Number}";
 
             html += $@"<table border=1 cellpadding=5  cellspacing=1>
                 <tr>
@@ -136,7 +136,7 @@ namespace MwProject.Persistence.Services
 
             // var link = _urlHelper.ActionLink("Project", "Project", new { id = notification.Project.Id });
             var link = $@"http://192.168.1.186/mwproject/Project/Project/{notification.Project.Id}";
-            
+
             html +=
                 $@"<tr>
                     <td align=center bgcolor=lightgrey>Link</td>                    
@@ -167,7 +167,7 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.UpdateProjectPriority(project, userId);
             _unitOfWork.Complete();
-                this.CalculatePriorityOfProject(project.Id, userId);
+            this.CalculatePriorityOfProject(project.Id, userId);
         }
 
         public void DeleteProject(int id, string userId)
@@ -304,11 +304,11 @@ namespace MwProject.Persistence.Services
             decimal percentageOfUsedProductionCapability = 0M;
             int estimatedPaybackTimeInMonths = 0;
             //decimal estimatedCostOfProject = selectedProject.EstimatedCostOfProject;
-            
+
             decimal estimatedCostOfProject = selectedProject.ProjectRequirements
-                .Where(x=>x.Requirement.Type==(int)RequirementType.Economic)
+                .Where(x => x.Requirement.Type == (int)RequirementType.Economic)
                 .Sum(x => x.Value);
-            
+
 
             decimal firstYearOfSalesValue = 0M;
             decimal firstYearOfSalesPrice = 0M;
@@ -348,27 +348,23 @@ namespace MwProject.Persistence.Services
 
 
             // SCZ Szacowany czas zwrotu z inwestycji (miesiące)
-            // Jest zerowy gdy deklarowana sprzedaż w 1 roku jest równa 0
             if (firstYearOfSalesValue > 0)
             {
-                estimatedPaybackTimeInMonths = (int)Math.Ceiling((estimatedCostOfProject / firstYearOfSalesValue) * 12 );
+                estimatedPaybackTimeInMonths = (int)Math.Ceiling((estimatedCostOfProject / firstYearOfSalesValue) * 12);
 
                 rankingOfEstimatedPaybackTimeInMonths = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
                     .Single(x => x.Id == (int)RankingType.EstimatedPaybackTime)
                     .RankingElements
                     .Single(x => estimatedPaybackTimeInMonths >= x.RangeFrom && estimatedPaybackTimeInMonths < x.RangeTo).Index;
-
-
             }
 
             // ROI Return On Investment
-            if ( firstYearOfSalesValue > 0)
+            if (firstYearOfSalesValue > 0)
             {
                 decimal estimatedProfit = (firstYearOfSalesPrice - manufacturingCost) * firstYearOfSalesQty;
-
                 if (estimatedProfit > 0)
                 {
-                    returnOnInvestment = Math.Round(estimatedCostOfProject / estimatedProfit, 2);
+                    returnOnInvestment = (int)Math.Ceiling((estimatedCostOfProject / estimatedProfit) * 12);
                     rankingOfReturnOnInvestment = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
                     .Single(x => x.Id == (int)RankingType.ReturnOnInvestment)
                     .RankingElements
@@ -399,29 +395,23 @@ namespace MwProject.Persistence.Services
 
             }
 
- 
 
 
-            if (true)
-            {
+            // WZP - Wykorzystanie zdolności produkcyjnych
+            int currentProductionVolume = selectedProject.ProductionCapacity;
+            int plannedProductionVolume = selectedProject.PlannedProductionVolume;
+
+            if (plannedProductionVolume != 0 && firstYearOfSalesQty != 0)
+                percentageOfUsedProductionCapability = (decimal)currentProductionVolume / plannedProductionVolume;
+            else
+                percentageOfUsedProductionCapability = 0;
+
+            rankingOfUsedProductionCapability = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
+            .Single(x => x.Id == (int)RankingType.UsedProductionCapability)
+            .RankingElements
+            .Single(x => percentageOfUsedProductionCapability >= x.RangeFrom && percentageOfUsedProductionCapability < x.RangeTo).Index;
 
 
-                int productionCapacity = selectedProject.ProductionCapacity;
-                int plannedProductionVolume = selectedProject.PlannedProductionVolume;
-
-
-
-                if (plannedProductionVolume != 0 && firstYearOfSalesQty != 0)
-                    percentageOfUsedProductionCapability = (decimal)productionCapacity / plannedProductionVolume;
-                else
-                    percentageOfUsedProductionCapability = 0;
-
-                rankingOfUsedProductionCapability = _unitOfWork.RankingCategoryRepository.GetRankingCategories()
-                .Single(x => x.Id == (int)RankingType.UsedProductionCapability)
-                .RankingElements
-                .Single(x => percentageOfUsedProductionCapability >= x.RangeFrom && percentageOfUsedProductionCapability < x.RangeTo).Index;
-
-            }
 
             // Wyliczenie Priorytetu
             calculatedPriorityOfProject =
@@ -473,16 +463,16 @@ namespace MwProject.Persistence.Services
         public void ExportProjectsToExcel(IEnumerable<Project> projects)
         {
             // PM> Install-Package ClosedXML
-            
+
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Sample Sheet");
 
                 int row = 1;
-                foreach(var project in projects)
+                foreach (var project in projects)
                 {
                     worksheet.Cell($"A{row}").Value = row;
-                    worksheet.Cell(row,"B").Value = project.Number;
+                    worksheet.Cell(row, "B").Value = project.Number;
                     worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
 
 
@@ -496,7 +486,7 @@ namespace MwProject.Persistence.Services
                     */
                     row++;
                 }
-                                
+
                 // worksheet.Cell($"A{row}").FormulaA1 = "=MID(A1, 7, 5)";
                 workbook.SaveAs("ListOfProjects.xlsx");
             }
@@ -537,7 +527,7 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.NewRawNumber(projectCategory, createdDate);
         }
 
-        public (int,string) NewFullNumber(int projectCategory, DateTime? createdDate)
+        public (int, string) NewFullNumber(int projectCategory, DateTime? createdDate)
         {
             return _unitOfWork.Project.NewFullNumber(projectCategory, createdDate);
         }

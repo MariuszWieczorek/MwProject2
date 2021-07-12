@@ -297,12 +297,12 @@ namespace MwProject.Core.Models.Domains
         public int RankingOfReturnOnInvestment { get; set; }
 
 
+        [Display(Name = "Zdolność produkcji przed realizacją projektu")]
+        public int ProductionCapacity { get; set; }
+
         [Display(Name = "Zdolność produkcji po realizacji projektu")]
         [Column(TypeName = "decimal(18, 2)")]
         public int PlannedProductionVolume { get; set; }
-
-        [Display(Name = "Zdolność produkcji przed realizacją projektu")]
-        public int ProductionCapacity { get; set; }
         
         [Display(Name = "% WZP")]
         [Column(TypeName = "decimal(18, 2)")]
