@@ -55,7 +55,7 @@ namespace MwProject.Controllers
             var vm = new ProductGroupViewModel()
             {
                 ProductGroup = selectedproductGroup,
-                Heading = "",
+                Heading = id == 0?"Nowa grupa":"Edycja grupy",
                 CurrentUser = currentUser
             };
 

@@ -62,7 +62,7 @@ namespace MwProject.Controllers
         #endregion
 
         #region Lista projektów, pełen widok, widok częściowy tylko z tabelką
-        public IActionResult Projects(int currentPage = 1, int categoryId = 0)
+        public IActionResult Projects(int currentPage = 1, int categoryId = 0, int projectId = 0)
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
@@ -83,6 +83,11 @@ namespace MwProject.Controllers
 
             int numberOfRecords = _projectService.GetNumberOfRecords(projectFilter, categoryId, userId);
 
+            if (projectId != 0)
+            {
+                currentPage = _projectService.GetPageNumber(projectFilter, categoryId, userId, _itemPerPage, projectId); 
+            } 
+
             var projects = _projectService.GetProjects(
                 projectFilter,
                 new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage },
@@ -99,7 +104,8 @@ namespace MwProject.Controllers
                 CurrentUser = currentUser,
                 ApplicationUsers = applicationUsers,
                 ProjectStatuses = projectStatuses,
-                ProjectGroups = projectGroups
+                ProjectGroups = projectGroups,
+                SelectedProjectId = projectId,
             };
 
             return View(vm);
@@ -575,9 +581,10 @@ namespace MwProject.Controllers
                 _projectService.AddProject(project,userId);
             else
                  _projectService.UpdateProject(project, userId);
-            
-                    
-            return RedirectToAction("Projects", "Project");
+
+
+            return RedirectToAction("Project", "Project"
+               , new { id = project.Id, tab = "home" });
         }
 
 

@@ -4,23 +4,39 @@
     ViewBag.Title = Model.Heading;
 }
 
-<h1>@Model.Heading</h1>
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h1 class="mb-3 mt-4 display-4">
+            @Model.Heading
+        </h1>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/single-document.webp")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
 
 
 <div class="row">
-
-    <div class="col-lg-5">
-
-
+    <div class="col-12 mt-3 mb-2  pb-3 border rounded bg-light">
 
         @using (Html.BeginForm("ProjectGroup", "ProjectGroup"))
         {
-            <h3>Program</h3>
+            
+            if (Model.ProjectGroup.Id == 0)
+            {
+                <p class="alert alert-info mt-4 mb-4">
+                    Pola Nazwa i Opis są <strong>wymagane</strong>
+                </p>
+            }
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(x => x.ProjectGroup.Id)
 
-                      
+
 
 
             @Html.ValidationSummary()
@@ -44,12 +60,16 @@
                 @Html.ValidationMessageFor(x => x.ProjectGroup.Description)
             </div>
 
-            <button type="submit" class="btn btn-primary btn-lg mt-2">Zapisz</button>
+            <button type="submit" class="btn btn-primary   mt-3">Zapisz</button>
+
+            <button type="button" class="btn btn-secondary mt-3"
+                    onclick='window.location.href = "@Url.Action("ProjectGroups", "ProjectGroup")"'>
+                anuluj
+            </button>
 
         }
-    </div>
 
-   
+    </div>
 </div>
 
 @section scripts
@@ -57,12 +77,12 @@
     <script type="text/javascript">
 
 
-    // ------------------------------------------------------------------------------------------------
-
-    
+            // ------------------------------------------------------------------------------------------------
 
 
-     // ------------------------------------------------------------------------------------------------
+
+
+             // ------------------------------------------------------------------------------------------------
 
     </script>
 }

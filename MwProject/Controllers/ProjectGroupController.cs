@@ -56,7 +56,7 @@ namespace MwProject.Controllers
             var vm = new ProjectGroupViewModel()
             {
                 ProjectGroup = selectedProjectGroup,
-                Heading = "",
+                Heading = id == 0 ? "Nowy program" : "Edycja programu",
                 CurrentUser = currentUser
             };
 

@@ -20,5 +20,6 @@ namespace MwProject.Core.ViewModels
 
         public IEnumerable<ProjectStatus> ProjectStatuses { get; set; }
         public IEnumerable<ProjectGroup> ProjectGroups { get; set; }
+        public int SelectedProjectId { get; set; }
     }
 }

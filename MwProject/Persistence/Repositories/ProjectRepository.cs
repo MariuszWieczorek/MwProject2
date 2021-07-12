@@ -102,7 +102,18 @@ namespace MwProject.Persistence.Repositories
             return project;
         }
 
-        private IQueryable<Project> FilterProjects(IQueryable<Project> projects, ProjectsFilter projectsFilter, string userId)
+        private IQueryable<Project> SortProjects(IQueryable<Project> projects)
+        {
+            projects = projects
+                    .OrderByDescending(x => x.PriorityOfProject)
+                    .ThenBy(x => x.OrdinalNumber)
+                    .ThenBy(x => x.Number);
+
+            return projects;
+        }
+
+
+            private IQueryable<Project> FilterProjects(IQueryable<Project> projects, ProjectsFilter projectsFilter, string userId)
         {
 
             var user = _context.Users.Single(x => x.Id == userId);
@@ -158,10 +169,8 @@ namespace MwProject.Persistence.Repositories
 
             projects = FilterProjects(projects, projectsFilter, userId);
 
-            projects = projects
-                .OrderByDescending(x => x.PriorityOfProject)
-                .ThenBy(x => x.OrdinalNumber)
-                .ThenBy(x => x.Number);
+            projects = SortProjects(projects);
+
 
             if (pagingInfo != null)
             {
@@ -190,6 +199,39 @@ namespace MwProject.Persistence.Repositories
             projects = FilterProjects(projects, projectsFilter, userId);
 
             return projects.Count();
+        }
+
+        public int GetPageNumber(ProjectsFilter projectsFilter, int categoryId, string userId, int itemPerPage, int projectId)
+        {
+
+            if (itemPerPage == 0 || projectId == 0)
+            {
+                return 1;
+            }
+
+            var projects = _context.Projects
+                .Include(x => x.Category)
+                .Include(x => x.User)
+                .Include(x => x.ProjectManager)
+                .Include(x => x.ProjectStatus)
+                .AsQueryable();
+
+            projects = FilterProjects(projects, projectsFilter, userId);
+            projects = SortProjects(projects);
+
+            int recordNumber = 0;
+            foreach (var project in projects)
+            {
+                recordNumber++; 
+                if (project.Id == projectId)
+                {
+                    break;
+                }
+            }
+
+            int pageNumber = (recordNumber / itemPerPage) + 1;
+
+            return pageNumber;
         }
 
         public IEnumerable<Category> GetUsedCategories()

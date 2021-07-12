@@ -53,7 +53,7 @@ namespace MwProject.Controllers
             var vm = new TechnicalPropertyViewModel()
             {
                 TechnicalProperty = selectedProperty,
-                Heading = "",
+                Heading = id == 0 ? "Nowy parametr techniczny" : "Edycja parametru",
                 CurrentUser = currentUser
             };
 

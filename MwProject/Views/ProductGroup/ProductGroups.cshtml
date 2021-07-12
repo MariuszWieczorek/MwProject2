@@ -4,7 +4,20 @@
     ViewData["Title"] = "Grupy Produktów";
 }
 
-<h1>grupy produktów</h1>
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h2 class="mb-3 mt-4 display-4">
+            @ViewData["Title"]
+        </h2>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/dictionary.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
 
 <button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("ProductGroup","ProductGroup")"'>
@@ -26,33 +39,35 @@
             {
                 foreach (var productNumber in Model.ProductGroups)
                 {
-            <tr>
+                    <tr>
 
-                <td>
-
-                    <a href="@Url.Action("ProductGroup", "ProductGroup",
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("ProductGroup", "ProductGroup",
                                     new { id = productNumber.Id })"
-                       class="font-weight-bold">@productNumber.OrdinalNumber</a>
-                </td>
+                                   class="font-weight-bold">@productNumber.OrdinalNumber</a>
+                            </strong>
+                        </td>
 
-                <td>
-
-                    <a href="@Url.Action("ProductGroup", "ProductGroup",
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("ProductGroup", "ProductGroup",
                                     new { id = productNumber.Id })"
-                       class="font-weight-bold">@productNumber.Name</a>
+                                   class="font-weight-bold">@productNumber.Name</a>
+                            </strong>
 
-                </td>
-                <td>
-                    @if (Model.CurrentUser.AdminRights)
-                    {
-                    <button class="btn btn-outline-danger btn-sm"
-                            onclick="deleteProductGroup('@productNumber.Id',this)">
-                        Usuń
-                    </button>
-                    }
+                        </td>
+                        <td>
+                            @if (Model.CurrentUser.AdminRights)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteProductGroup('@productNumber.Id',this)">
+                                    Usuń
+                                </button>
+                            }
 
-                </td>
-            </tr>
+                        </td>
+                    </tr>
                 }
 
             }

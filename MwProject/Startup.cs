@@ -89,7 +89,7 @@ namespace MwProject
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("LocalConnection")));
+                    Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -97,7 +97,7 @@ namespace MwProject
             #region obs³uga wysy³ania wiadomoœci e-mail
             // odczyt parametrów z appsettings.json
             var emailConfig = Configuration
-                .GetSection("EmailConfiguration1")
+                .GetSection("EmailConfiguration2")
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
             // klasa obs³uguj¹ca wysy³anie wiadomoœci e-mail

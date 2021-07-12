@@ -1,10 +1,24 @@
 ﻿@model MwProject.Core.ViewModels.CategoriesViewModel
 
 @{
-    ViewData["Title"] = "Kategorie";
+    ViewData["Title"] = "Kategorie Projektów";
 }
 
-<h1>kategorie projektów</h1>
+<!-- Nagłówek -->
+<div class="row">
+    <div class="col-10">
+        <h2 class="mb-3 mt-4 display-4">
+            @ViewData["Title"]
+        </h2>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/dictionary.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
+
 
 <button class="btn btn-primary btn-lg mt-3 mb-3"
         onclick='window.location.href = "@Url.Action("Category","Category")"'>
@@ -20,7 +34,6 @@
                 <th scope="col">Nazwa</th>
                 <th scope="col">Skr</th>
                 <th scope="col">Opis</th>
-                <th scope="col">Symbol</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -29,44 +42,51 @@
             {
                 foreach (var category in Model.Categories)
                 {
-            <tr>
+                    <tr>
 
-                <td>
-
-                    <a href="@Url.Action("Category", "Category",
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("Category", "Category",
                                     new { id = category.Id })"
-                       class="font-weight-bold">@category.OrdinalNumber</a>
-                </td>
+                                   class="font-weight-bold">@category.OrdinalNumber</a>
+                            </strong>
+                        </td>
 
-                <td>
-
-                    <a href="@Url.Action("Category", "Category",
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("Category", "Category",
                                     new { id = category.Id })"
-                       class="font-weight-bold">@category.Name</a>
+                                   class="font-weight-bold">@category.Name</a>
+                            </strong>
+                        </td>
 
-                </td>
-
-                <td>
-
-                    <a href="@Url.Action("Category", "Category",
+                        <td>
+                            <strong>
+                                <a href="@Url.Action("Category", "Category",
                                     new { id = category.Id })"
-                       class="font-weight-bold">@category.Abbrev</a>
+                                   class="font-weight-bold">@category.Abbrev</a>
+                            </strong>
+                        </td>
 
-                </td>
+                        <td>
+                            <strong>
+                                @category.Description
+                            </strong>
+                        </td>
+                        
+                        
+                        
+                        <td>
+                            @if (Model.CurrentUser.SuperAdminRights)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteCategory('@category.Id',this)">
+                                    Usuń
+                                </button>
+                            }
 
-                <td>@category.Description</td>
-                <td>@category.DocumentSymbol</td>
-                <td>
-                    @if (Model.CurrentUser.SuperAdminRights)
-                    {
-                        <button class="btn btn-outline-danger btn-sm"
-                                onclick="deleteCategory('@category.Id',this)">
-                            Usuń
-                        </button>
-                    }
-
-                </td>
-            </tr>
+                        </td>
+                    </tr>
                 }
 
             }

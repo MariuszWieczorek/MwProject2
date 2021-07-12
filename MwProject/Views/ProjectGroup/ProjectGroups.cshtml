@@ -44,20 +44,26 @@
                     <tr>
 
                         <td>
-
-                            <a href="@Url.Action("ProjectGroup", "ProjectGroup",
+                            <strong>
+                                <a href="@Url.Action("ProjectGroup", "ProjectGroup",
                                     new { id = projectGroup.Id })"
-                               class="font-weight-bold">@projectGroup.OrdinalNumber</a>
+                                   class="font-weight-bold">@projectGroup.OrdinalNumber</a>
+                            </strong>
                         </td>
 
                         <td>
-
-                            <a href="@Url.Action("ProjectGroup", "ProjectGroup",
+                            <strong>
+                                <a href="@Url.Action("ProjectGroup", "ProjectGroup",
                                     new { id = projectGroup.Id })"
-                               class="font-weight-bold">@projectGroup.Name</a>
-
+                                   class="font-weight-bold">@projectGroup.Name</a>
+                            </strong>
                         </td>
-                        <td>@projectGroup.Description</td>
+
+                        <td>
+                            <strong>
+                                @projectGroup.Description
+                            </strong>
+                        </td>
                         <td>
                             @if (Model.CurrentUser.SuperAdminRights)
                             {

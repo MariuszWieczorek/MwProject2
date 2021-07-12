@@ -1,17 +1,18 @@
 ﻿@model MwProject.Core.ViewModels.ProjectsViewModel
 
-@{ 
+@{
     int numberOfProjects = Model.Projects.Count();
+    string color = "";
 }
 
 <div id="projectsTable">
 
     @*
-    <div class="row my-2 mx-1">
-        <div class="col-12">
-            ilość projektów: <span class="badge rounded-pill bg-warning">@numberOfProjects</span>
+        <div class="row my-2 mx-1">
+            <div class="col-12">
+                ilość projektów: <span class="badge rounded-pill bg-warning">@numberOfProjects</span>
+            </div>
         </div>
-    </div>
     *@
 
     @if (Model != null && Model.Projects.Any())
@@ -34,56 +35,61 @@
                 @foreach (var project in Model.Projects)
                 {
 
-                <tr>
-                    <td>@project.OrdinalNumber </td>
-                    <td>
-                        @if (@project.PriorityOfProject > 0)
-                        {
-                            <span class="badge rounded-pill bg-warning">@project.PriorityOfProject</span>
-                        }
-                    </td>
+                    if (project.Id == Model.SelectedProjectId)
+                    {
 
-                    <td>
-                        <strong>
-                            <a class="font-weight-bold text-muted"
-                               href="@Url.Action("Project","Project", new { id = project.Id })">
-                                @project.Number
-                            </a>
-                        </strong>
-                    </td>
-                    <td class="text-muted font-weight-bold">@project.Category.Name</td>
-                    <td style=" max-width: 300px ">@project.Title </td>
+                    }
 
-                    
+                    <tr>
+                        <td>@project.OrdinalNumber </td>
+                        <td>
+                            @if (@project.PriorityOfProject > 0)
+                            {
+                                <span class="badge rounded-pill bg-warning">@project.PriorityOfProject</span>
+                            }
+                        </td>
 
-                    <td>
-                        @if (project.CreatedDate.HasValue)
-                        {
-                            @project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
-                        }
-                    </td>
+                        <td>
+                            <strong>
+                                <a class="font-weight-bold text-muted"
+                                   href="@Url.Action("Project","Project", new { id = project.Id })">
+                                    @project.Number
+                                </a>
+                            </strong>
+                        </td>
+                        <td class="text-muted font-weight-bold">@project.Category.Name</td>
+                        <td style=" max-width: 300px ">@project.Title </td>
 
-                    <td>
-                        @project.ProjectStatus?.Name
-                    </td>
 
-                    <td>
-                        @if (project.ProjectManager != null)
-                        {
-                            @project.ProjectManager?.UserName
-                        }
-                    </td>
 
-                    <td>
-                        @if (Model.CurrentUser.AdminRights)
-                        {
-                            <button class="btn btn-outline-danger btn-sm"
-                                    onclick="deleteProject('@project.Id',this)">
-                                Usuń
-                            </button>
-                        }
-                    </td>
-                </tr>
+                        <td>
+                            @if (project.CreatedDate.HasValue)
+                            {
+                                @project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
+                            }
+                        </td>
+
+                        <td>
+                            @project.ProjectStatus?.Name
+                        </td>
+
+                        <td>
+                            @if (project.ProjectManager != null)
+                            {
+                                @project.ProjectManager?.UserName
+                            }
+                        </td>
+
+                        <td>
+                            @if (Model.CurrentUser.AdminRights)
+                            {
+                                <button class="btn btn-outline-danger btn-sm"
+                                        onclick="deleteProject('@project.Id',this)">
+                                    Usuń
+                                </button>
+                            }
+                        </td>
+                    </tr>
                 }
 
             </tbody>

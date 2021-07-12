@@ -20,6 +20,7 @@ namespace MwProject.Core.Services
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);
         int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId, string userId);
+        int GetPageNumber(ProjectsFilter projectFilter, int categoryId, string userId, int itemPerPage, int projectId);
         void AddTechnicalPropertiesToProject(Project project);
         void AddQualityRequirementsToProject(Project project);
         void AddGeneralRequirementsToProject(Project project);

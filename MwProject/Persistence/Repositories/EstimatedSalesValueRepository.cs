@@ -25,8 +25,16 @@ namespace MwProject.Persistence.Repositories
 
         public EstimatedSalesValue NewEstimatedSalesValue(int projectId, string userId)
         {
+
+            int year = 1;
+            if (_context.EstimatedSalesValues.Where(x => x.ProjectId == projectId).Any())
+            {
+                year = _context.EstimatedSalesValues.Where(x => x.ProjectId == projectId).Max(x => x.Year) + 1;
+            }
+
             return new EstimatedSalesValue
             {
+                Year = year,
                 ProjectId = projectId,
             };
         }

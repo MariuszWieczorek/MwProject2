@@ -18,7 +18,7 @@
                    && Model.CurrentUser.CanConfirmProject;
 
 
-    bool canAccept =    !Model.Project.IsAccepted
+    bool canAccept = !Model.Project.IsAccepted
                       && Model.Project.IsConfirmed
                       && Model.CurrentUser.CanAcceptProject;
 
@@ -51,19 +51,26 @@
         <div class="col-12">
 
             <!--
-       <button class="btn btn-secondary mb-3"
-               onclick="generatePdf()">
-           Generuj PDF
-       </button>
+            <button class="btn btn-secondary mb-3"
+                    onclick="generatePdf()">
+                Generuj PDF
+            </button>
 
-       <button class="btn btn-secondary mb-3" onclick="printProject()">
-           Drukuj
-       </button>
-    -->
-            <button id="printButton" class="btn btn-secondary mb-3">
+            <button class="btn btn-secondary mb-3" onclick="printProject()">
                 Drukuj
             </button>
 
+             <button id="printButton" class="btn btn-secondary mb-3">
+                     Drukuj
+             </button>
+                 history.back();history.forward();location.reload();
+             -->
+
+
+            <button type="button" class="btn btn-secondary mb-3"
+                    onclick='window.location.href = "@Url.Action("Projects", "Project", new { projectId = Model.Project.Id })"'>
+                wstecz
+            </button>
 
             @if (canAccept)
             {
@@ -93,12 +100,12 @@
                 </button>
             }
 
-       @* 
-        <button class="btn btn-outline-success btn-sm"
-                onclick='window.location.href = "@Url.Action("ProjectPriority", "Project", new { id = Model.Project.Id })"'>
-            Prio
-        </button>
-        *@
+            @*
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("ProjectPriority", "Project", new { id = Model.Project.Id })"'>
+                    Prio
+                </button>
+            *@
 
         </div>
     </div>

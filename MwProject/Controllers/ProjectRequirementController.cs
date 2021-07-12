@@ -44,20 +44,25 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             string typeOfRequirement;
+            string tab;
 
             switch (type)
             {
                 case 1:
                     typeOfRequirement = "ekonomiczna";
+                    tab = "economic";
                     break;
                 case 2:
                     typeOfRequirement = "jakościowa";
+                    tab = "quality";
                     break;
                 case 3:
                     typeOfRequirement = "ogólna";
+                    tab = "general";
                     break;
                 default:
                     typeOfRequirement = "inna";
+                    tab = "";
                     break;
             }
 
@@ -69,7 +74,8 @@ namespace MwProject.Controllers
             {
                 ProjectRequirement = selectedProjectRequirement,
                 Heading = id == 0 ? $"nowa: informacja {typeOfRequirement}" : $"edycja: informacja {typeOfRequirement}",
-                Requirements = _requirementService.GetRequirements()
+                Requirements = _requirementService.GetRequirements(),
+                Tab = tab
             };
 
             if (type != 0)

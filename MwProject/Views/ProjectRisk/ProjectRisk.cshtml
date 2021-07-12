@@ -4,24 +4,24 @@
     Wywołane z okna projektu
 *@
 
-@{
-    ViewBag.Title = Model.Heading;
-    var back = Html.ActionLink("cofnij", "Project", "Project", new { id = Model.ProjectRisk.Id, tab = "risks" });
-}
 
-<h2>@Model.Heading</h2>
-
+<!-- Nagłówek -->
 <div class="row">
+    <div class="col-10">
+        <h1 class="mb-3 mt-4 display-4">
+            @Model.Heading
+        </h1>
+    </div>
+
     <div class="col-2">
-        <button class="btn btn-primary btn-lg mt-3 mb-3"
-                onclick='window.location.href = "@Url.Action("Project","Project", new { id = Model.ProjectRisk.ProjectId, tab = "risks" })"'>
-            cofnij
-        </button>
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/single-document.webp")" style="width: 100px;" />
+        </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-12 mt-3 mb-2  pb-3 border rounded bg-light">
         <!-- po submit wywoła się metoda ProjectRisk w kontrolerze ProjectRisk typu HttpPost -->
         @using (Html.BeginForm("ProjectRisk", "ProjectRisk"))
         {
@@ -60,16 +60,17 @@
                new { @class = "form-control" })
             </div>
 
-            <button class="btn btn-primary btn-lg mb-5" type="submit">
+            <button class="btn btn-primary btn-lg" type="submit">
                 Zapisz
+            </button>
+
+            <button type="button" class="btn btn-secondary btn-sm"
+                    onclick='window.location.href = "@Url.Action("Project","Project", new { id = Model.ProjectRisk.ProjectId, tab = "risks" })"'>
+                wstecz
             </button>
 
         }
     </div>
-
-
-
-
 </div>
 
 @section scripts

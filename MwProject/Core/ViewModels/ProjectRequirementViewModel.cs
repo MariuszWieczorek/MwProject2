@@ -12,5 +12,6 @@ namespace MwProject.Core.ViewModels
         public ProjectRequirement ProjectRequirement { get; set; }
         public IEnumerable<Requirement> Requirements { get; set; }
         public ApplicationUser CurrentUser { get; set; }
+        public string Tab { get; set; }
     }
 }

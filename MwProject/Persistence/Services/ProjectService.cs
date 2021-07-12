@@ -542,6 +542,9 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.NewFullNumber(projectCategory, createdDate);
         }
 
-      
+        public int GetPageNumber(ProjectsFilter projectFilter, int categoryId, string userId, int itemPerPage, int projectId)
+        {
+            return _unitOfWork.Project.GetPageNumber(projectFilter, categoryId, userId, itemPerPage, projectId);
+        }
     }
 }

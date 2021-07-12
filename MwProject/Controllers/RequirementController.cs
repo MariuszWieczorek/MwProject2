@@ -54,7 +54,7 @@ namespace MwProject.Controllers
             var vm = new RequirementViewModel()
             {
                 Requirement = selectedRequirement,
-                Heading = "",
+                Heading = id == 0 ? "Nowy parametr":"Edycja parametru",
                 CurrentUser = currentUser
             };
 
