@@ -61,6 +61,9 @@ namespace MwProject.Persistence.Services
 
             _unitOfWork.Project.AddQualityRequirementsToProject(project);
 
+            _unitOfWork.Complete();
+
+          
             // notifications
             var id = project.Id;
             var usersToNotifications = _unitOfWork.UserRepository.GetUsers(new UsersFilter(), new PagingInfo())
@@ -106,6 +109,8 @@ namespace MwProject.Persistence.Services
 
                 }
             }
+
+            
 
         }
 

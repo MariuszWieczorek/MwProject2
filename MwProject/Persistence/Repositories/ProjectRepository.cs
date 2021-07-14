@@ -405,6 +405,7 @@ namespace MwProject.Persistence.Repositories
                     _context.ProjectTechnicalProperties.Add(projectTechnicalProperty);
                 }
             }
+            
         }
 
         public void AcceptProject(int id, string userId)
