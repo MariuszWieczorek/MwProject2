@@ -50,22 +50,21 @@
     <div class="row">
         <div class="col-12">
 
-            <!--
-            <button class="btn btn-secondary mb-3"
-                    onclick="generatePdf()">
-                Generuj PDF
-            </button>
 
-            <button class="btn btn-secondary mb-3" onclick="printProject()">
+            <button id="printButton" class="btn btn-secondary mb-3">
                 Drukuj
             </button>
 
-             <button id="printButton" class="btn btn-secondary mb-3">
-                     Drukuj
-             </button>
-                 history.back();history.forward();location.reload();
-             -->
-
+            <!--
+               <button class="btn btn-secondary mb-3"
+                       onclick="generatePdf()">
+                   Generuj PDF
+               </button>
+    <button class="btn btn-secondary mb-3" onclick="printProject()">
+                   Drukuj
+               </button>
+               history.back();history.forward();location.reload();
+                -->
 
             <button type="button" class="btn btn-secondary mb-3"
                     onclick='window.location.href = "@Url.Action("Projects", "Project", new { projectId = Model.Project.Id })"'>
@@ -101,10 +100,10 @@
             }
 
             @*
-                <button class="btn btn-outline-success btn-sm"
-                        onclick='window.location.href = "@Url.Action("ProjectPriority", "Project", new { id = Model.Project.Id })"'>
-                    Prio
-                </button>
+        <button class="btn btn-outline-success btn-sm"
+                onclick='window.location.href = "@Url.Action("ProjectPriority", "Project", new { id = Model.Project.Id })"'>
+            Prio
+        </button>
             *@
 
         </div>

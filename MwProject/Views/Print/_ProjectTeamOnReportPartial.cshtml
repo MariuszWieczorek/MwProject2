@@ -1,0 +1,48 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami technicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var projectTeamMembers = Model.Project.ProjectTeamMembers;
+}
+
+<div class="no-page-break">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Zespół projektowy</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (projectTeamMembers != null && projectTeamMembers.Any())
+            {
+
+                <table class="table table-sm table-striped">
+                    <tbody>
+                        @foreach (var position in projectTeamMembers)
+                        {
+                            <tr>
+                                <td class="" style="width: 300px;">
+                                    <strong>
+                                        @position.User.UserName
+                                    </strong>
+                                </td>
+
+                
+                                <td>@position.Description</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+

@@ -9,9 +9,10 @@
 <link href="@Url.Content("~/css/PrintProject.css")" rel="stylesheet" type="text/css" />
 
 <div class="container" style="width: 800px;">
+
     <!-- Nagłówek Wydruku -->
     <div class="row">
-        <div class="col-3 border-start border-top border-bottom border-3 border-dark">
+        <div class="col-4 border-start border-top border-bottom border-3 border-dark">
             <div class="row align-items-center" style="height: 100px;">
                 <div>
                     <img src="@Url.Content("~/images/logo_kabat.png")" style="width: 200px;" />
@@ -21,13 +22,13 @@
 
         <div class="col-6  border border-3 border-dark">
             <div class="row align-items-center" style="height: 100px;">
-                <div>
-                    @Model.Project.Category.Description
-                </div>
+                <h2 class="mb-3 mt-4 display-4">
+                    @Model.Project.Number
+                </h2>
             </div>
         </div>
 
-        <div class="col-3 border-end border-top border-bottom border-3 border-dark">
+        <div class="col-2 border-end border-top border-bottom border-3 border-dark">
             <div class="row align-items-center" style="height: 100px;">
                 <div>
                     @Model.Project.Category.DocumentSymbol
@@ -36,20 +37,72 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectMainOnReportPartial.cshtml", Model)
+        </div>
+    </div>
 
     <div class="row ">
         <div class="col-12 mt-3 mb-2 border rounded">
-            @await Html.PartialAsync("~/Views/Project/_ProjectTechnicalPropertiesOnReportPartial.cshtml", Model)
+            @await Html.PartialAsync("~/Views/Print/_ProjectDescriptionOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectPurposeOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectGeneralRequirementsOnReportPartial.cshtml", Model)
         </div>
     </div>
     <div class="row ">
         <div class="col-12 mt-3 mb-2 border rounded">
-            @await Html.PartialAsync("~/Views/Project/_ProjectEconomicRequirementsOnReportPartial.cshtml", Model)
+            @await Html.PartialAsync("~/Views/Print/_ProjectTechnicalPropertiesOnReportPartial.cshtml", Model)
         </div>
     </div>
     <div class="row ">
         <div class="col-12 mt-3 mb-2 border rounded">
-            @await Html.PartialAsync("~/Views/Project/_ProjectQualityRequirementsOnReportPartial.cshtml", Model)
+            @await Html.PartialAsync("~/Views/Print/_ProjectEconomicRequirementsOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectQualityRequirementsOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectTeamOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectRisksOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectClientsOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectCalculationsOnReportPartial.cshtml", Model)
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-12 mt-3 mb-2 border rounded">
+            @await Html.PartialAsync("~/Views/Print/_ProjectEstimatedSalesOnReportPartial.cshtml", Model)
         </div>
     </div>
 

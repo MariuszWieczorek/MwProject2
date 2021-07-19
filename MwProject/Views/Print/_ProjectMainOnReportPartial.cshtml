@@ -1,0 +1,138 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami ekonomicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    int typeOfRequirement = 3;
+    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
+}
+
+<div class="no-page-break">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Dane Podstawowe</h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+
+
+                <table class="table table-sm table-borderless">
+                    <tbody>
+
+                        <tr>
+
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Tytuł
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.Title</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Data utworzenia
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.CreatedDate</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Termin
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.Term</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Program
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.ProductGroup.Name</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Kategoria
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.Category.Name</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Kierownik projektu
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.ProjectManager.UserName</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="" style="width: 300px;">
+                                <strong>
+                                    Zainicjowany przez
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.InitiatedBy</td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td class="" style="background-color: #FFFFFF; width: 300px;">
+                                <strong>
+                                    Klient
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project.Client</td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami ekonomicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var economicRequirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1);
+    var totalValue = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == 1).Sum(x => x.Value);
+}
+
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Informacje Ekonomiczne</h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            @if (economicRequirements != null && economicRequirements.Any())
+            {
+
+                <table class="table table-sm table-striped ">
+                    <tbody>
+                        @foreach (var position in economicRequirements)
+                        {
+                            <tr>
+                                <td style="width: 300px;">
+                                    <strong>
+                                        @position.Requirement.Name
+                                    </strong>
+                                </td>
+
+                                @{
+                                    string exist;
+                                    switch (position.YesNo)
+                                    {
+                                        case 1:
+                                            exist = "TAK";
+                                            break;
+                                        case 2:
+                                            exist = "NIE";
+                                            break;
+                                        default:
+                                            exist = "";
+                                            break;
+                                    }
+
+                                    string value = position.ShowValue == true ? position.Value.ToString("c") : "";
+                                }
+
+                                <td class="">@exist</td>
+                                <td class="text-end text-muted"> <strong>@value</strong></td>
+                                <td class="ps-2">@position.Comment</td>
+
+                            </tr>
+                        }
+
+
+                        <tr>
+                            <td style="width: 300px;">
+                                <strong>
+                                   Razem
+                                </strong>
+                            </td>
+
+                          
+                            <td></td>
+                            <td class="text-end"> <strong>@totalValue.ToString("c")</strong></td>
+                            <td class="ps-2"></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

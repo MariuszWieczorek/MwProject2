@@ -1,0 +1,68 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami technicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var projectCalculations = Model.Project.Calculations;
+}
+
+<div class="no-page-break">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Kalkulacja Kosztów</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (projectCalculations != null && projectCalculations.Any())
+            {
+
+                <table class="table table-sm table-striped">
+                    <tbody>
+
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">Lp</th>
+                            <th scope="col">Tytuł</th>
+
+                            <th scope="col">Materiały</th>
+                            <th scope="col">Robocizna</th>
+                            <th scope="col">Pakowanie</th>
+                            <th scope="col">Narzut</th>
+
+                            <th scope="col">TKW</th>
+                            <th scope="col">Ogólne %</th>
+                            <th scope="col">CKW</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var position in projectCalculations)
+                        {
+                        <tr>
+                            <td class="text-muted"><strong> @position.OrdinalNumber</strong></td>
+                            <td class="text-muted"><strong> @position.Title </strong></td>
+                            <td class="text-muted"><strong> @position.MaterialCosts.ToString("c")</strong></td>
+                            <td class="text-muted"><strong> @position.LabourCosts.ToString("c")</strong></td>
+                            <td class="text-muted"><strong> @position.PackingCosts.ToString("c")</strong></td>
+                            <td class="text-muted"><strong> @position.Markup.ToString("c")</strong></td>
+
+
+                            <td><strong>@position.Tkw.ToString("c")</strong></td>
+                            <td class="text-muted"><strong>@position.GeneralCostsInPercent.ToString("n")</strong></td>
+                            <td><strong>@position.Ckw.ToString("c")</strong></td>
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+

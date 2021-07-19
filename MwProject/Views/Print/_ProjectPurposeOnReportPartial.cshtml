@@ -1,0 +1,27 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami ekonomicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    int typeOfRequirement = 3;
+    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
+}
+
+
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Cel Projektu</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-2">
+            @Model.Project.DescriptionOfPurpose
+        </div>
+    </div>
+</div>

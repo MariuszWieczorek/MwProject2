@@ -1,0 +1,58 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami technicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var estimatedSalesValues = Model.Project.EstimatedSalesValues;
+}
+
+<div class="no-page-break">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Przewidywana sprzedaż</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (estimatedSalesValues != null && estimatedSalesValues.Any())
+            {
+
+                <table class="table table-sm table-striped">
+                    <tbody>
+
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col">Rok</th>
+                            <th scope="col">Ilość</th>
+                            <th scope="col">Cena</th>
+                            <th scope="col">Wartość</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var position in estimatedSalesValues)
+                        {
+                        <tr>
+                            <td class="text-muted"><strong> @position.Year</strong></td>
+                            <td class="text-muted"><strong> @position.Qty.ToString("N") </strong></td>
+                            <td class="text-muted"><strong> @position.Price.ToString("c")</strong></td>
+
+                            @{decimal value = Math.Round(position.Qty * position.Price, 2);}
+
+                            <td class="text-muted"><strong> @value.ToString("c")</strong></td>
+
+                        </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+

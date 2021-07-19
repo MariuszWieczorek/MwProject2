@@ -22,12 +22,12 @@
             @if (economicRequirements != null && economicRequirements.Any())
             {
 
-                <table class="table table-sm table-borderless">
+                <table class="table table-sm table-striped">
                     <tbody>
                         @foreach (var position in economicRequirements)
                         {
                             <tr>
-                                <td style="width: 300px; background-color: 	#aaffdd;">
+                                <td  style="width: 300px">
                                     <strong>
                                         @position.Requirement.Name
                                     </strong>

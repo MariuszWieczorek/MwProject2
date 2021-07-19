@@ -8,7 +8,7 @@
     var technicalProperties = Model.Project.ProjectTechnicalProperties;
 }
 
-<div>
+<div class="no-page-break">
     <div class="row">
         <div class="col-12">
             <div class="mt-2 mb-4">
@@ -22,12 +22,12 @@
             @if (technicalProperties != null && technicalProperties.Any())
             {
 
-                <table class="table table-sm table-borderless">
+                <table class="table table-sm table-striped">
                     <tbody>
                         @foreach (var position in technicalProperties)
                         {
                             <tr>
-                                <td class="table-success" style="width: 300px;">
+                                <td class="" style="width: 300px;">
                                     <strong>
                                         @position.TechnicalProperty.Name
                                     </strong>
@@ -51,9 +51,9 @@
                                     string value = position.ShowValue == true ? position.Value.ToString() : "";
                                 }
 
-                                <td class="bg-white">@exist</td>
-                                <td class="bg-white">@value</td>
-                                <td class="bg-white">@position.Comment</td>
+                                <td>@exist</td>
+                                <td>@value</td>
+                                <td>@position.Comment</td>
 
                             </tr>
                         }

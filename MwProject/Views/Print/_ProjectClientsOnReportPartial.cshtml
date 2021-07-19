@@ -1,0 +1,48 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami technicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var projectClients = Model.Project.ProjectClients;
+}
+
+<div class="no-page-break">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Interesariusze</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (projectClients != null && projectClients.Any())
+            {
+
+                <table class="table table-sm table-striped">
+                    <tbody>
+                        @foreach (var position in projectClients)
+                        {
+                            <tr>
+                                <td class="" style="width: 300px;">
+                                    <strong>
+                                        @position.OrdinalNumber
+                                    </strong>
+                                </td>
+
+                
+                                <td>@position.Name</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+

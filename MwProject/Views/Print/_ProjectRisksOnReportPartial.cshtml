@@ -1,0 +1,48 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@*
+    Widok częściowy z informacjami technicznymi powiązanymi z projektem
+    Wersja do umieszczenia na wydruku
+*@
+
+@{
+    var projectRisks = Model.Project.ProjectRisks;
+}
+
+<div class="no-page-break">
+    <div class="row">
+        <div class="col-12">
+            <div class="mt-2 mb-4">
+                <h4>Ocena Ryzyka</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (projectRisks != null && projectRisks.Any())
+            {
+
+                <table class="table table-sm table-striped">
+                    <tbody>
+                        @foreach (var position in projectRisks)
+                        {
+                            <tr>
+                                <td class="" style="width: 300px;">
+                                    <strong>
+                                        @position.Name
+                                    </strong>
+                                </td>
+
+                
+                                <td>@position.Content</td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+

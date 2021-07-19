@@ -33,9 +33,16 @@ tr, td, th, thead, thead tr th, tfoot {
     page-break-inside: avoid !important;
     page-break-before: auto !important;
     page-break-after: auto !important;
-} 
+}
 
 
+.no-page-break {
+    display: inline-block;
+    width: 100%;
+    page-break-inside: avoid;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+}
 
 .invoice-font {
     text-align: center;

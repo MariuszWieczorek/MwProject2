@@ -22,5 +22,11 @@ namespace MwProject.Helpers
             string output = tmp.Replace(" ", "-");
             return output;
         }
+
+        public static string AddBr(this string val)
+        {
+            string tmp = val.Replace(System.Environment.NewLine, "<br />");
+            return tmp;
+        }
     }
 }
