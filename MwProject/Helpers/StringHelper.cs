@@ -25,6 +25,10 @@ namespace MwProject.Helpers
 
         public static string AddBr(this string val)
         {
+            if (val==null)
+            {
+                return string.Empty;
+            }
             string tmp = val.Replace(System.Environment.NewLine, "<br />");
             return tmp;
         }
