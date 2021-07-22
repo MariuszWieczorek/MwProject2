@@ -113,7 +113,7 @@ namespace MwProject.Persistence.Repositories
         }
 
 
-            private IQueryable<Project> FilterProjects(IQueryable<Project> projects, ProjectsFilter projectsFilter, string userId)
+        private IQueryable<Project> FilterProjects(IQueryable<Project> projects, ProjectsFilter projectsFilter, string userId)
         {
 
             var user = _context.Users.Single(x => x.Id == userId);
