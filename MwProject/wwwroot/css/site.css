@@ -93,3 +93,16 @@ body {
     font-weight: bold;
     background-color: pink;
 }
+
+#myTab li.active a {
+    border-bottom-color: transparent;
+    background-color:Yellow;
+
+}
+
+.nav-item .tab-pane{
+    border:solid 1px blue;
+    border-top: 0;
+    background-color:#F7EFC6;
+
+}
