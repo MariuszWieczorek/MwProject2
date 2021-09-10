@@ -253,11 +253,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.CreatedDate = project.CreatedDate;
             projectToUpdate.OrdinalNumber = project.OrdinalNumber;
             projectToUpdate.Term = project.Term;
-            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
-            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
 
-            //if (project.CategoryId != 0)
-            //   projectToUpdate.CategoryId = project.CategoryId;
 
             if (project.ProductGroupId != 0)
                 projectToUpdate.ProductGroupId = project.ProductGroupId;
@@ -267,15 +263,32 @@ namespace MwProject.Persistence.Repositories
                 projectToUpdate.ProjectGroupId = project.ProjectGroupId;
 
             projectToUpdate.Description = project.Description;
-            projectToUpdate.Comment = project.Comment;
-            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
-            projectToUpdate.VerificationOperations = project.VerificationOperations;
+
 
 
             projectToUpdate.InitiatedBy = project.InitiatedBy;
             projectToUpdate.Coordinator = project.Coordinator;
             projectToUpdate.Client = project.Client;
+            
+            // nowy produkt, modyfikacja, nie dotyczy 
             projectToUpdate.ProductStatus = project.ProductStatus;
+
+        }
+
+
+
+        public void UpdateProjectCard(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+
+
+            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
+                                 
+
+            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
+            projectToUpdate.VerificationOperations = project.VerificationOperations;
+            projectToUpdate.Comment = project.Comment;
 
         }
 

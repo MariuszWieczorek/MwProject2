@@ -168,6 +168,18 @@ namespace MwProject.Persistence.Services
             this.CalculatePriorityOfProject(project.Id, userId);
         }
 
+
+        public void UpdateProjectCard(Project project, string userId)
+        {
+            _unitOfWork.Project.UpdateProjectCard(project, userId);
+
+            // metoda wysyłająca maila
+            // ...
+            // dodatkowa modyfikacja danych
+            _unitOfWork.Complete();
+            this.CalculatePriorityOfProject(project.Id, userId);
+        }
+
         public void UpdateProjectPriority(Project project, string userId)
         {
             _unitOfWork.Project.UpdateProjectPriority(project, userId);

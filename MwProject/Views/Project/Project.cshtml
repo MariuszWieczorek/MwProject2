@@ -56,15 +56,15 @@
             </button>
 
             <!--
-               <button class="btn btn-secondary mb-3"
-                       onclick="generatePdf()">
-                   Generuj PDF
-               </button>
-    <button class="btn btn-secondary mb-3" onclick="printProject()">
-                   Drukuj
-               </button>
-               history.back();history.forward();location.reload();
-                -->
+                       <button class="btn btn-secondary mb-3"
+                               onclick="generatePdf()">
+                           Generuj PDF
+                       </button>
+            <button class="btn btn-secondary mb-3" onclick="printProject()">
+                           Drukuj
+                       </button>
+                       history.back();history.forward();location.reload();
+                        -->
 
             <button type="button" class="btn btn-secondary mb-3"
                     onclick='window.location.href = "@Url.Action("Projects", "Project", new { projectId = Model.Project.Id })"'>
@@ -100,10 +100,10 @@
             }
 
             @*
-        <button class="btn btn-outline-success btn-sm"
-                onclick='window.location.href = "@Url.Action("ProjectPriority", "Project", new { id = Model.Project.Id })"'>
-            Prio
-        </button>
+                <button class="btn btn-outline-success btn-sm"
+                        onclick='window.location.href = "@Url.Action("ProjectPriority", "Project", new { id = Model.Project.Id })"'>
+                    Prio
+                </button>
             *@
 
         </div>
@@ -117,181 +117,271 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
             <li class="nav-item" role="presentation">
-                <button class="nav-link active"
+                <button class="nav-link active btn-outline-success"
                         id="home-tab"
                         data-bs-toggle="tab"
                         data-bs-target="#home"
                         type="button" role="tab"
                         aria-controls="home"
                         aria-selected="false"
-                        Style = "background:#b6ff00; font-weight:bold"
-                        >
-
-                    <strong>Wniosek</strong>
-                    
-                </button>
-            </li>
-
- 
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="general-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#general"
-                        type="button"
-                        role="tab"
-                        aria-controls="general"
-                        aria-selected="true">
-                    Informacje ogólne
-                </button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="technical-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#technical"
-                        type="button"
-                        role="tab"
-                        aria-controls="technical"
-                        aria-selected="true">
-                    Informacje techniczne
-                </button>
-            </li>
-
-            
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="quality-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#quality"
-                        type="button"
-                        role="tab"
-                        aria-controls="quality"
-                        aria-selected="false">
-                    Wymagania Jakościowe
-                </button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="sales-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#sales"
-                        type="button"
-                        role="tab"
-                        aria-controls="sales"
-                        aria-selected="false">
-                    Przewidywana Sprzedaż
-                </button>
-            </li>
-
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="economic-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#economic"
-                        type="button"
-                        role="tab"
-                        aria-controls="economic"
-                        aria-selected="false">
-                    Informacje Ekonomiczne
-                </button>
-            </li>
-            
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="calculation-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#calculation"
-                        type="button"
-                        role="tab"
-                        aria-controls="calculation"
-                        aria-selected="false">
-                    Kalkulacja TKW
+                        Style="background:#e3ff9c; font-weight:bold">
+                    Wniosek
                 </button>
             </li>
 
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link btn-danger"
-                        id="priority-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#priority"
-                        type="button"
-                        role="tab"
-                        aria-controls="priority"
-                        aria-selected="true">
-                    Priorytet
-                </button>
-            </li>
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="clients-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#clients"
-                        type="button"
-                        role="tab"
-                        aria-controls="clients"
-                        aria-selected="false">
-                    Interesariusze
-                </button>
-            </li>
+            @if (!NewProject)
+            {
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="risks-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#risks"
-                        type="button"
-                        role="tab"
-                        aria-controls="risks"
-                        aria-selected="false">
-                    Ocena Ryzyka
-                </button>
-            </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-success"
+                            id="general-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#general"
+                            type="button"
+                            role="tab"
+                            aria-controls="general"
+                            aria-selected="true"
+                            Style="background:#e3ff9c; font-weight:bold">
+                        Informacje ogólne
+                    </button>
+                </li>
+            }
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="team-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#team"
-                        type="button"
-                        role="tab"
-                        aria-controls="team"
-                        aria-selected="false">
-                    Zespół
-                </button>
-            </li>
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-success"
+                            id="technical-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#technical"
+                            type="button"
+                            role="tab"
+                            aria-controls="technical"
+                            aria-selected="true"
+                            Style="background:#e3ff9c; font-weight:bold">
+                        Informacje techniczne
+                    </button>
+                </li>
+            }
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="status-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#status"
-                        type="button"
-                        role="tab"
-                        aria-controls="status"
-                        aria-selected="false">
-                    Status
-                </button>
-            </li>
 
-            <li class="nav-item" role="presentation">
-                <button class="nav-link"
-                        id="notifications-tab"
-                        data-bs-toggle="tab"
-                        data-bs-target="#notifications"
-                        type="button"
-                        role="tab"
-                        aria-controls="notifications"
-                        aria-selected="false">
-                    Powiadomienia
-                </button>
-            </li>
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-success"
+                            id="quality-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#quality"
+                            type="button"
+                            role="tab"
+                            aria-controls="quality"
+                            aria-selected="false"
+                            Style="background:#e3ff9c; font-weight:bold">
+                        Wymagania Jakościowe
+                    </button>
+                </li>
+            }
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-success"
+                            id="sales-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#sales"
+                            type="button"
+                            role="tab"
+                            aria-controls="sales"
+                            aria-selected="false"
+                            Style="background:#e3ff9c; font-weight:bold">
+                        Przewidywana Sprzedaż
+                    </button>
+                </li>
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-success"
+                            id="sales-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#sales"
+                            type="button"
+                            role="tab"
+                            aria-controls="sales"
+                            aria-selected="false"
+                            Style="background:#e3ff9c; font-weight:bold">
+                        Przewidywana Sprzedaż
+                    </button>
+                </li>
+            }
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-primary"
+                            id="projectcard-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#projectcard"
+                            type="button"
+                            role="tab"
+                            aria-controls="projectcard"
+                            aria-selected="false"
+                            Style="background:#aaffbc; font-weight:bold">
+                        Karta Projektu
+                    </button>
+                </li>
+            }
+
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-primary"
+                            id="economic-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#economic"
+                            type="button"
+                            role="tab"
+                            aria-controls="economic"
+                            aria-selected="false"
+                            Style="background:#bbfbfb; font-weight:bold">
+                        Ekonomiczne
+                    </button>
+                </li>
+
+            }
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-primary"
+                            id="calculation-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#calculation"
+                            type="button"
+                            role="tab"
+                            aria-controls="calculation"
+                            aria-selected="false"
+                            Style="background:#bbfbfb; font-weight:bold">
+                        Kalkulacja TKW
+                    </button>
+                </li>
+
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-danger"
+                            id="priority-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#priority"
+                            type="button"
+                            role="tab"
+                            aria-controls="priority"
+                            aria-selected="true"
+                            Style="background:#f6cbcb; font-weight:bold">
+                        Priorytet
+                    </button>
+                </li>
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-secondary"
+                            id="clients-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#clients"
+                            type="button"
+                            role="tab"
+                            aria-controls="clients"
+                            aria-selected="false"
+                            Style="background:#fff4b6; font-weight:bold">
+                        Interesariusze
+                    </button>
+                </li>
+
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-secondary"
+                            id="risks-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#risks"
+                            type="button"
+                            role="tab"
+                            aria-controls="risks"
+                            aria-selected="false"
+                            Style="background:#fff4b6; font-weight:bold">
+                        Ocena Ryzyka
+                    </button>
+                </li>
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-secondary"
+                            id="team-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#team"
+                            type="button"
+                            role="tab"
+                            aria-controls="team"
+                            aria-selected="false"
+                            Style="background:#fff4b6; font-weight:bold">
+                        Zespół
+                    </button>
+                </li>
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-secondary"
+                            id="status-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#status"
+                            type="button"
+                            role="tab"
+                            aria-controls="status"
+                            aria-selected="false"
+                            Style="background:#fff4b6; font-weight:bold">
+                        Status
+                    </button>
+                </li>
+            }
+
+
+            @if (!NewProject)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-secondary"
+                            id="notifications-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#notifications"
+                            type="button"
+                            role="tab"
+                            aria-controls="notifications"
+                            aria-selected="false"
+                            Style="background:#fff4b6; font-weight:bold">
+                        Powiadomienia
+                    </button>
+                </li>
+            }
 
         </ul>
 
@@ -437,6 +527,18 @@
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
                             @await Html.PartialAsync("_ProjectNotificationsPartial", Model)
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- zakładka z kartą projektu -->
+            <div class="tab-pane fade" id="projectcard" role="tabpanel" aria-labelledby="projectcard-tab">
+                @if (Model.Project.Id != 0)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+                           @await Html.PartialAsync("_ProjectCardPartial", Model) 
                         </div>
                     </div>
                 }

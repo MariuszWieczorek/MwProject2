@@ -50,11 +50,15 @@ namespace MwProject.Persistence.Repositories
         public void UpdateCalculation(Calculation calculation, string userId)
         {
             var calculationToUpdate = _context.Calculations.Single(x => x.Id == calculation.Id);
-            var tkw = calculation.MaterialCosts + calculation.LabourCosts + calculation.PackingCosts + calculation.Markup;
+            var cost = calculation.MaterialCosts + calculation.LabourCosts + calculation.PackingCosts;
+            var tkw = cost * ( 1 + (calculation.Markup * 0.01M) );
+            
             var ckw = tkw * (1 + calculation.GeneralCostsInPercent * 0.01M);
+            
             calculationToUpdate.MaterialCosts = calculation.MaterialCosts;
             calculationToUpdate.LabourCosts = calculation.LabourCosts;
             calculationToUpdate.PackingCosts = calculation.PackingCosts;
+
             calculationToUpdate.Markup = calculation.Markup;
             calculationToUpdate.GeneralCostsInPercent = calculation.GeneralCostsInPercent;
             calculationToUpdate.Tkw = tkw;

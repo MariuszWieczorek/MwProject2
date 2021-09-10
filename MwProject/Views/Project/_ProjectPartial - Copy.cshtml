@@ -171,10 +171,47 @@
                                 }
                             </div>
 
-                            
+                            <!-- Grupa Produktu -->
+                            @*
+                                <div class="form-group mb-3 col-6">
+
+                                    @Html.LabelFor(x => x.Project.ProductGroupId)
+                                    @Html.DropDownListFor(x => x.Project.ProductGroupId,
+                                                   new SelectList(Model.ProductGroups, "Id", "Name"),
+                                                   "--- Wybierz grupę produktu ---",
+                                                   new { @class = "form-control", autofocus = "autofocus" })
+                                    @Html.ValidationMessageFor(x => x.Project.ProductGroupId)
+
+                                </div>
+                            *@
                         </div>
 
-                        
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.ProjectManagerId)
+                            @Html.DropDownListFor(x => x.Project.ProjectManagerId,
+                                           new SelectList(Model.ApplicationUsers, "Id", "UserName"),
+                                           "--- Wybierz kierownika projektu ---",
+                                           new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold" })
+                            @Html.ValidationMessageFor(x => x.Project.ProjectManagerId)
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.LinkToPlanner)
+                            <div class="input-group mb-3">
+                                @Html.TextBoxFor(x => x.Project.LinkToPlanner,
+                               new
+                                    {
+                                   @class = "form-control",
+                                   placeholder = "link do planera",
+                                   aria_label = "Recipient's username",
+                                   aria_describedby = "button-addon2",
+                                   autofocus = "autofocus",
+                                   id = "linkToPlanner"
+                                   })
+                                <button class="btn btn-secondary" type="button" id="button-addon2" onclick="showPlanner()">planer</button>
+                            </div>
+                            @Html.ValidationMessageFor(x => x.Project.LinkToPlanner)
+                        </div>
 
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.Client)
@@ -219,7 +256,23 @@
                            new { @class = "form-control" })
                         </div>
 
-                       
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.DescriptionOfPurpose)
+                            @Html.TextAreaFor(x => x.Project.DescriptionOfPurpose, 5, 40,
+                           new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.VerificationOperations)
+                            @Html.TextAreaFor(x => x.Project.VerificationOperations, 5, 40,
+                           new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(x => x.Project.Comment)
+                            @Html.TextAreaFor(x => x.Project.Comment, 5, 40,
+                           new { @class = "form-control" })
+                        </div>
 
 
                         <div class="row">

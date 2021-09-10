@@ -82,7 +82,7 @@
                         <th scope="col">Materiały</th>
                         <th scope="col">Robocizna</th>
                         <th scope="col">Pakowanie</th>
-                        <th scope="col">Narzut</th>
+                        <th scope="col">Narzut %</th>
 
                         <th scope="col">TKW</th>
                         <th scope="col">Ogólne %</th>
@@ -119,11 +119,11 @@
                             <td class="text-muted"><strong>@position.MaterialCosts.ToString("c")</strong></td>
                             <td class="text-muted"><strong>@position.LabourCosts.ToString("c")</strong></td>
                             <td class="text-muted"><strong>@position.PackingCosts.ToString("c")</strong></td>
-                            <td class="text-muted"><strong>@position.Markup.ToString("c")</strong></td>
+                            <td class="text-muted"><strong>@position.Markup.ToString("n") %</strong></td>
 
 
                             <td><strong>@position.Tkw.ToString("c")</strong></td>
-                            <td class="text-muted"><strong>@position.GeneralCostsInPercent.ToString("n")</strong></td>
+                            <td class="text-muted"><strong>@position.GeneralCostsInPercent.ToString("n") %</strong></td>
                             <td><strong>@position.Ckw.ToString("c")</strong></td>
 
                             <td align="right">
