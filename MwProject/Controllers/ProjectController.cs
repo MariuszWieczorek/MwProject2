@@ -409,8 +409,8 @@ namespace MwProject.Controllers
                 ProductGroups = _productGroupService.GetProductGroups(),
                 Categories = _categoryService.GetCategories(),
                 Heading = selectedProject.Id == 0 ?
-                      "Nowy Projekt" :
-                     $"lp: {selectedProject.OrdinalNumber} numer: {selectedProject.Number}",
+                      "nowy projekt" :
+                     $"numer: {selectedProject.Number}",
                 AcceptedBy = acceptedBy,
                 ConfirmedBy = confirmedBy,
                 CalculationConfirmedBy = calculationConfirmedBy,

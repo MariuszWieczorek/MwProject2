@@ -90,6 +90,12 @@
                new { @class = "form-control" })
         </div>
 
+          <div class="col-3">
+            @Html.LabelFor(x => x.ProjectsFilter.RelatedNumbers)
+            @Html.TextBoxFor(x => x.ProjectsFilter.RelatedNumbers,
+              new { @class = "form-control", placeholder = "Powiązane Numery" })
+        </div>
+
         <div class="form-check form-switch mb-3 col-2">
             <br>
             @Html.CheckBoxFor(x => x.ProjectsFilter.IsExecuted, new { @class = "form-check-input" })

@@ -25,6 +25,8 @@ namespace MwProject.Persistence.Repositories
         {
 
             int ordinalNumber = 1;
+            var user = _context.Users.Single(x => x.Id == userId);
+
             if (_context.Projects.Any())
             {
                 ordinalNumber = _context.Projects.Max(x => x.OrdinalNumber) + 1;
@@ -43,7 +45,8 @@ namespace MwProject.Persistence.Repositories
                 Term = DateTime.Now,
                 Value = 0,
                 OrdinalNumber = ordinalNumber,
-                No = no
+                No = no,
+                InitiatedBy = $"{user.FirstName} {user.LastName}" 
             };
         }
 
@@ -154,6 +157,9 @@ namespace MwProject.Persistence.Repositories
             if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
                 projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
+            if (!string.IsNullOrWhiteSpace(projectsFilter.RelatedNumbers))
+                projects = projects.Where(x => x.ProjectRequirements.Any(x=>x.RelatedNumbers.Contains(projectsFilter.RelatedNumbers)));
+
             return projects;
         }
 
@@ -255,12 +261,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Term = project.Term;
 
 
-            if (project.ProductGroupId != 0)
-                projectToUpdate.ProductGroupId = project.ProductGroupId;
-            if (project.ProjectStatusId != 0)
-                projectToUpdate.ProjectStatusId = project.ProjectStatusId;
-            if (project.ProjectGroupId != 0)
-                projectToUpdate.ProjectGroupId = project.ProjectGroupId;
+                      
+          
 
             projectToUpdate.Description = project.Description;
 
@@ -289,6 +291,12 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
             projectToUpdate.VerificationOperations = project.VerificationOperations;
             projectToUpdate.Comment = project.Comment;
+
+            if (project.ProjectStatusId != 0)
+                projectToUpdate.ProjectStatusId = project.ProjectStatusId;
+            
+            if (project.ProjectGroupId != 0)
+                projectToUpdate.ProjectGroupId = project.ProjectGroupId;
 
         }
 

@@ -26,6 +26,11 @@ namespace MwProject.Core.Models.Filters
         [Display(Name = "Numer")]
         public string Number { get; set; }
 
+        
+        [Display(Name = "Powiązane Numery")]
+        public string RelatedNumbers { get; set; }
+
+
         [Display(Name = "Lp")]
         public int? ordinalNumber { get; set; }
 

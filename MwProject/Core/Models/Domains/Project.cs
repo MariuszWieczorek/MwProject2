@@ -62,7 +62,7 @@ namespace MwProject.Core.Models.Domains
         public DateTime? CreatedDate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        [Display(Name = "Termin realiz.")]
+        [Display(Name = "Oczekiwany Termin")]
         public DateTime? Term { get; set; }
 
         [Display(Name = "Fakt. data zakończenia")]

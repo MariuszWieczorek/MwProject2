@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210913060825_AddRelatedNumbersAndLinkToProject")]
+    partial class AddRelatedNumbersAndLinkToProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -409,8 +411,14 @@ namespace MwProject.Migrations
                     b.Property<bool>("Exist")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrdinalNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("RelatedNumbers")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RequirementId")
                         .HasColumnType("int");
@@ -871,14 +879,8 @@ namespace MwProject.Migrations
                     b.Property<bool>("Exist")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
-
-                    b.Property<string>("RelatedNumbers")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RequirementId")
                         .HasColumnType("int");

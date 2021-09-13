@@ -58,6 +58,8 @@ namespace MwProject.Persistence.Repositories
             projectRequirementToUpdate.Comment = projectRequirement.Comment;
             projectRequirementToUpdate.YesNo = projectRequirement.YesNo;
             projectRequirementToUpdate.ShowValue = projectRequirement.ShowValue;
+            projectRequirementToUpdate.Link = projectRequirement.Link;
+            projectRequirementToUpdate.RelatedNumbers = projectRequirement.RelatedNumbers;
         }
     }
 }

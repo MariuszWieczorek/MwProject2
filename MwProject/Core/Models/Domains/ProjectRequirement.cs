@@ -29,6 +29,12 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Opis")]
         public string Comment { get; set; }
 
+        [Display(Name = "Link")]
+        public string Link { get; set; }
+
+        [Display(Name = "Powiązane Numery")]
+        public string RelatedNumbers { get; set; }
+
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 

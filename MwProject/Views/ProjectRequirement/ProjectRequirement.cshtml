@@ -72,6 +72,8 @@
                 @Html.LabelFor(x => x.ProjectRequirement.YesNo, new { @class = "form-check-label" })
             </div>
 
+
+
             <div class="form-check form-switch mb-3">
 
                 <div class="form-check">
@@ -96,6 +98,34 @@
                 </div>
             </div>
 
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectRequirement.RelatedNumbers)
+                @Html.TextBoxFor(x => x.ProjectRequirement.RelatedNumbers,
+                new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.ProjectRequirement.RelatedNumbers)
+            </div>
+
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(x => x.ProjectRequirement.Link)
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(x => x.ProjectRequirement.Link,
+                   new
+                        {
+                       @class = "form-control",
+                       placeholder = "link",
+                       aria_label = "Recipient's username",
+                       aria_describedby = "button-addon2",
+                       autofocus = "autofocus",
+                       id = "link"
+                       })
+                    <button class="btn btn-secondary" type="button" id="button-addon2" onclick="showPlanner()">pokaż</button>
+                </div>
+                @Html.ValidationMessageFor(x => x.ProjectRequirement.Link)
+            </div>
+
+
             <button class="btn btn-primary mt-3" type="submit">
                 Zapisz
             </button>
@@ -119,6 +149,14 @@
                 return this.optional(element) || /^-?(?:\d+|\{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
             }
         });
+
+         // ------------------------------------------------------------------------------------------------
+            function showPlanner() {
+                let linkToPlanner = $('#link').val();
+                window.open(linkToPlanner);
+                return;
+            }
+        // ------------------------------------------------------------------------------------------------
 
     </script>
 }

@@ -93,6 +93,8 @@
                             <th scope="col" style="width:60px"> T/N </th>
                             <th scope="col"> Komentarz </th>
                             <th scope="col"> Wartość </th>
+                            <th scope="col"> Numery </th>
+                            <th scope="col"> KP5</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -150,6 +152,20 @@
                                     }
                                 </td>
 
+                                <td>@position.RelatedNumbers</td>
+
+                                
+                                <td scope="col">
+                                    @if (!String.IsNullOrWhiteSpace(position.Link))
+                                    {
+                                        <a href="@Url.Content(position.Link)" target="_blank">link</a>
+                                    }
+                                </td>
+
+
+                                
+                                
+
                                 <td align="right">
                                     @if (canEdit)
                                     {
@@ -167,6 +183,8 @@
                             <td scope="col"> </td>
                             <td scope="col"> koszt całkowity </td>
                             <td scope="col"> <strong> @totalCost.ToString("c") </strong></td>
+                            
+                            <td scope="col"> </td>
                             <td scope="col"> </td>
                         </tr>
                     </tbody>
