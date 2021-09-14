@@ -11,13 +11,14 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-datapicker/css/bootstrap-datepicker.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-datapicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
-    
+
     <link href="~/css/counter1.css" rel="stylesheet" />
-   
+
     <link href="~/css/validate.css" rel="stylesheet" />
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
-    
+    <link href="~/lib/starrating/css/star-rating.min.css" rel="stylesheet" />
+    <link href="~/lib/starrating/themes/krajee-fas/theme.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -236,7 +237,10 @@
     <script src="~/lib/bootstrap-datapicker/js/bootstrap-datepicker.js"></script>
     <script src="~/lib/eonasdan-bootstrap-datatimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <script src="~/lib/font-awesome/js/all.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/starrating/js/star-rating.min.js"></script>
+    <script src="~/lib/starrating/themes/krajee-fas/theme.js"></script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @await RenderSectionAsync("Scripts", required: false)
