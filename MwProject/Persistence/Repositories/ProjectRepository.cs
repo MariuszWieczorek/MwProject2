@@ -121,44 +121,49 @@ namespace MwProject.Persistence.Repositories
 
             var user = _context.Users.Single(x => x.Id == userId);
 
-            if (user.CanSeeAllProject == false)
-                projects = projects.Where(x => x.UserId == userId);
+            if (true)
+            {
 
-            if (projectsFilter.IsExecuted == true)
-                projects = projects.Where(x => x.IsExecuted == false);
 
-            if (projectsFilter.ShowProjectsWithNotifications == true)
-                projects = projects.Where(x => x.Notifications.Where(x => x.UserId == userId && x.Confirmed == false).Any());
+                if (user.CanSeeAllProject == false)
+                    projects = projects.Where(x => x.UserId == userId);
 
-            if (projectsFilter.CategoryId != 0 && projectsFilter.CategoryId != null)
-                projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
+                if (projectsFilter.IsExecuted == true)
+                    projects = projects.Where(x => x.IsExecuted == false);
 
-            if (projectsFilter.ProjectStatusId != 0 && projectsFilter.ProjectStatusId != null)
-                projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
+                if (projectsFilter.ShowProjectsWithNotifications == true)
+                    projects = projects.Where(x => x.Notifications.Where(x => x.UserId == userId && x.Confirmed == false).Any());
 
-            if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
-                projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
+                if (projectsFilter.CategoryId != 0 && projectsFilter.CategoryId != null)
+                    projects = projects.Where(x => x.CategoryId == projectsFilter.CategoryId);
 
-            if (projectsFilter.Year != 0)
-                projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
+                if (projectsFilter.ProjectStatusId != 0 && projectsFilter.ProjectStatusId != null)
+                    projects = projects.Where(x => x.ProjectStatusId == projectsFilter.ProjectStatusId);
 
-            if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
-                projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
+                if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
+                    projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
-            if (!string.IsNullOrWhiteSpace(projectsFilter.Title))
-                projects = projects.Where(x => x.Title.Contains(projectsFilter.Title));
+                //if (projectsFilter.Year != 0)
+                  //  projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
 
-            if (!string.IsNullOrWhiteSpace(projectsFilter.Number))
-                projects = projects.Where(x => x.Number.Contains(projectsFilter.Number));
+                if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
+                    projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
 
-            if (!string.IsNullOrWhiteSpace(projectsFilter.Client))
-                projects = projects.Where(x => x.Client.Contains(projectsFilter.Client));
+                if (!string.IsNullOrWhiteSpace(projectsFilter.Title))
+                    projects = projects.Where(x => x.Title.Contains(projectsFilter.Title));
 
-            if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
-                projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
+                if (!string.IsNullOrWhiteSpace(projectsFilter.Number))
+                    projects = projects.Where(x => x.Number.Contains(projectsFilter.Number));
 
-            if (!string.IsNullOrWhiteSpace(projectsFilter.RelatedNumbers))
-                projects = projects.Where(x => x.ProjectRequirements.Any(x=>x.RelatedNumbers.Contains(projectsFilter.RelatedNumbers)));
+                if (!string.IsNullOrWhiteSpace(projectsFilter.Client))
+                    projects = projects.Where(x => x.Client.Contains(projectsFilter.Client));
+
+                if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
+                    projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
+
+                if (!string.IsNullOrWhiteSpace(projectsFilter.RelatedNumbers))
+                    projects = projects.Where(x => x.ProjectRequirements.Any(x => x.RelatedNumbers.Contains(projectsFilter.RelatedNumbers)));
+            }
 
             return projects;
         }
