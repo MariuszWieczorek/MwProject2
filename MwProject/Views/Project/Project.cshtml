@@ -8,9 +8,26 @@
     bool NewProject = (Model.Project.Id == 0);
 
 
+    bool canConfirmRequest = !Model.Project.IsRequestConfirmed
+                   && Model.Project.IsTechnicalProportiesConfirmed
+                   && Model.Project.IsQualityRequirementsConfirmed
+                   && Model.Project.IsGeneralRequirementsConfirmed
+                   && Model.Project.IsEstimatedSalesConfirmed
+                   && Model.CurrentUser.CanConfirmRequest;
+
+
+    bool canWithdrawRequestConfirmation = Model.Project.IsRequestConfirmed
+                   && !Model.Project.IsConfirmed
+                   && Model.CurrentUser.CanConfirmRequest;
+
+
+
     bool canConfirm = !Model.Project.IsConfirmed
+                   &&  Model.Project.IsRequestConfirmed           
                    && !Model.Project.IsAccepted
                    && Model.CurrentUser.CanConfirmProject;
+
+
 
 
     bool canWithdrawConfirmation = Model.Project.IsConfirmed
@@ -50,6 +67,11 @@
     <div class="row">
         <div class="col-12">
 
+            <button type="button" class="btn btn-secondary mb-3"
+                    onclick='window.location.href = "@Url.Action("Projects", "Project", new { projectId = Model.Project.Id })"'>
+                Wstecz
+            </button>
+
 
             <button id="printButton" class="btn btn-secondary mb-3">
                 Drukuj
@@ -66,10 +88,7 @@
                        history.back();history.forward();location.reload();
                         -->
 
-            <button type="button" class="btn btn-secondary mb-3"
-                    onclick='window.location.href = "@Url.Action("Projects", "Project", new { projectId = Model.Project.Id })"'>
-                wstecz
-            </button>
+          
 
             @if (canAccept)
             {
@@ -88,14 +107,28 @@
             @if (canConfirm)
             {
                 <button class="btn btn-lg btn-warning mb-3" onclick="confirmProject()">
-                    <strong>Potwierdź Dane</strong>
+                    <strong>Potwierdź Projekt</strong>
                 </button>
             }
 
             @if (canWithdrawConfirmation)
             {
                 <button class="btn btn-warning mb-3" onclick="withdrawProjectConfirmation()">
-                    Wycofaj Potwierdzenie Danych
+                    Wycofaj Potwierdzenie Projektu
+                </button>
+            }
+
+            @if (canConfirmRequest)
+            {
+                <button class="btn btn-lg btn-success mb-3" onclick="confirmRequest()">
+                    <strong>Potwierdź Wniosek</strong>
+                </button>
+            }
+
+            @if (canWithdrawRequestConfirmation)
+            {
+                <button class="btn btn-success mb-3" onclick="withdrawRequestConfirmation()">
+                    Wycofaj Potwierdzenie Wniosku
                 </button>
             }
 
@@ -1407,6 +1440,76 @@
                 });
 
         }
+
+
+        /////
+        // ------------------------------------------------------------------------------------------------
+        // ConfirmRequest
+        function confirmRequest() {
+
+            if (!confirm("Czy potwierdzić Wniosek Projektowy ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("ConfirmRequest", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // withdrawRequestConfirmation
+        function withdrawRequestConfirmation() {
+
+            if (!confirm("Czy wycofać potwierdzenie Wniosku Projektowego ?"))
+                return;
+            // --------------------------------------------
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("WithdrawRequestConfimration", "Project")",
+                 data: {
+                     id: '@Model.Project.Id'
+                },
+                success: function (data) {
+                    if (data.success) {
+
+                    // akceptacja - zmiany w widoku
+                        location.reload(true);
+                    }
+                    else {
+                        alert(data.Message + ' Akcja w kontrolerze zwróciła błąd');
+                    }
+                },
+                error: function (data) {
+                    alert(data.Message + ' Nie znaleziono Akcji w kontrolerze');
+                },
+                dataType: 'json',
+                cache: false
+
+                });
+
+        }
+        // ------------------------------------------------------------------------------------------------
+
         // ------------------------------------------------------------------------------------------------
         // ConfirmQualityRequirements
         function confirmQualityRequirements() {

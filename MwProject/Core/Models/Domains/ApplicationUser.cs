@@ -55,6 +55,8 @@ namespace MwProject.Core.Models.Domains
         
         [Display(Name = "może potwierdzać projekt")]
         public bool CanConfirmProject { get; set; }
+        [Display(Name = "może potwierdzać wniosek")]
+        public bool CanConfirmRequest { get; set; }
 
         [Display(Name = "uprawnienia administratora")]
         public bool AdminRights { get; set; }

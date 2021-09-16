@@ -151,6 +151,17 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy zatwierdzona przewidywana sprzedaż")]
         public bool IsEstimatedSalesConfirmed { get; set; }
 
+        // potwierdzenie wniosku
+
+        [Display(Name = "Wniosek potwierdzony przez")]
+        public string RequestConfirmedBy { get; set; }
+
+        [Display(Name = "Czas potwierdzenia wniosku")]
+        public DateTime? RequestConfirmedDate { get; set; }
+
+        [Display(Name = "Czy Wniosek został potwierdzony")]
+        public bool IsRequestConfirmed { get; set; }
+
 
         // potwierdzenie projektu
 

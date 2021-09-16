@@ -758,6 +758,40 @@ namespace MwProject.Controllers
         }
 
 
+        public IActionResult ConfirmRequest(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.ConfirmRequest(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
+
+        [HttpPost]
+        public IActionResult WithdrawRequestConfimration(int id)
+        {
+            try
+            {
+                var userId = User.GetUserId();
+                _projectService.WithdrawRequestConfimration(id, userId);
+            }
+            catch (Exception ex)
+            {
+                // logowanie do pliku
+                return Json(new { success = false, message = ex.Message + " ooo" });
+            }
+
+            return Json(new { success = true });
+        }
+
         [HttpPost]
         public IActionResult AddTechnicalProperties(int projectId)
         {

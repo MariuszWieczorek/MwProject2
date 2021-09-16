@@ -102,6 +102,7 @@ namespace MwProject.Persistence.Repositories
 
             userToUpdate.CanAcceptProject = user.CanAcceptProject;
             userToUpdate.CanConfirmProject = user.CanConfirmProject;
+            userToUpdate.CanConfirmRequest = user.CanConfirmRequest;
             userToUpdate.CanConfirmCalculations = user.CanConfirmCalculations;
             userToUpdate.CanConfirmEstimatedSales = user.CanConfirmEstimatedSales;
             userToUpdate.CanConfirmQualityRequirements = user.CanConfirmQualityRequirements;

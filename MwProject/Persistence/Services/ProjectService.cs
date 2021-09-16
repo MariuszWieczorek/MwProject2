@@ -66,8 +66,28 @@ namespace MwProject.Persistence.Services
           
             // notifications
             var id = project.Id;
-            var usersToNotifications = _unitOfWork.UserRepository.GetUsers(new UsersFilter(), new PagingInfo())
-                .Where(x => x.NewProjectEmailNotification);
+
+            
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == userId);
+
+            
+            var usersToNotifications = allUsers
+                .Where(x => x.NewProjectEmailNotification).ToList();
+
+            var manager = allUsers
+                .SingleOrDefault(x => x.Id == currentUser.ManagerId);
+
+            if (manager != null)
+            {
+                usersToNotifications.Add(manager);
+            }
+            
 
             if (usersToNotifications.Any())
             {
@@ -118,12 +138,22 @@ namespace MwProject.Persistence.Services
         private string GenerateHtml(Notification notification)
         {
             var html = $"Powiadomienie programu <strong> MWProject </strong> <br />";
-            html += $"Projekt : {notification.TypeOfNotification.Name} / {notification.Project.Number}";
 
-            html += $@"<table border=1 cellpadding=5  cellspacing=1>
-                <tr>
+            html += $@"<table border=1 cellpadding=5  cellspacing=1>";
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey> Powiadomienie </td>
+                    <td align=center bgcolor=white> <strong> {notification.TypeOfNotification.Name} </strong> </td>                    
+                    
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
                     <td align=center bgcolor=lightgrey>Tytuł</td>
-                    <td align=center bgcolor=white> {notification.Project.Title}</td>                    
+                    <td align=center bgcolor=white> {notification?.Project?.Title}</td>                    
                     
                 </tr>
                 ";
@@ -132,7 +162,15 @@ namespace MwProject.Persistence.Services
             html +=
                 $@"<tr>
                     <td align=center bgcolor=lightgrey>Numer</td>                    
-                    <td align=center bgcolor=white> {notification.Project.Number}</td>
+                    <td align=center bgcolor=white> {notification?.Project?.Number}</td>
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Wnioskujący</td>                    
+                    <td align=center bgcolor=white> {notification?.Project?.User?.Email}</td>
                 </tr>
                 ";
 
@@ -552,6 +590,16 @@ namespace MwProject.Persistence.Services
         public int GetPageNumber(ProjectsFilter projectFilter, int categoryId, string userId, int itemPerPage, int projectId)
         {
             return _unitOfWork.Project.GetPageNumber(projectFilter, categoryId, userId, itemPerPage, projectId);
+        }
+
+        public void ConfirmRequest(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmRequest(id, userId);
+        }
+
+        public void WithdrawRequestConfimration(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawRequestConfimration(id, userId);
         }
     }
 }

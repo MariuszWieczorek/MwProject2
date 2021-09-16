@@ -623,6 +623,22 @@ namespace MwProject.Persistence.Repositories
             return (no, number);
         }
 
+        public void ConfirmRequest(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsRequestConfirmed = true;
+            projectToUpdate.RequestConfirmedDate = DateTime.Now;
+            projectToUpdate.RequestConfirmedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.ReadyForAcceptance;
+        }
 
+        public void WithdrawRequestConfimration(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsRequestConfirmed = false;
+            projectToUpdate.RequestConfirmedDate = null;
+            projectToUpdate.RequestConfirmedBy = null;
+            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
+        }
     }
 }

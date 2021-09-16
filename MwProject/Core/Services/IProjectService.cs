@@ -31,6 +31,8 @@ namespace MwProject.Core.Services
         void WithdrawProjectAcceptance(int id, string userId);
         void ConfirmProject(int id, string userId);
         void WithdrawProjectConfimration(int id, string userId);
+        void ConfirmRequest(int id, string userId);
+        void WithdrawRequestConfimration(int id, string userId);
         void ConfirmCalculation(int id, string userId);
         void WithdrawConfirmationOfCalculation(int id, string userId);
         void ConfirmEstimatedSales(int id, string userId);
