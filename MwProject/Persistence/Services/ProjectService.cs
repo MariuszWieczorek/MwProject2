@@ -263,13 +263,59 @@ namespace MwProject.Persistence.Services
 
         }
 
+
+        private void GenerateNotificationsRequestIsConfirmed(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var usersToNotifications = allUsers
+                .Where(x => x.CanSetProjectManager).ToList();
+
+
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 3,
+                        Content = $"Wniosek Projektowy Został Potwierdzony",
+                        Link = link,
+                        ToDo = "Proszę wybrać Project Manager'a",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
         #endregion
 
-        #region potwierdzanie wniosku projektowego
+        #region potwierdzanie Wniosku Projektowego
         public void ConfirmRequest(int id, string userId)
         {
             _unitOfWork.Project.ConfirmRequest(id, userId);
             _unitOfWork.Complete();
+            GenerateNotificationsRequestIsConfirmed(id, userId);
+            SendNotifications(id, 3, userId);
         }
 
         public void WithdrawRequestConfimration(int id, string userId)
@@ -758,6 +804,10 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.GetPageNumber(projectFilter, categoryId, userId, itemPerPage, projectId);
         }
 
-        
+        public void UpdateProjectManager(Project project, string userId)
+        {
+            _unitOfWork.Project.UpdateProjectManager(project, userId);
+            _unitOfWork.Complete();
+        }
     }
 }

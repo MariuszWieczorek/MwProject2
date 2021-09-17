@@ -289,7 +289,7 @@ namespace MwProject.Persistence.Repositories
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
 
 
-            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+           
             projectToUpdate.LinkToPlanner = project.LinkToPlanner;
                                  
 
@@ -639,6 +639,15 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.RequestConfirmedDate = null;
             projectToUpdate.RequestConfirmedBy = null;
             projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
+        }
+
+        public void UpdateProjectManager(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+
+
+            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+           
         }
     }
 }

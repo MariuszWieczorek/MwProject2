@@ -91,6 +91,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "może edytować zespół projektowy")]
         public bool CanEditProjectTeam { get; set; }
 
+        [Display(Name = "może ustanowić PM")]
+        public bool CanSetProjectManager { get; set; }
+
         [Display(Name = "manager")]
         public bool IsManager { get; set; }
 

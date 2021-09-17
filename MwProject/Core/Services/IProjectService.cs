@@ -17,6 +17,7 @@ namespace MwProject.Core.Services
         void AddProject(Project project, string userId);
         void UpdateProject(Project project, string userId);
         void UpdateProjectCard(Project project, string userId);
+        void UpdateProjectManager(Project project, string userId);
         void UpdateProjectPriority(Project project, string userId);
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);

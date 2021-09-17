@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-11">
             <div class="mt-2 mb-4 text-muted">
-                <h4>Karta Projektu</h4>
+                <h2>Karta Projektu</h2>
             </div>
         </div>
 
@@ -32,8 +32,9 @@
     </div>
 
 
+       
 
-    <div class="row">
+     <div class="row">
         <div class="col-12">
 
             @using (Html.BeginForm("ProjectCard", "Project", FormMethod.Post, new { id = "myform" }))
@@ -64,7 +65,7 @@
                         
                        
                                            
-
+                        @*
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.ProjectManagerId)
                             @Html.DropDownListFor(x => x.Project.ProjectManagerId,
@@ -73,6 +74,7 @@
                                            new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold" })
                             @Html.ValidationMessageFor(x => x.Project.ProjectManagerId)
                         </div>
+                        *@
 
                         <div class="form-group mb-3">
                             @Html.LabelFor(x => x.Project.LinkToPlanner)

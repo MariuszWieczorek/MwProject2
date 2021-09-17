@@ -251,6 +251,24 @@
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
+                            id="projectmanager-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#projectmanager"
+                            type="button"
+                            role="tab"
+                            aria-controls="projectmanager"
+                            aria-selected="false"
+                            Style="background:#aaffbc; font-weight:bold">
+                        Project Manager
+                    </button>
+                </li>
+            }
+
+
+            @if (!NewProject && Model.Project.IsRequestConfirmed)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-primary"
                             id="projectcard-tab"
                             data-bs-toggle="tab"
                             data-bs-target="#projectcard"
@@ -567,6 +585,18 @@
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
                            @await Html.PartialAsync("_ProjectCardPartial", Model) 
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- zakładka z PM -->
+            <div class="tab-pane fade" id="projectmanager" role="tabpanel" aria-labelledby="projectmanager-tab">
+                @if (Model.Project.Id != 0)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+                           @await Html.PartialAsync("_ProjectManagerPartial", Model) 
                         </div>
                     </div>
                 }

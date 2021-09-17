@@ -263,6 +263,14 @@
                         @Html.ValidationMessageFor(x => x.User.CanConfirmRequest)
                     </div>
                 </div>
+
+                <div class="col-5">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.CanSetProjectManager, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.CanSetProjectManager, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.CanSetProjectManager)
+                    </div>
+                </div>
             </div>
 
             <!--Admin SuperAdmin-->
