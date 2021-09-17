@@ -88,7 +88,41 @@
                        history.back();history.forward();location.reload();
                         -->
 
+
+            @* potwierdzenie wniosku *@
+
+            @if (canConfirmRequest)
+            {
+                <button class="btn btn-lg btn-success mb-3" onclick="confirmRequest()">
+                    <strong>Potwierdź Wniosek</strong>
+                </button>
+            }
+
+            @if (canWithdrawRequestConfirmation)
+            {
+                <button class="btn btn-success mb-3" onclick="withdrawRequestConfirmation()">
+                    Wycofaj Potwierdzenie Wniosku
+                </button>
+            }
+
+
+            @* potwierdzenie projektu *@
+
+            @if (canConfirm)
+            {
+                <button class="btn btn-lg btn-warning mb-3" onclick="confirmProject()">
+                    <strong>Potwierdź Projekt</strong>
+                </button>
+            }
+
+            @if (canWithdrawConfirmation)
+            {
+                <button class="btn btn-warning mb-3" onclick="withdrawProjectConfirmation()">
+                    Wycofaj Potwierdzenie Projektu
+                </button>
+            }
           
+            @* akceptacja szefa *@
 
             @if (canAccept)
             {
@@ -104,33 +138,9 @@
                 </button>
             }
 
-            @if (canConfirm)
-            {
-                <button class="btn btn-lg btn-warning mb-3" onclick="confirmProject()">
-                    <strong>Potwierdź Projekt</strong>
-                </button>
-            }
+            
 
-            @if (canWithdrawConfirmation)
-            {
-                <button class="btn btn-warning mb-3" onclick="withdrawProjectConfirmation()">
-                    Wycofaj Potwierdzenie Projektu
-                </button>
-            }
-
-            @if (canConfirmRequest)
-            {
-                <button class="btn btn-lg btn-success mb-3" onclick="confirmRequest()">
-                    <strong>Potwierdź Wniosek</strong>
-                </button>
-            }
-
-            @if (canWithdrawRequestConfirmation)
-            {
-                <button class="btn btn-success mb-3" onclick="withdrawRequestConfirmation()">
-                    Wycofaj Potwierdzenie Wniosku
-                </button>
-            }
+            
 
             @*
                 <button class="btn btn-outline-success btn-sm"
@@ -237,7 +247,7 @@
 
            
 
-            @if (!NewProject)
+            @if (!NewProject && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -256,7 +266,7 @@
 
 
 
-            @if (!NewProject)
+            @if (!NewProject  && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -274,7 +284,7 @@
 
             }
 
-            @if (!NewProject)
+            @if (!NewProject  && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -293,7 +303,7 @@
             }
 
 
-            @if (!NewProject)
+            @if (!NewProject  && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-danger"
@@ -311,7 +321,7 @@
             }
 
 
-            @if (!NewProject)
+            @if (!NewProject  && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"
@@ -330,7 +340,7 @@
             }
 
 
-            @if (!NewProject)
+            @if (!NewProject  && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"
@@ -348,7 +358,7 @@
             }
 
 
-            @if (!NewProject)
+            @if (!NewProject  && Model.Project.IsRequestConfirmed)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"

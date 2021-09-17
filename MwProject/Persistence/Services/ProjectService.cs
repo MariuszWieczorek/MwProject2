@@ -63,137 +63,19 @@ namespace MwProject.Persistence.Services
 
             _unitOfWork.Complete();
 
-          
+
             // notifications
-            var id = project.Id;
 
-            
 
-            var allUsers = _unitOfWork.UserRepository
-                .GetUsers(new UsersFilter(), new PagingInfo())
-                .ToList();
-
-            var currentUser = allUsers
-                .Single(x => x.Id == userId);
-
-            
-            var usersToNotifications = allUsers
-                .Where(x => x.NewProjectEmailNotification).ToList();
-
-            var manager = allUsers
-                .SingleOrDefault(x => x.Id == currentUser.ManagerId);
-
-            if (manager != null)
-            {
-                usersToNotifications.Add(manager);
-            }
-            
-
-            if (usersToNotifications.Any())
-            {
-                foreach (var user in usersToNotifications)
-                {
-                    var notification = new Notification()
-                    {
-                        ProjectId = id,
-                        UserId = user.Id,
-                        TimeOfNotification = DateTime.Now,
-                        TypeOfNotificationId = 1,
-                        Content = $"utworzono nowy projekt id = {project.Title}"
-                    };
-                    _unitOfWork.NotificationRepository.AddNotification(notification);
-                }
-            }
+            GenerateNotificationsNewRequest(project.Id, userId);
 
             _unitOfWork.Complete();
 
-            var projectToSend = _unitOfWork.Project.GetProject(project.Id, userId);
-
-            var notificationsToSend = projectToSend.Notifications.Where(x => x.Confirmed == false && x.TypeOfNotificationId == 1);
-            if (notificationsToSend.Any())
-            {
-                foreach (var notification in notificationsToSend)
-                {
-
-                    string subject = $"MWProject: {notification.TypeOfNotification.Name} / {notification.Project.Number}";
-                    string message = GenerateHtml(notification);
-                    var listOfEmailRecipients = new List<string>()
-                {
-                    $"{notification.User.Email}"
-                };
-
-                    var listOfAttachments = new List<string>();
-
-                    var mailMessage = _emailSender.CreateMailMessage(subject, message, listOfEmailRecipients, listOfAttachments);
-                    _emailSender.SendEmailAsync(mailMessage);
-
-                }
-            }
-
-            
+            SendNotifications(project.Id, 1, userId);
 
         }
 
 
-        private string GenerateHtml(Notification notification)
-        {
-            var html = $"Powiadomienie programu <strong> MWProject </strong> <br />";
-
-            html += $@"<table border=1 cellpadding=5  cellspacing=1>";
-
-            html +=
-                $@"<tr>
-                    <td align=center bgcolor=lightgrey> Powiadomienie </td>
-                    <td align=center bgcolor=white> <strong> {notification.TypeOfNotification.Name} </strong> </td>                    
-                    
-                </tr>
-                ";
-
-
-            html +=
-                $@"<tr>
-                    <td align=center bgcolor=lightgrey>Tytuł</td>
-                    <td align=center bgcolor=white> {notification?.Project?.Title}</td>                    
-                    
-                </tr>
-                ";
-
-
-            html +=
-                $@"<tr>
-                    <td align=center bgcolor=lightgrey>Numer</td>                    
-                    <td align=center bgcolor=white> {notification?.Project?.Number}</td>
-                </tr>
-                ";
-
-
-            html +=
-                $@"<tr>
-                    <td align=center bgcolor=lightgrey>Wnioskujący</td>                    
-                    <td align=center bgcolor=white> {notification?.Project?.User?.Email}</td>
-                </tr>
-                ";
-
-            //var Url = Microsoft.AspNetCore.Html.ActionLink("Project", "Project", new { id = notification.Project.Id });
-
-
-            // var link = _urlHelper.ActionLink("Project", "Project", new { id = notification.Project.Id });
-            var link = $@"http://192.168.1.186/mwproject/Project/Project/{notification.Project.Id}";
-
-            html +=
-                $@"<tr>
-                    <td align=center bgcolor=lightgrey>Link</td>                    
-                    <td align=center bgcolor=white>
-                    {link}
-                    </td>
-                </tr>
-                ";
-
-
-            html += $@"</table> <br /> <br /> <i>Automatyczna wiadomość wysłana z aplikacji MWProject</i>";
-
-            return html;
-        }
 
         public void UpdateProject(Project project, string userId)
         {
@@ -242,6 +124,242 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.NewProject(userId);
         }
 
+
+
+        #region wysyłanie powiadomień via e-mail
+        private void SendNotifications(int projectId, int typeOfNotification, string userId)
+        {
+            var projectToSend = _unitOfWork.Project.GetProject(projectId, userId);
+            var notificationsToSend = projectToSend.Notifications
+                .Where(x => x.Confirmed == false
+                && x.TypeOfNotificationId == typeOfNotification
+                && x.Sent == false);
+
+            if (notificationsToSend.Any())
+            {
+                foreach (var notification in notificationsToSend)
+                {
+
+                    string subject = $"MWProject: {notification.TypeOfNotification.Name} / {notification.Project.Number}";
+                    string message = GenerateHtml(notification);
+                    var listOfEmailRecipients = new List<string>()
+                {
+                    $"{notification.User.Email}"
+                };
+
+                    var listOfAttachments = new List<string>();
+
+                    var mailMessage = _emailSender.CreateMailMessage(subject, message, listOfEmailRecipients, listOfAttachments);
+                    _emailSender.SendEmailAsync(mailMessage);
+                    notification.Sent = true;
+                    _unitOfWork.Complete();
+
+                }
+            }
+        }
+
+        #endregion
+
+        #region generowanie powiadomień
+
+        private void GenerateNotificationsNewRequest(int projectId, string userId)
+        {
+
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == userId);
+
+
+            var usersToNotifications = allUsers
+                .Where(x => x.NewProjectEmailNotification).ToList();
+
+            var manager = allUsers
+                .SingleOrDefault(x => x.Id == currentUser.ManagerId);
+
+            if (manager != null)
+            {
+                usersToNotifications.Add(manager);
+            }
+
+
+
+            // var Url = Microsoft.AspNetCore.Html.ActionLink("Project", "Project", new { id = notification.Project.Id });
+            // var link = _urlHelper.ActionLink("Project", "Project", new { id = notification.Project.Id });
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 1,
+                        Content = $"utworzono nowy projekt: {project.Title}",
+                        Link = link,
+                        ToDo = "",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+        }
+        private void GenerateNotificationsAllTabsAreConfirmed(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var usersToNotifications = allUsers
+                .Where(x => x.NewProjectEmailNotification).ToList();
+
+            var manager = allUsers
+                .SingleOrDefault(x => x.Id == currentUser.ManagerId);
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (manager != null)
+            {
+                usersToNotifications.Add(manager);
+            }
+
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 2,
+                        Content = $"Uzupełniono wszystkie zakładki informacyjne",
+                        Link = link,
+                        ToDo = "Proszę potwierdzić Wniosek Projektowy",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
+        #endregion
+
+        #region potwierdzanie wniosku projektowego
+        public void ConfirmRequest(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmRequest(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawRequestConfimration(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawRequestConfimration(id, userId);
+            _unitOfWork.Complete();
+        }
+        #endregion
+
+        #region potwierdzenie Projektu
+        // potwierdzony projekt będzie widoczny jako gotowy do akceptacji przez Szefa
+        public void ConfirmProject(int id, string userId)
+        {
+
+            _unitOfWork.Project.ConfirmProject(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawProjectConfimration(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawProjectConfimration(id, userId);
+            _unitOfWork.Complete();
+        }
+        #endregion
+
+        #region akceptacja Projektu przez szefa
+        public void AcceptProject(int id, string userId)
+        {
+            _unitOfWork.Project.AcceptProject(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawProjectAcceptance(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawProjectAcceptance(id, userId);
+            _unitOfWork.Complete();
+        }
+        #endregion
+
+        #region potwierdzenie informacji ekonomicznych
+        public void ConfirmEconomicRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmEconomicRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfEconomicRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfEconomicRequirements(id, userId);
+            _unitOfWork.Complete();
+        }
+        #endregion
+
+        #region potwierdzanie kalkulacji TKW
+        public void ConfirmCalculation(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmCalculation(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfCalculation(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfCalculation(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        #endregion
+
+        #region potwierdzanie zespołu projektowego
+        public void ConfirmProjectTeam(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmProjectTeam(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        public void WithdrawConfirmationOfProjectTeam(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfProjectTeam(id, userId);
+            _unitOfWork.Complete();
+        }
+
+        #endregion 
+
+        #region wczytanie domyślnych informacji do zakładek informacyjnych
+
+        public void AddGeneralRequirementsToProject(Project project)
+        {
+            _unitOfWork.Project.AddGeneralRequirementsToProject(project);
+            _unitOfWork.Complete();
+        }
         public void AddTechnicalPropertiesToProject(Project project)
         {
             _unitOfWork.Project.AddTechnicalPropertiesToProject(project);
@@ -260,27 +378,40 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Complete();
         }
 
-        public void AcceptProject(int id, string userId)
+        public void AddNewTechnicalProperitiesAndRequirementsToAllProjects(string userId)
         {
-            _unitOfWork.Project.AcceptProject(id, userId);
+            var projects = _unitOfWork.Project.GetAllProjects(userId);
+            foreach (var project in projects)
+            {
+                if (project.CategoryId == 1)
+                {
+                    AddEconomicRequirementsToProject(project);
+                    AddQualityRequirementsToProject(project);
+                    AddGeneralRequirementsToProject(project);
+                    AddTechnicalPropertiesToProject(project);
+                }
+            }
+        }
+        #endregion
+
+        #region potwierdzanie informacji w zakładkach informacyjnych
+        // sprawdzamy czy są potwierdzone wszystkie zakładki
+        // jeżeli tak to wysyłamy maila z powiadomieniem
+        // i aktywujemy funkcję potwierdzenia całego wniosku
+        public void ConfirmTechnicalProperties(int id, string userId)
+        {
+            _unitOfWork.Project.ConfirmTechnicalProperties(id, userId);
             _unitOfWork.Complete();
+            if (CheckIfAllTabsAreConfirmed(id, userId))
+            {
+                GenerateNotificationsAllTabsAreConfirmed(id, userId);
+                SendNotifications(id, 2, userId);
+            }
         }
 
-        public void WithdrawProjectAcceptance(int id, string userId)
+        public void WithdrawConfirmationOfTechnicalProperties(int id, string userId)
         {
-            _unitOfWork.Project.WithdrawProjectAcceptance(id, userId);
-            _unitOfWork.Complete();
-        }
-
-        public void ConfirmCalculation(int id, string userId)
-        {
-            _unitOfWork.Project.ConfirmCalculation(id, userId);
-            _unitOfWork.Complete();
-        }
-
-        public void WithdrawConfirmationOfCalculation(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawConfirmationOfCalculation(id, userId);
+            _unitOfWork.Project.WithdrawConfirmationOfTechnicalProperties(id, userId);
             _unitOfWork.Complete();
         }
 
@@ -288,31 +419,45 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.ConfirmEstimatedSales(id, userId);
             _unitOfWork.Complete();
+            if (CheckIfAllTabsAreConfirmed(id, userId))
+            {
+                GenerateNotificationsAllTabsAreConfirmed(id, userId);
+                SendNotifications(id, 2, userId);
+            }
         }
-
         public void WithdrawConfirmationOfEstimatedSales(int id, string userId)
         {
             _unitOfWork.Project.WithdrawConfirmationOfEstimatedSales(id, userId);
             _unitOfWork.Complete();
         }
 
-        public void ConfirmProject(int id, string userId)
+        public void ConfirmGeneralRequirements(int id, string userId)
         {
+            _unitOfWork.Project.ConfirmGeneralRequirements(id, userId);
+            _unitOfWork.Complete();
+            if (CheckIfAllTabsAreConfirmed(id, userId))
+            {
+                GenerateNotificationsAllTabsAreConfirmed(id, userId);
+                SendNotifications(id, 2, userId);
+            }
+        }
 
-            _unitOfWork.Project.ConfirmProject(id, userId);
+        public void WithdrawConfirmationOfGeneralRequirements(int id, string userId)
+        {
+            _unitOfWork.Project.WithdrawConfirmationOfGeneralRequirements(id, userId);
             _unitOfWork.Complete();
         }
 
-        public void WithdrawProjectConfimration(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawProjectConfimration(id, userId);
-            _unitOfWork.Complete();
-        }
 
         public void ConfirmQualityRequirements(int id, string userId)
         {
             _unitOfWork.Project.ConfirmQualityRequirements(id, userId);
             _unitOfWork.Complete();
+            if (CheckIfAllTabsAreConfirmed(id, userId))
+            {
+                GenerateNotificationsAllTabsAreConfirmed(id, userId);
+                SendNotifications(id, 2, userId);
+            }
         }
 
         public void WithdrawConfirmationOfQualityRequirements(int id, string userId)
@@ -321,29 +466,18 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Complete();
         }
 
-        public void ConfirmEconomicRequirements(int id, string userId)
+        private bool CheckIfAllTabsAreConfirmed(int id, string userId)
         {
-            _unitOfWork.Project.ConfirmEconomicRequirements(id, userId);
-            _unitOfWork.Complete();
-        }
+            var project = _unitOfWork.Project.GetProject(id, userId);
 
-        public void WithdrawConfirmationOfEconomicRequirements(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawConfirmationOfEconomicRequirements(id, userId);
-            _unitOfWork.Complete();
+            return project.IsTechnicalProportiesConfirmed
+            && project.IsGeneralRequirementsConfirmed
+            && project.IsEstimatedSalesConfirmed
+            && project.IsQualityRequirementsConfirmed;
         }
+        #endregion
 
-        public void ConfirmTechnicalProperties(int id, string userId)
-        {
-            _unitOfWork.Project.ConfirmTechnicalProperties(id, userId);
-            _unitOfWork.Complete();
-        }
-
-        public void WithdrawConfirmationOfTechnicalProperties(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawConfirmationOfTechnicalProperties(id, userId);
-            _unitOfWork.Complete();
-        }
+        #region priorytet projektu
 
         public void CalculatePriorityOfProject(int id, string userId)
         {
@@ -500,21 +634,81 @@ namespace MwProject.Persistence.Services
             }
         }
 
-        public void AddNewTechnicalProperitiesAndRequirementsToAllProjects(string userId)
-        {
-            var projects = _unitOfWork.Project.GetAllProjects(userId);
-            foreach (var project in projects)
-            {
-                if (project.CategoryId == 1)
-                {
-                    AddEconomicRequirementsToProject(project);
-                    AddQualityRequirementsToProject(project);
-                    AddGeneralRequirementsToProject(project);
-                    AddTechnicalPropertiesToProject(project);
-                }
-            }
-        }
+        #endregion
 
+        #region generowanie treści HTML z powiadomieniem
+
+        private string GenerateHtml(Notification notification)
+        {
+            var html = $"Powiadomienie programu <strong> MWProject </strong> <br />";
+
+
+            html += $@"<table border=1 cellpadding=5  cellspacing=1>";
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey> Powiadomienie </td>
+                    <td align=center bgcolor=white> <strong> {notification.TypeOfNotification.Name} </strong> </td>                    
+                    
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Tytuł</td>
+                    <td align=center bgcolor=white> {notification?.Project?.Title}</td>                    
+                    
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Numer</td>                    
+                    <td align=center bgcolor=white> {notification?.Project?.Number}</td>
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Wnioskujący</td>                    
+                    <td align=center bgcolor=white> {notification?.Project?.User?.Email}</td>
+                </tr>
+                ";
+
+
+            html +=
+                $@"<tr>
+                    <td align=center bgcolor=lightgrey>Link</td>                    
+                    <td align=center bgcolor=white>
+                    {notification?.Link}
+                    </td>
+                </tr>
+                ";
+
+            if (!string.IsNullOrEmpty(notification.ToDo))
+            {
+
+
+                html +=
+                    $@"<tr>
+                    <td align=center bgcolor=lightgrey>Do zrobienia</td>                    
+                    <td align=center bgcolor=white>
+                    {notification?.ToDo}
+                    </td>
+                </tr>
+                ";
+            }
+
+            html += $@"</table> <br /> <br /> <i>Automatyczna wiadomość wysłana z aplikacji MWProject</i>";
+
+            return html;
+        }
+        #endregion
+
+        #region wysyłanie do Excela
         public void ExportProjectsToExcel(IEnumerable<Project> projects)
         {
             // PM> Install-Package ClosedXML
@@ -546,36 +740,8 @@ namespace MwProject.Persistence.Services
                 workbook.SaveAs("ListOfProjects.xlsx");
             }
         }
+        #endregion
 
-        public void ConfirmGeneralRequirements(int id, string userId)
-        {
-            _unitOfWork.Project.ConfirmGeneralRequirements(id, userId);
-            _unitOfWork.Complete();
-        }
-
-        public void WithdrawConfirmationOfGeneralRequirements(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawConfirmationOfGeneralRequirements(id, userId);
-            _unitOfWork.Complete();
-        }
-
-        public void AddGeneralRequirementsToProject(Project project)
-        {
-            _unitOfWork.Project.AddGeneralRequirementsToProject(project);
-            _unitOfWork.Complete();
-        }
-
-        public void ConfirmProjectTeam(int id, string userId)
-        {
-            _unitOfWork.Project.ConfirmProjectTeam(id, userId);
-            _unitOfWork.Complete();
-        }
-
-        public void WithdrawConfirmationOfProjectTeam(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawConfirmationOfProjectTeam(id, userId);
-            _unitOfWork.Complete();
-        }
 
         public int NewRawNumber(int projectCategory, DateTime? createdDate)
         {
@@ -592,14 +758,6 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.Project.GetPageNumber(projectFilter, categoryId, userId, itemPerPage, projectId);
         }
 
-        public void ConfirmRequest(int id, string userId)
-        {
-            _unitOfWork.Project.ConfirmRequest(id, userId);
-        }
-
-        public void WithdrawRequestConfimration(int id, string userId)
-        {
-            _unitOfWork.Project.WithdrawRequestConfimration(id, userId);
-        }
+        
     }
 }

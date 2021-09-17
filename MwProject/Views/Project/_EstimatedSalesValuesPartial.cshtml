@@ -5,18 +5,15 @@
     var estimatedSalesValues = Model.Project.EstimatedSalesValues;
 
     bool canEdit = Model.CurrentUser.CanEditEstimatedSales
-      && !Model.Project.IsAccepted
-      && !Model.Project.IsConfirmed
       && !Model.Project.IsEstimatedSalesConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmEstimatedSales
-        && !Model.Project.IsAccepted
+        && !Model.Project.IsRequestConfirmed
         && !Model.Project.IsConfirmed
-        && Model.Project.IsEstimatedSalesConfirmed;
+        && !Model.Project.IsAccepted
+        &&  Model.Project.IsEstimatedSalesConfirmed;
 
     bool canAccept = Model.CurrentUser.CanEditEstimatedSales
-        && !Model.Project.IsAccepted
-        && !Model.Project.IsConfirmed
         && !Model.Project.IsEstimatedSalesConfirmed;
 }
 

@@ -9,18 +9,15 @@
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
 
     bool canEdit = Model.CurrentUser.CanEditGeneralRequirements
-         && !Model.Project.IsAccepted
-         && !Model.Project.IsConfirmed
          && !Model.Project.IsGeneralRequirementsConfirmed;
 
-    bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmGeneralRequirements
-        && !Model.Project.IsAccepted
+    bool canWithdrawConfirmation = Model.CurrentUser.CanConfirmGeneralRequirements
+        && !Model.Project.IsRequestConfirmed
         && !Model.Project.IsConfirmed
-        && Model.Project.IsGeneralRequirementsConfirmed;
+        && !Model.Project.IsAccepted
+        &&  Model.Project.IsGeneralRequirementsConfirmed;
 
-    bool canAccept = Model.CurrentUser.CanConfirmGeneralRequirements
-        && !Model.Project.IsAccepted
-        && !Model.Project.IsConfirmed
+    bool canConfirm = Model.CurrentUser.CanConfirmGeneralRequirements
         && !Model.Project.IsGeneralRequirementsConfirmed;
 }
 
@@ -59,7 +56,7 @@
                 </button>
             }
 
-            @if (canAccept)
+            @if (canConfirm)
             {
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="confirmGeneralRequirements('@Model.Project.Id',this)">
@@ -67,7 +64,7 @@
                 </button>
             }
 
-            @if (canWithdrawAcceptation)
+            @if (canWithdrawConfirmation)
             {
                 <button class="btn btn-outline-warning btn-sm"
                         onclick="withdrawConfirmationOfGeneralRequirements('@Model.Project.Id',this)">

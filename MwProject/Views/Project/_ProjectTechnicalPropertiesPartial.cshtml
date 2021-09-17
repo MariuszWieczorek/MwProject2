@@ -9,18 +9,15 @@
 
 
     bool canEdit = Model.CurrentUser.CanEditTechnicalProperties
-        && !Model.Project.IsAccepted
-        && !Model.Project.IsConfirmed
         && !Model.Project.IsTechnicalProportiesConfirmed;
 
     bool canWithdrawAcceptation = Model.CurrentUser.CanConfirmTechnicalProperties
-        && !Model.Project.IsAccepted
+        && !Model.Project.IsRequestConfirmed
         && !Model.Project.IsConfirmed
+        && !Model.Project.IsAccepted
         && Model.Project.IsTechnicalProportiesConfirmed;
 
     bool canAccept = Model.CurrentUser.CanConfirmTechnicalProperties
-        && !Model.Project.IsAccepted
-        && !Model.Project.IsConfirmed
         && !Model.Project.IsTechnicalProportiesConfirmed;
 
 }
