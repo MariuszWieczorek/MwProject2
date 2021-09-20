@@ -707,6 +707,44 @@ namespace MwProject.Controllers
                 , new { id = project.Id, tab = "projectmanager" });
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult FinancialComments(ProjectViewModel projectViewModel)
+        {
+            var project = projectViewModel.Project;
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+            var applicationUsers = _userService.GetUsers(null, null);
+
+            if (!ModelState.IsValid)
+            {
+
+
+                var vm = new ProjectViewModel()
+                {
+                    Project = projectViewModel.Project,
+                    Categories = _categoryService.GetCategories(),
+                    ProductGroups = _productGroupService.GetProductGroups(),
+                    RankingCategories = rankingCategories,
+                    ApplicationUsers = applicationUsers,
+                    CurrentUser = currentUser,
+                    Heading = projectViewModel.Project.Id == 0 ? "Nowy Projekt" :
+                        $"lp: {projectViewModel.Project.OrdinalNumber} numer: {projectViewModel.Project.Number}",
+
+                };
+
+                // gdy nie przeszła walidacja wracamy do ekranu edycji
+                return View("ProjectPriority", vm);
+            }
+
+            // jeżeli wszystko ok to zapisujemy projekt
+            _projectService.UpdateFinancialComments(project, userId);
+
+            return RedirectToAction("Project", "Project"
+                , new { id = project.Id, tab = "financial" });
+        }
         [HttpPost]
         public IActionResult DeleteProject(int id)
         {

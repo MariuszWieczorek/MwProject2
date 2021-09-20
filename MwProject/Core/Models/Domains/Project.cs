@@ -40,6 +40,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Nr")]
         public int No { get; set; }
 
+        
+        
         [Display(Name = "Cel projektu - szczegóły")]
         public string DescriptionOfPurpose { get; set; }
 
@@ -48,6 +50,12 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Uwagi / komentarze")]
         public string Comment { get; set; }
+
+
+        [Display(Name = "Uwagi finansowe")]
+        public string FinancialComments { get; set; }
+
+
 
         [Display(Name = "Klient / Dział")]
         public string Client { get; set; }

@@ -62,27 +62,22 @@
                     <!-- Pierwsza kolumna formularza -->
                     <div class="col-lg-6">
                         <div class="form-group mb-3">
-                            @if (canSetProjectManager)
+                            @if(canSetProjectManager)
                             {
-                                @Html.LabelFor(x => x.Project.ProjectManagerId)
+                            @Html.LabelFor(x => x.Project.ProjectManagerId)
                             @Html.DropDownListFor(x => x.Project.ProjectManagerId,
-                                                    new SelectList(Model.ApplicationUsers, "Id", "UserName"),
-                                                    "--- Wybierz kierownika projektu ---",
-                                                    new { @class = "form-control",
-                                                        autofocus = "autofocus",
-                                                        Style = "background:#eeffee; font-weight:bold" })
+                                           new SelectList(Model.ApplicationUsers, "Id", "UserName"),
+                                           "--- Wybierz kierownika projektu ---",
+                                           new { @class = "form-control", autofocus = "autofocus", Style = "background:#eeffee; font-weight:bold" })
                             @Html.ValidationMessageFor(x => x.Project.ProjectManagerId)
                             }
                             else
                             {
                             @Html.LabelFor(x => x.Project.ProjectManagerId)
                             @Html.DropDownListFor(x => x.Project.ProjectManagerId,
-                             new SelectList(Model.ApplicationUsers, "Id", "UserName"),
-                             "--- Wybierz kierownika projektu ---",
-                             new { @class = "form-control",
-                                 autofocus = "autofocus",
-                                 @disabled = "disabled",
-                                 Style = "font-weight:bold" });
+                                           new SelectList(Model.ApplicationUsers, "Id", "UserName"),
+                                           "--- Wybierz kierownika projektu ---",
+                                           new { @class = "form-control", autofocus = "autofocus", @disabled="disabled",Style = "background:#eeffee; font-weight:bold" })
                             @Html.ValidationMessageFor(x => x.Project.ProjectManagerId)
                             }
                         </div>

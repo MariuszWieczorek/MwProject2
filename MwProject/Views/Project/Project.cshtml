@@ -7,6 +7,8 @@
 
     bool NewProject = (Model.Project.Id == 0);
 
+    bool currentUserIsProjectManager =  String.Equals(Model.CurrentUser.Id,Model.Project.ProjectManagerId);
+
 
     bool canConfirmRequest = !Model.Project.IsRequestConfirmed
                    && Model.Project.IsTechnicalProportiesConfirmed
@@ -23,16 +25,18 @@
 
 
     bool canConfirm = !Model.Project.IsConfirmed
+                   && Model.Project.IsCalculationConfirmed
+                   && Model.Project.IsEconomicRequirementsConfirmed
                    &&  Model.Project.IsRequestConfirmed           
                    && !Model.Project.IsAccepted
-                   && Model.CurrentUser.CanConfirmProject;
+                   && (Model.CurrentUser.CanConfirmProject || currentUserIsProjectManager);
 
 
 
 
     bool canWithdrawConfirmation = Model.Project.IsConfirmed
                    && !Model.Project.IsAccepted
-                   && Model.CurrentUser.CanConfirmProject;
+                   && (Model.CurrentUser.CanConfirmProject || currentUserIsProjectManager);
 
 
     bool canAccept = !Model.Project.IsAccepted
@@ -41,6 +45,8 @@
 
     bool canWithdrawAcceptation = Model.Project.IsAccepted
                                && Model.CurrentUser.CanAcceptProject;
+
+    
 
 
 }
@@ -98,7 +104,7 @@
                 </button>
             }
 
-            @if (canWithdrawRequestConfirmation)
+            @if (canWithdrawRequestConfirmation && Model.Project.ProjectManagerId is null)
             {
                 <button class="btn btn-success mb-3" onclick="withdrawRequestConfirmation()">
                     Wycofaj Potwierdzenie Wniosku
@@ -265,7 +271,7 @@
             }
 
 
-            @if (!NewProject && Model.Project.IsRequestConfirmed)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -283,8 +289,26 @@
             }
 
 
+              @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-primary"
+                            id="financial-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#financial"
+                            type="button"
+                            role="tab"
+                            aria-controls="financial"
+                            aria-selected="false"
+                            Style="background:#bbfbfb; font-weight:bold">
+                        Finansowe
+                    </button>
+                </li>
 
-            @if (!NewProject  && Model.Project.IsRequestConfirmed)
+            }
+
+
+             @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -302,7 +326,9 @@
 
             }
 
-            @if (!NewProject  && Model.Project.IsRequestConfirmed)
+
+
+             @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -321,7 +347,7 @@
             }
 
 
-            @if (!NewProject  && Model.Project.IsRequestConfirmed)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-danger"
@@ -339,7 +365,7 @@
             }
 
 
-            @if (!NewProject  && Model.Project.IsRequestConfirmed)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"
@@ -358,7 +384,7 @@
             }
 
 
-            @if (!NewProject  && Model.Project.IsRequestConfirmed)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"
@@ -376,7 +402,7 @@
             }
 
 
-            @if (!NewProject  && Model.Project.IsRequestConfirmed)
+             @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"
@@ -597,6 +623,18 @@
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
                            @await Html.PartialAsync("_ProjectManagerPartial", Model) 
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- zakładka z uwagami finansowymi -->
+            <div class="tab-pane fade" id="financial" role="tabpanel" aria-labelledby="financial-tab">
+                @if (Model.Project.Id != 0)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+                           @await Html.PartialAsync("_FinancialCommentsPartial", Model) 
                         </div>
                     </div>
                 }

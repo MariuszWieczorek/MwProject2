@@ -307,6 +307,258 @@ namespace MwProject.Persistence.Services
 
         }
 
+        private void GenerateNotificationsProjectManagerIsSet(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var projectManager = allUsers
+            .SingleOrDefault(x => x.Id == project.ProjectManagerId);
+
+            var usersToNotifications = allUsers
+                .Where(x => x.Id == project.ProjectManagerId).ToList();
+
+
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 4,
+                        Content = $"Project Manager {projectManager.Email} został wybrany",
+                        Link = link,
+                        ToDo = @$"Project manager proszony jest o <br /> 
+                            - przygotowanie informacji niezbędnych do TKW <br />
+                            - wypełnienie zakładki informacje ekonomiczne <br />
+                            - powiadomienie o przygotowanych danych działu finansowego <br />
+                            - wypełnienie pozostałych zakładek: <br />
+                            - ocena ryzyka, zespół projektowy, interesariusze  <br />",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
+        private void GenerateNotificationsFinancialDataIsReady(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var projectManager = allUsers
+            .SingleOrDefault(x => x.Id == project.ProjectManagerId);
+
+            var usersToNotifications = allUsers
+                .Where(x => x.Id == project.ProjectManagerId || x.CanConfirmCalculations || x.CanConfirmEconomicRequirements).ToList();
+
+
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 5,
+                        Content = $"Dane dla działu finansowego są przygotowane",
+                        Link = link,
+                        ToDo = @$"Dział Finansowy jest proszony o <br /> 
+                            - zweryfikowanie, uzupełnienie i potwierdzenie zakładki dane ekonomiczne <br />
+                            - zweryfikowanie, uzupełnienie i potwierdzenie zakładki kalkulacja TKW <br />
+                            ",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
+
+        // GenerateNotificationsTkwAndEconomicDataAreConfirmed
+
+        private void GenerateNotificationsTkwAndEconomicDataAreConfirmed(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var projectManager = allUsers
+            .SingleOrDefault(x => x.Id == project.ProjectManagerId);
+
+            var usersToNotifications = allUsers
+                .Where(x => x.Id == project.ProjectManagerId).ToList();
+
+
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 6,
+                        Content = $"Dane ekonomiczne i kalkulacja TKW została potwierdzona",
+                        Link = link,
+                        ToDo = @$"Project manager proszony jest o <br /> 
+                            - powtórne zweryfikowanie całości Projektu <br />
+                            - potwierdzenie Projektu <br />
+                            ",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
+
+        private void GenerateNotificationsProjectIsConfirmed(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var projectManager = allUsers
+            .SingleOrDefault(x => x.Id == project.UserId);
+
+            var usersToNotifications = allUsers
+                .Where(x => x.CanAcceptProject).ToList();
+
+
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 7,
+                        Content = $"Projekt został zweryfikowany i potwierdzony przez PM",
+                        Link = link,
+                        ToDo = @$"Sponsor Projektu proszony jest o <br /> 
+                            - Zaakceptowanie lub Odrzucenie Projektu <br />
+                            ",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
+
+        // GenerateNotificationsProjectIsAccepted
+
+        private void GenerateNotificationsProjectIsAccepted(int projectId, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(projectId, userId);
+
+            var allUsers = _unitOfWork.UserRepository
+                .GetUsers(new UsersFilter(), new PagingInfo())
+                .ToList();
+
+            var currentUser = allUsers
+                .Single(x => x.Id == project.UserId);
+
+
+            var projectManager = allUsers
+            .SingleOrDefault(x => x.Id == project.ProjectManagerId);
+
+            var usersToNotifications = allUsers
+                .Where(x => x.Id == project.ProjectManagerId).ToList();
+
+
+
+            string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
+
+            if (usersToNotifications.Any())
+            {
+                foreach (var user in usersToNotifications)
+                {
+                    var notification = new Notification()
+                    {
+                        ProjectId = project.Id,
+                        UserId = user.Id,
+                        TimeOfNotification = DateTime.Now,
+                        TypeOfNotificationId = 8,
+                        Content = $"Projekt został zaakceptowany",
+                        Link = link,
+                        ToDo = @$"Project manager proszony jest o <br /> 
+                            - start realizacji projektu <br />
+                            ",
+                        Sent = false
+                    };
+                    _unitOfWork.NotificationRepository.AddNotification(notification);
+                }
+            }
+
+
+            _unitOfWork.Complete();
+
+        }
+
         #endregion
 
         #region potwierdzanie Wniosku Projektowego
@@ -325,13 +577,16 @@ namespace MwProject.Persistence.Services
         }
         #endregion
 
-        #region potwierdzenie Projektu
+        #region potwierdzenie Projektu przez PM
         // potwierdzony projekt będzie widoczny jako gotowy do akceptacji przez Szefa
         public void ConfirmProject(int id, string userId)
         {
 
             _unitOfWork.Project.ConfirmProject(id, userId);
             _unitOfWork.Complete();
+            GenerateNotificationsProjectIsConfirmed(id, userId);
+            _unitOfWork.Complete();
+            SendNotifications(id, 7, userId);
         }
 
         public void WithdrawProjectConfimration(int id, string userId)
@@ -341,11 +596,14 @@ namespace MwProject.Persistence.Services
         }
         #endregion
 
-        #region akceptacja Projektu przez szefa
+        #region akceptacja Projektu przez Szefa
         public void AcceptProject(int id, string userId)
         {
             _unitOfWork.Project.AcceptProject(id, userId);
             _unitOfWork.Complete();
+            GenerateNotificationsProjectIsAccepted(id, userId);
+            _unitOfWork.Complete();
+            SendNotifications(id, 8, userId);
         }
 
         public void WithdrawProjectAcceptance(int id, string userId)
@@ -360,6 +618,11 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.ConfirmEconomicRequirements(id, userId);
             _unitOfWork.Complete();
+            if (CheckIfTkwAndEconomicDataAreConfirmed(id, userId))
+            {
+                GenerateNotificationsTkwAndEconomicDataAreConfirmed(id, userId);
+                SendNotifications(id, 6, userId);
+            }
         }
 
         public void WithdrawConfirmationOfEconomicRequirements(int id, string userId)
@@ -374,6 +637,11 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.ConfirmCalculation(id, userId);
             _unitOfWork.Complete();
+            if (CheckIfTkwAndEconomicDataAreConfirmed(id, userId))
+            {
+                GenerateNotificationsTkwAndEconomicDataAreConfirmed(id, userId);
+                SendNotifications(id, 6, userId);
+            }
         }
 
         public void WithdrawConfirmationOfCalculation(int id, string userId)
@@ -440,7 +708,7 @@ namespace MwProject.Persistence.Services
         }
         #endregion
 
-        #region potwierdzanie informacji w zakładkach informacyjnych
+        #region potwierdzanie informacji podstawowych
         // sprawdzamy czy są potwierdzone wszystkie zakładki
         // jeżeli tak to wysyłamy maila z powiadomieniem
         // i aktywujemy funkcję potwierdzenia całego wniosku
@@ -521,6 +789,7 @@ namespace MwProject.Persistence.Services
             && project.IsEstimatedSalesConfirmed
             && project.IsQualityRequirementsConfirmed;
         }
+
         #endregion
 
         #region priorytet projektu
@@ -734,6 +1003,21 @@ namespace MwProject.Persistence.Services
                 </tr>
                 ";
 
+
+            if (!string.IsNullOrEmpty(notification.Content))
+            {
+
+
+                html +=
+                    $@"<tr>
+                    <td align=center bgcolor=lightgrey>Treść</td>                    
+                    <td align=center bgcolor=white>
+                    {notification?.Content}
+                    </td>
+                </tr>
+                ";
+            }
+
             if (!string.IsNullOrEmpty(notification.ToDo))
             {
 
@@ -808,6 +1092,31 @@ namespace MwProject.Persistence.Services
         {
             _unitOfWork.Project.UpdateProjectManager(project, userId);
             _unitOfWork.Complete();
+
+            GenerateNotificationsProjectManagerIsSet(project.Id, userId);
+            _unitOfWork.Complete();
+            SendNotifications(project.Id, 4, userId);
+
+        }
+
+        public void UpdateFinancialComments(Project project, string userId)
+        {
+            _unitOfWork.Project.UpdateFinancialComments(project, userId);
+            _unitOfWork.Complete();
+
+            GenerateNotificationsFinancialDataIsReady(project.Id, userId);
+            _unitOfWork.Complete();
+            SendNotifications(project.Id, 5, userId);
+
+        }
+
+        private bool CheckIfTkwAndEconomicDataAreConfirmed(int id, string userId)
+        {
+            var project = _unitOfWork.Project.GetProject(id, userId);
+
+            return project.IsEconomicRequirementsConfirmed
+            && project.IsCalculationConfirmed;
+
         }
     }
 }

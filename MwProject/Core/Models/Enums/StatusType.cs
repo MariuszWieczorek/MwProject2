@@ -9,11 +9,11 @@ namespace MwProject.Core.Models.Enums
     {
         
         X,                              // 0
-        UnknownStatus,                  // 1
-        NewProject,                     // 2
-        DataConfirmationInProgres,      // 3
-        ReadyForAcceptance,             // 4
-        ProjectIsAccepted,              // 5
-        ProjectIsRefused                // 6
+        NewProject,                     // 1
+        DataConfirmationInProgres,     // 2
+        RequestIsConfirmed,            //  3
+        ProjectIsConfirmed,            //  4
+        ProjectIsAccepted,             //  6
+        ProjectIsRefused               //  7
     }
 }

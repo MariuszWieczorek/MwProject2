@@ -37,7 +37,7 @@ namespace MwProject.Core.Models.Filters
         [Display(Name = "ukryj zrealizowane")]
         public bool IsExecuted { get; set; } = true;
 
-        [Display(Name = "tylko powiadomienia")]
+        [Display(Name = "tylko nowe powiadomienia")]
         public bool ShowProjectsWithNotifications { get; set; } = false;
 
         [Display(Name = "Kierownik Projektu")]

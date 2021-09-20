@@ -46,6 +46,7 @@ namespace MwProject.Persistence.Repositories
                 Value = 0,
                 OrdinalNumber = ordinalNumber,
                 No = no,
+                ProjectStatusId = (int)StatusType.NewProject,
                 InitiatedBy = $"{user.FirstName} {user.LastName}" 
             };
         }
@@ -195,7 +196,10 @@ namespace MwProject.Persistence.Repositories
                 .ToList();
         }
 
-
+        public IEnumerable<Project> GetAllProjects(string userId)
+        {
+            return _context.Projects.ToList();
+        }
 
         public int GetNumberOfRecords(ProjectsFilter projectsFilter, int categoryId, string userId)
         {
@@ -277,8 +281,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Coordinator = project.Coordinator;
             projectToUpdate.Client = project.Client;
             
-            // nowy produkt, modyfikacja, nie dotyczy 
-            projectToUpdate.ProductStatus = project.ProductStatus;
+            // projectToUpdate.ProductStatus = project.ProductStatus;
 
         }
 
@@ -300,6 +303,7 @@ namespace MwProject.Persistence.Repositories
             if (project.ProjectStatusId != 0)
                 projectToUpdate.ProjectStatusId = project.ProjectStatusId;
             
+            // wybór programu
             if (project.ProjectGroupId != 0)
                 projectToUpdate.ProjectGroupId = project.ProjectGroupId;
 
@@ -327,6 +331,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
         }
 
+
+        #region domyślne listy dodawane do nowego projektu
         public void AddQualityRequirementsToProject(Project project)
         {
             var category = _context.Categories
@@ -434,6 +440,9 @@ namespace MwProject.Persistence.Repositories
             
         }
 
+        #endregion
+
+        #region akceptacja Projektu przez szefa
         public void AcceptProject(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
@@ -449,9 +458,12 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsAccepted = false;
             projectToUpdate.AcceptedDate = null;
             projectToUpdate.AcceptedBy = null;
-            projectToUpdate.ProjectStatusId = (int)StatusType.ReadyForAcceptance;
+            projectToUpdate.ProjectStatusId = (int)StatusType.ProjectIsConfirmed;
         }
 
+        #endregion
+
+        #region potwierdzanie kalkulacji TKW
         public void ConfirmCalculation(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
@@ -467,30 +479,16 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.CalculationConfirmedDate = null;
             projectToUpdate.CalculationConfirmedBy = null;
         }
+        #endregion 
 
-        public void ConfirmEstimatedSales(int id, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
-            projectToUpdate.IsEstimatedSalesConfirmed = true;
-            projectToUpdate.EstimatedSalesConfirmedDate = DateTime.Now;
-            projectToUpdate.EstimatedSalesConfirmedBy = userId;
-        }
-
-        public void WithdrawConfirmationOfEstimatedSales(int id, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
-            projectToUpdate.IsEstimatedSalesConfirmed = false;
-            projectToUpdate.EstimatedSalesConfirmedDate = null;
-            projectToUpdate.EstimatedSalesConfirmedBy = null;
-        }
-
+        #region potwierdzenie Projektu przez PM
         public void ConfirmProject(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
             projectToUpdate.IsConfirmed = true;
             projectToUpdate.ConfirmedDate = DateTime.Now;
             projectToUpdate.ConfirmedBy = userId;
-            projectToUpdate.ProjectStatusId = (int)StatusType.ReadyForAcceptance;
+            projectToUpdate.ProjectStatusId = (int)StatusType.ProjectIsConfirmed;
         }
 
         public void WithdrawProjectConfimration(int id, string userId)
@@ -499,15 +497,18 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.IsConfirmed = false;
             projectToUpdate.ConfirmedDate = null;
             projectToUpdate.ConfirmedBy = null;
-            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
+            projectToUpdate.ProjectStatusId = (int)StatusType.RequestIsConfirmed;
         }
+        #endregion
 
+        #region potwierdzanie informacji podstawowych
         public void ConfirmQualityRequirements(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
             projectToUpdate.IsQualityRequirementsConfirmed = true;
             projectToUpdate.QualityRequirementsConfirmedDate = DateTime.Now;
             projectToUpdate.QualityRequirementsConfirmedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
         }
 
         public void WithdrawConfirmationOfQualityRequirements(int id, string userId)
@@ -518,6 +519,61 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.QualityRequirementsConfirmedBy = null;
         }
 
+
+        public void ConfirmTechnicalProperties(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsTechnicalProportiesConfirmed = true;
+            projectToUpdate.TechnicalProportiesConfirmedDate = DateTime.Now;
+            projectToUpdate.TechnicalProportiesConfirmedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
+        }
+
+        public void WithdrawConfirmationOfTechnicalProperties(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsTechnicalProportiesConfirmed = false;
+            projectToUpdate.TechnicalProportiesConfirmedDate = null;
+            projectToUpdate.TechnicalProportiesConfirmedBy = null;
+        }
+
+        public void ConfirmGeneralRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsGeneralRequirementsConfirmed = true;
+            projectToUpdate.GeneralRequirementsConfirmedDate = DateTime.Now;
+            projectToUpdate.GeneralRequirementsConfirmedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
+        }
+
+        public void WithdrawConfirmationOfGeneralRequirements(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsGeneralRequirementsConfirmed = false;
+            projectToUpdate.GeneralRequirementsConfirmedDate = null;
+            projectToUpdate.GeneralRequirementsConfirmedBy = null;
+        }
+
+        public void ConfirmEstimatedSales(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsEstimatedSalesConfirmed = true;
+            projectToUpdate.EstimatedSalesConfirmedDate = DateTime.Now;
+            projectToUpdate.EstimatedSalesConfirmedBy = userId;
+            projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
+        }
+
+        public void WithdrawConfirmationOfEstimatedSales(int id, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
+            projectToUpdate.IsEstimatedSalesConfirmed = false;
+            projectToUpdate.EstimatedSalesConfirmedDate = null;
+            projectToUpdate.EstimatedSalesConfirmedBy = null;
+        }
+
+        #endregion
+
+        #region potwierdzenie informacji ekonomicznych
         public void ConfirmEconomicRequirements(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
@@ -534,45 +590,9 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.EconomicRequirementsConfirmedBy = null;
         }
 
-        public void ConfirmTechnicalProperties(int id, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
-            projectToUpdate.IsTechnicalProportiesConfirmed = true;
-            projectToUpdate.TechnicalProportiesConfirmedDate = DateTime.Now;
-            projectToUpdate.TechnicalProportiesConfirmedBy = userId;
-        }
-
-        public void WithdrawConfirmationOfTechnicalProperties(int id, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
-            projectToUpdate.IsTechnicalProportiesConfirmed = false;
-            projectToUpdate.TechnicalProportiesConfirmedDate = null;
-            projectToUpdate.TechnicalProportiesConfirmedBy = null;
-        }
-
-        public IEnumerable<Project> GetAllProjects(string userId)
-        {
-            return _context.Projects.ToList();
-        }
-
-        public void ConfirmGeneralRequirements(int id, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
-            projectToUpdate.IsGeneralRequirementsConfirmed = true;
-            projectToUpdate.GeneralRequirementsConfirmedDate = DateTime.Now;
-            projectToUpdate.GeneralRequirementsConfirmedBy = userId;
-        }
-
-        public void WithdrawConfirmationOfGeneralRequirements(int id, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == id);
-            projectToUpdate.IsGeneralRequirementsConfirmed = false;
-            projectToUpdate.GeneralRequirementsConfirmedDate = null;
-            projectToUpdate.GeneralRequirementsConfirmedBy = null;
-        }
-
-       
-
+        #endregion
+      
+        #region potwierdzanie zespołu projektowego
         public void ConfirmProjectTeam(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
@@ -588,6 +608,7 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectTeamConfirmedDate = null;
             projectToUpdate.ProjectTeamConfirmedBy = null;
         }
+        #endregion
 
         public int NewRawNumber(int categoryId, DateTime? createdDate)
         {
@@ -623,13 +644,15 @@ namespace MwProject.Persistence.Repositories
             return (no, number);
         }
 
+
+        #region potwierdzanie Wniosku Projektowego
         public void ConfirmRequest(int id, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == id);
             projectToUpdate.IsRequestConfirmed = true;
             projectToUpdate.RequestConfirmedDate = DateTime.Now;
             projectToUpdate.RequestConfirmedBy = userId;
-            projectToUpdate.ProjectStatusId = (int)StatusType.ReadyForAcceptance;
+            projectToUpdate.ProjectStatusId = (int)StatusType.RequestIsConfirmed;
         }
 
         public void WithdrawRequestConfimration(int id, string userId)
@@ -641,6 +664,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectStatusId = (int)StatusType.DataConfirmationInProgres;
         }
 
+        #endregion
+
         public void UpdateProjectManager(Project project, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
@@ -649,5 +674,14 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectManagerId = project.ProjectManagerId;
            
         }
+        public void UpdateFinancialComments(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+
+
+            projectToUpdate.FinancialComments = project.FinancialComments;
+
+        }
+
     }
 }
