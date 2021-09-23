@@ -48,7 +48,11 @@
                                    asp-action="Index">Home</a>
                             </li>
                         *@
+                        
+                        
+                        @if (User.Identity.IsAuthenticated)
 
+                        {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Zarządzanie
@@ -78,15 +82,6 @@
                                        asp-controller="Project"
                                        asp-action="AddNewTechnicalProperitiesAndRequirementsToAllProjects">Uzupełnij Zakładki wg. Szablonów</a>
                                 </li>
-
-                                @*
-        <li>
-            <a class="dropdown-item"
-               asp-area=""
-               asp-controller="Project"
-               asp-action="ExportProjectsToExcel">do Excela</a>
-        </li>
-                                *@
 
                                 <li>
                                     <a class="dropdown-item"
@@ -125,8 +120,12 @@
 
                             </ul>
                         </li>
+                        }
 
 
+                         @if (User.Identity.IsAuthenticated)    
+
+                         {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Słowniki
@@ -207,6 +206,7 @@
 
                             </ul>
                         </li>
+                         }
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Prywatność</a>
