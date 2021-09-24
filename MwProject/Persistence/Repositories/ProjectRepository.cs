@@ -666,13 +666,17 @@ namespace MwProject.Persistence.Repositories
 
         #endregion
 
-        public void UpdateProjectManager(Project project, string userId)
+        public bool UpdateProjectManager(Project project, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
 
+            if (projectToUpdate.ProjectManagerId != project.ProjectManagerId)
+            {
+                projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+                return true;
+            }
 
-            projectToUpdate.ProjectManagerId = project.ProjectManagerId;
-           
+            return false;
         }
         public void UpdateFinancialComments(Project project, string userId)
         {

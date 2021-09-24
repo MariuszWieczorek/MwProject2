@@ -1090,12 +1090,16 @@ namespace MwProject.Persistence.Services
 
         public void UpdateProjectManager(Project project, string userId)
         {
-            _unitOfWork.Project.UpdateProjectManager(project, userId);
+            var projectManagerWasUpdated = _unitOfWork.Project.UpdateProjectManager(project, userId);
             _unitOfWork.Complete();
 
-            GenerateNotificationsProjectManagerIsSet(project.Id, userId);
-            _unitOfWork.Complete();
-            SendNotifications(project.Id, 4, userId);
+            if (projectManagerWasUpdated)
+            {
+                GenerateNotificationsProjectManagerIsSet(project.Id, userId);
+                _unitOfWork.Complete();
+                SendNotifications(project.Id, 4, userId);
+            }
+
 
         }
 

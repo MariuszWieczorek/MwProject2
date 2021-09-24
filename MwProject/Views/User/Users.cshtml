@@ -39,12 +39,24 @@
 </div>
 
 @* tabela z listą użytkowników *@
+@if (Model.CurrentUser.AdminRights)
+{
+
+
 <div class="row">
     <div class="col-12">
         @await Html.PartialAsync("_UsersTablePartial.cshtml", Model)
     </div>
 </div>
-
+}
+else
+{
+<div class="row">
+    <div class="col-12">
+       <strong> Brak uprawnień do modułu użytkownicy</strong>
+    </div>
+</div>
+}
 
 @section Scripts
 {
