@@ -99,6 +99,7 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.LastName = user.LastName;
             userToUpdate.Possition = user.Possition;
             userToUpdate.PhoneNumber = user.PhoneNumber;
+            userToUpdate.Email = user.Email;
 
             userToUpdate.CanAcceptProject = user.CanAcceptProject;
             userToUpdate.CanConfirmProject = user.CanConfirmProject;

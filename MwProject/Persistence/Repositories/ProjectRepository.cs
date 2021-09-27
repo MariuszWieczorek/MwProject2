@@ -63,7 +63,7 @@ namespace MwProject.Persistence.Repositories
 
         public void DeleteProject(int id, string userId)
         {
-            var projectToDelete = _context.Projects.Single(x => x.Id == id && x.UserId == userId);
+            var projectToDelete = _context.Projects.Single(x => x.Id == id );
             _context.Projects.Remove(projectToDelete);
         }
 
