@@ -1,0 +1,210 @@
+﻿@model MwProject.Core.ViewModels.ProjectsStatisticsViewModel
+@using Microsoft.AspNetCore.Http;
+@using MwProject.Helpers;
+@using MwProject.Core.Models.Filters;
+
+@{
+
+    ProjectsFilter projectFilter;
+    projectFilter = SessionHelper.GetObjectFromJson<ProjectsFilter>(Context.Session, "ProjectsFilter");
+    ViewBag.Title = "Projekty";
+}
+
+<div class="row">
+    <div class="col-10">
+        <h1 class="mb-3 mt-4 display-4">Projekty - Ranking Uczestników</h1>
+    </div>
+
+    <div class="col-2">
+        <div class="mt-2 mb-4 text-muted">
+            <img src="@Url.Content("~/images/podium.png")" style="width: 100px;" />
+        </div>
+    </div>
+</div>
+
+@{
+
+
+    var usersInProjectTeams = Model.ProjectTeamMembers
+        .Where(x=>x.User != null)
+        .GroupBy(a => a.User.UserName)
+        .Select(n => new { Id = n.Key, Count = n.Count() })
+        .OrderByDescending(x => x.Count);
+
+    string[] colorList1 = new string[]
+{
+      "rgba(255, 99, 132, 0.2)",
+      "rgba(255, 159, 64, 0.2)",
+      "rgba(255, 205, 86, 0.2)",
+      "rgba(75, 192, 192, 0.2)",
+      "rgba(54, 162, 235, 0.2)",
+      "rgba(153, 102, 255, 0.2)",
+      "rgba(201, 203, 207, 0.2)"
+        };
+
+    string[] colorList2 = new string[]
+    {
+      "rgb(255, 99, 132)",
+      "rgb(255, 159, 64)",
+      "rgb(255, 205, 86",
+      "rgb(75, 192, 192)",
+      "rgb(54, 162, 235)",
+      "rgb(153, 102, 255)",
+      "rgb(201, 203, 207)"
+            };
+
+
+    string managerNameList = string.Empty;
+    string managerCountList = string.Empty;
+    string managerBackColorList = string.Empty;
+    string managerBorderColorList = string.Empty;
+
+    int counter = 0;
+    foreach (var item in usersInProjectTeams)
+    {
+        string comma = string.IsNullOrEmpty(managerNameList) ? "" : ",";
+
+        string userName = item.Id;
+
+        managerNameList = managerNameList + comma + "'" + userName + "'";
+        managerCountList = managerCountList + comma + item.Count.ToString();
+        if (counter >= 7)
+        {
+            counter = 0;
+        }
+
+        managerBackColorList = managerBackColorList + comma + "'" + colorList1[counter] + "'";
+        managerBorderColorList = managerBorderColorList + comma + "'" + colorList1[counter] + "'";
+
+        counter++;
+    }
+
+}
+
+
+@*
+    <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+        <div class="card-header">Header</div>
+        <div class="card-body">
+            <h5 class="card-title">Danger card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+    </div>
+*@
+
+<div class="row">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">Ranking Uczestników Projektów</div>
+            <div class="card-body">
+                <canvas class="my-4 h-25" id="bar"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">Ranking Uczestników Projeków</div>
+            <div class="card-body">
+                <canvas class="my-4 h-25" id="pie"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script src="~/lib/chart/chart.min.js"></script>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        // ------------------------------------------------------------------------------------------------------
+        // funkcja zostanie wywołana gdy zostanie załadowany już cały widok
+
+        var barChart = document.getElementById('bar').getContext('2d');
+        var myBarChart = new Chart(barChart, {
+            type: 'bar',
+            data: {
+                labels: [@Html.Raw(managerNameList)],
+                datasets: [{
+                    label: 'bar chart',
+                    data: [@Html.Raw(managerCountList)],
+                    backgroundColor: [@Html.Raw(managerBackColorList)],
+                    borderColor: [@Html.Raw(managerBorderColorList)],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+
+        // backgroundColor: 'rgba(6,128,250)'
+
+        var pieChart = document.getElementById('pie').getContext('2d');
+        var myPieChart = new Chart(pieChart, {
+            type: 'pie',
+            data: {
+                labels: [@Html.Raw(managerNameList)],
+                datasets: [{
+                    label: 'pie chart',
+                    data: [@Html.Raw(managerCountList)],
+                    backgroundColor: [@Html.Raw(managerBackColorList)],
+                    borderColor: [@Html.Raw(managerBorderColorList)],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        $(document).ready(function () {
+            // najpierw zaznaczamy formularz o id = filterForm
+            // chcemy aby po kliknięci przycisku zostałą wywołana taka funkcja
+            // a chcemy, żeby za pomocą ajax'a została wywołana odpowiednia funkcja z kontrolera
+            // przesyłamy zserializowane dane z tego formularza
+            // jeżeli zakończone sukcesem, to zostanie zwrócona tabelka z widoku częściowego
+
+            // bajerancki licznik
+            $('.counter-value').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 3500,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now));
+                    }
+                });
+            });
+
+        });
+
+                        // ------------------------------------------------------------------------------------------------------
+
+
+                       // ------------------------------------------------------------------------------------------------------
+
+
+    </script>
+}

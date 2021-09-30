@@ -22,6 +22,18 @@ namespace MwProject.Persistence.Repositories
             return projectTeamMember;
         }
 
+
+        public IEnumerable<ProjectTeamMember> GetProjectTeamMembers()
+        {
+            var projectTeamMembers = _context.ProjectTeamMembers
+                .Include(x => x.User)
+                .Include(x => x.Project)
+                .Where(x=>x.Project.IsExecuted == false)
+                .ToList();
+
+            return projectTeamMembers;
+        }
+
         public ProjectTeamMember NewProjectTeamMember(int projectId, string userId)
         {
             int ordinalNumber = 1;

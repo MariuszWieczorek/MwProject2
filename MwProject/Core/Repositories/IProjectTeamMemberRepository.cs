@@ -9,6 +9,8 @@ namespace MwProject.Core.Repositories
     public interface IProjectTeamMemberRepository
     {
         ProjectTeamMember GetProjectTeamMember(int projectId, int id, string userId);
+
+        public IEnumerable<ProjectTeamMember> GetProjectTeamMembers();
         ProjectTeamMember NewProjectTeamMember(int projectId, string userId);
         void AddProjectTeamMember(ProjectTeamMember projectTeamMember, string userId);
         void UpdateProjectTeamMember(ProjectTeamMember projectTeamMember, string userId);

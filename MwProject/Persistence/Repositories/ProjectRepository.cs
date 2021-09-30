@@ -162,6 +162,9 @@ namespace MwProject.Persistence.Repositories
                 if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
                     projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
+                if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectTeamMemberId))
+                    projects = projects.Where(x => x.ProjectTeamMembers.Any(x => x.UserId == projectsFilter.ProjectTeamMemberId));
+
                 if (!string.IsNullOrWhiteSpace(projectsFilter.RelatedNumbers))
                     projects = projects.Where(x => x.ProjectRequirements.Any(x => x.RelatedNumbers.Contains(projectsFilter.RelatedNumbers)));
             }

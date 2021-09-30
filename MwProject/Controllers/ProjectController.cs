@@ -33,6 +33,7 @@ namespace MwProject.Controllers
         private readonly IProjectStatusService _projectStatusService;
         private readonly IProjectGroupService _projectGroupService;
         private readonly INotificationService _notificationService;
+        private readonly IProjectTeamMemberService _projectTeamMemberService;
 
         private readonly int _itemPerPage = 10;
 
@@ -45,7 +46,8 @@ namespace MwProject.Controllers
                                  IRankingElementService rankingElementService,
                                  IProjectStatusService projectStatusService,
                                  IProjectGroupService projectGroupService,
-                                 INotificationService notificationService
+                                 INotificationService notificationService,
+                                 IProjectTeamMemberService projectTeamMemberService
                                 )
         {
             _projectService = projectService;
@@ -57,6 +59,7 @@ namespace MwProject.Controllers
             _projectStatusService = projectStatusService;
             _projectGroupService = projectGroupService;
             _notificationService = notificationService;
+            _projectTeamMemberService = projectTeamMemberService;
         }
 
         #endregion
@@ -283,6 +286,51 @@ namespace MwProject.Controllers
             return View(vm);
         }
 
+
+        public IActionResult UsersInTeamsCharts(int currentPage = 1, int categoryId = 0)
+        {
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            var applicationUsers = _userService.GetUsers(null, null);
+            var projectStatuses = _projectStatusService.GetProjectStatuses();
+            var projectGroups = _projectGroupService.GetProjectGroups();
+            var projectFilter = new ProjectsFilter();
+            var projectTeamMembers = _projectTeamMemberService.GetProjectTeamMembers();
+
+
+            int numberOfRecords = _projectService.GetNumberOfRecords(projectFilter, categoryId, userId);
+
+            var projects = _projectService.GetProjects(
+                projectFilter,
+                new PagingInfo() { CurrentPage = 1, ItemsPerPage = numberOfRecords, TotalItems = numberOfRecords },
+                categoryId,
+                userId
+                );
+
+            int mission50Count = projects.Where(x => x.ProjectGroupId == (int)ProjectGroupX.Mission50)
+                                        .Count();
+
+            int polishAreaCount = projects.Where(x => x.ProjectGroupId == (int)ProjectGroupX.PolishArea)
+                                        .Count();
+
+
+
+
+            var vm = new ProjectsStatisticsViewModel()
+            {
+                Categories = _categoryService.GetCategories(),
+                Projects = projects,
+                TotalCount = numberOfRecords,
+                Mission50Count = mission50Count,
+                PolishAreaCount = polishAreaCount,
+                ProjectStatuses = projectStatuses,
+                ProjectGroups = projectGroups,
+                ProjectTeamMembers = projectTeamMembers,
+                Users = _userService.GetUsers(null, null)
+            };
+
+            return View(vm);
+        }
 
         public IActionResult ProjectsPriorityCharts(int currentPage = 1, int categoryId = 0)
         {

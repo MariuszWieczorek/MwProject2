@@ -27,6 +27,12 @@ namespace MwProject.Persistence.Services
             return _unitOfWork.ProjectTeamMemberRepository.NewProjectTeamMember(projectId, userId);
         }
 
+
+        public IEnumerable<ProjectTeamMember> GetProjectTeamMembers()
+        {
+            return _unitOfWork.ProjectTeamMemberRepository.GetProjectTeamMembers();
+        }
+
         public void AddProjectTeamMember(ProjectTeamMember projectTeamMember, string userId)
         {
             _unitOfWork.ProjectTeamMemberRepository.AddProjectTeamMember(projectTeamMember, userId);

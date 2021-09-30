@@ -46,6 +46,9 @@ namespace MwProject.Core.Models.Filters
         [Display(Name = "Kto Utworzył")]
         public string UserId { get; set; }
 
+        [Display(Name = "Uczestnik projektu")]
+        public string ProjectTeamMemberId { get; set; }
+
         [Display(Name = "Rok")]
         public int Year { get; set; } = DateTime.Now.Year;
     }
