@@ -133,5 +133,10 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.ManagerId = user.ManagerId;
 
         }
+
+        public ApplicationUser NewUser()
+        {
+            return new ApplicationUser();
+        }
     }
 }

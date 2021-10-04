@@ -52,6 +52,13 @@ namespace MwProject.Persistence.Services
         }
 
         #region Excel
+
+
+        public ApplicationUser NewUser()
+        {
+            return _unitOfWork.UserRepository.NewUser();
+        }
+
         public void ExportUsersToExcel(IEnumerable<ApplicationUser> users)
         {
             // PM> Install-Package ClosedXML

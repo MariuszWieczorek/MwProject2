@@ -109,8 +109,12 @@ namespace MwProject.Controllers
         public IActionResult SingleUser(string id)
         {
             var userId = User.GetUserId();
-            var selectedUser = _userService.GetUser(id);
 
+            var selectedUser = id == null ?
+              _userService.NewUser() :
+              _userService.GetUser(id);
+
+            
             var vm = new UserViewModel()
             {
                 User = selectedUser,
