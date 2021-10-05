@@ -33,6 +33,12 @@
                 </div>
 
                 <div class="form-group mb-2">
+                    @Html.LabelFor(x => x.User.UserName)
+                    @Html.TextBoxFor(x => x.User.UserName, new { @class = "form-control", autofocus = "autofocus" })
+                    @Html.ValidationMessageFor(x => x.User.UserName)
+                </div>
+
+                <div class="form-group mb-2">
                     @Html.LabelFor(x => x.User.Possition)
                     @Html.TextBoxFor(x => x.User.Possition, new { @class = "form-control", autofocus = "autofocus" })
                     @Html.ValidationMessageFor(x => x.User.Possition)

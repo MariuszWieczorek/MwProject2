@@ -20,5 +20,11 @@ namespace MwProject.Core.Services
         Task ImportUsersFromExcel();
         void RepairUsers();
         Task<IdentityResult> ResetPassword(string id);
+
+        Task AddUser(ApplicationUser applicationUser);
+
+        ApplicationUser NewUser();
+
+        bool UserExist(string id);
     }
 }

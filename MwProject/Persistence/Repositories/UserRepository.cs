@@ -17,9 +17,13 @@ namespace MwProject.Persistence.Repositories
     {
 
         private readonly IApplicationDbContext _context;
-        public UserRepository(IApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public UserRepository(IApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+
         }
 
 
@@ -134,9 +138,25 @@ namespace MwProject.Persistence.Repositories
 
         }
 
+
+        public async Task AddUser(ApplicationUser applicationUser)
+        {
+            string password = "Projekty2021$";
+
+            var result = await _userManager.CreateAsync(applicationUser, password);
+            var x = result;
+        }
+
         public ApplicationUser NewUser()
         {
             return new ApplicationUser();
         }
+
+        public bool UserExist(string id)
+        {
+            var numberOfUsers = _context.Users.Where(x => x.Id == id).Count();
+            return numberOfUsers == 0;
+        }
+
     }
 }

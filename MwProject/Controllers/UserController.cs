@@ -131,7 +131,7 @@ namespace MwProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SingleUser(ApplicationUser user)
+        public async Task<IActionResult> SingleUser(ApplicationUser user)
         {
             var userId = User.GetUserId();
 
@@ -149,7 +149,10 @@ namespace MwProject.Controllers
                 return View("SingleUser", vm);
             }
 
-            if (user.Id != null)
+
+            if (_userService.UserExist(user.Id))
+                await _userService.AddUser(user);
+            else
                 _userService.UpdateUser(user);
 
 

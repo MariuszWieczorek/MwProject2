@@ -158,6 +158,15 @@ namespace MwProject.Persistence.Services
             }
         }
 
+        public async Task AddUser(ApplicationUser applicationUser)
+        {
+            await _unitOfWork.UserRepository.AddUser(applicationUser);
+        }
+
+        public bool UserExist(string id)
+        {
+            return _unitOfWork.UserRepository.UserExist(id);
+        }
         public async Task<IdentityResult> ResetPassword(string id)
         {
 

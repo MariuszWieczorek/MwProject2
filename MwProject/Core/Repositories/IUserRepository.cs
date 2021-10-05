@@ -17,5 +17,10 @@ namespace MwProject.Core.Repositories
         ApplicationUser GetUser(string id);
         void UpdateUser(ApplicationUser user);
         void DeleteUser(string id);
+        
+        Task AddUser(ApplicationUser applicationUser);
+        ApplicationUser NewUser();
+
+        bool UserExist(string id);
     }
 }
