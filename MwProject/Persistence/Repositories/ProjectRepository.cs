@@ -144,9 +144,7 @@ namespace MwProject.Persistence.Repositories
                 if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
                     projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
-                //if (projectsFilter.Year != 0)
-                  //  projects = projects.Where(x => ((DateTime)x.CreatedDate).Year == projectsFilter.Year);
-
+               
                 if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
                     projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
 
@@ -167,6 +165,13 @@ namespace MwProject.Persistence.Repositories
 
                 if (!string.IsNullOrWhiteSpace(projectsFilter.RelatedNumbers))
                     projects = projects.Where(x => x.ProjectRequirements.Any(x => x.RelatedNumbers.Contains(projectsFilter.RelatedNumbers)));
+
+
+                if(false)
+                {
+                     projects = projects.Where(x => x.ProjectManagerId == userId || x.UserId == userId);
+                }
+
             }
 
             return projects;
@@ -199,7 +204,9 @@ namespace MwProject.Persistence.Repositories
                 .ToList();
         }
 
-        public IEnumerable<Project> GetAllProjects(string userId)
+
+
+                public IEnumerable<Project> GetAllProjects(string userId)
         {
             return _context.Projects.ToList();
         }
