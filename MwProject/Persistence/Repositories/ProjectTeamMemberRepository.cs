@@ -28,7 +28,8 @@ namespace MwProject.Persistence.Repositories
             var projectTeamMembers = _context.ProjectTeamMembers
                 .Include(x => x.User)
                 .Include(x => x.Project)
-                .Where(x=>x.Project.IsExecuted == false)
+                .Where(x => x.Project.IsExecuted == false)
+                .OrderBy(x => x.User.UserName)
                 .ToList();
 
             return projectTeamMembers;

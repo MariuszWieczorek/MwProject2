@@ -5,7 +5,7 @@
 *@
 
 @{
-    var projectTeamMembers = Model.Project.ProjectTeamMembers;
+    var projectTeamMembers = Model.Project.ProjectTeamMembers.OrderBy(x=>x.User.UserName);
 
     bool canEdit = Model.CurrentUser.CanEditProjectTeam
         && !Model.Project.IsAccepted

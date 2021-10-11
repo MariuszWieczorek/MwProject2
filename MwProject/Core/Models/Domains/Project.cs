@@ -63,7 +63,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "działania weryfikacyjne przed uruchomieniem projektu")]
         public string VerificationOperations { get; set; }
 
-        [Display(Name = "link do planera")]
+        [Display(Name = "link do harmonogramu")]
         public string LinkToPlanner { get; set; }
 
         [Display(Name = "Data Utworzenia")]

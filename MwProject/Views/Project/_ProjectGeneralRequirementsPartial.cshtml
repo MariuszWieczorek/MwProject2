@@ -87,7 +87,6 @@
                             <th scope="col" style="width:400px">Parametr </th>
                             <th scope="col" style="width:60px"> T/N </th>
                             <th scope="col"> Komentarz </th>
-                            <th scope="col"> Wartość </th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -136,14 +135,6 @@
 
                                 <td>@position.Comment</td>
 
-                                <td class="text-muted">
-                                    @if (position.ShowValue)
-                                    {
-                                        <strong>
-                                            @position.Value.ToString("n")
-                                        </strong>
-                                    }
-                                </td>
 
                                 <td align="right">
                                     @if (canEdit)

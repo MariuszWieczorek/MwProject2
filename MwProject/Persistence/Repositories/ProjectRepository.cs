@@ -47,7 +47,7 @@ namespace MwProject.Persistence.Repositories
                 OrdinalNumber = ordinalNumber,
                 No = no,
                 ProjectStatusId = (int)StatusType.NewProject,
-                InitiatedBy = $"{user.FirstName} {user.LastName}" 
+                InitiatedBy = $"{user.FirstName} {user.LastName}"
             };
         }
 
@@ -59,11 +59,11 @@ namespace MwProject.Persistence.Repositories
             project.Number = x.Item2;
             _context.Projects.Add(project);
         }
-             
+
 
         public void DeleteProject(int id, string userId)
         {
-            var projectToDelete = _context.Projects.Single(x => x.Id == id );
+            var projectToDelete = _context.Projects.Single(x => x.Id == id);
             _context.Projects.Remove(projectToDelete);
         }
 
@@ -100,8 +100,6 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProjectRisks)
                 .Single(x => x.Id == id);
 
-            if (user.CanSeeAllProject == false && user.Id != userId)
-                project = new Project();
 
             return project;
         }
@@ -132,6 +130,19 @@ namespace MwProject.Persistence.Repositories
                 if (projectsFilter.IsExecuted == true)
                     projects = projects.Where(x => x.IsExecuted == false);
 
+                if (projectsFilter.MyProjects)
+                {
+                    projects = projects
+                            .Where(x => 
+                                  x.ProjectManagerId == userId
+                               || x.UserId == userId
+                               || x.ProjectTeamMembers.Any(x => x.UserId == projectsFilter.ProjectTeamMemberId)
+                                );
+                }
+
+
+
+
                 if (projectsFilter.ShowProjectsWithNotifications == true)
                     projects = projects.Where(x => x.Notifications.Where(x => x.UserId == userId && x.Confirmed == false).Any());
 
@@ -144,7 +155,7 @@ namespace MwProject.Persistence.Repositories
                 if (projectsFilter.ProjectGroupId != 0 && projectsFilter.ProjectGroupId != null)
                     projects = projects.Where(x => x.ProjectGroupId == projectsFilter.ProjectGroupId);
 
-               
+
                 if (projectsFilter.ordinalNumber != 0 && projectsFilter.ordinalNumber != null)
                     projects = projects.Where(x => x.OrdinalNumber == projectsFilter.ordinalNumber);
 
@@ -166,10 +177,11 @@ namespace MwProject.Persistence.Repositories
                 if (!string.IsNullOrWhiteSpace(projectsFilter.RelatedNumbers))
                     projects = projects.Where(x => x.ProjectRequirements.Any(x => x.RelatedNumbers.Contains(projectsFilter.RelatedNumbers)));
 
-
-                if(false)
+                // pokazujemy tylko projekty dotyczące zalogowanej osoby
+                // czyli gdy jest PM, autorem, lub jest na liście zespołu projektowego
+                if (false)
                 {
-                     projects = projects.Where(x => x.ProjectManagerId == userId || x.UserId == userId);
+                    projects = projects.Where(x => x.ProjectManagerId == userId || x.UserId == userId);
                 }
 
             }
@@ -179,7 +191,7 @@ namespace MwProject.Persistence.Repositories
 
         public IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
         {
-            
+
 
             var projects = _context.Projects
                 .Include(x => x.Category)
@@ -206,7 +218,43 @@ namespace MwProject.Persistence.Repositories
 
 
 
-                public IEnumerable<Project> GetAllProjects(string userId)
+        public IEnumerable<Project> GetMyProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId)
+        {
+
+
+            var projects = _context.Projects
+                .Include(x => x.Category)
+                .Include(x => x.User)
+                .Include(x => x.ProjectManager)
+                .AsQueryable();
+
+            // zamiast filtrowania projektów
+            // pokazujemy tylko projekty dotyczące zalogowanej osoby
+            // czyli gdy jest PM, autorem, lub jest na liście zespołu projektowego
+            projects = projects
+                .Where(x => x.IsExecuted == false)
+                .Where(x => x.ProjectManagerId == userId
+                            || x.UserId == userId
+                            || x.ProjectTeamMembers.Any(x => x.UserId == projectsFilter.ProjectTeamMemberId)
+            );
+
+            projects = SortProjects(projects);
+
+
+            if (pagingInfo != null)
+            {
+                projects = projects
+                    .Skip((pagingInfo.CurrentPage - 1) * pagingInfo.ItemsPerPage)
+                    .Take(pagingInfo.ItemsPerPage);
+            }
+
+
+            return projects
+                .ToList();
+        }
+
+
+        public IEnumerable<Project> GetAllProjects(string userId)
         {
             return _context.Projects.ToList();
         }
@@ -247,7 +295,7 @@ namespace MwProject.Persistence.Repositories
             int recordNumber = 0;
             foreach (var project in projects)
             {
-                recordNumber++; 
+                recordNumber++;
                 if (project.Id == projectId)
                 {
                     break;
@@ -280,8 +328,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Term = project.Term;
 
 
-                      
-          
+
+
 
             projectToUpdate.Description = project.Description;
 
@@ -290,56 +338,13 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.InitiatedBy = project.InitiatedBy;
             projectToUpdate.Coordinator = project.Coordinator;
             projectToUpdate.Client = project.Client;
-            
+
             // projectToUpdate.ProductStatus = project.ProductStatus;
 
         }
 
 
 
-        public void UpdateProjectCard(Project project, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
-
-
-           
-            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
-                                 
-
-            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
-            projectToUpdate.VerificationOperations = project.VerificationOperations;
-            projectToUpdate.Comment = project.Comment;
-
-            if (project.ProjectStatusId != 0)
-                projectToUpdate.ProjectStatusId = project.ProjectStatusId;
-            
-            // wybór programu
-            if (project.ProjectGroupId != 0)
-                projectToUpdate.ProjectGroupId = project.ProjectGroupId;
-
-        }
-
-        public void UpdateProjectPriority(Project project, string userId)
-        {
-            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
-
-
-            projectToUpdate.IsExecuted = project.IsExecuted;
-            projectToUpdate.FinishedDate = project.FinishedDate;
-
-
-            projectToUpdate.PurposeOfTheProjectId = project.PurposeOfTheProjectId;
-            projectToUpdate.CompetitivenessOfTheProjectId = project.CompetitivenessOfTheProjectId;
-            projectToUpdate.ViabilityOfTheProjectId = project.ViabilityOfTheProjectId;
-
-
-            projectToUpdate.RealStartDateOfTheProject = project.RealStartDateOfTheProject;
-            projectToUpdate.PlannedStartDateOfTheProject = project.PlannedStartDateOfTheProject;
-            projectToUpdate.PlannedEndDateOfTheProject = project.PlannedEndDateOfTheProject;
-
-            projectToUpdate.ProductionCapacity = project.ProductionCapacity;
-            projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
-        }
 
 
         #region domyślne listy dodawane do nowego projektu
@@ -447,7 +452,7 @@ namespace MwProject.Persistence.Repositories
                     _context.ProjectTechnicalProperties.Add(projectTechnicalProperty);
                 }
             }
-            
+
         }
 
         #endregion
@@ -601,7 +606,7 @@ namespace MwProject.Persistence.Repositories
         }
 
         #endregion
-      
+
         #region potwierdzanie zespołu projektowego
         public void ConfirmProjectTeam(int id, string userId)
         {
@@ -619,6 +624,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.ProjectTeamConfirmedBy = null;
         }
         #endregion
+
+        #region numbers
 
         public int NewRawNumber(int categoryId, DateTime? createdDate)
         {
@@ -654,6 +661,7 @@ namespace MwProject.Persistence.Repositories
             return (no, number);
         }
 
+        #endregion
 
         #region potwierdzanie Wniosku Projektowego
         public void ConfirmRequest(int id, string userId)
@@ -676,6 +684,53 @@ namespace MwProject.Persistence.Repositories
 
         #endregion
 
+
+        #region aktualizacja priorytetów, karty projektowej,PM
+
+        public void UpdateProjectCard(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+
+
+
+            projectToUpdate.LinkToPlanner = project.LinkToPlanner;
+
+
+            projectToUpdate.DescriptionOfPurpose = project.DescriptionOfPurpose;
+            projectToUpdate.VerificationOperations = project.VerificationOperations;
+            projectToUpdate.Comment = project.Comment;
+
+            if (project.ProjectStatusId != 0)
+                projectToUpdate.ProjectStatusId = project.ProjectStatusId;
+
+            // wybór programu
+            if (project.ProjectGroupId != 0)
+                projectToUpdate.ProjectGroupId = project.ProjectGroupId;
+
+        }
+
+        public void UpdateProjectPriority(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+
+
+            projectToUpdate.IsExecuted = project.IsExecuted;
+            projectToUpdate.FinishedDate = project.FinishedDate;
+
+
+            projectToUpdate.PurposeOfTheProjectId = project.PurposeOfTheProjectId;
+            projectToUpdate.CompetitivenessOfTheProjectId = project.CompetitivenessOfTheProjectId;
+            projectToUpdate.ViabilityOfTheProjectId = project.ViabilityOfTheProjectId;
+
+
+            projectToUpdate.RealStartDateOfTheProject = project.RealStartDateOfTheProject;
+            projectToUpdate.PlannedStartDateOfTheProject = project.PlannedStartDateOfTheProject;
+            projectToUpdate.PlannedEndDateOfTheProject = project.PlannedEndDateOfTheProject;
+
+            projectToUpdate.ProductionCapacity = project.ProductionCapacity;
+            projectToUpdate.PlannedProductionVolume = project.PlannedProductionVolume;
+        }
+
         public bool UpdateProjectManager(Project project, string userId)
         {
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
@@ -696,6 +751,9 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.FinancialComments = project.FinancialComments;
 
         }
+
+
+        #endregion
 
     }
 }

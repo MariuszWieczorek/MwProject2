@@ -34,10 +34,13 @@ namespace MwProject.Core.Models.Filters
         [Display(Name = "Lp")]
         public int? ordinalNumber { get; set; }
 
-        [Display(Name = "ukryj zrealizowane")]
+        [Display(Name = "ukryj ukończ.")]
         public bool IsExecuted { get; set; } = true;
 
-        [Display(Name = "tylko nowe powiadomienia")]
+        [Display(Name = "tylko moje")]
+        public bool MyProjects { get; set; } = false;
+
+        [Display(Name = "tylko nowe")]
         public bool ShowProjectsWithNotifications { get; set; } = false;
 
         [Display(Name = "Kierownik Projektu")]
