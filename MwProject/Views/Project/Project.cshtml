@@ -4,7 +4,6 @@
     ViewBag.Title = Model.Heading;
 
 
-
     bool NewProject = (Model.Project.Id == 0);
 
     bool currentUserIsProjectManager =  String.Equals(Model.CurrentUser.Id,Model.Project.ProjectManagerId);
@@ -65,6 +64,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 <!-- Przyciski -->
@@ -359,7 +360,7 @@
                             aria-controls="priority"
                             aria-selected="true"
                             Style="background:#f6cbcb; font-weight:bold">
-                        Priorytet
+                        Priorytet <span class="badge rounded-pill bg-danger text-white">@Model.Project.PriorityOfProject</span>
                     </button>
                 </li>
             }
@@ -585,7 +586,7 @@
                 {
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
-                            @await Html.PartialAsync("_ConfirmationsPartial", Model)
+                            @await Html.PartialAsync("_ProjectStatusPartial", Model)
                         </div>
                     </div>
                 }

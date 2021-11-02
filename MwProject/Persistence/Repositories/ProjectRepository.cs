@@ -87,6 +87,7 @@ namespace MwProject.Persistence.Repositories
                 .ThenInclude(x => x.TechnicalProperty)
                 .Include(x => x.ProductGroup)
                 .Include(x => x.Category)
+                .Include(x => x.ProjectStatus)
                 .Include(x => x.User)
                 .Include(x => x.PurposeOfTheProject)
                 .Include(x => x.ViabilityOfTheProject)
@@ -171,6 +172,10 @@ namespace MwProject.Persistence.Repositories
                 if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
                     projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
 
+                if (!string.IsNullOrWhiteSpace(projectsFilter.AuthorId))
+                    projects = projects.Where(x => x.UserId == projectsFilter.AuthorId);
+
+
                 if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectTeamMemberId))
                     projects = projects.Where(x => x.ProjectTeamMembers.Any(x => x.UserId == projectsFilter.ProjectTeamMemberId));
 
@@ -194,10 +199,11 @@ namespace MwProject.Persistence.Repositories
 
 
             var projects = _context.Projects
-                .Include(x => x.Category)
+                             .AsQueryable();
+
+               /*.Include(x => x.Category)
                 .Include(x => x.User)
-                .Include(x => x.ProjectManager)
-                .AsQueryable();
+                .Include(x => x.ProjectManager)*/
 
             projects = FilterProjects(projects, projectsFilter, userId);
 

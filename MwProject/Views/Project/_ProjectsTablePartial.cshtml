@@ -25,7 +25,9 @@
                     <th scope="col">numer</th>
                     <th scope="col">kategoria</th>
                     <th scope="col">tytuł</th>
-                    <th scope="col">data</th>
+                    <th scope="col">data <br> utworz. </th>
+                    <th scope="col">data <br> plan. </th>
+                    <th scope="col">data <br> realiz. </th>
                     <th scope="col">status</th>
                     <th scope="col">kierownik</th>
                     <th scope="col"> </th>
@@ -68,6 +70,26 @@
                                 @project.CreatedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
                             }
                         </td>
+
+                      
+                          <td>
+
+                            @if (project.PlannedEndDateOfTheProject.HasValue)
+                            {
+                                @project.PlannedEndDateOfTheProject.GetValueOrDefault().ToString("dd-MM-yyyy")
+                            }
+
+                        </td>
+                        
+                        <td>
+                            @if (project.FinishedDate.HasValue)
+                            {
+                                @project.FinishedDate.GetValueOrDefault().ToString("dd-MM-yyyy")
+                            }
+
+                        </td>
+
+                      
 
                         <td>
                             @project.ProjectStatus?.Name

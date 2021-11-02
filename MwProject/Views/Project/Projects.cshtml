@@ -40,23 +40,31 @@
               new { @class = "form-control", placeholder = "Lp" })
         </div>
 
-        <div class="col-3">
+        <div class="col-2">
             @Html.LabelFor(x => x.ProjectsFilter.Number)
             @Html.TextBoxFor(x => x.ProjectsFilter.Number,
               new { @class = "form-control", placeholder = "Numer" })
         </div>
 
-        <div class="col-3">
+        <div class="col-2">
             @Html.LabelFor(x => x.ProjectsFilter.Title)
             @Html.TextBoxFor(x => x.ProjectsFilter.Title,
               new { @class = "form-control", placeholder = "Tytuł" })
         </div>
 
-        <div class="col-3">
+        <div class="col-2">
             @Html.LabelFor(x => x.ProjectsFilter.CategoryId)
             @Html.DropDownListFor(x => x.ProjectsFilter.CategoryId,
                new SelectList(Model.Categories, "Id", "Name"),
                " -- wszystkie kategorie -- ",
+               new { @class = "form-control" })
+        </div>
+
+           <div class="col-2">
+            @Html.LabelFor(x => x.ProjectsFilter.AuthorId)
+            @Html.DropDownListFor(x => x.ProjectsFilter.AuthorId,
+               new SelectList(Model.ApplicationUsers, "Id", "UserName"),
+               " -- wszyscy autorzy -- ",
                new { @class = "form-control" })
         </div>
 
@@ -103,6 +111,8 @@
                " -- wszyscy uczestnicy -- ",
                new { @class = "form-control" })
         </div>
+
+      
 
         <div class="form-check form-switch mb-3 col-1">
             <br>
