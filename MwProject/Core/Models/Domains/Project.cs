@@ -252,6 +252,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy zespół projektowy został potwierdzony")]
         public bool IsProjectTeamConfirmed { get; set; }
 
+        [Display(Name = "Autor")]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }
 

@@ -3,6 +3,8 @@
 
 @{
     ViewBag.Title = Model.Heading;
+    @using MwProject.Core.Models.Enums;
+    
 }
 
 <!-- Nagłówek -->
@@ -40,7 +42,7 @@
             @Html.HiddenFor(x => x.ProjectRequirement.ProjectId)
 
 
-            @if (Model.ProjectRequirement.Requirement.Type != 1)
+            @if (Model.RequirementType != RequirementType.Economic )
             {
 
                 @Html.HiddenFor(x => x.ProjectRequirement.Value)
@@ -92,7 +94,7 @@
             </div>
 
 
-            @if (Model.ProjectRequirement.Requirement.Type == 1)
+            @if (Model.RequirementType == RequirementType.Economic)
             {
 
                 <div class="row">
@@ -135,7 +137,7 @@
             </div>
 
 
-            @if (Model.ProjectRequirement.Requirement.Type == 1)
+            @if (Model.RequirementType == RequirementType.Economic)
             {
                 <div class="form-group mb-3">
                     @Html.LabelFor(x => x.ProjectRequirement.RelatedNumbers)

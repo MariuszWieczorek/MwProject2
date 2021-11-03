@@ -6,7 +6,7 @@
 
     bool NewProject = (Model.Project.Id == 0);
 
-    bool currentUserIsProjectManager =  String.Equals(Model.CurrentUser.Id,Model.Project.ProjectManagerId);
+    bool currentUserIsProjectManager = String.Equals(Model.CurrentUser.Id, Model.Project.ProjectManagerId);
 
 
     bool canConfirmRequest = !Model.Project.IsRequestConfirmed
@@ -26,7 +26,7 @@
     bool canConfirm = !Model.Project.IsConfirmed
                    && Model.Project.IsCalculationConfirmed
                    && Model.Project.IsEconomicRequirementsConfirmed
-                   &&  Model.Project.IsRequestConfirmed           
+                   && Model.Project.IsRequestConfirmed
                    && !Model.Project.IsAccepted
                    && (Model.CurrentUser.CanConfirmProject || currentUserIsProjectManager);
 
@@ -45,7 +45,8 @@
     bool canWithdrawAcceptation = Model.Project.IsAccepted
                                && Model.CurrentUser.CanAcceptProject;
 
-    
+    bool adminRights = Model.CurrentUser.AdminRights;
+
 
 
 }
@@ -94,8 +95,6 @@
                        </button>
                        history.back();history.forward();location.reload();
                         -->
-
-
             @* potwierdzenie wniosku *@
 
             @if (canConfirmRequest)
@@ -128,7 +127,7 @@
                     Wycofaj Potwierdzenie Projektu
                 </button>
             }
-          
+
             @* akceptacja szefa *@
 
             @if (canAccept)
@@ -145,9 +144,9 @@
                 </button>
             }
 
-            
 
-            
+
+
 
             @*
                 <button class="btn btn-outline-success btn-sm"
@@ -252,7 +251,7 @@
             }
 
 
-           
+
 
             @if (!NewProject && Model.Project.IsRequestConfirmed)
             {
@@ -290,7 +289,7 @@
             }
 
 
-              @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -309,7 +308,7 @@
             }
 
 
-             @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -329,7 +328,7 @@
 
 
 
-             @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-primary"
@@ -403,7 +402,7 @@
             }
 
 
-             @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
+            @if (!NewProject && Model.Project.IsRequestConfirmed && Model.Project.ProjectManagerId is not null)
             {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link btn-outline-secondary"
@@ -452,6 +451,23 @@
                             aria-selected="false"
                             Style="background:#fff4b6; font-weight:bold">
                         Powiadomienia
+                    </button>
+                </li>
+            }
+
+            @if (adminRights)
+            {
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btn-outline-secondary"
+                            id="admin-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#admin"
+                            type="button"
+                            role="tab"
+                            aria-controls="admin"
+                            aria-selected="false"
+                            Style="background:#f6cbcb; font-weight:bold">
+                        <span class="badge rounded-pill bg-danger text-white">Admin</span>
                     </button>
                 </li>
             }
@@ -611,7 +627,7 @@
                 {
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
-                           @await Html.PartialAsync("_ProjectCardPartial", Model) 
+                            @await Html.PartialAsync("_ProjectCardPartial", Model)
                         </div>
                     </div>
                 }
@@ -623,7 +639,7 @@
                 {
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
-                           @await Html.PartialAsync("_ProjectManagerPartial", Model) 
+                            @await Html.PartialAsync("_ProjectManagerPartial", Model)
                         </div>
                     </div>
                 }
@@ -635,7 +651,20 @@
                 {
                     <div class="row">
                         <div class="col-12 mt-3 mb-2 border rounded bg-light">
-                           @await Html.PartialAsync("_FinancialCommentsPartial", Model) 
+                            @await Html.PartialAsync("_FinancialCommentsPartial", Model)
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+            <!-- zakładka z ustawieniami tylko dla admina -->
+            <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+                @if (adminRights && Model.Project.Id != 0)
+                {
+                    <div class="row">
+                        <div class="col-12 mt-3 mb-2 border rounded bg-light">
+                            @await Html.PartialAsync("_ProjectAdminPartial", Model)
                         </div>
                     </div>
                 }

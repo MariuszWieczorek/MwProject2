@@ -20,6 +20,7 @@ namespace MwProject.Core.Repositories
         void UpdateProjectCard(Project project, string userId);
         bool UpdateProjectManager(Project project, string userId);
         void UpdateFinancialComments(Project project, string userId);
+        void UpdateProjectWithAdminRights(Project project, string userId);
         void UpdateProjectPriority(Project project, string userId);
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);

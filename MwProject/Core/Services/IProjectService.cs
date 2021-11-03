@@ -20,6 +20,7 @@ namespace MwProject.Core.Services
         void UpdateProjectManager(Project project, string userId);
         void UpdateFinancialComments(Project project, string userId);
         void UpdateProjectPriority(Project project, string userId);
+        void UpdateProjectWithAdminRights(Project project, string userId);
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);
         int GetNumberOfRecords(ProjectsFilter projectFilter, int categoryId, string userId);

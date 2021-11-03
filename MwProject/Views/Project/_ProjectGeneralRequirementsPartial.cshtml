@@ -5,7 +5,11 @@
 *@
 
 @{
-    int typeOfRequirement = 3;
+
+    @using MwProject.Core.Models.Enums;
+
+    int typeOfRequirement = (int)RequirementType.General;
+
     var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
 
     bool canEdit = Model.CurrentUser.CanEditGeneralRequirements

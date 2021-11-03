@@ -96,15 +96,7 @@
 
 
                         <div class="row">
-                            <div class="form-group mb-3 col-6">
-
-                                @Html.LabelFor(x => x.Project.ProjectStatusId)
-                                @Html.DropDownListFor(x => x.Project.ProjectStatusId,
-                                        new SelectList(Model.ProjectStatuses, "Id", "Name"),
-                                        "--- Wybierz status projektu ---",
-                                        new { @class = "form-control", autofocus = "autofocus", id = "statusId" })
-                                @Html.ValidationMessageFor(x => x.Project.ProjectStatusId)
-                            </div>
+                            
 
                           
                         </div>

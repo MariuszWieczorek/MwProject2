@@ -374,8 +374,11 @@ namespace MwProject.Persistence.Services
             .SingleOrDefault(x => x.Id == project.ProjectManagerId);
 
             var usersToNotifications = allUsers
-                .Where(x => x.Id == project.ProjectManagerId || x.CanConfirmCalculations || x.CanConfirmEconomicRequirements).ToList();
-
+                .Where(x => x.Id == project.ProjectManagerId 
+                || x.CanConfirmCalculations )
+                .ToList();
+            
+            // było w warunku  || x.CanConfirmEconomicRequirements
 
 
             string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
@@ -1121,6 +1124,12 @@ namespace MwProject.Persistence.Services
             return project.IsEconomicRequirementsConfirmed
             && project.IsCalculationConfirmed;
 
+        }
+
+        public void UpdateProjectWithAdminRights(Project project, string userId)
+        {
+            _unitOfWork.Project.UpdateProjectWithAdminRights(project, userId);
+            _unitOfWork.Complete();
         }
     }
 }

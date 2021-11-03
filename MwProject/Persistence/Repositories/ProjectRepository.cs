@@ -706,12 +706,26 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.VerificationOperations = project.VerificationOperations;
             projectToUpdate.Comment = project.Comment;
 
-            if (project.ProjectStatusId != 0)
-                projectToUpdate.ProjectStatusId = project.ProjectStatusId;
+            //if (project.ProjectStatusId != 0)
+              //  projectToUpdate.ProjectStatusId = project.ProjectStatusId;
 
             // wybór programu
             if (project.ProjectGroupId != 0)
                 projectToUpdate.ProjectGroupId = project.ProjectGroupId;
+
+        }
+
+        public void UpdateProjectWithAdminRights(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+          
+
+            if (project.ProjectStatusId != 0)
+              projectToUpdate.ProjectStatusId = project.ProjectStatusId;
+
+
+            if ( !string.IsNullOrEmpty(project.UserId) )
+                projectToUpdate.UserId = project.UserId;
 
         }
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MwProject.Core.Models;
 using MwProject.Core.Models.Domains;
+using MwProject.Core.Models.Enums;
 using MwProject.Core.Services;
 using MwProject.Core.ViewModels;
 using MwProject.Persistence.Extensions;
@@ -45,20 +46,24 @@ namespace MwProject.Controllers
             var userId = User.GetUserId();
             string typeOfRequirement;
             string tab;
+            RequirementType requirementType = RequirementType.General;
 
             switch (type)
             {
                 case 1:
                     typeOfRequirement = "ekonomiczna";
                     tab = "economic";
+                    requirementType = RequirementType.Economic;
                     break;
                 case 2:
                     typeOfRequirement = "jakościowa";
                     tab = "quality";
+                    requirementType = RequirementType.Quality;
                     break;
                 case 3:
                     typeOfRequirement = "ogólna";
                     tab = "general";
+                    requirementType = RequirementType.General;
                     break;
                 default:
                     typeOfRequirement = "inna";
@@ -75,6 +80,7 @@ namespace MwProject.Controllers
                 ProjectRequirement = selectedProjectRequirement,
                 Heading = id == 0 ? $"nowa: informacja {typeOfRequirement}" : $"edycja: informacja {typeOfRequirement}",
                 Requirements = _requirementService.GetRequirements(),
+                RequirementType = requirementType,
                 Tab = tab
             };
 
@@ -100,7 +106,9 @@ namespace MwProject.Controllers
                 {
                     ProjectRequirement = selectedProjectRequirement.ProjectRequirement,
                     Heading = selectedProjectRequirement.ProjectRequirement.Id == 0 ? "nowa" : "edycja",
+                    RequirementType = selectedProjectRequirement.RequirementType,
                     Requirements = _requirementService.GetRequirements()
+                    
                 };
 
                 return View("ProjectRequirement", vm);
