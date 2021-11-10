@@ -75,7 +75,9 @@
                     </div>
                 </div>
 
-                @if (!Model.Project.IsAccepted && !Model.Project.IsConfirmed && canSetProjectManager)
+                <!-- !Model.Project.IsAccepted && !Model.Project.IsConfirmed && canSetProjectManager -->
+
+                @if (true)
                 {
                     <button class="btn btn-primary btn-lg mb-5" type="submit">
                         Zapisz

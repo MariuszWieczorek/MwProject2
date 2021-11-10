@@ -1283,6 +1283,12 @@ namespace MwProject.Controllers
             return "OK";
         }
 
+        public string CalculateTkwInAllProjects()
+        {
+            var userId = User.GetUserId();
+            _projectService.CalculateTkwInAllProjects(userId);
+            return "OK";
+        }
 
         public string AddNewTechnicalProperitiesAndRequirementsToAllProjects()
         {

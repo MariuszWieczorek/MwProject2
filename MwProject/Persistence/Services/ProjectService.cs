@@ -412,9 +412,15 @@ namespace MwProject.Persistence.Services
 
 
         // GenerateNotificationsTkwAndEconomicDataAreConfirmed
-
+        
         private void GenerateNotificationsTkwAndEconomicDataAreConfirmed(int projectId, string userId)
         {
+
+            // Powiadomienie o potwierdzonym TKW dostaje
+            // PM
+            // Osoba mająca ustawienie: ConfirmedCalculationNotification
+
+            
             var project = _unitOfWork.Project.GetProject(projectId, userId);
 
             var allUsers = _unitOfWork.UserRepository
@@ -429,9 +435,11 @@ namespace MwProject.Persistence.Services
             .SingleOrDefault(x => x.Id == project.ProjectManagerId);
 
             var usersToNotifications = allUsers
-                .Where(x => x.Id == project.ProjectManagerId).ToList();
+                .Where(x => x.Id == project.ProjectManagerId
+                || x.ConfirmedCalculationNotification
+                ).ToList();
 
-
+            
 
             string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
 
@@ -949,6 +957,22 @@ namespace MwProject.Persistence.Services
             foreach (var project in projects)
             {
                 this.CalculatePriorityOfProject(project.Id, userId);
+            }
+        }
+
+
+        public void CalculateTkwInAllProjects(string userId)
+        {
+            var projects = _unitOfWork.Project.GetAllProjects(userId);
+            foreach (var project in projects)
+            {
+                var selectedProject = _unitOfWork.Project.GetProject(project.Id, userId);
+
+                foreach (var calculation in selectedProject.Calculations)
+                {
+                    _unitOfWork.Calculation.UpdateCalculation(calculation,userId);
+                }
+                
             }
         }
 

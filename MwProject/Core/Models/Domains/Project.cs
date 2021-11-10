@@ -159,6 +159,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy zatwierdzona przewidywana sprzedaż")]
         public bool IsEstimatedSalesConfirmed { get; set; }
 
+        
+        
         // potwierdzenie wniosku
 
         [Display(Name = "Wniosek potwierdzony przez")]
@@ -183,6 +185,8 @@ namespace MwProject.Core.Models.Domains
         public bool IsConfirmed { get; set; }
 
 
+        
+        
         // akceptacja projektu przez prezesa
 
         [Display(Name = "Projekt zaakceptowany przez")]
@@ -195,6 +199,9 @@ namespace MwProject.Core.Models.Domains
         public bool IsAccepted { get; set; }
 
 
+        
+        
+        
         // potwierdzenie informacji jakościowych
 
         [Display(Name = "Wymagania jakościowe potwierdzone przez")]
@@ -207,6 +214,8 @@ namespace MwProject.Core.Models.Domains
         public bool IsQualityRequirementsConfirmed { get; set; }
 
 
+        
+        
         // potwierdzenie informacji ekonomicznych
 
         [Display(Name = "Wymagania ekonomiczne potwierdzone przez")]
@@ -218,6 +227,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy wymagania ekonomiczne zostały potwierdzone")]
         public bool IsEconomicRequirementsConfirmed { get; set; }
 
+        
+        
         // potwierdzenie informacji ogólnych
 
         [Display(Name = "Informacje ogólne potwierdzone przez")]
@@ -229,6 +240,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy informacje ogólne zostały potwierdzone")]
         public bool IsGeneralRequirementsConfirmed { get; set; }
 
+        
+        
         // potwierdzenie informacji technicznych
 
         [Display(Name = "Cechy techniczne potwierdzone przez")]
@@ -241,6 +254,8 @@ namespace MwProject.Core.Models.Domains
         public bool IsTechnicalProportiesConfirmed { get; set; }
 
 
+        
+        
         // potwierdzenie zespołu projektowego
 
         [Display(Name = "Zespół projektowy potwierdzone przez")]
@@ -252,6 +267,11 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy zespół projektowy został potwierdzony")]
         public bool IsProjectTeamConfirmed { get; set; }
 
+        
+        
+        
+        
+        
         [Display(Name = "Autor")]
         public string UserId { get; set; }
         public ApplicationUser User { get; set; }

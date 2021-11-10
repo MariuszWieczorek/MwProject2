@@ -106,6 +106,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "email gdy nowy projekt")]
         public bool NewProjectEmailNotification { get; set; }
 
+        [Display(Name = "email gdy potwierdzone TKW")]
+        public bool ConfirmedCalculationNotification { get; set; }
+
 
         public ApplicationUser()
         {

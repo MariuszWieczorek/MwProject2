@@ -134,6 +134,7 @@ namespace MwProject.Persistence.Repositories
             userToUpdate.EmailConfirmed = user.EmailConfirmed;
             userToUpdate.IsManager = user.IsManager;
             userToUpdate.NewProjectEmailNotification = user.NewProjectEmailNotification;
+            userToUpdate.ConfirmedCalculationNotification = user.ConfirmedCalculationNotification;
             userToUpdate.ManagerId = user.ManagerId;
 
         }

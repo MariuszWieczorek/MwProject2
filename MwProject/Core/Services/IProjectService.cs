@@ -51,6 +51,7 @@ namespace MwProject.Core.Services
         void ConfirmProjectTeam(int id, string userId);
         void WithdrawConfirmationOfProjectTeam(int id, string userId);
         void CalculatePriorityOfProject(int id, string userId);
+        void CalculateTkwInAllProjects(string userId);
         void CalculatePriorities(string userId);
         IEnumerable<Category> GetUsedCategories();
         void ExportProjectsToExcel(IEnumerable<Project> projects);

@@ -95,7 +95,7 @@
 
             <!-- Widoczność projektów -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanModifyProject, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanModifyProject, new { @class = "form-check-label" })
@@ -103,7 +103,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanSeeAllProject, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanSeeAllProject, new { @class = "form-check-label" })
@@ -114,7 +114,7 @@
 
             <!-- Kalkulacje -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditCalculations, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditCalculations, new { @class = "form-check-label" })
@@ -122,25 +122,33 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmCalculations, new { @class = "form-check-label" })
                         @Html.ValidationMessageFor(x => x.User.CanConfirmCalculations)
                     </div>
                 </div>
+
+                <div class="col-4">
+                    <div class="form-check form-switch mt-3 mb-2">
+                        @Html.CheckBoxFor(x => x.User.ConfirmedCalculationNotification, new { @class = "form-check-input" })
+                        @Html.LabelFor(x => x.User.ConfirmedCalculationNotification, new { @class = "form-check-label" })
+                        @Html.ValidationMessageFor(x => x.User.ConfirmedCalculationNotification)
+                    </div>
+                </div>
             </div>
 
             <!-- Ekonomiczne -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditEconomicRequirements, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditEconomicRequirements, new { @class = "form-check-label" })
                         @Html.ValidationMessageFor(x => x.User.CanEditEconomicRequirements)
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmEconomicRequirements, new { @class = "form-check-label" })
@@ -151,7 +159,7 @@
 
             <!-- Ogólne -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditGeneralRequirements, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditGeneralRequirements, new { @class = "form-check-label" })
@@ -159,7 +167,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmGeneralRequirements, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmGeneralRequirements, new { @class = "form-check-label" })
@@ -171,7 +179,7 @@
 
             <!-- Jakościowe -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditQualityRequirements, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditQualityRequirements, new { @class = "form-check-label" })
@@ -179,7 +187,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmQualityRequirements, new { @class = "form-check-label" })
@@ -190,7 +198,7 @@
 
             <!-- Techniczne  -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditTechnicalProperties, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditTechnicalProperties, new { @class = "form-check-label" })
@@ -198,7 +206,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmTechnicalProperties, new { @class = "form-check-label" })
@@ -209,7 +217,7 @@
 
             <!-- Sprzedaż  -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditEstimatedSales, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditEstimatedSales, new { @class = "form-check-label" })
@@ -217,7 +225,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmEstimatedSales, new { @class = "form-check-label" })
@@ -228,7 +236,7 @@
 
             <!-- Zespół projektowy -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanEditProjectTeam, new { @class = "form-check-label" })
@@ -236,7 +244,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmProjectTeam, new { @class = "form-check-label" })
@@ -247,7 +255,7 @@
 
             <!-- Potwierdzanie, akceptacja projektu -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmProject, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmProject, new { @class = "form-check-label" })
@@ -255,7 +263,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanAcceptProject, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanAcceptProject, new { @class = "form-check-label" })
@@ -268,7 +276,7 @@
 
             <!-- Potwierdzanie, wniosku -->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanConfirmRequest, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanConfirmRequest, new { @class = "form-check-label" })
@@ -276,7 +284,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.CanSetProjectManager, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.CanSetProjectManager, new { @class = "form-check-label" })
@@ -287,7 +295,7 @@
 
             <!--Admin SuperAdmin-->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.AdminRights, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.AdminRights, new { @class = "form-check-label" })
@@ -295,7 +303,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2 ">
                         @Html.CheckBoxFor(x => x.User.SuperAdminRights, new { @class = "form-check-input text-danger", onclick = "return false" })
                         @Html.LabelFor(x => x.User.SuperAdminRights, new { @class = "form-check-label" })
@@ -311,9 +319,9 @@
     <div class="row">
         <div class="col-12 mt-3 mb-2 border rounded bg-light">
 
-            <!-- gdy nowy projekt -->
+            <!-- gdy nowy projekt Ka3aT123!-->
             <div class="row">
-                <div class="col-5">
+                <div class="col-4">
                     <div class="form-check form-switch mt-3 mb-2">
                         @Html.CheckBoxFor(x => x.User.NewProjectEmailNotification, new { @class = "form-check-input" })
                         @Html.LabelFor(x => x.User.NewProjectEmailNotification, new { @class = "form-check-label" })

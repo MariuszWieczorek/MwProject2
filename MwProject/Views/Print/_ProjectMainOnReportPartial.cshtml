@@ -89,7 +89,18 @@
                             <td class="bg-white">@Model.Project.Category.Name</td>
 
                         </tr>
+                        <tr>
 
+                            <td class="bg-white" style="width: 300px;">
+                                <strong>
+                                    Autor projektu
+                                </strong>
+                            </td>
+
+
+                            <td class="bg-white">@Model.Project?.User?.UserName</td>
+
+                        </tr>
                         <tr>
 
                             <td class="bg-white" style="width: 300px;">
@@ -99,7 +110,7 @@
                             </td>
 
 
-                            <td class="bg-white">@Model.Project.ProjectManager.UserName</td>
+                            <td class="bg-white">@Model.Project?.ProjectManager?.UserName</td>
 
                         </tr>
 

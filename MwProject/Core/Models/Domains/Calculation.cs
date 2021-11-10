@@ -30,7 +30,7 @@ namespace MwProject.Core.Models.Domains
         public decimal LabourCosts { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Narzut %")]
+        [Display(Name = "Narzut Rob %")]
         public decimal Markup { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")]
