@@ -44,10 +44,12 @@
                 </thead>
                 <tbody>
 
+
+                    <!-- Projekt zaakceptowany przez sponsora -->
                     @if (Model.Project.IsAccepted)
                     {
                         <tr>
-                            <td> <strong>projekt zaakceptowany</strong> </td>
+                            <td> <strong>projekt zaakceptowany przez sponsora</strong> </td>
                             <td>
                                 @if (Model.Project.IsAccepted)
                                 {
@@ -63,11 +65,12 @@
                         </tr>
                     }
 
+                     <!-- Projekt potwierdzony przez PM -->
 
                     @if (Model.Project.IsConfirmed)
                     {
                         <tr>
-                            <td> <strong>dane potwierdzone przez</strong> </td>
+                            <td> <strong>projekt potwierdzony przez PM</strong> </td>
                             <td>
                                 @if (Model.Project.IsConfirmed)
                                 {
@@ -83,21 +86,8 @@
                         </tr>
                     }
 
-                    <tr>
-                        <td class="text-muted"> <strong>utworzony</strong> </td>
-                        <td>
-
-                            <div>
-                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                            </div>
-
-                        </td>
-                        <td>@Model.Project?.User?.FirstName @Model.Project?.User?.LastName</td>
-                        <td>@Model.Project?.User?.Possition</td>
-                        <td>@Model.Project.CreatedDate</td>
-                        <td> </td>
-                    </tr>
-
+                    
+                    <!-- Potwierdzona kalkulacja -->
                     <tr>
                         <td class="text-muted"> <strong> potwierdzona kalkulacja TKW</strong></td>
                         <td>
@@ -111,19 +101,48 @@
                         <td>@Model?.CalculationConfirmedBy?.FirstName @Model?.CalculationConfirmedBy?.LastName</td>
                         <td>@Model?.CalculationConfirmedBy?.Possition</td>
                         <td>@Model.Project.CalculationConfirmedDate</td>
-                        <td>
-                            @if (canWithdrawConfirmationOfCalculation)
-                            {
-                                <button class="btn btn-outline-warning btn-sm"
-                                        onclick="withdrawConfirmationOfCalculation('@Model.Project.Id',this)">
-                                    Wycofaj
-                                </button>
-                            }
-                        </td>
+                        <td> </td>
                     </tr>
 
 
+                     <!-- Potwierdzone informacje ekonomiczne  -->
 
+                     <tr>
+                        <td class="text-muted"> <strong>potwierdzone informacje ekonomiczne</strong></td>
+                        <td>
+                            @if (Model.Project.IsEconomicRequirementsConfirmed)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </td>
+                        <td>@Model?.EconomicRequirementsConfirmedBy?.FirstName @Model?.EconomicRequirementsConfirmedBy?.LastName</td>
+                        <td>@Model?.EconomicRequirementsConfirmedBy?.Possition</td>
+                        <td>@Model.Project.EconomicRequirementsConfirmedDate</td>
+                        <td></td>
+                    </tr>
+
+
+                    <!-- Potwierdzony wniosek -->
+                    <tr>
+                        <td class="text-muted"> <strong>potwierdzony wniosek projektowy</strong></td>
+                        <td>
+                            @if (Model.Project.IsRequestConfirmed)
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </td>
+                        <td>@Model?.RequestConfirmedBy?.FirstName @Model?.RequestConfirmedBy?.LastName</td>
+                        <td>@Model?.RequestConfirmedBy?.Possition</td>
+                        <td>@Model.Project.RequestConfirmedDate</td>
+                        <td> </td>
+                    </tr>
+
+                   <!-- Prognoza sprzedaży -->
+                    
                     <tr>
                         <td class="text-muted"> <strong>potwierdzona prognoza sprzedaży</strong></td>
                         <td>
@@ -137,43 +156,12 @@
                         <td>@Model?.EstimatedSalesConfirmedBy?.FirstName @Model?.EstimatedSalesConfirmedBy?.LastName</td>
                         <td>@Model?.EstimatedSalesConfirmedBy?.Possition</td>
                         <td>@Model.Project.EstimatedSalesConfirmedDate</td>
-                        <td>
-                            @if (canWithdrawConfirmationOfEstimatedSales)
-                            {
-                                <button class="btn btn-outline-warning btn-sm"
-                                        onclick="withdrawConfirmationOfEstimatedSales('@Model.Project.Id',this)">
-                                    Wycofaj
-                                </button>
-                            }
-                        </td>
+                        <td> </td>
                     </tr>
 
+                    <!-- Informacje Jakościowe -->
 
-                    <tr>
-                        <td class="text-muted"> <strong>potwierdzone informacje ogólne</strong></td>
-                        <td>
-                            @if (Model.Project.IsGeneralRequirementsConfirmed)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
-                        <td>@Model?.GeneralRequirementsConfirmedBy?.FirstName @Model?.GeneralRequirementsConfirmedBy?.LastName</td>
-                        <td>@Model?.GeneralRequirementsConfirmedBy?.Possition</td>
-                        <td>@Model.Project.GeneralRequirementsConfirmedDate</td>
-                        <td>
-                            @if (canWithdrawConfirmationOfQualityRequirement)
-                            {
-                                <button class="btn btn-outline-warning btn-sm"
-                                        onclick="withdrawConfirmationOfGeneralRequirements('@Model.Project.Id',this)">
-                                    Wycofaj
-                                </button>
-                            }
-                        </td>
-                    </tr>
-
-                    <tr>
+                    <tr style="background-color:#CCFF66;">
                         <td class="text-muted"> <strong>potwierdzone informacje jakościowe</strong></td>
                         <td>
                             @if (Model.Project.IsQualityRequirementsConfirmed)
@@ -197,32 +185,7 @@
                         </td>
                     </tr>
 
-
-
-                    <tr>
-                        <td class="text-muted"> <strong>potwierdzone informacje ekonomiczne</strong></td>
-                        <td>
-                            @if (Model.Project.IsEconomicRequirementsConfirmed)
-                            {
-                                <div>
-                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
-                                </div>
-                            }
-                        </td>
-                        <td>@Model?.EconomicRequirementsConfirmedBy?.FirstName @Model?.EconomicRequirementsConfirmedBy?.LastName</td>
-                        <td>@Model?.EconomicRequirementsConfirmedBy?.Possition</td>
-                        <td>@Model.Project.EconomicRequirementsConfirmedDate</td>
-                        <td>
-                            @if (canWithdrawConfirmationOfEconomicRequirement)
-                            {
-                                <button class="btn btn-outline-warning btn-sm"
-                                        onclick="withdrawConfirmationOfEconomicRequirements('@Model.Project.Id',this)">
-                                    Wycofaj
-                                </button>
-                            }
-                        </td>
-                    </tr>
-
+                    <!-- Informacje Techniczne -->
 
                     <tr>
                         <td class="text-muted"> <strong>potwierdzone informacje techniczne </strong></td>
@@ -237,15 +200,42 @@
                         <td>@Model?.TechnicalPropertiesConfirmedBy?.FirstName @Model?.TechnicalPropertiesConfirmedBy?.LastName</td>
                         <td>@Model?.TechnicalPropertiesConfirmedBy?.Possition</td>
                         <td>@Model.Project.TechnicalProportiesConfirmedDate</td>
+                        <td> </td>
+                    </tr>
+
+                    <!-- Informacje Ogólne -->
+
+                     <tr>
+                        <td class="text-muted"> <strong>potwierdzone informacje ogólne</strong></td>
                         <td>
-                            @if (canWithdrawConfirmationOfTechnicalProperties)
+                            @if (Model.Project.IsGeneralRequirementsConfirmed)
                             {
-                                <button class="btn btn-outline-warning btn-sm"
-                                        onclick="withdrawConfirmationOfTechnicalProperties('@Model.Project.Id',this)">
-                                    Wycofaj
-                                </button>
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
                             }
                         </td>
+                        <td>@Model?.GeneralRequirementsConfirmedBy?.FirstName @Model?.GeneralRequirementsConfirmedBy?.LastName</td>
+                        <td>@Model?.GeneralRequirementsConfirmedBy?.Possition</td>
+                        <td>@Model.Project.GeneralRequirementsConfirmedDate</td>
+                        <td> </td>
+                    </tr>
+
+                    <!-- Autor -->
+
+                    <tr>
+                        <td class="text-muted"> <strong>utworzony</strong> </td>
+                        <td>
+
+                            <div>
+                                <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                            </div>
+
+                        </td>
+                        <td>@Model.Project?.User?.FirstName @Model.Project?.User?.LastName</td>
+                        <td>@Model.Project?.User?.Possition</td>
+                        <td>@Model.Project.CreatedDate</td>
+                        <td> </td>
                     </tr>
 
 

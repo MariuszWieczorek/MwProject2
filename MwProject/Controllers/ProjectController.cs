@@ -403,6 +403,8 @@ namespace MwProject.Controllers
             ApplicationUser economicRequirementsConfirmedBy = new();
             ApplicationUser technicalPropertiesConfirmedBy = new();
             ApplicationUser projectManager = new();
+            ApplicationUser requestConfirmedBy = new();
+
 
             //IEnumerable<ApplicationUser> ApplicationUsers = _userService
 
@@ -451,6 +453,13 @@ namespace MwProject.Controllers
                 projectManager = _userService.GetUser(selectedProject.ProjectManagerId);
             }
 
+            if (selectedProject.RequestConfirmedBy != null)
+            {
+                requestConfirmedBy = _userService.GetUser(selectedProject.RequestConfirmedBy);
+            }
+
+         
+
             var vm = new ProjectViewModel()
             {
                 Project = selectedProject,
@@ -472,7 +481,8 @@ namespace MwProject.Controllers
                 RankingCategories = rankingCategories,
                 ApplicationUsers = applicationUsers,
                 ProjectStatuses = projectStatuses,
-                ProjectGroups = projectGroups
+                ProjectGroups = projectGroups,
+                RequestConfirmedBy = requestConfirmedBy
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -546,6 +556,7 @@ namespace MwProject.Controllers
             ApplicationUser economicRequirementsConfirmedBy = new();
             ApplicationUser technicalPropertiesConfirmedBy = new();
             ApplicationUser projectManager = new();
+            ApplicationUser requestConfirmedBy = new();
 
             if (!ModelState.IsValid)
             {
@@ -595,6 +606,11 @@ namespace MwProject.Controllers
                     projectManager = _userService.GetUser(projectViewModel.Project.ProjectManagerId);
                 }
 
+                if (projectViewModel.Project.RequestConfirmedBy != null)
+                {
+                    requestConfirmedBy = _userService.GetUser(projectViewModel.Project.RequestConfirmedBy);
+                }
+
                 var vm = new ProjectViewModel()
                 {
                     Project = projectViewModel.Project,
@@ -616,8 +632,8 @@ namespace MwProject.Controllers
                     TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
                     ProjectManager = projectManager,
                     ProjectStatuses = projectStatuses,
-                    ProjectGroups = projectGroups
-
+                    ProjectGroups = projectGroups,
+                    RequestConfirmedBy = requestConfirmedBy
                 };
                 
                 // gdy nie przeszła walidacja wracamy do ekranu edycji
