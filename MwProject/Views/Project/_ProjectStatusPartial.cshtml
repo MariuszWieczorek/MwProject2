@@ -45,10 +45,9 @@
                 <tbody>
 
 
-                    <!-- Projekt zaakceptowany przez sponsora -->
-                    @if (Model.Project.IsAccepted)
-                    {
-                        <tr>
+                    <!-- Projekt zaakceptowany przez sponsora FFFF00-->
+
+                        <tr style="background-color:#FFFF00;">
                             <td> <strong>projekt zaakceptowany przez sponsora</strong> </td>
                             <td>
                                 @if (Model.Project.IsAccepted)
@@ -58,18 +57,17 @@
                                     </div>
                                 }
                             </td>
-                            <td>@Model.AcceptedBy.FirstName @Model.AcceptedBy.LastName</td>
+                            <td>@Model.AcceptedBy.FirstName @Model.AcceptedBy?.LastName</td>
                             <td>@Model.AcceptedBy.Possition</td>
                             <td>@Model.Project.AcceptedDate</td>
                             <td> </td>
                         </tr>
-                    }
+      
 
                      <!-- Projekt potwierdzony przez PM -->
 
-                    @if (Model.Project.IsConfirmed)
-                    {
-                        <tr>
+
+                        <tr style="background-color:#00CCFF;">
                             <td> <strong>projekt potwierdzony przez PM</strong> </td>
                             <td>
                                 @if (Model.Project.IsConfirmed)
@@ -79,16 +77,16 @@
                                     </div>
                                 }
                             </td>
-                            <td>@Model.ConfirmedBy.FirstName @Model.ConfirmedBy.LastName</td>
+                            <td>@Model.ConfirmedBy.FirstName @Model.ConfirmedBy?.LastName</td>
                             <td>@Model.ConfirmedBy.Possition</td>
                             <td>@Model.Project.ConfirmedDate</td>
                             <td> </td>
                         </tr>
-                    }
+                    
 
                     
                     <!-- Potwierdzona kalkulacja -->
-                    <tr>
+                    <tr style="background-color:#BBFBFB;">
                         <td class="text-muted"> <strong> potwierdzona kalkulacja TKW</strong></td>
                         <td>
                             @if (Model.Project.IsCalculationConfirmed)
@@ -107,7 +105,7 @@
 
                      <!-- Potwierdzone informacje ekonomiczne  -->
 
-                     <tr>
+                     <tr style="background-color:#BBFBFB;">
                         <td class="text-muted"> <strong>potwierdzone informacje ekonomiczne</strong></td>
                         <td>
                             @if (Model.Project.IsEconomicRequirementsConfirmed)
@@ -123,9 +121,45 @@
                         <td></td>
                     </tr>
 
+                    <!-- Wysłane powiadomienie do finansów  -->
+
+                     <tr style="background-color:#BBFBFB;">
+                        <td class="text-muted"> <strong>wysłane powiadomienie do finansów</strong></td>
+                        <td>
+                            @if (!String.IsNullOrEmpty(Model.Project.FinancialNotificationBy))
+                            {
+                                <div>
+                                    <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                </div>
+                            }
+                        </td>
+                        <td>@Model?.FinancialNotificationBy?.FirstName @Model?.FinancialNotificationBy?.LastName</td>
+                        <td>@Model?.FinancialNotificationBy?.Possition</td>
+                        <td>@Model.Project.FinancialNotificationDate</td>
+                        <td></td>
+                    </tr>
+
+                    <!-- Wybrany PM -->
+
+
+                        <tr style="background-color:#00CCFF;">
+                            <td> <strong>Wybrany PM : @Model.ProjectManager?.FirstName @Model.ProjectManager?.LastName</strong> </td>
+                            <td>
+                                @if (!String.IsNullOrEmpty(Model.Project.ProjectManagerId))
+                                {
+                                    <div>
+                                        <img src="@Url.Content("~/images/checked.png")" alt="logo" width="16" height="16" class="img-checked-sm" />
+                                    </div>
+                                }
+                            </td>
+                            <td>@Model.ProjectManagerSetBy.FirstName @Model.ProjectManagerSetBy?.LastName</td>
+                            <td>@Model.ProjectManagerSetBy.Possition</td>
+                            <td>@Model.Project.ProjectManagerSetDate</td>
+                            <td> </td>
+                        </tr>
 
                     <!-- Potwierdzony wniosek -->
-                    <tr>
+                    <tr style="background-color:#66CC66;">
                         <td class="text-muted"> <strong>potwierdzony wniosek projektowy</strong></td>
                         <td>
                             @if (Model.Project.IsRequestConfirmed)
@@ -143,7 +177,7 @@
 
                    <!-- Prognoza sprzedaży -->
                     
-                    <tr>
+                     <tr style="background-color:#e3ff9c;">
                         <td class="text-muted"> <strong>potwierdzona prognoza sprzedaży</strong></td>
                         <td>
                             @if (Model.Project.IsEstimatedSalesConfirmed)
@@ -161,7 +195,7 @@
 
                     <!-- Informacje Jakościowe -->
 
-                    <tr style="background-color:#CCFF66;">
+                    <tr style="background-color:#e3ff9c;">
                         <td class="text-muted"> <strong>potwierdzone informacje jakościowe</strong></td>
                         <td>
                             @if (Model.Project.IsQualityRequirementsConfirmed)
@@ -174,20 +208,12 @@
                         <td>@Model?.QualityRequirementsConfirmedBy?.FirstName @Model?.QualityRequirementsConfirmedBy?.LastName</td>
                         <td>@Model?.QualityRequirementsConfirmedBy?.Possition</td>
                         <td>@Model.Project.QualityRequirementsConfirmedDate</td>
-                        <td>
-                            @if (canWithdrawConfirmationOfQualityRequirement)
-                            {
-                                <button class="btn btn-outline-warning btn-sm"
-                                        onclick="withdrawConfirmationOfQualityRequirements('@Model.Project.Id',this)">
-                                    Wycofaj
-                                </button>
-                            }
-                        </td>
+                        <td></td>
                     </tr>
 
                     <!-- Informacje Techniczne -->
 
-                    <tr>
+                     <tr style="background-color:#e3ff9c;">
                         <td class="text-muted"> <strong>potwierdzone informacje techniczne </strong></td>
                         <td>
                             @if (Model.Project.IsTechnicalProportiesConfirmed)
@@ -205,7 +231,7 @@
 
                     <!-- Informacje Ogólne -->
 
-                     <tr>
+                      <tr style="background-color:#e3ff9c;">
                         <td class="text-muted"> <strong>potwierdzone informacje ogólne</strong></td>
                         <td>
                             @if (Model.Project.IsGeneralRequirementsConfirmed)
@@ -223,8 +249,8 @@
 
                     <!-- Autor -->
 
-                    <tr>
-                        <td class="text-muted"> <strong>utworzony</strong> </td>
+                     <tr style="background-color:#CCFFCC;">
+                        <td class="text-muted"> <strong>wniosek projektowy utworzony przez</strong> </td>
                         <td>
 
                             <div>

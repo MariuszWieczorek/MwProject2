@@ -51,9 +51,17 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Uwagi / komentarze")]
         public string Comment { get; set; }
 
-
+        
+        
+        // powiadowmienia do działu finansów
         [Display(Name = "Uwagi finansowe")]
         public string FinancialComments { get; set; }
+
+        [Display(Name = "Czas wyboru PM")]
+        public DateTime? FinancialNotificationDate { get; set; }
+
+        [Display(Name = "Kto wysłał powiadomienie do finansów")]
+        public string FinancialNotificationBy { get; set; }
 
 
 
@@ -80,28 +88,31 @@ namespace MwProject.Core.Models.Domains
         public bool IsExecuted { get; set; }
 
 
+        // Opis słowny kto zainicjował wniosek projektowy
         [Required(ErrorMessage = "Pole zainicjowane przez jest wymagane.")]
         [Display(Name = "Wniosek zainicjowany przez")]
         public string InitiatedBy { get; set; }
 
-        [Display(Name = "Koordynator")]
-        public string Coordinator { get; set; }
+
+
+        
+        
+        // Project Manager
 
         [Display(Name = "Kierownik Projektu")]
         [ForeignKey("ProjectManager")]
         public string ProjectManagerId { get; set; }
         public ApplicationUser ProjectManager { get; set; }
 
+        [Display(Name = "Czas wyboru PM")]
+        public DateTime? ProjectManagerSetDate { get; set; }
 
-        [Column(TypeName = "decimal(18, 2)")]
-        [Display(Name = "Wartość")]
-        public decimal Value { get; set; }
+        [Display(Name = "Kto Wybrał PM")]
+        public string ProjectManagerSetBy { get; set; }
 
-        [MaxLength(250)]
-        [Display(Name = "Obrazek")]
-        public string Picture { get; set; }
 
-        
+
+
         [Required(ErrorMessage = "Pole kategoria jest wymagane.")]
         [Display(Name = "Kategoria")]
         public int? CategoryId { get; set; }
@@ -350,6 +361,9 @@ namespace MwProject.Core.Models.Domains
 
         [Display(Name = "Rank WZP")]
         public int RankingOfUsedProductionCapability { get; set; }
+        
+        
+        // Powiązane Listy
         public ICollection<Calculation> Calculations { get; set; }
         public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
         public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
@@ -359,6 +373,18 @@ namespace MwProject.Core.Models.Domains
         public ICollection<ProjectClient> ProjectClients { get; set; }
         public ICollection<ProjectRisk> ProjectRisks { get; set; }
 
+
+        // nie używane, do usunięcia
+        [Column(TypeName = "decimal(18, 2)")]
+        [Display(Name = "Wartość")]
+        public decimal Value { get; set; }
+
+        [MaxLength(250)]
+        [Display(Name = "Obrazek")]
+        public string Picture { get; set; }
+
+        [Display(Name = "Koordynator")]
+        public string Coordinator { get; set; }
 
     }
 }

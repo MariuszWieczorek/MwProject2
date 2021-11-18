@@ -27,6 +27,9 @@ namespace MwProject.Core.ViewModels
         public ApplicationUser RequestConfirmedBy { get; set; }
         public ApplicationUser CurrentUser { get; set; }
         public ApplicationUser ProjectManager { get; set; }
+        public ApplicationUser ProjectManagerSetBy { get; set; }
+        public ApplicationUser FinancialNotificationBy { get; set; }
+                
 
         // 0 - wszystkie dla okna projektu
         // 1 - ekonomiczne, 2 - jakościowe - dla osobnego okna

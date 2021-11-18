@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211118084951_AddPmSetDateAndSetByToProject")]
+    partial class AddPmSetDateAndSetByToProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -645,12 +647,6 @@ namespace MwProject.Migrations
 
                     b.Property<string>("FinancialComments")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FinancialNotificationBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("FinancialNotificationDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FinishedDate")
                         .HasColumnType("datetime2");

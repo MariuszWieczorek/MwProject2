@@ -758,6 +758,8 @@ namespace MwProject.Persistence.Repositories
             if (projectToUpdate.ProjectManagerId != project.ProjectManagerId)
             {
                 projectToUpdate.ProjectManagerId = project.ProjectManagerId;
+                projectToUpdate.ProjectManagerSetBy = userId;
+                projectToUpdate.ProjectManagerSetDate = DateTime.Now;
                 return true;
             }
 
@@ -769,6 +771,8 @@ namespace MwProject.Persistence.Repositories
 
 
             projectToUpdate.FinancialComments = project.FinancialComments;
+            projectToUpdate.FinancialNotificationBy = userId;  
+            projectToUpdate.FinancialNotificationDate = DateTime.Now;
 
         }
 

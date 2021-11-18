@@ -404,6 +404,8 @@ namespace MwProject.Controllers
             ApplicationUser technicalPropertiesConfirmedBy = new();
             ApplicationUser projectManager = new();
             ApplicationUser requestConfirmedBy = new();
+            ApplicationUser projectManagerSetBy = new();
+            ApplicationUser financialNotificationBy = new();
 
 
             //IEnumerable<ApplicationUser> ApplicationUsers = _userService
@@ -458,7 +460,15 @@ namespace MwProject.Controllers
                 requestConfirmedBy = _userService.GetUser(selectedProject.RequestConfirmedBy);
             }
 
-         
+            if (selectedProject.ProjectManagerSetBy != null)
+            {
+                projectManagerSetBy = _userService.GetUser(selectedProject.ProjectManagerSetBy);
+            }
+
+            if (selectedProject.FinancialNotificationBy != null)
+            {
+                financialNotificationBy = _userService.GetUser(selectedProject.FinancialNotificationBy);
+            }
 
             var vm = new ProjectViewModel()
             {
@@ -482,7 +492,9 @@ namespace MwProject.Controllers
                 ApplicationUsers = applicationUsers,
                 ProjectStatuses = projectStatuses,
                 ProjectGroups = projectGroups,
-                RequestConfirmedBy = requestConfirmedBy
+                RequestConfirmedBy = requestConfirmedBy,
+                ProjectManagerSetBy = projectManagerSetBy,
+                FinancialNotificationBy = financialNotificationBy
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -557,6 +569,9 @@ namespace MwProject.Controllers
             ApplicationUser technicalPropertiesConfirmedBy = new();
             ApplicationUser projectManager = new();
             ApplicationUser requestConfirmedBy = new();
+            ApplicationUser projectManagerSetBy = new();
+            ApplicationUser financialNotificationBy = new();
+            
 
             if (!ModelState.IsValid)
             {
@@ -611,6 +626,17 @@ namespace MwProject.Controllers
                     requestConfirmedBy = _userService.GetUser(projectViewModel.Project.RequestConfirmedBy);
                 }
 
+                if (projectViewModel.Project.ProjectManagerSetBy != null)
+                {
+                    projectManagerSetBy = _userService.GetUser(projectViewModel.Project.ProjectManagerSetBy);
+                }
+
+
+                if (projectViewModel.Project.FinancialNotificationBy != null)
+                {
+                    financialNotificationBy = _userService.GetUser(projectViewModel.Project.FinancialNotificationBy);
+                }
+
                 var vm = new ProjectViewModel()
                 {
                     Project = projectViewModel.Project,
@@ -633,7 +659,9 @@ namespace MwProject.Controllers
                     ProjectManager = projectManager,
                     ProjectStatuses = projectStatuses,
                     ProjectGroups = projectGroups,
-                    RequestConfirmedBy = requestConfirmedBy
+                    RequestConfirmedBy = requestConfirmedBy,
+                    ProjectManagerSetBy = projectManagerSetBy,
+                    FinancialNotificationBy = financialNotificationBy
                 };
                 
                 // gdy nie przeszła walidacja wracamy do ekranu edycji
