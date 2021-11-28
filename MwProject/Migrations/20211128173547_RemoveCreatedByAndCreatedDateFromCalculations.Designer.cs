@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MwProject.Data;
 
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211128173547_RemoveCreatedByAndCreatedDateFromCalculations")]
+    partial class RemoveCreatedByAndCreatedDateFromCalculations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -582,9 +584,6 @@ namespace MwProject.Migrations
                     b.Property<DateTime?>("AcceptedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CalculationConfirmedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -826,8 +825,6 @@ namespace MwProject.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("CategoryId");
 
@@ -1330,10 +1327,6 @@ namespace MwProject.Migrations
 
             modelBuilder.Entity("MwProject.Core.Models.Domains.Project", b =>
                 {
-                    b.HasOne("MwProject.Core.Models.Domains.ApplicationUser", null)
-                        .WithMany("ProjectTeamConfirmedUsers")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("MwProject.Core.Models.Domains.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
@@ -1354,8 +1347,7 @@ namespace MwProject.Migrations
 
                     b.HasOne("MwProject.Core.Models.Domains.ApplicationUser", "ProjectManager")
                         .WithMany("ProjectManagers")
-                        .HasForeignKey("ProjectManagerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ProjectManagerId");
 
                     b.HasOne("MwProject.Core.Models.Domains.ProjectStatus", "ProjectStatus")
                         .WithMany()
@@ -1366,9 +1358,8 @@ namespace MwProject.Migrations
                         .HasForeignKey("PurposeOfTheProjectId");
 
                     b.HasOne("MwProject.Core.Models.Domains.ApplicationUser", "User")
-                        .WithMany("ProjectAuthors")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.HasOne("MwProject.Core.Models.Domains.RankingElement", "ViabilityOfTheProject")
                         .WithMany("ViabilityOfTheProjects")
@@ -1487,11 +1478,7 @@ namespace MwProject.Migrations
                 {
                     b.Navigation("Notifications");
 
-                    b.Navigation("ProjectAuthors");
-
                     b.Navigation("ProjectManagers");
-
-                    b.Navigation("ProjectTeamConfirmedUsers");
 
                     b.Navigation("ProjectTeamMembers");
                 });

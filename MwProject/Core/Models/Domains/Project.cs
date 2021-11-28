@@ -16,18 +16,6 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Lp")]
         public int OrdinalNumber { get; set; }
 
-        public Project()
-        {
-            Calculations = new Collection<Calculation>();
-            EstimatedSalesValues = new Collection<EstimatedSalesValue>();
-            ProjectRequirements = new Collection<ProjectRequirement>();
-            ProjectTechnicalProperties = new Collection<ProjectTechnicalProperty>();
-            ProjectTeamMembers = new Collection<ProjectTeamMember>();
-            Notifications = new Collection<Notification>();
-            ProjectClients = new Collection<ProjectClient>();
-            ProjectRisks = new Collection<ProjectRisk>();
-        }
-
         [MaxLength(255)]
         [Required(ErrorMessage = "Pole tytuł jest wymagane.")]
         [Display(Name = "Tytuł")]
@@ -278,8 +266,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Czy zespół projektowy został potwierdzony")]
         public bool IsProjectTeamConfirmed { get; set; }
 
-        
-        
+          
         
         
         
@@ -364,14 +351,14 @@ namespace MwProject.Core.Models.Domains
         
         
         // Powiązane Listy
-        public ICollection<Calculation> Calculations { get; set; }
-        public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; }
-        public ICollection<ProjectRequirement> ProjectRequirements { get; set; }
-        public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
-        public ICollection<ProjectTeamMember> ProjectTeamMembers { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
-        public ICollection<ProjectClient> ProjectClients { get; set; }
-        public ICollection<ProjectRisk> ProjectRisks { get; set; }
+        public ICollection<Calculation> Calculations { get; set; } = new HashSet<Calculation>();   
+        public ICollection<EstimatedSalesValue> EstimatedSalesValues { get; set; } = new Collection<EstimatedSalesValue>();
+        public ICollection<ProjectRequirement> ProjectRequirements { get; set; } = new HashSet<ProjectRequirement>();   
+        public ICollection<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; } = new HashSet<ProjectTechnicalProperty>();
+        public ICollection<ProjectTeamMember> ProjectTeamMembers { get; set; }  = new Collection<ProjectTeamMember>();
+        public ICollection<Notification> Notifications { get; set; } = new Collection<Notification>();
+        public ICollection<ProjectClient> ProjectClients { get; set; } = new Collection<ProjectClient>();  
+        public ICollection<ProjectRisk> ProjectRisks { get; set; } = new Collection<ProjectRisk>();
 
 
         // nie używane, do usunięcia
@@ -388,3 +375,6 @@ namespace MwProject.Core.Models.Domains
 
     }
 }
+
+/* https://editor.ponyorm.com/user/mariusz/Project/designer */
+

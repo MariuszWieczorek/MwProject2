@@ -89,7 +89,7 @@ namespace MwProject
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("LocalConnection")));
             
             services.AddDatabaseDeveloperPageExceptionFilter();
 

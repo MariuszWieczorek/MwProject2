@@ -42,8 +42,9 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
+        
+        
         public ICollection<Project> Projects;
-
         public ICollection<CategoryTechnicalProperty> CategoryTechnicalProperties { get; set; }
         public ICollection<CategoryRequirement> CategoryRequirements { get; set; }
 

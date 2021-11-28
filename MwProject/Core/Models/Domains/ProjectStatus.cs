@@ -9,10 +9,6 @@ namespace MwProject.Core.Models.Domains
 {
     public class ProjectStatus
     {
-        public ProjectStatus()
-        {
-            Projects = new Collection<Project>();
-        }
         public int Id { get; set; }
 
         [Required]
@@ -32,7 +28,8 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
-        public ICollection<Project> Projects;
+
+        public ICollection<Project> Projects = new Collection<Project>();
 
     }
 }

@@ -8,13 +8,8 @@ namespace MwProject.Core.Models.Domains
 {
     public class TypeOfNotification
     {
-        public TypeOfNotification()
-        {
-            Notifications = new Collection<Notification>();
-        }
-        public int Id { get; set; }
+         public int Id { get; set; }
         public string Name { get; set; }
-
-        public ICollection<Notification> Notifications { get; set; }
+        public ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
     }
 }

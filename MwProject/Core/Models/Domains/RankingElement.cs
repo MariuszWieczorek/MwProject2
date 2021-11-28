@@ -11,13 +11,6 @@ namespace MwProject.Core.Models.Domains
     public class RankingElement
     {
 
-        public RankingElement()
-        {
-            PurposeOfTheProjects = new Collection<Project>();
-            ViabilityOfTheProjects = new Collection<Project>();
-            CompetitivenessOfTheProjects = new Collection<Project>();
-        }
-
         public int Id { get; set; }
 
         [Required]
@@ -45,14 +38,14 @@ namespace MwProject.Core.Models.Domains
 
         
         [InverseProperty("PurposeOfTheProject")]
-        public ICollection<Project> PurposeOfTheProjects { get; set; }
+        public ICollection<Project> PurposeOfTheProjects { get; set; }  = new HashSet<Project>();
 
 
         [InverseProperty("ViabilityOfTheProject")]
-        public ICollection<Project> ViabilityOfTheProjects { get; set; }
+        public ICollection<Project> ViabilityOfTheProjects { get; set; }  = new HashSet<Project>();
 
 
         [InverseProperty("CompetitivenessOfTheProject")]
-        public ICollection<Project> CompetitivenessOfTheProjects { get; set; }
+        public ICollection<Project> CompetitivenessOfTheProjects { get; set; }  = new HashSet<Project>();
     }
 }

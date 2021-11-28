@@ -11,7 +11,6 @@ namespace MwProject.Core.Models.Domains
 {
     public class ApplicationUser : IdentityUser
     {
-
         [Required]
         [Display(Name = "Imię")]
         public string  FirstName { get; set; }
@@ -110,18 +109,17 @@ namespace MwProject.Core.Models.Domains
         public bool ConfirmedCalculationNotification { get; set; }
 
 
-        public ApplicationUser()
-        {
-            Projects = new Collection<Project>();
-            ProjectManagers = new Collection<Project>();
-            Notifications = new Collection<Notification>();
-        }
         
-        public ICollection<Project> Projects;
+        
 
+        // [InverseProperty("ProjectManager")]
+        
+        public ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
+        public ICollection<ProjectTeamMember> ProjectTeamMembers { get; set; }  = new HashSet<ProjectTeamMember>();
 
-        [InverseProperty("ProjectManager")]
-        public ICollection<Project> ProjectManagers { get; set; }
-        public ICollection<Notification> Notifications { get; set; }
+        public ICollection<Project> ProjectAuthors  = new HashSet<Project>();
+        public ICollection<Project> ProjectManagers { get; set; } = new HashSet<Project>();
+        
+        public ICollection<Project> ProjectTeamConfirmedUsers { get; set; } = new HashSet<Project>();
     }
 }

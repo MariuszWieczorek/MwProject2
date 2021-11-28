@@ -18,7 +18,7 @@ namespace MwProject.Persistence.Services
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
-        private readonly IUrlHelper _urlHelper;
+        //private readonly IUrlHelper _urlHelper;
 
         public ProjectService(IUnitOfWork unitOfWork, IEmailSender emailSender)
         {

@@ -11,7 +11,7 @@ namespace MwProject.Core.Models.Domains
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
-
+        public Project Project { get; set; }
 
         [Required]
         [Display(Name = "Lp")]
@@ -53,11 +53,6 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Komentarz")]
         public string Comment { get; set; }
         
-
-        [Display(Name = "przygotował dane")]
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-
-        public Project Project { get; set; }
+       
     }
 }

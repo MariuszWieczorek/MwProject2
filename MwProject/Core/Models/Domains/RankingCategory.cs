@@ -10,11 +10,6 @@ namespace MwProject.Core.Models.Domains
 {
     public class RankingCategory
     {
-        public RankingCategory()
-        {
-            RankingElements = new Collection<RankingElement>();
-        }
-
         public int Id { get; set; }
         
         [Required]
@@ -24,7 +19,7 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Skrót")]
         public string Abbrev { get; set; }
 
-        public ICollection<RankingElement> RankingElements { get; set; }
+        public ICollection<RankingElement> RankingElements { get; set; } = new HashSet<RankingElement>();
 
             
     }

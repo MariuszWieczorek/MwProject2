@@ -11,6 +11,7 @@ namespace MwProject.Core.Models.Domains
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
+        public Project Project { get; set; }
         
         [Display(Name = "rok")]
         [Required(ErrorMessage = "Pole rok jest wymagane.")]
@@ -27,6 +28,6 @@ namespace MwProject.Core.Models.Domains
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
-        public Project Project { get; set; }
+        
     }
 }
