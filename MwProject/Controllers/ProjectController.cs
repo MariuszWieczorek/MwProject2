@@ -377,7 +377,6 @@ namespace MwProject.Controllers
 
 
 
-
         #region Pojedynczy projekt
         public IActionResult Project(int id, string tab)
         {
