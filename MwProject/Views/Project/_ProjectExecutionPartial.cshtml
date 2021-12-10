@@ -1,0 +1,126 @@
+﻿@model MwProject.Core.ViewModels.ProjectViewModel
+@* Widok częściowy z głównym formularzem projektu *@
+
+@{
+    bool NewProject = (Model.Project.Id == 0);
+    var listOfPurposeOfTheProject = Model.RankingCategories.Single(x => x.Id == 3).RankingElements;
+    var listOfViabilityOfTheProject = Model.RankingCategories.Single(x => x.Id == 2).RankingElements;
+    var listOfCompetitivenessOfTheProject = Model.RankingCategories.Single(x => x.Id == 1).RankingElements;
+
+    decimal estimatedCostOfProject = Model.Project.ProjectRequirements
+    .Where(x => x.Requirement.Type == 1)
+    .Sum(x => x.Value);
+
+
+}
+
+<div class="m-2 ps-2">
+
+    <div class="row">
+        <div class="col-11">
+            <div class="mt-2 mb-4 text-muted">
+                <h2>Wykonanie, Zakończenie, Anulowanie Projektu</h2>
+            </div>
+        </div>
+
+        <div class="col-1">
+            <div class="mt-2 mb-4 text-muted">
+                <img src="@Url.Content("~/images/form.webp")" style="width: 50px;" />
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="row">
+        <div class="col-12">
+
+            @using (Html.BeginForm("ProjectExecution", "Project", FormMethod.Post, new { id = "myform" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <!-- Wyświetlenie podsumowania walidacji-->
+                @Html.ValidationSummary()
+
+                @Html.HiddenFor(x => x.Project.Id)
+                @Html.HiddenFor(x => x.Project.Title)
+                @Html.HiddenFor(x => x.Project.InitiatedBy)
+                @Html.HiddenFor(x => x.Project.CategoryId)
+
+
+                @if (NewProject == false)
+                {
+                    @Html.HiddenFor(x => x.Project.CategoryId)
+                }
+
+                <!--Podział głównych danych formularza na dwie kolumny-->
+                <div class="row g-0">
+                    <!-- Pierwsza kolumna formularza -->
+                    <div class="col-lg-6">
+
+
+                        <div class="row">
+                            <div class="form-group mb-3 col-4">
+                                @Html.LabelFor(x => x.Project.FinishedDate)
+                                @Html.TextBoxFor(x => x.Project.FinishedDate,
+                                 "{0:dd-MM-yyyy}",
+                                new
+                                {
+                                    @class = "form-control",
+                                    @id = "FinishedDate",
+                                    Style = "background:#eeffee; font-weight:bold",
+                                    autocomplete = "off"
+                                })
+                                @Html.ValidationMessageFor(x => x.Project.FinishedDate)
+                            </div>
+
+                            <div class="form-check form-switch mb-3 offset-2 col-2">
+                                <br>
+                                @Html.CheckBoxFor(x => x.Project.IsExecuted, new { @class = "form-check-input" })
+                                @Html.LabelFor(x => x.Project.IsExecuted, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(x => x.Project.IsExecuted)
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+                           
+                        </div>
+
+                    </div>
+
+                    <!-- Druga kolumna formularza -->
+                    <div class="col-lg-5 offset-lg-1">
+
+
+
+
+
+
+                    </div>
+                </div>
+
+              
+                    <button class="btn btn-primary btn-lg mb-5" type="submit">
+                        Zapisz
+                    </button>
+                
+
+            }
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+                         // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+
+                          //
+    </script>
+}
