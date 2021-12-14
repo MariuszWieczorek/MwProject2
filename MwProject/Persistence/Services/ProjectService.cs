@@ -1155,5 +1155,16 @@ namespace MwProject.Persistence.Services
             _unitOfWork.Project.UpdateProjectWithAdminRights(project, userId);
             _unitOfWork.Complete();
         }
+
+        public void UpdateProjectExecution(Project project, string userId)
+        {
+            _unitOfWork.Project.UpdateProjectExecution(project, userId);
+            _unitOfWork.Complete();
+        }
+
+        public IEnumerable<Notification> GetNotifications(int ProjectId, string userId)
+        {
+            return _unitOfWork.Project.GetNotifications(ProjectId, userId);
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace MwProject.Core.Repositories
         IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId);
         IEnumerable<Project> GetAllProjects(string userId);
         Project GetProject(int id, string userId);
+        IEnumerable<Notification> GetNotifications(int ProjectId, string userId);
         Project NewProject(string userId);
         void AddProject(Project project);
         void UpdateProject(Project project, string userId);
@@ -21,6 +22,7 @@ namespace MwProject.Core.Repositories
         bool UpdateProjectManager(Project project, string userId);
         void UpdateFinancialComments(Project project, string userId);
         void UpdateProjectWithAdminRights(Project project, string userId);
+        void UpdateProjectExecution(Project project, string userId);
         void UpdateProjectPriority(Project project, string userId);
         void FinishProject(int id, string userId);
         void DeleteProject(int id, string userId);

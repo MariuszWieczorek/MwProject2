@@ -56,23 +56,21 @@
                 }
 
                 <!--Podział głównych danych formularza na dwie kolumny-->
-                <div class="row g-0">
+                <div class="row">
                     <!-- Pierwsza kolumna formularza -->
-                    <div class="col-lg-6">
-
-
+                <div class="col-lg-6">
                         <div class="row">
                             <div class="form-group mb-3 col-4">
                                 @Html.LabelFor(x => x.Project.FinishedDate)
                                 @Html.TextBoxFor(x => x.Project.FinishedDate,
-                                 "{0:dd-MM-yyyy}",
-                                new
-                                {
-                                    @class = "form-control",
-                                    @id = "FinishedDate",
-                                    Style = "background:#eeffee; font-weight:bold",
-                                    autocomplete = "off"
-                                })
+                            "{0:dd-MM-yyyy}",
+                            new
+                            {
+                            @class = "form-control",
+                            @id = "FinishedDate",
+                            Style = "background:#eeffee; font-weight:bold",
+                            autocomplete = "off"
+                            })
                                 @Html.ValidationMessageFor(x => x.Project.FinishedDate)
                             </div>
 
@@ -88,27 +86,41 @@
 
 
                         <div class="row">
-                           
+                            <div class="form-group mb-3 col-4">
+                                @Html.LabelFor(x => x.Project.CanceledDate)
+                                @Html.TextBoxFor(x => x.Project.CanceledDate,
+                            "{0:dd-MM-yyyy}",
+                            new
+                            {
+                            @class = "form-control",
+                            @id = "CanceledDate",
+                            Style = "background:#eeffee; font-weight:bold",
+                            autocomplete = "off"
+                            })
+                                @Html.ValidationMessageFor(x => x.Project.CanceledDate)
+                            </div>
+
+                            <div class="form-check form-switch mb-3 offset-2 col-2">
+                                <br>
+                                @Html.CheckBoxFor(x => x.Project.IsCanceled, new { @class = "form-check-input" })
+                                @Html.LabelFor(x => x.Project.IsCanceled, new { @class = "form-check-label" })
+                                @Html.ValidationMessageFor(x => x.Project.IsCanceled)
+                            </div>
+
                         </div>
 
                     </div>
 
                     <!-- Druga kolumna formularza -->
-                    <div class="col-lg-5 offset-lg-1">
-
-
-
-
-
-
+                <div class="col-lg-5 offset-lg-1">
                     </div>
                 </div>
 
-              
-                    <button class="btn btn-primary btn-lg mb-5" type="submit">
-                        Zapisz
-                    </button>
-                
+
+                <button class="btn btn-primary btn-lg mb-5" type="submit">
+                    Zapisz
+                </button>
+
 
             }
         </div>
@@ -118,9 +130,9 @@
 
 @section scripts
 {
-    <script type="text/javascript">
-                         // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
+<script type="text/javascript">
+    // wszystkie skrypty w widoku z którego został wywołany ten widok częściowy
 
-                          //
-    </script>
+     //
+</script>
 }

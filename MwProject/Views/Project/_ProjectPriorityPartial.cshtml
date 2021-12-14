@@ -220,27 +220,6 @@
                                 @Html.ValidationMessageFor(x => x.Project.PlannedEndDateOfTheProject)
                             </div>
 
-                            <div class="form-group mb-3 col-2">
-                                @Html.LabelFor(x => x.Project.FinishedDate)
-                                @Html.TextBoxFor(x => x.Project.FinishedDate,
-                                 "{0:dd-MM-yyyy}",
-                                new
-                                {
-                                    @class = "form-control",
-                                    @id = "FinishedDate",
-                                    Style = "background:#eeffee; font-weight:bold",
-                                    autocomplete = "off"
-                                })
-                                @Html.ValidationMessageFor(x => x.Project.FinishedDate)
-                            </div>
-
-                            <div class="form-check form-switch mb-3 offset-2 col-2">
-                                <br>
-                                @Html.CheckBoxFor(x => x.Project.IsExecuted, new { @class = "form-check-input" })
-                                @Html.LabelFor(x => x.Project.IsExecuted, new { @class = "form-check-label" })
-                                @Html.ValidationMessageFor(x => x.Project.IsExecuted)
-                            </div>
-
                         </div>
 
                         <div class="row">

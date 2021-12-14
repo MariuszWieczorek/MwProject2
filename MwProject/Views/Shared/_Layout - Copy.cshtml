@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MwProject</title>
+
+    <!-- przed bootstrap bo nadpisuje style przycisków nie działa btn-lg btn-sm -->
+    <link href="~/lib/eonasdan-bootstrap-datatimepicker/css/bootstrap-datetimepicker-standalone.css" rel="stylesheet" />
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datapicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-datapicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+    <link href="~/css/counter1.css" rel="stylesheet" />
+
+    <link href="~/css/validate.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/lib/starrating/css/star-rating.min.css" rel="stylesheet" />
+    <link href="~/lib/starrating/themes/krajee-fas/theme.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    <header>
+
+        <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+
+                <a class="navbar-brand"
+                   asp-area=""
+                   asp-controller="Project"
+                   asp-action="Projects">
+                   Projekty
+                </a>
+
+                @if (User.Identity.IsAuthenticated)
+
+                {
+                <a class="navbar-brand"
+                  asp-area=""
+                  asp-controller="Project"
+                  asp-action="Project"
+                  asp-route-id="0">
+                  <strong>Nowy Wniosek</strong>
+                </a>
+                }
+
+                <button class="navbar-toggler"
+                        type="button" 
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                 
+                        
+                        @if(User.Identity.IsAuthenticated)
+
+                        {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#" id="navbarDropdown"
+                               role="button" 
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Zestawienia
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                
+
+                               
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="ProjectsStatistics">Statystyki</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="ProjectsCategoryCharts">Ranking Kategorii</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="ProjectsManagerCharts">Ranking Kierowników</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="ProjectsPriorityCharts">Ranking Priorytetów</a>
+                                </li>
+
+                                 <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="UsersInTeamsCharts">Ranking Uczestników Zespołów</a>
+                                </li>
+
+                            
+
+                            </ul>
+                        </li>
+                        }
+
+
+                         @if (User.Identity.IsAuthenticated)    
+
+                         {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Słowniki
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Requirement"
+                                       asp-action="Requirements"
+                                       asp-route-type="1">informacje ekonomiczne</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Requirement"
+                                       asp-action="Requirements"
+                                       asp-route-type="2">informacje jakościowe</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Requirement"
+                                       asp-action="Requirements"
+                                       asp-route-type="3">informacje ogólne</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="TechnicalProperty"
+                                       asp-action="TechnicalProperties">informacje techniczne</a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Category"
+                                       asp-action="Categories">kategorie projektów</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="RankingCategory"
+                                       asp-action="RankingCategories">kryteria wyliczania priorytetu</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="ProductGroup"
+                                       asp-action="ProductGroups">grupy produktów</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="ProjectGroup"
+                                       asp-action="ProjectGroups">programy</a>
+                                </li>
+
+                                
+                                
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="User"
+                                       asp-action="Users">użytkownicy</a>
+                                </li>
+
+                                 <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="User"
+                                       asp-action="SingleUser">nowy</a>
+                                </li>
+
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="CalculatePriorities">Przelicz priorytety</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Project"
+                                       asp-action="CalculateTkwInAllProjects">Przelicz TKW</a>
+                                </li>
+
+                        
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="SendEmail"
+                                       asp-action="SendTestEmail">wyślij wiadomość testową</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                         }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Prywatność</a>
+                        </li>
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - MwProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/lib/moment/moment.js"></script>
+    <script src="~/lib/bootstrap-datapicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/lib/eonasdan-bootstrap-datatimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/starrating/js/star-rating.min.js"></script>
+    <script src="~/lib/starrating/themes/krajee-fas/theme.js"></script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

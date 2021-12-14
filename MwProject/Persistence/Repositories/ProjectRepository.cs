@@ -96,13 +96,23 @@ namespace MwProject.Persistence.Repositories
                 .Include(x => x.ProjectTeamMembers)
                 .ThenInclude(x => x.User)
                 .Include(x => x.ProjectClients)
-                .Include(x => x.Notifications)
-                .ThenInclude(x => x.TypeOfNotification)
                 .Include(x => x.ProjectRisks)
                 .Single(x => x.Id == id);
 
 
             return project;
+        }
+
+
+        public IEnumerable<Notification> GetNotifications(int ProjectId, string userId)
+        {
+            var user = _context.Users.Single(x => x.Id == userId);
+            var notifications = _context.Notifications
+                .Where(x => x.ProjectId == ProjectId)
+                .Include(x => x.TypeOfNotification)
+                .OrderBy(x=>x.Id);
+            
+            return notifications;
         }
 
         private IQueryable<Project> SortProjects(IQueryable<Project> projects)
@@ -129,7 +139,7 @@ namespace MwProject.Persistence.Repositories
                     projects = projects.Where(x => x.UserId == userId);
 
                 if (projectsFilter.IsExecuted == true)
-                    projects = projects.Where(x => x.IsExecuted == false);
+                    projects = projects.Where(x => x.IsExecuted == false && x.IsCanceled == false);
 
                 if (projectsFilter.MyProjects)
                 {
@@ -140,7 +150,6 @@ namespace MwProject.Persistence.Repositories
                                || x.ProjectTeamMembers.Any(x => x.UserId == projectsFilter.ProjectTeamMemberId)
                                 );
                 }
-
 
 
 
@@ -734,8 +743,6 @@ namespace MwProject.Persistence.Repositories
             var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
 
 
-            projectToUpdate.IsExecuted = project.IsExecuted;
-            projectToUpdate.FinishedDate = project.FinishedDate;
 
 
             projectToUpdate.PurposeOfTheProjectId = project.PurposeOfTheProjectId;
@@ -773,6 +780,21 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.FinancialComments = project.FinancialComments;
             projectToUpdate.FinancialNotificationBy = userId;  
             projectToUpdate.FinancialNotificationDate = DateTime.Now;
+
+        }
+
+        public void UpdateProjectExecution(Project project, string userId)
+        {
+            var projectToUpdate = _context.Projects.Single(x => x.Id == project.Id);
+            
+
+
+
+            projectToUpdate.FinishedDate = project.FinishedDate;
+            projectToUpdate.IsExecuted = project.IsExecuted;
+            
+            projectToUpdate.CanceledDate = project.CanceledDate;
+            projectToUpdate.IsCanceled = project.IsCanceled;
 
         }
 

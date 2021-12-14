@@ -386,6 +386,7 @@ namespace MwProject.Controllers
             var applicationUsers = _userService.GetUsers(null,null);
             var projectStatuses = _projectStatusService.GetProjectStatuses();
             var projectGroups = _projectGroupService.GetProjectGroups();
+            var notifications = _projectService.GetNotifications(id, userId);
 
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
@@ -493,7 +494,8 @@ namespace MwProject.Controllers
                 ProjectGroups = projectGroups,
                 RequestConfirmedBy = requestConfirmedBy,
                 ProjectManagerSetBy = projectManagerSetBy,
-                FinancialNotificationBy = financialNotificationBy
+                FinancialNotificationBy = financialNotificationBy,
+                Notifications = notifications
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -557,6 +559,7 @@ namespace MwProject.Controllers
             var applicationUsers = _userService.GetUsers(null,null);
             var projectStatuses = _projectStatusService.GetProjectStatuses();
             var projectGroups = _projectGroupService.GetProjectGroups();
+            var notifications = _projectService.GetNotifications(project.Id, userId);
 
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();
@@ -660,7 +663,8 @@ namespace MwProject.Controllers
                     ProjectGroups = projectGroups,
                     RequestConfirmedBy = requestConfirmedBy,
                     ProjectManagerSetBy = projectManagerSetBy,
-                    FinancialNotificationBy = financialNotificationBy
+                    FinancialNotificationBy = financialNotificationBy,
+                    Notifications = notifications
                 };
                 
                 // gdy nie przeszła walidacja wracamy do ekranu edycji
@@ -797,6 +801,45 @@ namespace MwProject.Controllers
                 , new { id = project.Id, tab = "admin" });
         }
 
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ProjectExecution(ProjectViewModel projectViewModel)
+        {
+            var project = projectViewModel.Project;
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            var rankingCategories = _rankingCategoryService.GetRankingCategories();
+            var applicationUsers = _userService.GetUsers(null, null);
+
+            if (!ModelState.IsValid)
+            {
+
+
+                var vm = new ProjectViewModel()
+                {
+                    Project = projectViewModel.Project,
+                    Categories = _categoryService.GetCategories(),
+                    ProductGroups = _productGroupService.GetProductGroups(),
+                    RankingCategories = rankingCategories,
+                    ApplicationUsers = applicationUsers,
+                    CurrentUser = currentUser,
+                    Heading = projectViewModel.Project.Id == 0 ? "Nowy Projekt" :
+                        $"lp: {projectViewModel.Project.OrdinalNumber} numer: {projectViewModel.Project.Number}",
+
+                };
+
+                // gdy nie przeszła walidacja wracamy do ekranu edycji
+                return View("Project", vm);
+            }
+
+            // jeżeli wszystko ok to zapisujemy projekt
+            _projectService.UpdateProjectExecution(project, userId);
+
+            return RedirectToAction("Project", "Project"
+                , new { id = project.Id, tab = "execution" });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

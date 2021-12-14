@@ -69,11 +69,24 @@ namespace MwProject.Core.Models.Domains
         [Display(Name = "Oczekiwany Termin")]
         public DateTime? Term { get; set; }
 
-        [Display(Name = "Fakt. data zakończenia")]
+        
+        
+        [Display(Name = "Data zakończenia")]
         public DateTime? FinishedDate { get; set; }
 
-        [Display(Name = "zrealizowane")]
+        [Display(Name = "zrealizowany")]
         public bool IsExecuted { get; set; }
+
+
+        
+        [Display(Name = "Data anulowania")]
+        public DateTime? CanceledDate { get; set; }
+
+        [Display(Name = "anulowany")]
+        public bool IsCanceled { get; set; }
+
+
+
 
 
         // Opis słowny kto zainicjował wniosek projektowy
