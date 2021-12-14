@@ -835,9 +835,14 @@ namespace MwProject.Persistence.Repositories
 
             projectToUpdate.FinishedDate = project.FinishedDate;
             projectToUpdate.IsExecuted = project.IsExecuted;
+            if (projectToUpdate.IsExecuted)
+                projectToUpdate.ProjectStatusId = (int)StatusType.ProjectIsFinished;
+
             
             projectToUpdate.CanceledDate = project.CanceledDate;
             projectToUpdate.IsCanceled = project.IsCanceled;
+             if (projectToUpdate.IsCanceled)
+                projectToUpdate.ProjectStatusId = (int)StatusType.ProjectIsCanceled;
 
         }
 

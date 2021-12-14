@@ -59,6 +59,7 @@ namespace MwProject.Controllers
 
             var notifications = _projectService.GetNotifications(id, userId);
             var projectRequirements = _projectService.GetProjectRequirements(id, userId);
+            var projectTechnicalProperties = _projectService.GetTechnicalProperties(id, userId);
 
             if (selectedProject.AcceptedBy != null)
             {
@@ -112,7 +113,8 @@ namespace MwProject.Controllers
                 TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
                 CurrentUser = currentUser,
                 ProjectRequirements = projectRequirements,
-                Notifications = notifications
+                Notifications = notifications,
+                ProjectTechnicalProperties = projectTechnicalProperties
             };
 
             return View(vm);
