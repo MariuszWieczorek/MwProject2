@@ -10,7 +10,7 @@
 
     int typeOfRequirement = (int)RequirementType.General;
 
-    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
+    var requirements = Model.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
 
     bool canEdit = Model.CurrentUser.CanEditGeneralRequirements
          && !Model.Project.IsGeneralRequirementsConfirmed;

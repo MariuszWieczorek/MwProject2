@@ -14,6 +14,8 @@ namespace MwProject.Core.Services
         IEnumerable<Project> GetProjects(ProjectsFilter projectsFilter, PagingInfo pagingInfo, int categoryId, string userId);
         Project GetProject(int id, string userId);
         IEnumerable<Notification> GetNotifications(int ProjectId, string userId);
+        IEnumerable<ProjectRequirement> GetProjectRequirements(int ProjectId, string userId);
+        IEnumerable<ProjectTechnicalProperty> GetTechnicalProperties(int ProjectId, string userId);
         Project NewProject(string userId);
         void AddProject(Project project, string userId);
         void UpdateProject(Project project, string userId);

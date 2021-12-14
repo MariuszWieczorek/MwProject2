@@ -16,6 +16,8 @@ namespace MwProject.Core.ViewModels
         public IEnumerable<ProjectStatus> ProjectStatuses { get; set; }
         public IEnumerable<ProjectGroup> ProjectGroups { get; set; }
         public IEnumerable<Notification> Notifications { get; set; }
+        public IEnumerable<ProjectRequirement> ProjectRequirements { get; set; }
+        public IEnumerable<ProjectTechnicalProperty> ProjectTechnicalProperties { get; set; }
         public Project Project { get; set; }
         public ApplicationUser AcceptedBy { get; set; }
         public ApplicationUser ConfirmedBy { get; set; }

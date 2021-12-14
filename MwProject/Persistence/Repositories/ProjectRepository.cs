@@ -78,6 +78,8 @@ namespace MwProject.Persistence.Repositories
         {
             var user = _context.Users.Single(x => x.Id == userId);
 
+
+            /*
             var project = _context.Projects
                 .Include(x => x.Calculations)
                 .Include(x => x.EstimatedSalesValues)
@@ -85,6 +87,27 @@ namespace MwProject.Persistence.Repositories
                 .ThenInclude(x => x.Requirement)
                 .Include(x => x.ProjectTechnicalProperties)
                 .ThenInclude(x => x.TechnicalProperty)
+                .Include(x => x.ProductGroup)
+                .Include(x => x.Category)
+                .Include(x => x.ProjectStatus)
+                .Include(x => x.User)
+                .Include(x => x.PurposeOfTheProject)
+                .Include(x => x.ViabilityOfTheProject)
+                .Include(x => x.CompetitivenessOfTheProject)
+                .Include(x => x.ProjectManager)
+                .Include(x => x.ProjectTeamMembers)
+                .ThenInclude(x => x.User)
+                .Include(x => x.ProjectClients)
+                .Include(x => x.Notifications)
+                .ThenInclude(x => x.TypeOfNotification)
+                .Include(x => x.ProjectRisks)
+                .Single(x => x.Id == id);
+            */
+
+
+            var project = _context.Projects
+                .Include(x => x.Calculations)
+                .Include(x => x.EstimatedSalesValues)
                 .Include(x => x.ProductGroup)
                 .Include(x => x.Category)
                 .Include(x => x.ProjectStatus)
@@ -113,6 +136,26 @@ namespace MwProject.Persistence.Repositories
                 .OrderBy(x=>x.Id);
             
             return notifications;
+        }
+
+        public IEnumerable<ProjectRequirement> GetProjectRequirements(int ProjectId, string userId)
+        {
+            var projectRequirements = _context.ProjectRequirements
+                .Where(x => x.ProjectId == ProjectId)
+                .Include(x => x.Requirement)
+                .OrderBy(x => x.Requirement.OrdinalNumber);
+
+            return projectRequirements;
+        }
+
+        public IEnumerable<ProjectTechnicalProperty> GetTechnicalProperties(int ProjectId, string userId)
+        {
+            var projectTechnicalProperties = _context.ProjectTechnicalProperties
+                .Where(x => x.ProjectId == ProjectId)
+                .Include(x => x.TechnicalProperty)
+                .OrderBy(x => x.TechnicalProperty.OrdinalNumber);
+
+            return projectTechnicalProperties;
         }
 
         private IQueryable<Project> SortProjects(IQueryable<Project> projects)

@@ -6,7 +6,7 @@
 
 @{
     int typeOfRequirement = 1;
-    var requirements = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
+    var requirements = Model.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement);
 
     bool canEdit = Model.CurrentUser.CanEditEconomicRequirements
       && !Model.Project.IsAccepted
@@ -23,7 +23,7 @@
         && !Model.Project.IsConfirmed
         && !Model.Project.IsEconomicRequirementsConfirmed;
 
-    var totalCost = Model.Project.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement).Sum(x => x.Value);
+    var totalCost = Model.ProjectRequirements.Where(x => x.Requirement.Type == typeOfRequirement).Sum(x => x.Value);
 }
 
 <div class="m-2">

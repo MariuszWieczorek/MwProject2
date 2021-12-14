@@ -1166,5 +1166,15 @@ namespace MwProject.Persistence.Services
         {
             return _unitOfWork.Project.GetNotifications(ProjectId, userId);
         }
+
+        public IEnumerable<ProjectRequirement> GetProjectRequirements(int ProjectId, string userId)
+        {
+            return _unitOfWork.Project.GetProjectRequirements(ProjectId, userId);
+        }
+
+        public IEnumerable<ProjectTechnicalProperty> GetTechnicalProperties(int ProjectId, string userId)
+        {
+            return _unitOfWork.Project.GetTechnicalProperties(ProjectId, userId);
+        }
     }
 }

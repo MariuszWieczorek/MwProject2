@@ -57,6 +57,9 @@ namespace MwProject.Controllers
             ApplicationUser economicRequirementsConfirmedBy = new();
             ApplicationUser technicalPropertiesConfirmedBy = new();
 
+            var notifications = _projectService.GetNotifications(id, userId);
+            var projectRequirements = _projectService.GetProjectRequirements(id, userId);
+
             if (selectedProject.AcceptedBy != null)
             {
                 acceptedBy = _userService.GetUser(selectedProject.AcceptedBy);
@@ -107,7 +110,9 @@ namespace MwProject.Controllers
                 QualityRequirementsConfirmedBy = qualityRequirementsConfirmedBy,
                 EconomicRequirementsConfirmedBy = economicRequirementsConfirmedBy,
                 TechnicalPropertiesConfirmedBy = technicalPropertiesConfirmedBy,
-                CurrentUser = currentUser
+                CurrentUser = currentUser,
+                ProjectRequirements = projectRequirements,
+                Notifications = notifications
             };
 
             return View(vm);

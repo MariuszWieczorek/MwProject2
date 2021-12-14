@@ -387,6 +387,8 @@ namespace MwProject.Controllers
             var projectStatuses = _projectStatusService.GetProjectStatuses();
             var projectGroups = _projectGroupService.GetProjectGroups();
             var notifications = _projectService.GetNotifications(id, userId);
+            var projectRequirements = _projectService.GetProjectRequirements(id, userId);
+            var projectTechnicalProperties = _projectService.GetTechnicalProperties(id, userId);
 
             var selectedProject = id == 0 ?
                 _projectService.NewProject(userId) :
@@ -495,7 +497,9 @@ namespace MwProject.Controllers
                 RequestConfirmedBy = requestConfirmedBy,
                 ProjectManagerSetBy = projectManagerSetBy,
                 FinancialNotificationBy = financialNotificationBy,
-                Notifications = notifications
+                Notifications = notifications,
+                ProjectRequirements = projectRequirements,
+                ProjectTechnicalProperties = projectTechnicalProperties
             };
 
             ViewBag.Tab = tab != null ? tab : string.Empty;
@@ -560,6 +564,9 @@ namespace MwProject.Controllers
             var projectStatuses = _projectStatusService.GetProjectStatuses();
             var projectGroups = _projectGroupService.GetProjectGroups();
             var notifications = _projectService.GetNotifications(project.Id, userId);
+            var projectRequirements = _projectService.GetProjectRequirements(project.Id, userId);
+            var projectTechnicalProperties = _projectService.GetTechnicalProperties(project.Id, userId);
+
 
             ApplicationUser acceptedBy = new();
             ApplicationUser confirmedBy = new();
@@ -664,7 +671,9 @@ namespace MwProject.Controllers
                     RequestConfirmedBy = requestConfirmedBy,
                     ProjectManagerSetBy = projectManagerSetBy,
                     FinancialNotificationBy = financialNotificationBy,
-                    Notifications = notifications
+                    Notifications = notifications,
+                    ProjectRequirements = projectRequirements,
+                    ProjectTechnicalProperties = projectTechnicalProperties
                 };
                 
                 // gdy nie przeszła walidacja wracamy do ekranu edycji
