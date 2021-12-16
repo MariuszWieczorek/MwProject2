@@ -25,6 +25,7 @@ namespace MwProject.Core
         IProjectClientRepository ProjectClientRepository { get; set; }
         IProjectRiskRepository ProjectRiskRepository { get; set; }
 
+
         void Complete();
     }
 }

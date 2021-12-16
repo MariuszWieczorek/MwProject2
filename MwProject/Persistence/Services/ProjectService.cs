@@ -129,11 +129,22 @@ namespace MwProject.Persistence.Services
         #region wysyłanie powiadomień via e-mail
         private void SendNotifications(int projectId, int typeOfNotification, string userId)
         {
-            var projectToSend = _unitOfWork.Project.GetProject(projectId, userId);
+            //var projectToSend = _unitOfWork.Project.GetProject(projectId, userId);
+            
+            // przeróbka po wydzielenie powiadomieńz głównego zapytania
+
+            var notificationsToSend = _unitOfWork.Project
+                .GetNotifications(projectId,userId)
+                .Where(x => x.Confirmed == false
+                && x.TypeOfNotificationId == typeOfNotification
+                && x.Sent == false);
+
+            /*
             var notificationsToSend = projectToSend.Notifications
                 .Where(x => x.Confirmed == false
                 && x.TypeOfNotificationId == typeOfNotification
                 && x.Sent == false);
+            */
 
             if (notificationsToSend.Any())
             {
