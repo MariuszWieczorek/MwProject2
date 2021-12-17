@@ -133,7 +133,8 @@ namespace MwProject.Persistence.Repositories
             var notifications = _context.Notifications
                 .Where(x => x.ProjectId == ProjectId)
                 .Include(x => x.TypeOfNotification)
-                .OrderBy(x=>x.Id);
+                .OrderBy(x=>x.Id)
+                .ToList();
             
             return notifications;
         }
