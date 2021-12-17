@@ -144,7 +144,8 @@ namespace MwProject.Persistence.Repositories
             var projectRequirements = _context.ProjectRequirements
                 .Where(x => x.ProjectId == ProjectId)
                 .Include(x => x.Requirement)
-                .OrderBy(x => x.Requirement.OrdinalNumber);
+                .OrderBy(x => x.Requirement.OrdinalNumber)
+                .ToList();
 
             return projectRequirements;
         }
@@ -154,7 +155,8 @@ namespace MwProject.Persistence.Repositories
             var projectTechnicalProperties = _context.ProjectTechnicalProperties
                 .Where(x => x.ProjectId == ProjectId)
                 .Include(x => x.TechnicalProperty)
-                .OrderBy(x => x.TechnicalProperty.OrdinalNumber);
+                .OrderBy(x => x.TechnicalProperty.OrdinalNumber)
+                .ToList();
 
             return projectTechnicalProperties;
         }

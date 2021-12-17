@@ -816,6 +816,9 @@ namespace MwProject.Persistence.Services
         public void CalculatePriorityOfProject(int id, string userId)
         {
             var selectedProject = _unitOfWork.Project.GetProject(id, userId);
+            var projectRequirements = _unitOfWork.Project
+                .GetProjectRequirements(id, userId);
+            
             int rankingOfViability = 0;
             int rankingOfCompetitiveness = 0;
             int rankingOfPurpose = 0;
@@ -828,7 +831,7 @@ namespace MwProject.Persistence.Services
             int estimatedPaybackTimeInMonths = 0;
             //decimal estimatedCostOfProject = selectedProject.EstimatedCostOfProject;
 
-            decimal estimatedCostOfProject = selectedProject.ProjectRequirements
+            decimal estimatedCostOfProject = projectRequirements
                 .Where(x => x.Requirement.Type == (int)RequirementType.Economic)
                 .Sum(x => x.Value);
 
