@@ -10,7 +10,7 @@ using MwProject.Data;
 namespace MwProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211213091017_AddCanceledToProject")]
+    [Migration("20220118092936_AddCanceledToProject")]
     partial class AddCanceledToProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
