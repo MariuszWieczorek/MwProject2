@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmailService;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace MwProject.Persistence.Services
 {
@@ -1077,20 +1078,81 @@ namespace MwProject.Persistence.Services
         #endregion
 
         #region wysyłanie do Excela
-        public void ExportProjectsToExcel(IEnumerable<Project> projects)
+        public string ExportProjectsToExcel(IEnumerable<Project> projects)
         {
             // PM> Install-Package ClosedXML
+            
+            string fileName = "ListOfProjects.xlsx";
+            string outputDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Generated");
+          //  string fileNameWithFullPath = Path.Combine(outputDirectory, "ExcelFiles",fileName);
+
+            string directory = @".\ExcelFiles";
+            
+            string fileNameWithFullPath = $@"{directory}\{fileName}";
+
+
 
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Sample Sheet");
 
                 int row = 1;
+                 worksheet.Cell(row, "A").Value = "Id";
+                 worksheet.Cell(row, "B").Value = "Prio";
+                 worksheet.Cell(row, "C").Value = "Numer";
+                 worksheet.Cell(row, "D").Value = "Tytuł";
+                 worksheet.Cell(row, "E").Value = "Opis";
+                 worksheet.Cell(row, "F").Value = "Kategoria";
+                 worksheet.Cell(row, "G").Value = "Data_Utworzenia";
+                 worksheet.Cell(row, "H").Value = "Zakończony";
+                 worksheet.Cell(row, "I").Value = "Data_Zakonczenia";
+                 worksheet.Cell(row, "J").Value = "Anulowany";
+                 worksheet.Cell(row, "K").Value = "Data_Anulowania";
+                 worksheet.Cell(row, "L").Value = "Zainicjowany_przez";
+                 worksheet.Cell(row, "M").Value = "PM";
+                 worksheet.Cell(row, "N").Value = "Potwierdzony";
+                 worksheet.Cell(row, "O").Value = "Potwierdzony_Przez";
+                 worksheet.Cell(row, "P").Value = "Data_Potwierdzenia";
+
+                worksheet.Cell(row, "R").Value = "Zaakceptowany";
+                worksheet.Cell(row, "S").Value = "Zaakceptowany_Przez";
+                worksheet.Cell(row, "T").Value = "Data_Akceptacji";
+
+
+                worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
+                worksheet.Row(row).Style.Font.SetBold();
+                worksheet.Row(row).Style.Font.FontColor = XLColor.White;
+
+                row++;
                 foreach (var project in projects)
                 {
-                    worksheet.Cell($"A{row}").Value = row;
-                    worksheet.Cell(row, "B").Value = project.Number;
-                    worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
+                    worksheet.Cell($"A{row}").Value = project.Id;
+                    worksheet.Cell(row, "B").Value = project.PriorityOfProject;
+                    worksheet.Cell(row, "C").RichText.AddText(project.Number).SetBold();
+                    worksheet.Cell(row, "D").Value = project.Title?.Trim();
+                    worksheet.Cell(row, "E").Value = project.Description?.Trim();
+                    worksheet.Cell(row, "F").Value = project.Category?.Name;
+                    worksheet.Cell(row, "G").Value = project.CreatedDate;
+                    worksheet.Cell(row, "H").Value = project.IsExecuted;
+                    worksheet.Cell(row, "I").Value = project.FinishedDate;
+                    worksheet.Cell(row, "J").Value = project.IsCanceled;
+                    worksheet.Cell(row, "K").Value = project.CanceledDate;
+                    worksheet.Cell(row, "L").Value = project.InitiatedBy;
+                    worksheet.Cell(row, "M").Value = project.ProjectManagerId 
+                        == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ProjectManagerId)?.UserName;
+                    
+                    worksheet.Cell(row, "N").Value = project.IsConfirmed;
+                    worksheet.Cell(row, "O").Value = project.ConfirmedBy
+                        == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ConfirmedBy)?.UserName;
+                    worksheet.Cell(row, "P").Value = project.ConfirmedDate;
+
+
+                    worksheet.Cell(row, "R").Value = project.IsAccepted;
+                    worksheet.Cell(row, "S").Value = project.AcceptedBy
+                        == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.AcceptedBy)?.UserName;
+                    worksheet.Cell(row, "T").Value = project.AcceptedDate;
+
+                    //worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
 
 
                     // Add the text parts
@@ -1101,12 +1163,39 @@ namespace MwProject.Persistence.Services
                       .AddText(" BIG ").SetFontColor(XLColor.Blue).SetBold()
                       .AddText("World").SetFontColor(XLColor.Red);
                     */
+
+                    if (row % 2 == 0)
+                    {
+                        worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                       // worksheet.Row(row).Style.Border.SetOutsideBorderColor(XLColor.Blue);
+                       // worksheet.Row(row).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                    }
+                    worksheet.Row(row).AdjustToContents();
+                    
+                    // .FromArgb(0xEEFFEE)
+
                     row++;
                 }
 
+                for (int i = 1; i < 20; i++)
+                {
+                    worksheet.Column(i).AdjustToContents();
+                    worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+                    
+                }
+                
+                
+
+                worksheet.SheetView.FreezeRows(1);
+                worksheet.AutoFilter.Clear();
+                worksheet.RangeUsed().SetAutoFilter();
+
+
                 // worksheet.Cell($"A{row}").FormulaA1 = "=MID(A1, 7, 5)";
-                workbook.SaveAs("ListOfProjects.xlsx");
+                workbook.SaveAs(fileNameWithFullPath);
             }
+            return fileNameWithFullPath;
         }
         #endregion
 

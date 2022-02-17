@@ -69,9 +69,14 @@ namespace MwProject.Controllers
         {
             var userId = User.GetUserId();
             var currentUser = _userService.GetUser(userId);
-            var applicationUsers = _userService.GetUsers(null,null);
+            var applicationUsers = _userService.GetUsers(null,null).ToList();
             var projectStatuses = _projectStatusService.GetProjectStatuses();
             var projectGroups = _projectGroupService.GetProjectGroups();
+
+            var emptyUser = new ApplicationUser() { Id = "__Empty__", UserName = " ----- Brak ----- " }; 
+
+            applicationUsers.Add(emptyUser);
+            applicationUsers = applicationUsers.OrderBy(x => x.UserName).ToList();
 
             //HttpContext.Session.SetInt32("age", 20);
             //HttpContext.Session.SetString("username", "abc");
@@ -80,9 +85,8 @@ namespace MwProject.Controllers
             string a = HttpContext.Session.GetString("username");
 
             if (projectFilter==null)
-            {
                 projectFilter = new();
-            }
+
 
             int numberOfRecords = _projectService.GetNumberOfRecords(projectFilter, categoryId, userId);
 
@@ -159,6 +163,37 @@ namespace MwProject.Controllers
         }
 
 
+        public FileResult ExportProjectsToExcel()
+        {
+            var userId = User.GetUserId();
+            var currentUser = _userService.GetUser(userId);
+            ProjectsFilter projectFilter = HttpContext.Session.GetObjectFromJson<ProjectsFilter>("ProjectsFilter");
+
+            if (projectFilter == null)
+                projectFilter = new();
+
+            int numberOfRecords = _projectService.GetNumberOfRecords(projectFilter, 0, userId);
+
+            var pagingInfo = new PagingInfo()
+            {   CurrentPage = 1,
+                ItemsPerPage = 100000,
+                TotalItems = numberOfRecords };
+
+            var projects = _projectService.GetProjects(
+                projectFilter,
+                pagingInfo,
+                0,
+                userId
+               );
+
+            string fileName = _projectService.ExportProjectsToExcel(projects);
+            
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, "list_of_projects.xlsx");
+
+            
+        }
 
         public IActionResult ProjectsStatistics(int currentPage = 1, int categoryId = 0)
         {
@@ -1392,24 +1427,7 @@ namespace MwProject.Controllers
             return "OK";
         }
 
-        public string ExportProjectsToExcel()
-        {
-            var userId = User.GetUserId();
-            int categoryId = 0;
-            int currentPage = 1;
-            var currentUser = _userService.GetUser(userId);
-
-            var projects = _projectService.GetProjects(
-                new ProjectsFilter(),
-                new PagingInfo() { CurrentPage = currentPage, ItemsPerPage = _itemPerPage },
-                categoryId,
-                userId
-                );
-
-            _projectService.ExportProjectsToExcel(projects);
-            return "OK";
-        }
-
+       
         [HttpPost]
         public IActionResult NewRawNumber(int categoryId, DateTime? createdDate)
         {

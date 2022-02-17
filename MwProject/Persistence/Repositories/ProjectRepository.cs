@@ -224,8 +224,14 @@ namespace MwProject.Persistence.Repositories
                 if (!string.IsNullOrWhiteSpace(projectsFilter.Client))
                     projects = projects.Where(x => x.Client.Contains(projectsFilter.Client));
 
-                if (!string.IsNullOrWhiteSpace(projectsFilter.ProjectManagerId))
+                if (!string.IsNullOrEmpty(projectsFilter.ProjectManagerId))
+                {
+                    if (projectsFilter.ProjectManagerId != "__Empty__")
                     projects = projects.Where(x => x.ProjectManagerId == projectsFilter.ProjectManagerId);
+                    else
+                    projects = projects.Where(x => string.IsNullOrEmpty(x.ProjectManagerId));
+                }
+                
 
                 if (!string.IsNullOrWhiteSpace(projectsFilter.AuthorId))
                     projects = projects.Where(x => x.UserId == projectsFilter.AuthorId);
@@ -254,6 +260,7 @@ namespace MwProject.Persistence.Repositories
 
 
             var projects = _context.Projects
+                             .Include(x=>x.Category)
                              .AsQueryable();
 
                /*.Include(x => x.Category)

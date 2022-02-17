@@ -58,7 +58,7 @@ namespace MwProject.Core.Services
         void CalculateTkwInAllProjects(string userId);
         void CalculatePriorities(string userId);
         IEnumerable<Category> GetUsedCategories();
-        void ExportProjectsToExcel(IEnumerable<Project> projects);
+        string ExportProjectsToExcel(IEnumerable<Project> projects);
         int NewRawNumber(int projectCategory, DateTime? createdDate);
         (int,string) NewFullNumber(int projectCategory, DateTime? createdDate);
 
