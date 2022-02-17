@@ -1082,8 +1082,10 @@ namespace MwProject.Persistence.Services
         {
             // PM> Install-Package ClosedXML
             
+            // UWAGA ISS Musi mieć uprawnienia do zapisu na serwerze
+
             string fileName = "ListOfProjects.xlsx";
-            string outputDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Generated");
+           // string outputDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Generated");
           //  string fileNameWithFullPath = Path.Combine(outputDirectory, "ExcelFiles",fileName);
 
             string directory = @".\ExcelFiles";
