@@ -1121,6 +1121,10 @@ namespace MwProject.Persistence.Services
                 worksheet.Cell(row, "T").Value = "Data_Akceptacji";
 
 
+                worksheet.Cell(row, "U").Value = "Planow_Data_Rozp";
+                worksheet.Cell(row, "V").Value = "Fakt_Data_Rozp";
+                worksheet.Cell(row, "W").Value = "Planow_Data_Zak";
+
                 worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
                 worksheet.Row(row).Style.Font.SetBold();
                 worksheet.Row(row).Style.Font.FontColor = XLColor.White;
@@ -1154,6 +1158,15 @@ namespace MwProject.Persistence.Services
                         == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.AcceptedBy)?.UserName;
                     worksheet.Cell(row, "T").Value = project.AcceptedDate;
 
+
+                    worksheet.Cell(row, "U").Value = project.PlannedStartDateOfTheProject;
+                    worksheet.Cell(row, "V").Value = project.RealStartDateOfTheProject;
+                    worksheet.Cell(row, "W").Value = project.PlannedEndDateOfTheProject;
+
+
+
+                    // PlannedStartDateOfTheProject RealStartDateOfTheProject  PlannedEndDateOfTheProject
+
                     //worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
 
 
@@ -1180,12 +1193,6 @@ namespace MwProject.Persistence.Services
                     row++;
                 }
 
-                for (int i = 1; i < 20; i++)
-                {
-                    worksheet.Column(i).AdjustToContents();
-                    worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
-                    
-                }
                 
                 
 
@@ -1193,6 +1200,12 @@ namespace MwProject.Persistence.Services
                 worksheet.AutoFilter.Clear();
                 worksheet.RangeUsed().SetAutoFilter();
 
+                for (int i = 1; i < 30; i++)
+                {
+                    worksheet.Column(i).AdjustToContents();
+                    worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+                }
 
                 // worksheet.Cell($"A{row}").FormulaA1 = "=MID(A1, 7, 5)";
                 workbook.SaveAs(fileNameWithFullPath);
