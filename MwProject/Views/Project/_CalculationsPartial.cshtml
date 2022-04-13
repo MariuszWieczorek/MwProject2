@@ -86,7 +86,8 @@
 
                         <th scope="col">TKW</th>
                         <th scope="col">Ogólne %</th>
-                        <th scope="col">CKW</th>
+                        <th scope="col">CKW</th> 
+                        <th scope="col">komentarz</th> 
 
                         <th scope="col"></th>
                     </tr>
@@ -125,6 +126,8 @@
                             <td><strong>@position.Tkw.ToString("c")</strong></td>
                             <td class="text-muted"><strong>@position.GeneralCostsInPercent.ToString("n") %</strong></td>
                             <td><strong>@position.Ckw.ToString("c")</strong></td>
+
+                            <td class="text-muted"><strong>@position.Comment.AddBr()</strong></td>
 
                             <td align="right">
                                 @if (canEdit)
