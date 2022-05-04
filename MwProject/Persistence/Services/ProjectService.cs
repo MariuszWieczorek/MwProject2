@@ -137,9 +137,9 @@ namespace MwProject.Persistence.Services
                 && x.TypeOfNotificationId == typeOfNotification
                 && x.Sent == false);
             */
-            
+
             var notificationsToSend = _unitOfWork.Project
-                .GetNotifications(projectId,userId)
+                .GetNotifications(projectId, userId)
                 .Where(x => x.Confirmed == false
                 && x.TypeOfNotificationId == typeOfNotification
                 && x.Sent == false);
@@ -383,10 +383,10 @@ namespace MwProject.Persistence.Services
             .SingleOrDefault(x => x.Id == project.ProjectManagerId);
 
             var usersToNotifications = allUsers
-                .Where(x => x.Id == project.ProjectManagerId 
-                || x.CanConfirmCalculations )
+                .Where(x => x.Id == project.ProjectManagerId
+                || x.CanConfirmCalculations)
                 .ToList();
-            
+
             // było w warunku  || x.CanConfirmEconomicRequirements
 
 
@@ -421,7 +421,7 @@ namespace MwProject.Persistence.Services
 
 
         // GenerateNotificationsTkwAndEconomicDataAreConfirmed
-        
+
         private void GenerateNotificationsTkwAndEconomicDataAreConfirmed(int projectId, string userId)
         {
 
@@ -429,7 +429,7 @@ namespace MwProject.Persistence.Services
             // PM
             // Osoba mająca ustawienie: ConfirmedCalculationNotification
 
-            
+
             var project = _unitOfWork.Project.GetProject(projectId, userId);
 
             var allUsers = _unitOfWork.UserRepository
@@ -448,7 +448,7 @@ namespace MwProject.Persistence.Services
                 || x.ConfirmedCalculationNotification
                 ).ToList();
 
-            
+
 
             string link = $@"http://192.168.1.186/mwproject/Project/Project/{project.Id}";
 
@@ -819,7 +819,7 @@ namespace MwProject.Persistence.Services
             var selectedProject = _unitOfWork.Project.GetProject(id, userId);
             var projectRequirements = _unitOfWork.Project
                 .GetProjectRequirements(id, userId);
-            
+
             int rankingOfViability = 0;
             int rankingOfCompetitiveness = 0;
             int rankingOfPurpose = 0;
@@ -982,9 +982,9 @@ namespace MwProject.Persistence.Services
 
                 foreach (var calculation in selectedProject.Calculations)
                 {
-                    _unitOfWork.Calculation.UpdateCalculation(calculation,userId);
+                    _unitOfWork.Calculation.UpdateCalculation(calculation, userId);
                 }
-                
+
             }
         }
 
@@ -1078,139 +1078,612 @@ namespace MwProject.Persistence.Services
         #endregion
 
         #region wysyłanie do Excela
-        public string ExportProjectsToExcel(IEnumerable<Project> projects)
+        public string ExportProjectsToExcel(IEnumerable<Project> projects, string userId)
         {
             // PM> Install-Package ClosedXML
-            
+
             // UWAGA ISS Musi mieć uprawnienia do zapisu na serwerze
 
             string fileName = "ListOfProjects.xlsx";
-           // string outputDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Generated");
-          //  string fileNameWithFullPath = Path.Combine(outputDirectory, "ExcelFiles",fileName);
+            // string outputDirectory = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Generated");
+            //  string fileNameWithFullPath = Path.Combine(outputDirectory, "ExcelFiles",fileName);
 
             string directory = @".\ExcelFiles";
-            
+
             string fileNameWithFullPath = $@"{directory}\{fileName}";
 
 
 
             using (var workbook = new XLWorkbook())
             {
-                var worksheet = workbook.Worksheets.Add("Sample Sheet");
 
-                int row = 1;
-                 worksheet.Cell(row, "A").Value = "Id";
-                 worksheet.Cell(row, "B").Value = "Prio";
-                 worksheet.Cell(row, "C").Value = "Numer";
-                 worksheet.Cell(row, "D").Value = "Tytuł";
-                 worksheet.Cell(row, "E").Value = "Opis";
-                 worksheet.Cell(row, "F").Value = "Kategoria";
-                 worksheet.Cell(row, "G").Value = "Data_Utworzenia";
-                 worksheet.Cell(row, "H").Value = "Zakończony";
-                 worksheet.Cell(row, "I").Value = "Data_Zakonczenia";
-                 worksheet.Cell(row, "J").Value = "Anulowany";
-                 worksheet.Cell(row, "K").Value = "Data_Anulowania";
-                 worksheet.Cell(row, "L").Value = "Zainicjowany_przez";
-                 worksheet.Cell(row, "M").Value = "PM";
-                 worksheet.Cell(row, "N").Value = "Potwierdzony";
-                 worksheet.Cell(row, "O").Value = "Potwierdzony_Przez";
-                 worksheet.Cell(row, "P").Value = "Data_Potwierdzenia";
+                ExcelAddMainSheet(projects, workbook, userId);
+                ExcelAddProjectCardSheet(projects, workbook, userId);
+                ExcelAddRequirementsSheet(projects, workbook, userId, (int)RequirementType.Quality, "QualityReq");
+                ExcelAddRequirementsSheet(projects, workbook, userId, (int)RequirementType.General, "GeneralReq");
+                ExcelAddRequirementsSheet(projects, workbook, userId, (int)RequirementType.Economic, "EconomicReq");
+                ExcelAddPropertiesSheet(projects, workbook, userId);
+                ExcelAddEstimatedSalesValuesSheet(projects, workbook, userId,"EstimatedSales");
+                ExcelAddCalculationsValuesSheet(projects, workbook, userId,"TKW");
+                ExcelAddRisksSheet(projects, workbook, userId,"Risks");
+                ExcelAddTeamMembersSheet(projects, workbook, userId,"TeamMembers");
+                ExcelAddClientsSheet(projects, workbook, userId,"Interesariusze");
 
-                worksheet.Cell(row, "R").Value = "Zaakceptowany";
-                worksheet.Cell(row, "S").Value = "Zaakceptowany_Przez";
-                worksheet.Cell(row, "T").Value = "Data_Akceptacji";
-
-
-                worksheet.Cell(row, "U").Value = "Planow_Data_Rozp";
-                worksheet.Cell(row, "V").Value = "Fakt_Data_Rozp";
-                worksheet.Cell(row, "W").Value = "Planow_Data_Zak";
-
-                worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
-                worksheet.Row(row).Style.Font.SetBold();
-                worksheet.Row(row).Style.Font.FontColor = XLColor.White;
-
-                row++;
-                foreach (var project in projects)
-                {
-                    worksheet.Cell($"A{row}").Value = project.Id;
-                    worksheet.Cell(row, "B").Value = project.PriorityOfProject;
-                    worksheet.Cell(row, "C").RichText.AddText(project.Number).SetBold();
-                    worksheet.Cell(row, "D").Value = project.Title?.Trim();
-                    worksheet.Cell(row, "E").Value = project.Description?.Trim();
-                    worksheet.Cell(row, "F").Value = project.Category?.Name;
-                    worksheet.Cell(row, "G").Value = project.CreatedDate;
-                    worksheet.Cell(row, "H").Value = project.IsExecuted;
-                    worksheet.Cell(row, "I").Value = project.FinishedDate;
-                    worksheet.Cell(row, "J").Value = project.IsCanceled;
-                    worksheet.Cell(row, "K").Value = project.CanceledDate;
-                    worksheet.Cell(row, "L").Value = project.InitiatedBy;
-                    worksheet.Cell(row, "M").Value = project.ProjectManagerId 
-                        == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ProjectManagerId)?.UserName;
-                    
-                    worksheet.Cell(row, "N").Value = project.IsConfirmed;
-                    worksheet.Cell(row, "O").Value = project.ConfirmedBy
-                        == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ConfirmedBy)?.UserName;
-                    worksheet.Cell(row, "P").Value = project.ConfirmedDate;
-
-
-                    worksheet.Cell(row, "R").Value = project.IsAccepted;
-                    worksheet.Cell(row, "S").Value = project.AcceptedBy
-                        == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.AcceptedBy)?.UserName;
-                    worksheet.Cell(row, "T").Value = project.AcceptedDate;
-
-
-                    worksheet.Cell(row, "U").Value = project.PlannedStartDateOfTheProject;
-                    worksheet.Cell(row, "V").Value = project.RealStartDateOfTheProject;
-                    worksheet.Cell(row, "W").Value = project.PlannedEndDateOfTheProject;
-
-
-
-                    // PlannedStartDateOfTheProject RealStartDateOfTheProject  PlannedEndDateOfTheProject
-
-                    //worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
-
-
-                    // Add the text parts
-                    /*
-                    var cell = worksheet.Cell(row, "D");
-                    cell.RichText
-                      .AddText("Hello").SetFontColor(XLColor.Red)
-                      .AddText(" BIG ").SetFontColor(XLColor.Blue).SetBold()
-                      .AddText("World").SetFontColor(XLColor.Red);
-                    */
-
-                    if (row % 2 == 0)
-                    {
-                        worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
-                       // worksheet.Row(row).Style.Border.SetOutsideBorderColor(XLColor.Blue);
-                       // worksheet.Row(row).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
-
-                    }
-                    worksheet.Row(row).AdjustToContents();
-                    
-                    // .FromArgb(0xEEFFEE)
-
-                    row++;
-                }
-
-                
-                
-
-                worksheet.SheetView.FreezeRows(1);
-                worksheet.AutoFilter.Clear();
-                worksheet.RangeUsed().SetAutoFilter();
-
-                for (int i = 1; i < 30; i++)
-                {
-                    worksheet.Column(i).AdjustToContents();
-                    worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
-
-                }
 
                 // worksheet.Cell($"A{row}").FormulaA1 = "=MID(A1, 7, 5)";
                 workbook.SaveAs(fileNameWithFullPath);
             }
             return fileNameWithFullPath;
+        }
+
+        private void ExcelAddRequirementsSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId, int typeOfRequirement, string nameOfSheet)
+        {
+            var worksheet = workbook.Worksheets.Add(nameOfSheet);
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Wymaganie";
+            worksheet.Cell(row, "D").Value = "Wartość";
+            worksheet.Cell(row, "E").Value = "Komentarz";
+            worksheet.Cell(row, "F").Value = "Tak/Nie";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var x = projects.SingleOrDefault(x => x.Id == project.Id);
+                var requirements = GetProjectRequirements(project.Id, userId)
+                    .Where(x => x.Requirement.Type == typeOfRequirement)
+                    .OrderBy(x=>x.Requirement?.Name);
+
+                if (requirements != null)
+                {
+                    foreach (var item in requirements)
+                    {
+
+                        string exist;
+                        switch (item.YesNo)
+                        {
+                            case 1:
+                                exist = "TAK";
+                                break;
+                            case 2:
+                                exist = "NIE";
+                                break;
+                            default:
+                                exist = "";
+                                break;
+                        }
+
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.Requirement?.Name;
+                        worksheet.Cell(row, "D").Value = item.Value;
+                        worksheet.Cell(row, "E").Value = item.Comment?.Trim()?.TrimStart('\r', '\n');
+                        worksheet.Cell(row, "F").Value = exist;
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+                    
+                    
+                }
+               
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+
+
+        // var estimatedSalesValues = Model.Project.EstimatedSalesValues;
+
+        private void ExcelAddEstimatedSalesValuesSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId, string nameOfSheet)
+        {
+            var worksheet = workbook.Worksheets.Add(nameOfSheet);
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Rok";
+            worksheet.Cell(row, "D").Value = "Cena";
+            worksheet.Cell(row, "E").Value = "Ilość";
+            worksheet.Cell(row, "F").Value = "Wartość";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var fullProject = GetProject(project.Id, userId);
+                var estimatedSalesValues = fullProject.EstimatedSalesValues;
+                
+
+                if (estimatedSalesValues != null)
+                {
+                    foreach (var item in estimatedSalesValues)
+                    {
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.Year;
+                        worksheet.Cell(row, "D").Value = item.Price;
+                        worksheet.Cell(row, "E").Value = item.Qty;
+                        worksheet.Cell(row, "F").Value = Math.Round(item.Qty * item.Price, 2);
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+
+
+                }
+
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+
+
+        private void ExcelAddRisksSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId, string nameOfSheet)
+        {
+            var worksheet = workbook.Worksheets.Add(nameOfSheet);
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Nazwa";
+            worksheet.Cell(row, "D").Value = "Komentarz";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var fullProject = GetProject(project.Id, userId);
+                var risks = fullProject.ProjectRisks;
+
+
+                if (risks != null)
+                {
+                    foreach (var item in risks)
+                    {
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.Name;
+                        worksheet.Cell(row, "D").Value = item.Content?.Trim()?.TrimStart('\r', '\n');
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+
+
+                }
+
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+
+        private void ExcelAddClientsSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId, string nameOfSheet)
+        {
+            var worksheet = workbook.Worksheets.Add(nameOfSheet);
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Nazwa";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var fullProject = GetProject(project.Id, userId);
+                var clients = fullProject.ProjectClients;
+
+
+                if (clients != null)
+                {
+                    foreach (var item in clients)
+                    {
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.Name;
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+
+
+                }
+
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+
+        private void ExcelAddTeamMembersSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId, string nameOfSheet)
+        {
+            var worksheet = workbook.Worksheets.Add(nameOfSheet);
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Imię i Nazwisko";
+            worksheet.Cell(row, "D").Value = "Komentarz";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var fullProject = GetProject(project.Id, userId);
+                var teamMembers = fullProject.ProjectTeamMembers;
+
+
+                if (teamMembers != null)
+                {
+                    foreach (var item in teamMembers)
+                    {
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.User?.FirstName?.Trim() + item.User?.LastName?.Trim() ;
+                        worksheet.Cell(row, "D").Value = item.Description?.Trim()?.TrimStart('\r', '\n');
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+
+
+                }
+
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+
+        private void ExcelAddCalculationsValuesSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId, string nameOfSheet)
+        {
+            var worksheet = workbook.Worksheets.Add(nameOfSheet);
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Tytuł";
+            worksheet.Cell(row, "D").Value = "Robocizna";
+            worksheet.Cell(row, "E").Value = "Materiał";
+            worksheet.Cell(row, "F").Value = "Narzut";
+            worksheet.Cell(row, "G").Value = "Tkw";
+            worksheet.Cell(row, "H").Value = "Ckw";
+            worksheet.Cell(row, "I").Value = "Komentarz";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var fullProject = GetProject(project.Id, userId);
+                var calculations = fullProject.Calculations;
+
+
+                if (calculations != null)
+                {
+                    foreach (var item in calculations)
+                    {
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.Title;
+                        worksheet.Cell(row, "D").Value = item.MaterialCosts;
+                        worksheet.Cell(row, "E").Value = item.LabourCosts;
+                        worksheet.Cell(row, "F").Value = item.Markup;
+                        worksheet.Cell(row, "G").Value = item.Tkw;
+                        worksheet.Cell(row, "H").Value = item.Ckw;
+                        worksheet.Cell(row, "I").Value = item.Comment?.Trim()?.TrimStart('\r', '\n');
+
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+
+
+                }
+
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 10; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+
+        private void ExcelAddPropertiesSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId)
+        {
+            var worksheet = workbook.Worksheets.Add("Properties");
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Wymaganie";
+            worksheet.Cell(row, "D").Value = "Wartość";
+            worksheet.Cell(row, "E").Value = "Komentarz";
+            worksheet.Cell(row, "F").Value = "Tak/Nie";
+            row++;
+
+            foreach (var project in projects)
+            {
+                var x = projects.SingleOrDefault(x => x.Id == project.Id);
+                var requirements = GetTechnicalProperties(project.Id, userId);
+
+                if (requirements != null)
+                {
+                    foreach (var item in requirements)
+                    {
+
+                        string exist;
+                        switch (item.YesNo)
+                        {
+                            case 1:
+                                exist = "TAK";
+                                break;
+                            case 2:
+                                exist = "NIE";
+                                break;
+                            default:
+                                exist = "";
+                                break;
+                        }
+
+                        worksheet.Cell(row, "A").Value = project.Id;
+                        worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                        worksheet.Cell(row, "C").Value = item.TechnicalProperty?.Name;
+                        worksheet.Cell(row, "D").Value = item.Value;
+                        worksheet.Cell(row, "E").Value = item.Comment?.Trim()?.TrimStart('\r', '\n');
+                        worksheet.Cell(row, "F").Value = exist;
+
+                        if (row % 2 == 0)
+                        {
+                            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                        }
+                        row++;
+                    }
+                    
+                    
+                }
+
+            }
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 6; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+        }
+        private void ExcelAddMainSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId)
+        {
+            var worksheet = workbook.Worksheets.Add("Projects");
+
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Prio";
+            worksheet.Cell(row, "C").Value = "Numer";
+            worksheet.Cell(row, "D").Value = "Tytuł";
+            worksheet.Cell(row, "E").Value = "Opis";
+            worksheet.Cell(row, "F").Value = "Kategoria";
+            worksheet.Cell(row, "G").Value = "Data_Utworzenia";
+            worksheet.Cell(row, "H").Value = "Zakończony";
+            worksheet.Cell(row, "I").Value = "Data_Zakonczenia";
+            worksheet.Cell(row, "J").Value = "Anulowany";
+            worksheet.Cell(row, "K").Value = "Data_Anulowania";
+            worksheet.Cell(row, "L").Value = "Zainicjowany_przez";
+            worksheet.Cell(row, "M").Value = "PM";
+            worksheet.Cell(row, "N").Value = "Potwierdzony";
+            worksheet.Cell(row, "O").Value = "Potwierdzony_Przez";
+            worksheet.Cell(row, "P").Value = "Data_Potwierdzenia";
+
+            worksheet.Cell(row, "R").Value = "Zaakceptowany";
+            worksheet.Cell(row, "S").Value = "Zaakceptowany_Przez";
+            worksheet.Cell(row, "T").Value = "Data_Akceptacji";
+
+
+            worksheet.Cell(row, "U").Value = "Planow_Data_Rozp";
+            worksheet.Cell(row, "V").Value = "Fakt_Data_Rozp";
+            worksheet.Cell(row, "W").Value = "Planow_Data_Zak";
+
+            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
+            worksheet.Row(row).Style.Font.SetBold();
+            worksheet.Row(row).Style.Font.FontColor = XLColor.White;
+
+            row++;
+            foreach (var project in projects)
+            {
+                worksheet.Cell($"A{row}").Value = project.Id;
+                worksheet.Cell(row, "B").Value = project.PriorityOfProject;
+                worksheet.Cell(row, "C").RichText.AddText(project.Number).SetBold();
+                worksheet.Cell(row, "D").Value = project.Title?.Trim();
+                worksheet.Cell(row, "E").Value = project.Description?.Trim();
+                worksheet.Cell(row, "F").Value = project.Category?.Name;
+                worksheet.Cell(row, "G").Value = project.CreatedDate;
+                worksheet.Cell(row, "H").Value = project.IsExecuted;
+                worksheet.Cell(row, "I").Value = project.FinishedDate;
+                worksheet.Cell(row, "J").Value = project.IsCanceled;
+                worksheet.Cell(row, "K").Value = project.CanceledDate;
+                worksheet.Cell(row, "L").Value = project.InitiatedBy;
+                worksheet.Cell(row, "M").Value = project.ProjectManagerId
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ProjectManagerId)?.UserName;
+
+                worksheet.Cell(row, "N").Value = project.IsConfirmed;
+                worksheet.Cell(row, "O").Value = project.ConfirmedBy
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ConfirmedBy)?.UserName;
+                worksheet.Cell(row, "P").Value = project.ConfirmedDate;
+
+
+                worksheet.Cell(row, "R").Value = project.IsAccepted;
+                worksheet.Cell(row, "S").Value = project.AcceptedBy
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.AcceptedBy)?.UserName;
+                worksheet.Cell(row, "T").Value = project.AcceptedDate;
+
+
+                worksheet.Cell(row, "U").Value = project.PlannedStartDateOfTheProject;
+                worksheet.Cell(row, "V").Value = project.RealStartDateOfTheProject;
+                worksheet.Cell(row, "W").Value = project.PlannedEndDateOfTheProject;
+
+
+
+                // PlannedStartDateOfTheProject RealStartDateOfTheProject  PlannedEndDateOfTheProject
+
+                //worksheet.Cell(row, 3).RichText.AddText(project.Title).SetFontColor(XLColor.Blue).SetBold();
+
+
+                // Add the text parts
+                /*
+                var cell = worksheet.Cell(row, "D");
+                cell.RichText
+                  .AddText("Hello").SetFontColor(XLColor.Red)
+                  .AddText(" BIG ").SetFontColor(XLColor.Blue).SetBold()
+                  .AddText("World").SetFontColor(XLColor.Red);
+                */
+
+                if (row % 2 == 0)
+                {
+                    worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+                    // worksheet.Row(row).Style.Border.SetOutsideBorderColor(XLColor.Blue);
+                    // worksheet.Row(row).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                }
+                worksheet.Row(row).AdjustToContents();
+
+                // .FromArgb(0xEEFFEE)
+
+                row++;
+            }
+
+
+
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 30; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+
+        }
+
+        private void ExcelAddProjectCardSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId)
+        {
+            var worksheet = workbook.Worksheets.Add("ProjectCards");
+
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Cel";
+            worksheet.Cell(row, "D").Value = "Działania weryfikacyjne";
+            worksheet.Cell(row, "E").Value = "Uwagi i Komentarze";
+            worksheet.Cell(row, "F").Value = "Link do Planera";
+
+            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
+            worksheet.Row(row).Style.Font.SetBold();
+            worksheet.Row(row).Style.Font.FontColor = XLColor.White;
+
+            row++;
+            foreach (var project in projects)
+            {
+                worksheet.Cell(row,"A").Value = project.Id;
+                worksheet.Cell(row,"B").RichText.AddText(project.Number).SetBold();
+                worksheet.Cell(row,"C").Value = project.DescriptionOfPurpose?.Trim()?.TrimStart('\r', '\n');
+                worksheet.Cell(row,"D").Value = project.VerificationOperations?.Trim()?.TrimStart('\r', '\n');
+                worksheet.Cell(row,"E").Value = project.Comment?.Trim()?.TrimStart('\r', '\n');
+                worksheet.Cell(row,"F").Value = project.LinkToPlanner;
+
+
+                if (row % 2 == 0)
+                {
+                    worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+
+                }
+                worksheet.Row(row).AdjustToContents();
+                row++;
+            }
+
+
+
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 30; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+
         }
         #endregion
 

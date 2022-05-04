@@ -184,9 +184,9 @@ namespace MwProject.Controllers
                 pagingInfo,
                 0,
                 userId
-               );
+               ).OrderBy(x=>x.Id);
 
-            string fileName = _projectService.ExportProjectsToExcel(projects);
+            string fileName = _projectService.ExportProjectsToExcel(projects,userId);
             
 
             byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
