@@ -1550,6 +1550,9 @@ namespace MwProject.Persistence.Services
             worksheet.Cell(row, "V").Value = "Fakt_Data_Rozp";
             worksheet.Cell(row, "W").Value = "Planow_Data_Zak";
 
+            worksheet.Cell(row, "X").Value = "Klient";
+            worksheet.Cell(row, "Y").Value = "nowy_mod";
+
             worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
             worksheet.Row(row).Style.Font.SetBold();
             worksheet.Row(row).Style.Font.FontColor = XLColor.White;
@@ -1588,6 +1591,31 @@ namespace MwProject.Persistence.Services
                 worksheet.Cell(row, "V").Value = project.RealStartDateOfTheProject;
                 worksheet.Cell(row, "W").Value = project.PlannedEndDateOfTheProject;
 
+                worksheet.Cell(row, "X").Value = project.Client;
+
+
+                string productStatus;
+
+
+                switch (project.ProductStatus)
+                {
+                    case 0:
+                        productStatus = "nd";
+                        break;
+                    case 1:
+                        productStatus = "nowy produkt";
+                        break;
+                    case 2:
+                        productStatus = "modyfikacja produktu";
+                        break;
+
+                    default:
+                        productStatus = string.Empty;
+                        break;
+                }
+
+
+                worksheet.Cell(row, "Y").Value = productStatus;
 
 
                 // PlannedStartDateOfTheProject RealStartDateOfTheProject  PlannedEndDateOfTheProject
