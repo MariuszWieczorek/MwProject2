@@ -261,6 +261,9 @@ namespace MwProject.Persistence.Repositories
 
             var projects = _context.Projects
                              .Include(x=>x.Category)
+                             .Include(x => x.ViabilityOfTheProject)
+                             .Include(x => x.PurposeOfTheProject)
+                             .Include(x => x.CompetitivenessOfTheProject)
                              .AsQueryable();
 
                /*.Include(x => x.Category)

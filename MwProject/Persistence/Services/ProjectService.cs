@@ -1099,6 +1099,8 @@ namespace MwProject.Persistence.Services
 
                 ExcelAddMainSheet(projects, workbook, userId);
                 ExcelAddProjectCardSheet(projects, workbook, userId);
+                ExcelAddPrioritySheet(projects, workbook, userId);
+                ExcelAddConfitmationSheet(projects, workbook, userId);
                 ExcelAddRequirementsSheet(projects, workbook, userId, (int)RequirementType.Quality, "QualityReq");
                 ExcelAddRequirementsSheet(projects, workbook, userId, (int)RequirementType.General, "GeneralReq");
                 ExcelAddRequirementsSheet(projects, workbook, userId, (int)RequirementType.Economic, "EconomicReq");
@@ -1537,21 +1539,15 @@ namespace MwProject.Persistence.Services
             worksheet.Cell(row, "K").Value = "Data_Anulowania";
             worksheet.Cell(row, "L").Value = "Zainicjowany_przez";
             worksheet.Cell(row, "M").Value = "PM";
-            worksheet.Cell(row, "N").Value = "Potwierdzony";
-            worksheet.Cell(row, "O").Value = "Potwierdzony_Przez";
-            worksheet.Cell(row, "P").Value = "Data_Potwierdzenia";
+            
+           
+            worksheet.Cell(row, "N").Value = "Planow_Data_Rozp";
+            worksheet.Cell(row, "O").Value = "Fakt_Data_Rozp";
+            worksheet.Cell(row, "P").Value = "Planow_Data_Zak";
 
-            worksheet.Cell(row, "R").Value = "Zaakceptowany";
-            worksheet.Cell(row, "S").Value = "Zaakceptowany_Przez";
-            worksheet.Cell(row, "T").Value = "Data_Akceptacji";
+            worksheet.Cell(row, "R").Value = "Klient";
+            worksheet.Cell(row, "S").Value = "Nowy Produkt/Modyfikacja";
 
-
-            worksheet.Cell(row, "U").Value = "Planow_Data_Rozp";
-            worksheet.Cell(row, "V").Value = "Fakt_Data_Rozp";
-            worksheet.Cell(row, "W").Value = "Planow_Data_Zak";
-
-            worksheet.Cell(row, "X").Value = "Klient";
-            worksheet.Cell(row, "Y").Value = "nowy_mod";
 
             worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
             worksheet.Row(row).Style.Font.SetBold();
@@ -1575,23 +1571,15 @@ namespace MwProject.Persistence.Services
                 worksheet.Cell(row, "M").Value = project.ProjectManagerId
                     == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ProjectManagerId)?.UserName;
 
-                worksheet.Cell(row, "N").Value = project.IsConfirmed;
-                worksheet.Cell(row, "O").Value = project.ConfirmedBy
-                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ConfirmedBy)?.UserName;
-                worksheet.Cell(row, "P").Value = project.ConfirmedDate;
+                
 
 
-                worksheet.Cell(row, "R").Value = project.IsAccepted;
-                worksheet.Cell(row, "S").Value = project.AcceptedBy
-                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.AcceptedBy)?.UserName;
-                worksheet.Cell(row, "T").Value = project.AcceptedDate;
+                worksheet.Cell(row, "N").Value = project.PlannedStartDateOfTheProject;
+                worksheet.Cell(row, "O").Value = project.RealStartDateOfTheProject;
+                worksheet.Cell(row, "P").Value = project.PlannedEndDateOfTheProject;
 
+                worksheet.Cell(row, "R").Value = project.Client;
 
-                worksheet.Cell(row, "U").Value = project.PlannedStartDateOfTheProject;
-                worksheet.Cell(row, "V").Value = project.RealStartDateOfTheProject;
-                worksheet.Cell(row, "W").Value = project.PlannedEndDateOfTheProject;
-
-                worksheet.Cell(row, "X").Value = project.Client;
 
 
                 string productStatus;
@@ -1615,7 +1603,7 @@ namespace MwProject.Persistence.Services
                 }
 
 
-                worksheet.Cell(row, "Y").Value = productStatus;
+                worksheet.Cell(row, "S").Value = productStatus;
 
 
                 // PlannedStartDateOfTheProject RealStartDateOfTheProject  PlannedEndDateOfTheProject
@@ -1687,6 +1675,151 @@ namespace MwProject.Persistence.Services
                 worksheet.Cell(row,"D").Value = project.VerificationOperations?.Trim()?.TrimStart('\r', '\n');
                 worksheet.Cell(row,"E").Value = project.Comment?.Trim()?.TrimStart('\r', '\n');
                 worksheet.Cell(row,"F").Value = project.LinkToPlanner;
+
+
+                if (row % 2 == 0)
+                {
+                    worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+
+                }
+                worksheet.Row(row).AdjustToContents();
+                row++;
+            }
+
+
+
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 30; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+
+        }
+
+
+        private void ExcelAddPrioritySheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId)
+        {
+            var worksheet = workbook.Worksheets.Add("Priority");
+
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            worksheet.Cell(row, "C").Value = "Priorytet";
+            worksheet.Cell(row, "D").Value = "Cel";
+            worksheet.Cell(row, "E").Value = "Wykonalność";
+            worksheet.Cell(row, "F").Value = "Konkurencyjność";
+            worksheet.Cell(row, "G").Value = "Zdolność Przed";
+            worksheet.Cell(row, "H").Value = "Zdolność Po";
+
+            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
+            worksheet.Row(row).Style.Font.SetBold();
+            worksheet.Row(row).Style.Font.FontColor = XLColor.White;
+
+            row++;
+            foreach (var project in projects)
+            {
+                worksheet.Cell(row, "A").Value = project.Id;
+                worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+                worksheet.Cell(row, "C").Value = project.PriorityOfProject;
+                worksheet.Cell(row, "D").Value = project.PurposeOfTheProject?.Name.Trim()?.TrimStart('\r', '\n');
+                worksheet.Cell(row, "E").Value = project.ViabilityOfTheProject?.Name.Trim()?.TrimStart('\r', '\n');
+                worksheet.Cell(row, "F").Value = project.CompetitivenessOfTheProject?.Name.Trim()?.TrimStart('\r', '\n');
+                worksheet.Cell(row, "G").Value = project.ProductionCapacity;
+                worksheet.Cell(row, "H").Value = project.PlannedProductionVolume;
+
+                
+
+                
+                if (row % 2 == 0)
+                {
+                    worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Khaki);
+
+                }
+                worksheet.Row(row).AdjustToContents();
+                row++;
+            }
+
+
+
+
+            worksheet.SheetView.FreezeRows(1);
+            worksheet.AutoFilter.Clear();
+            worksheet.RangeUsed().SetAutoFilter();
+
+            for (int i = 1; i < 30; i++)
+            {
+                worksheet.Column(i).AdjustToContents();
+                worksheet.Column(i).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top;
+
+            }
+
+        }
+
+
+
+        private void ExcelAddConfitmationSheet(IEnumerable<Project> projects, XLWorkbook workbook, string userId)
+        {
+            var worksheet = workbook.Worksheets.Add("Confirmations");
+
+            int row = 1;
+            worksheet.Cell(row, "A").Value = "Id";
+            worksheet.Cell(row, "B").Value = "Numer";
+            
+            worksheet.Cell(row, "C").Value = "Potwierdzony";
+            worksheet.Cell(row, "D").Value = "Potwierdzony_Przez";
+            worksheet.Cell(row, "E").Value = "Data_Potwierdzenia";
+
+            worksheet.Cell(row, "F").Value = "Zaakceptowany_Sponsor";
+            worksheet.Cell(row, "G").Value = "Zaakceptowany_Przez_Sponsor";
+            worksheet.Cell(row, "H").Value = "Data_Akceptacji_Sponsor";
+
+            worksheet.Cell(row, "I").Value = "Potwierdzona_Kalkulacja";
+            worksheet.Cell(row, "J").Value = "Kalkulacja_Potwierdzona_Przez";
+            worksheet.Cell(row, "K").Value = "Data_Potwierdzenia_Kalkulacji";
+
+
+            worksheet.Cell(row, "L").Value = "Potwierdzone_Inf_Ekonom";
+            worksheet.Cell(row, "M").Value = "Inf_Ekon_Potwierdzone_Przez";
+            worksheet.Cell(row, "N").Value = "Data_Potwierdzenia_Inf_Ekonom";
+
+            worksheet.Row(row).Style.Fill.SetBackgroundColor(XLColor.Firebrick);
+            worksheet.Row(row).Style.Font.SetBold();
+            worksheet.Row(row).Style.Font.FontColor = XLColor.White;
+
+            row++;
+            foreach (var project in projects)
+            {
+                worksheet.Cell(row, "A").Value = project.Id;
+                worksheet.Cell(row, "B").RichText.AddText(project.Number).SetBold();
+
+                worksheet.Cell(row, "C").Value = project.IsConfirmed;
+                worksheet.Cell(row, "D").Value = project.ConfirmedBy
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.ConfirmedBy)?.UserName;
+                worksheet.Cell(row, "E").Value = project.ConfirmedDate;
+
+
+                worksheet.Cell(row, "F").Value = project.IsAccepted;
+                worksheet.Cell(row, "G").Value = project.AcceptedBy
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.AcceptedBy)?.UserName;
+                worksheet.Cell(row, "H").Value = project.AcceptedDate;
+
+
+                worksheet.Cell(row, "I").Value = project.IsCalculationConfirmed;
+                worksheet.Cell(row, "J").Value = project.CalculationConfirmedBy
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.CalculationConfirmedBy)?.UserName;
+                worksheet.Cell(row, "K").Value = project.CalculationConfirmedDate;
+
+
+                worksheet.Cell(row, "L").Value = project.IsEconomicRequirementsConfirmed;
+                worksheet.Cell(row, "M").Value = project.EconomicRequirementsConfirmedBy
+                    == null ? string.Empty : _unitOfWork.UserRepository.GetUser(project.EconomicRequirementsConfirmedBy)?.UserName;
+                worksheet.Cell(row, "N").Value = project.EconomicRequirementsConfirmedDate;
 
 
                 if (row % 2 == 0)
