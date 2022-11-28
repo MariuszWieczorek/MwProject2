@@ -418,6 +418,7 @@ namespace MwProject.Persistence.Repositories
 
 
 
+        "update b set partid = ( id from dbo.boms where productNumber = '"&K3&"') from dbo.Products as pr inner join dbo.boms as b on b.ProductNumber = '"&B3&"')
 
 
         #region domyślne listy dodawane do nowego projektu
