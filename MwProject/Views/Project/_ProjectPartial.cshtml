@@ -2,7 +2,7 @@
 @* Widok częściowy z głównym formularzem projektu *@
 
 @{
-    bool NewProject = (Model.Project.Id == 0);
+    bool NewProject = true; //(Model.Project.Id == 0);
     var listOfPurposeOfTheProject = Model.RankingCategories.Single(x => x.Id == 3).RankingElements;
     var listOfViabilityOfTheProject = Model.RankingCategories.Single(x => x.Id == 2).RankingElements;
     var listOfCompetitivenessOfTheProject = Model.RankingCategories.Single(x => x.Id == 1).RankingElements;

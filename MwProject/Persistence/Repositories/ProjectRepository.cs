@@ -410,6 +410,8 @@ namespace MwProject.Persistence.Repositories
             projectToUpdate.Coordinator = project.Coordinator;
             projectToUpdate.Client = project.Client;
 
+            projectToUpdate.ProjectGroupId= project.ProjectGroupId;
+
             // projectToUpdate.ProductStatus = project.ProductStatus;
 
         }
